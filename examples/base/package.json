@@ -4,8 +4,9 @@
   "description": "NPM package template for the RainCatcher project",
   "main": "index.js",
   "scripts": {
+    "build": "del lib && tsc",
     "test": "mocha",
-    "prepublish": "del lib types && tsc"
+    "prepublish": "npm run build"
   },
   "author": "mobile-rmad@redhat.com",
   "license": "Apache-2.0",
