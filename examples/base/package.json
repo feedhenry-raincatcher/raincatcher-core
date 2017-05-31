@@ -1,0 +1,17 @@
+{
+  "name": "@raincatcher/base",
+  "version": "1.0.0",
+  "description": "NPM package template for the RainCatcher project",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "prepublish": "del lib types && tsc"
+  },
+  "author": "mobile-rmad@redhat.com",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "del-cli": "^1.0.0",
+    "mocha": "^3.4.2",
+    "typescript": "^2.3.4"
+  }
+}
