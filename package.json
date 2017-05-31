@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/feedhenry-raincatcher/raincatcher/issues"
   },
-  "homepage": "https://github.com/feedhenry-raincatcher/raincatcher#readme"
+  "homepage": "https://github.com/feedhenry-raincatcher/raincatcher#readme",
+  "devDependencies": {
+    "lerna": "^2.0.0-rc.5"
+  }
 }
