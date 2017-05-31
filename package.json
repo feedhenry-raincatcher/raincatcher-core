@@ -1,0 +1,19 @@
+{
+  "name": "raincatcher",
+  "version": "1.0.0",
+  "description": "Feedhenry Raincatcher Core Repository",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feedhenry-raincatcher/raincatcher.git"
+  },
+  "author": "mobile-rmad@redhat.com",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/feedhenry-raincatcher/raincatcher/issues"
+  },
+  "homepage": "https://github.com/feedhenry-raincatcher/raincatcher#readme"
+}
