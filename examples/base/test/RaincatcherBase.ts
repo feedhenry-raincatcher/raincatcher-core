@@ -16,11 +16,11 @@ class NoopRaincatcherBase extends RaincatcherBase {
 describe('RaincatcherBase', function() {
   let subject: RaincatcherBase;
   beforeEach(function() {
-    subject = new RaincatcherBase(console);
+    subject = new RaincatcherBase(console, { prefix: 'foo' });
   });
   describe('#customFunction', function() {
-    it('does it\'s own thing', function() {
-      return subject.customFunction();
+    it('should add the supplied prefix', function() {
+      return /foo/.test(subject.customFunction());
     });
   });
 

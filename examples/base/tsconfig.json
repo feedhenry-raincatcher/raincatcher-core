@@ -5,7 +5,8 @@
         "noImplicitAny": true,
         "outDir": "lib/",
         "experimentalDecorators": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "sourceMap": true
     },
     "include": [
         "src/"

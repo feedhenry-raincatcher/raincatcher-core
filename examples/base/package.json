@@ -7,8 +7,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "del lib && tsc",
-    "test": "mocha --compilers ts:ts-node/register test/**.ts",
-    "coverage": "nyc mocha",
+    "test": "nyc mocha",
     "prepublish": "npm run build"
   },
   "nyc": {
@@ -31,6 +30,7 @@
     "del-cli": "^1.0.0",
     "mocha": "^3.4.2",
     "nyc": "^11.0.1",
+    "source-map-support": "^0.4.15",
     "ts-node": "^3.0.4",
     "typescript": "^2.3.4"
   }
