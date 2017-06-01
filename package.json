@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/feedhenry-raincatcher/raincatcher.git"
   },
-  "author": "mobile-rmad@redhat.com",
+  "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/feedhenry-raincatcher/raincatcher/issues"

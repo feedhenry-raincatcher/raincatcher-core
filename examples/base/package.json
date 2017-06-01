@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "NPM package template for the RainCatcher project",
   "main": "index.js",
-  "author": "mobile-rmad@redhat.com",
+  "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
   "scripts": {
     "build": "del lib && tsc",
