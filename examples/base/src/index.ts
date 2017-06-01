@@ -13,4 +13,12 @@ export default class RaincatcherBase implements Base {
   public foo(msg: string) {
     return this.logger.log(msg);
   }
+
+  public customFunction() {
+    return 'Hello World';
+  }
+
+  public notTested() {
+    return 'Boo';
+  }
 }
