@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "del lib && tsc",
-    "test": "mocha",
+    "test": "mocha --compilers ts:ts-node/register test/**.ts",
     "coverage": "nyc mocha",
     "prepublish": "npm run build"
   },
