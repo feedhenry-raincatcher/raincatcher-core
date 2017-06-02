@@ -1,0 +1,96 @@
+[[raincatcher]]
+= RainCatcher
+
+Feedhenry RainCatcher Core Repository
+
+[[about-raincatcher]]
+== About RainCatcher
+
+[[developing]]
+== Developing
+
+RainCatcher supports and is tested on Node.JS@4 and should run on latest LTS.
+
+Check your Node.JS version running `node -v`
+
+[[setup]]
+=== Setup
+
+[source,bash]
+----
+git clone https://github.com/feedhenry-raincatcher/raincatcher.git
+cd raincatcher
+npm install -g lerna
+npm install
+lerna bootstrap
+----
+
+[[repository-folder-structure]]
+== Repository folder structure
+
+This repository contains many subpackages managed through
+https://lernajs.io/[Lerna], and they're contained in the following directories:
+
+client/
+
+Front-end packages, from API clients to user interface modules
+
+cloud/
+
+Cloud app packages, intended to be run on an Node.JS environment
+
+demo/
+
+Full-fledged Demo applications, showcasing the usage of multiple modules
+
+examples/
+
+Smaller examples and templates for other packages in the repository
+
+[[creating-a-new-package]]
+== Creating a new package
+
+In order to create a new package, we recommend duplicating
+link:./examples/base/README.md[`examples/base`], which is a sample base
+thatcontains the skeleton expected of a new package. Refer to the linked README
+for mor details.
+
+[[package-structure]]
+== Package structure
+
+[[directories]]
+=== Directories
+
+src/
+
+Contains the TypeScript sources.
+
+lib/
+
+Output directory for the compiled JavaScript and source maps. Make sure to setup
+the `npm build` script to copy over any other files that are required by the
+module, since the TypeScript compiler will only deal with ts/tsx files.
+
+test/
+
+The unit tests for the module. Should contain a `mocha.opts` file for
+configuring Mocha.
+
+coverage/ and .nyc_output
+
+Istanbul output, should be .gitignored.
+
+[[module-structure]]
+=== Module structure
+
+[[default-exports]]
+==== Default exports
+
+[[public-interface]]
+==== Public interface
+
+[[unit-test-structure]]
+==== Unit test structure
+
+[[reusable-tests]]
+==== Reusable tests
