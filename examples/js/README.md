@@ -1,7 +1,5 @@
-# RainCatcher BaseModule
+# RainCatcher JavaScript usage example
 
-This is a template for modules in the RainCatcher project, it contains the default dotfiles and other configuration files for the development tooling and the directory structure spected from individual modules.
+This is a simple module showcasing support for JavaScript usage of the TypeScript modules in RainCatcher.
 
-RainCatcher code is written in [TypeScript](http://typescriptlang.org), uses [Mocha](https://mochajs.org/) for unit tests and [Istanbul](https://istanbul.js.org/) for test coverage checks.
-
-For an explanation of the expected internals of see the [main README](../../README.md#package-structure)
+A simple class that inherits from the sample base module can be found at [index.js](lib/index.js), and you can also see unit tests that reuse the suite for the base module [here](test/index.js).

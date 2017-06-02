@@ -120,3 +120,9 @@ describe('MyClass', function() {
 Tests for the module's specific implementation can be included as other files inside the same folder.
 
 ### Using modules from JavaScript
+
+We recommend users to write their code in TypeScript, especially if their new RainCatcher-based solution is a greenfield project, however JavaScript usage is partially supported by editor plugins that will still offer suggestions based on the TypeScript interfaces and access to jsdoc annotations:
+
+![JS completion through editor support](img/js-completion.png)
+
+See the example on [examples/js]() for more information also for reusing the unit test suites from JavaScript code.
