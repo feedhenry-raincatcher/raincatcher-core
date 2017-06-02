@@ -14,6 +14,7 @@ class NoopRaincatcherBase extends RaincatcherBase {
 }
 
 describe('RaincatcherBase', function() {
+  // Use regular variables instead of mocha's `this` so it's strongly typed
   let subject: RaincatcherBase;
   beforeEach(function() {
     subject = new RaincatcherBase(console, { prefix: 'foo' });
