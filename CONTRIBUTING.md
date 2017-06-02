@@ -10,7 +10,7 @@ For more information about the FeedHenry project, visit
 Whether you're contributing a new feature or bug fix, or simply submitting a
 ticket, the FeedHenry team is available for technical advice or feedback.
 You can reach us at #feedhenry and #feedhenry-raincatcher on [Freenode IRC](https://freenode.net/) or the
-[feedhenry-dev list](https://www.redhat.com/mailman/listinfo/feedhenry-dev)
+[feedhenry-raincatcher list](https://www.redhat.com/mailman/listinfo/feedhenry-raincatcher)
 -- both are actively monitored.
 
 ## Getting started

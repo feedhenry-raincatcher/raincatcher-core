@@ -12,7 +12,7 @@ Check your Node.JS version running `node -v`
 ### Setup
 
 ```bash
-git clone https://github.com/feedhenry-raincatcher/raincatcher.git
+git clone https://github.com/feedhenry-raincatcher/raincatcher-core.git
 cd raincatcher
 npm install -g lerna
 npm install
@@ -41,8 +41,8 @@ contained in the following directories:
 ## Creating a new package
 
 In order to create a new package, we recommend duplicating
-[`examples/base`](./examples/base/README.md), which is a sample base thatcontains the skeleton
-expected of a new package. Refer to the linked README for mor details.
+[`examples/base`](./examples/base/README.md), which is a sample base that contains the skeleton
+expected of a new package. Refer to the linked README for more details.
 
 ## Package structure
 
