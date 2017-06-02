@@ -1,7 +1,7 @@
 {
-  "name": "@raincatcher/example-es5",
+  "name": "@raincatcher/example-js",
   "version": "1.0.0",
-  "description": "Example of using TypeScript modules from ES5 code",
+  "description": "Example of using TypeScript modules from JS code",
   "main": "lib/index.js",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "mocha": "^3.4.2",
+    "source-map-support": "^0.4.15",
     "nyc": "^11.0.1"
   }
 }

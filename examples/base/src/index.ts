@@ -33,7 +33,7 @@ export default class RaincatcherBase implements Base {
    * @param logger example of an external dependency
    * @param options example of options/dependencies that are passed via an options object
    */
-  constructor(protected logger: Logger, protected options?: RaincatcherBaseOptions) {
+  constructor(protected logger: Logger, options?: RaincatcherBaseOptions) {
     if (options) {
       this.prefix = options.prefix;
     }

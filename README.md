@@ -52,7 +52,7 @@ expected of a new package. Refer to the linked README for more details.
   <dt>src/</dt>
   <dd>Contains the TypeScript sources.</dd>
 
-  <dt>lib/</dt>
+  <dt>out/</dt>
   <dd>Output directory for the compiled JavaScript and source maps. Make sure to setup the `npm build` script to copy
   over any other files that are required by the module, since the TypeScript compiler will only deal with ts/tsx files.</dd>
 
@@ -119,4 +119,4 @@ describe('MyClass', function() {
 
 Tests for the module's specific implementation can be included as other files inside the same folder.
 
-### Using modules from ES5
+### Using modules from JavaScript
