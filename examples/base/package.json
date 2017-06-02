@@ -2,7 +2,8 @@
   "name": "@raincatcher/base",
   "version": "1.0.0",
   "description": "NPM package template for the RainCatcher project",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
   "scripts": {
