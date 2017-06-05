@@ -1,4 +1,9 @@
 /**
+ * This is a sample file documenting the base structure expected for modules in
+ * the RainCatcher project
+ */
+
+/**
  * Public interface
  *
  * Must a named export with a name reflecting the purpose of the module
