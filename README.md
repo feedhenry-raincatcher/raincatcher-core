@@ -52,10 +52,6 @@ expected of a new package. Refer to the linked README for more details.
   <dt>src/</dt>
   <dd>Contains the TypeScript sources.</dd>
 
-  <dt>lib/</dt>
-  <dd>Output directory for the compiled JavaScript and source maps. Make sure to setup the `npm build` script to copy
-  over any other files that are required by the module, since the TypeScript compiler will only deal with ts/tsx files.</dd>
-
   <dt>test/</dt>
   <dd>The unit tests for the module. Should contain a `mocha.opts` file for configuring Mocha.</dd>
 
@@ -97,11 +93,8 @@ Custom modules can skip this concern.
 #### Unit test structure
 
 For each module unit tests are present on the `test/` folder, the Mocha default for storing the `mocha.opts` file as well.
-The `test/index.ts` file's default export should be a function that receives all the required parameters for running the
-test suite on a give implementation of the interface.
 
-Unlike the main file for the module, imports of the tests are more likely to be interested in using the suite of tests
-for the public interface instead of the tests for the implementation itself:
+Since code that requires a module's tests are most likely interested in a reusable test suite, the `test/index.ts` file's default export should be a function that receives all the required parameters for running the test suite on a given implementation of the interface.
 
 ```typescript
 import publicInterfaceTestSuite from '@raincatcher/module/test';

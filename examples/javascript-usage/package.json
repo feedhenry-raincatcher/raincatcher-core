@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Example of using TypeScript modules from JS code",
   "main": "lib/index.js",
-  "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
   "scripts": {

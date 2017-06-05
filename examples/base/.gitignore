@@ -1,4 +1,5 @@
 # generated code
-lib/
+src/*.js
+src/*.map
 test/*.js
 test/*.map
