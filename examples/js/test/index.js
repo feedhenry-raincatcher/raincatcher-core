@@ -1,5 +1,5 @@
 const instance = require('../lib');
-const baseSuite = require('@raincatcher/example-base/out/test').default;
+const baseSuite = require('@raincatcher/example-base/test').default;
 
 describe('ES6 Instance', function() {
   describe('#customFunction', function() {

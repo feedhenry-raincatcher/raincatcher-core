@@ -1,2 +1,4 @@
 # generated code
-out/
+lib/
+test/*.js
+test/*.map

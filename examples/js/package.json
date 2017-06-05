@@ -7,7 +7,9 @@
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
   "scripts": {
-    "test": "nyc mocha"
+    "test": "nyc mocha",
+    "debug": "node --inspect-brk node_modules/.bin/_mocha",
+    "debug-legacy": "mocha --debug-brk"
   },
   "nyc": {
     "include": [

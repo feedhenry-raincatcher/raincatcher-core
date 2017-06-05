@@ -3,13 +3,12 @@
         "module": "commonjs",
         "target": "es5",
         "noImplicitAny": true,
-        "outDir": "out/",
+        "outDir": "lib/",
         "experimentalDecorators": true,
         "strictNullChecks": true,
         "sourceMap": true
     },
     "include": [
-        "src/",
-        "test/"
+        "src/"
     ]
 }

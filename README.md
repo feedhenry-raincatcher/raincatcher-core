@@ -52,7 +52,7 @@ expected of a new package. Refer to the linked README for more details.
   <dt>src/</dt>
   <dd>Contains the TypeScript sources.</dd>
 
-  <dt>out/</dt>
+  <dt>lib/</dt>
   <dd>Output directory for the compiled JavaScript and source maps. Make sure to setup the `npm build` script to copy
   over any other files that are required by the module, since the TypeScript compiler will only deal with ts/tsx files.</dd>
 

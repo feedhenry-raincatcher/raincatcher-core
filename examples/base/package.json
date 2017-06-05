@@ -2,14 +2,16 @@
   "name": "@raincatcher/example-base",
   "version": "1.0.0",
   "description": "NPM package template for the RainCatcher project",
-  "main": "out/src/index.js",
+  "main": "lib/index.js",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
   "scripts": {
-    "build": "del out && tsc",
+    "clean": "del lib/ test/*.js test/*.map",
+    "build": "tsc",
+    "buildTests": "cd test/ && tsc",
     "test": "nyc mocha",
-    "prepublish": "npm run build"
+    "prepublish": "npm run clean && npm run build && npm run buildTests"
   },
   "nyc": {
     "include": [
