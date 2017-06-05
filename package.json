@@ -4,7 +4,8 @@
   "description": "Feedhenry Raincatcher Core Repository",
   "main": "index.js",
   "scripts": {
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "bootstrap": "lerna bootstrap"
   },
   "repository": {
     "type": "git",
