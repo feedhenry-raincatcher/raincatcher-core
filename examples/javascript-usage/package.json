@@ -1,5 +1,5 @@
 {
-  "name": "@raincatcher/example-js",
+  "name": "@raincatcher/example-js-usage",
   "version": "1.0.0",
   "description": "Example of using TypeScript modules from JS code",
   "main": "lib/index.js",
