@@ -1,6 +1,6 @@
 # RainCatcher BaseModule
 
-This is a template for modules in the RainCatcher project, it contains the default dotfiles and other configuration files for the development tooling and the directory structure spected from individual modules.
+This is a template for modules in the RainCatcher project, it contains the default dotfiles and other configuration files for the development tooling and the directory structure expected from individual modules.
 
 RainCatcher code is written in [TypeScript](http://typescriptlang.org), uses [Mocha](https://mochajs.org/) for unit tests and [Istanbul](https://istanbul.js.org/) for test coverage checks.
 
@@ -16,7 +16,7 @@ When creating a new module, copy the entire contents of this folder and make the
   - `author`: Update to reflect possible new author
   - `dependencies`: Remove the sample dependency on `@raincatcher/example-base`
 
-Until the module compiles correctly via TypeScript, you might need to run `npm install --ignore-scripts`, to avoid triggering the defined `prepublish` script that runs the compilation. If the compilation step fails, npm might not install all dependencies. This behaviour is supposed to change on `npm>=5`.
+Until the module compiles correctly via TypeScript, you might need to run `npm install --ignore-scripts`, to avoid triggering the defined `prepublish` script that runs the compilation. If the compilation step fails, npm might not install all dependencies. This behavior is supposed to change on `npm>=5`.
 
 ### Removing unit tests
 
