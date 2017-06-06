@@ -1,5 +1,5 @@
 # generated code
-src/*.js
-src/*.map
-test/*.js
-test/*.map
+src/**/*.js
+src/**/*.map
+test/**/*.js
+test/**/*.map
