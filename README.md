@@ -79,7 +79,6 @@ For each module, the default export is the main implementation itself, as the mo
 the requiring code.
 
 Other RainCatcher modules depend only on the interfaces explained in the [next section](#public-interface)
-section.
 
 #### Public interface
 

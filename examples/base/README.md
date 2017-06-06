@@ -4,7 +4,7 @@ This is a template for modules in the RainCatcher project, it contains the defau
 
 RainCatcher code is written in [TypeScript](http://typescriptlang.org), uses [Mocha](https://mochajs.org/) for unit tests and [Istanbul](https://istanbul.js.org/) for test coverage checks.
 
-For an explanation of the expected internals of see the [main README](../../README.md#package-structure)
+For an explanation of the expected internals of each package, see the [main README](../../README.md#package-structure)
 
 ## Using this template
 
@@ -12,7 +12,7 @@ When creating a new module, copy the entire contents of this folder and make the
 
   - `name`: Update to new package's name
   - `version`: Set it to your new intended semver (i.e. `0.0.0` or `1.0.0`)
-  - `description`: Remove the description that contains
+  - `description`: Remove the existing description and replace it with your own
   - `author`: Update to reflect possible new author
   - `dependencies`: Remove the sample dependency on `@raincatcher/example-base`
 

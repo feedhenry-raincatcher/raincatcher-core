@@ -1,6 +1,6 @@
 # How to contribute
 
-Thank you for your interest in contributing to the FeedHenry project. We want
+Thank you for your interest in contributing to the FeedHenry project. We want to
 keep this process as easy as possible so we've outlined a few guidelines below.
 For more information about the FeedHenry project, visit
 [our website](http://feedhenry.org/).
