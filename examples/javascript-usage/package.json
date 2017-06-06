@@ -1,0 +1,30 @@
+{
+  "name": "@raincatcher/example-js-usage",
+  "version": "1.0.0",
+  "description": "Example of using TypeScript modules from JS code",
+  "main": "lib/index.js",
+  "author": "feedhenry-raincatcher@redhat.com",
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "nyc mocha",
+    "debug": "node --inspect-brk node_modules/.bin/_mocha",
+    "debug-legacy": "mocha --debug-brk"
+  },
+  "nyc": {
+    "include": [
+      "lib/**/*.js"
+    ],
+    "check-coverage": true,
+    "lines": 75,
+    "functions": 100,
+    "branches": 80
+  },
+  "dependencies": {
+    "@raincatcher/example-base": "1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.4.2",
+    "source-map-support": "^0.4.15",
+    "nyc": "^11.0.1"
+  }
+}

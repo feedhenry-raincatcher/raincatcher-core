@@ -4,13 +4,14 @@
   "description": "Feedhenry Raincatcher Core Repository",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "lerna run test",
+    "bootstrap": "lerna bootstrap"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/feedhenry-raincatcher/raincatcher.git"
   },
-  "author": "mobile-rmad@redhat.com",
+  "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/feedhenry-raincatcher/raincatcher/issues"
