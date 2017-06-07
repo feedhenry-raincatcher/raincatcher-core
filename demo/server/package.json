@@ -7,7 +7,9 @@
   "license": "Apache-2.0",
   "scripts": {
     "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
+    "cleanInstall": "lerna exec -- npm install --ignore-scripts",
     "build": "tsc",
+    "start": "ts-node src/index.ts",
     "test": "nyc mocha",
     "prepublish": "npm run clean && npm run build"
   },

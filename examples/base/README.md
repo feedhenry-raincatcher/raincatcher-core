@@ -26,3 +26,16 @@ In order to remove all of the existing unit test sample setup, make the followin
 - Remove the test-related `devDependencies`: mocha, source-map-support and nyc
 - Remove the test, debug and debug-legacy scripts.
 - Remove the `"nyc"` extra configuration key from `package.json`
+
+
+### Supported scripts
+
+`npm run clean` - removes all compiled sources
+
+`npm run cleanInstall` - perform install without executing additional scripts
+
+`npm run build` - build typescript code
+
+`npm run start` - run module (valid only for top level modules)
+
+`npm run test` - execute unit tests
