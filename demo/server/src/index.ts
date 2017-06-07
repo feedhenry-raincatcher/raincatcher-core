@@ -9,7 +9,7 @@ import * as http from 'http';
  * Get port from environment and store in Express.
  */
 const port = normalizePort(process.env.PORT || 3000);
-app.set('port',port);
+app.set('port', port);
 
 /**
  * Create HTTP server.
@@ -20,23 +20,23 @@ var server = http.createServer(app);
  * Listen on provided port,on all network interfaces.
  */
 server.listen(port, onListening);
-server.on('error',onError);
+server.on('error', onError);
 
 /**
  * Normalize a port into a number,string,or false.
  */
-function normalizePort(val : any): number|string|boolean {
-  let port = parseInt(val,10);
-  
-  if(isNaN(port)){
+function normalizePort(val: any): number | string | boolean {
+  let port = parseInt(val, 10);
+
+  if (isNaN(port)) {
     //name pipe
     return val;
   }
-  
-  if(port >= 0){
+
+  if (port >= 0) {
     return port;
   }
-  
+
   return false;
 }
 
@@ -47,11 +47,11 @@ function onError(error: any) {
   if (error.syscall != 'listen') {
     throw error;
   }
-  
+
   var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
-  
+
   //handle specific listen errors with friendly messages
-  switch(error.code) {
+  switch (error.code) {
     case 'EACCES':
       console.error(bind + 'requires elevated privileges');
       process.exit(1);
@@ -64,7 +64,7 @@ function onError(error: any) {
       throw error;
   }
 }
-  
+
 /**
  * Event listener for HTTP server "listening" event.
  */
