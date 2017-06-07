@@ -1,19 +1,17 @@
 import * as Promise from 'bluebird';
-import * as mongodb from 'mongodb';
-
-export default class MongoStore<T> implements Store<T> {
-  constructor(protected conn: mongodb.Connection) {
-  }
-}
+import JsonSchema from './JsonSchema';
 
 type ID = string | number;
 
 export interface Store<T> {
+  schema: JsonSchema;
+
   query(): ExecutableChainQuery<T>;
   or(): ChainQuery<T>;
   create(data: T): Promise<T>;
   update(id: ID, data: T): Promise<T>;
   delete(id: ID): Promise<T>;
+  reset(): Promise<T[]>;
 }
 
 interface ChainQuery<T> {
@@ -39,3 +37,6 @@ interface ExecutableChainQuery<T> extends ChainQuery<T> {
   get(): Promise<T[]>;
   getSingle(): Promise<T>;
 }
+
+import MongoStore from './MongoStore';
+export default MongoStore;
