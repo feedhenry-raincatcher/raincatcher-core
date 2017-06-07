@@ -1,6 +1,14 @@
 # RainCatcher Cloud Demo application
 
-Reference/demo implementation of the cloud application of a RainCatcher project.  
+Reference/demo implementation of the cloud application of a RainCatcher project.
+
+## Running 
+
+Cloud application can be launched using 
+
+    npm run start
+
+If you wish to run cloud application along with other demo applications please execute this command on top level application.Application was generated from [base application](../../examples/base) template
 
 ## Prerequisites
 
