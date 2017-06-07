@@ -32,8 +32,6 @@ In order to remove all of the existing unit test sample setup, make the followin
 
 `npm run clean` - removes all compiled sources
 
-`npm run cleanInstall` - perform install without executing additional scripts
-
 `npm run build` - build typescript code
 
 `npm run start` - run module (valid only for top level modules)
