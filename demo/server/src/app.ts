@@ -19,38 +19,35 @@ app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')))
 
 app.use('/', index);
 
-//catch 404 and forward to error handler
 app.use((req: express.Request, res: express.Response, next) => {
   var err: any = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-//error handlers
+let errHandler: express.ErrorRequestHandler;
 
-//development error handler
-//will print stacktrace
 if (process.env.NODE_ENV === 'development') {
-  app.use((err: any, req: express.Request, res: express.Response) => {
+  //development error handler
+  errHandler = (err: any, req: express.Request, res: express.Response, next: () => void) => {
     res.status(err.status || 500);
     res.render('error', {
       title: 'error',
       message: err.message,
       error: err
     });
-  });
+  };
+} else {
+  errHandler = (err: any, req: express.Request, res: express.Response, next: () => void) => {
+    res.status(err.status || 500);
+    res.render('error', {
+      title: 'error',
+      message: err.message,
+      error: {}
+    });
+  };
 }
-
-//production error handler
-// no stacktrace leaked to user
-app.use((err: any, req: express.Request, res: express.Response) => {
-  res.status(err.status || 500);
-  res.render('error', {
-    title: 'error',
-    message: err.message,
-    error: {}
-  });
-});
+app.use(errHandler);
 
 export default app;
 
