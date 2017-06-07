@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "lerna run test",
-    "bootstrap": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap",
+    "start": "lerna run start --scope=@raincatcher/demo-*",
+    "docs": "lerna exec -- typedoc --out docs/ --excludePrivate",
+    "lint": "tslint --fix '*/*/src/**/*.ts'"
   },
   "repository": {
     "type": "git",

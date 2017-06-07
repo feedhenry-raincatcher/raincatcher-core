@@ -118,3 +118,10 @@ We recommend users to write their code in TypeScript, especially if their new Ra
 ![JS completion through editor support](img/js-completion.png)
 
 See the example on [examples/js]() for more information also for reusing the unit test suites from JavaScript code.
+
+### Repository commands
+
+ `npm run test` - run unit tests
+ `npm run bootstrap` - perform boostrap for all modules
+ `npm run start` - run top level applications
+ `npm run lint` - execute tslint for all modules
