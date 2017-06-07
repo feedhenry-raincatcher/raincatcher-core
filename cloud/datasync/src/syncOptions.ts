@@ -26,7 +26,7 @@ interface SyncGlobalOptions {
     schedulerInterval?: number;
     schedulerLockMaxTime?: number;
     /**
-     * How many time
+     * How many times
      */
     schedulerLockName?: string;
     datasetClientUpdateConcurrency?: number;
