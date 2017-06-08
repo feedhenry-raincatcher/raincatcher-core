@@ -7,10 +7,13 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import index from './routes/index';
 import * as favicon from 'serve-favicon';
+import EnvironmentConfig, { Config, CloudAppConfig } from './util/config';
 
 const app: express.Express = express();
+const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
+const config = appConfig.getConfig();
 
-app.use(logger('dev'));
+app.use(logger(config.morganOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -28,15 +31,14 @@ app.use((req: express.Request, res: express.Response, next) => {
 let errHandler: express.ErrorRequestHandler;
 
 errHandler = (err: any, req: express.Request, res: express.Response, next: () => void) => {
-  const isDev: boolean = process.env.NODE_ENV === 'development';
   res.status(err.status || 500);
   res.render('error', {
     title: 'error',
     message: err.message,
-    error: isDev ? err : {}
+    error: config.logStackTraces ? err : {}
   });
 };
-app.use(errHandler);
 
+app.use(errHandler);
 export default app;
 

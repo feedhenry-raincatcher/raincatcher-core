@@ -4,9 +4,8 @@ import * as express from 'express';
 const router = express.Router();
 
 router.get('/', (req: express.Request, res: express.Response) => {
-  var test = { name: 'raincatcher', test: new Object()};
-  test.test = test;
-  res.json({test: test});
+  var api = { name: 'raincatcher', version: require("../../package.json").version };
+  res.json(api);
 });
 
 export default router;
