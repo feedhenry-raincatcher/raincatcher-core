@@ -59,5 +59,5 @@ function onError(error: any) {
  */
 function onListening() {
   var addr = server.address();
-  console.log('Listening on ' + bind);
+  console.log('Listening on ' + addr.port);
 }
