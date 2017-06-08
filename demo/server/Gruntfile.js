@@ -13,8 +13,8 @@ module.exports = function (grunt) {
             },
         },
         exec: {
-            'run': 'npm run start"',
-            'test': 'npm run test"'
+            'run': 'npm run start',
+            'test': 'npm run test'
         },
         env: {
             options: {},
@@ -30,5 +30,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-exec');
 
     grunt.registerTask('serve', ['env:local', 'watch']);
+    grunt.registerTask('test', ['env:local', 'exec:test']);
     grunt.registerTask('default', ['serve']);
 };
