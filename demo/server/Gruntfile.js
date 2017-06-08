@@ -21,6 +21,7 @@ module.exports = function (grunt) {
             // environment variables.
             local: {
                 NODE_ENV: "development",
+                PORT: 8001
             }
         },
     });

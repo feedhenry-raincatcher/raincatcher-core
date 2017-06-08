@@ -8,7 +8,7 @@ import * as http from 'http';
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || 3000);
+const port = process.env.PORT || 3000;
 app.set('port', port);
 
 /**
@@ -21,24 +21,6 @@ var server = http.createServer(app);
  */
 server.listen(port, onListening);
 server.on('error', onError);
-
-/**
- * Normalize a port into a number,string,or false.
- */
-function normalizePort(val: any): number | string | boolean {
-  let port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    //name pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    return port;
-  }
-
-  return false;
-}
 
 /**
  * Event listener for HTTP server "error" event.
