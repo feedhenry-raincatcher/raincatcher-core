@@ -27,26 +27,15 @@ app.use((req: express.Request, res: express.Response, next) => {
 
 let errHandler: express.ErrorRequestHandler;
 
-if (process.env.NODE_ENV === 'development') {
-  //development error handler
-  errHandler = (err: any, req: express.Request, res: express.Response, next: () => void) => {
-    res.status(err.status || 500);
-    res.render('error', {
-      title: 'error',
-      message: err.message,
-      error: err
-    });
-  };
-} else {
-  errHandler = (err: any, req: express.Request, res: express.Response, next: () => void) => {
-    res.status(err.status || 500);
-    res.render('error', {
-      title: 'error',
-      message: err.message,
-      error: {}
-    });
-  };
-}
+errHandler = (err: any, req: express.Request, res: express.Response, next: () => void) => {
+  const isDev: boolean = process.env.NODE_ENV === 'development';
+  res.status(err.status || 500);
+  res.render('error', {
+    title: 'error',
+    message: err.message,
+    error: isDev ? err : {}
+  });
+};
 app.use(errHandler);
 
 export default app;
