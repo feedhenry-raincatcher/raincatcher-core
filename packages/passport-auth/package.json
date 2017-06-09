@@ -1,0 +1,43 @@
+{
+  "name": "@raincatcher/passport-auth",
+  "version": "1.0.0",
+  "description": "NPM package for passport authentication",
+  "types": "src/index.ts",
+  "author": "feedhenry-raincatcher@redhat.com",
+  "license": "Apache-2.0",
+  "scripts": {
+    "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
+    "build": "tsc",
+    "test": "nyc mocha",
+    "prepublish": "npm run clean && npm run build"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "check-coverage": true,
+    "lines": 75,
+    "functions": 100,
+    "branches": 80
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.41",
+    "del-cli": "^1.0.0",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.1",
+    "source-map-support": "^0.4.15",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  }
+}
