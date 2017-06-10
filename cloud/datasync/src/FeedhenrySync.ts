@@ -1,7 +1,7 @@
 import SyncApi from './SyncApi';
 import SyncOptions, { SyncDataLayerOptions } from './options/SyncGlobalOptions';
 import SyncDataSetOptions from './options/SyncDatasetOptions';
-
+import DataSetHandler from './crud-handlers/DataSetHandler'
 // Wrapping sync api js code (no type definition supported)
 const syncAPI: any = require('fh-sync').api;
 
@@ -30,6 +30,26 @@ class FeedhenrySync implements SyncApi {
     });
   }
 
+  private setupHandlers(dataHandler: DataSetHandler) {
+    if (dataHandler) {
+      if (dataHandler.handleList) {
+        syncAPI.handleList(dataHandler.handleList)
+      }
+      if (dataHandler.handleCreate) {
+        syncAPI.handleCreate(dataHandler.handleCreate)
+      }
+      if (dataHandler.handleRead) {
+        syncAPI.handleRead(dataHandler.handleRead)
+      }
+      if (dataHandler.handleUpdate) {
+        syncAPI.handleUpdate(dataHandler.handleUpdate)
+      }
+      if (dataHandler.handleDelete) {
+        syncAPI.handleDelete(dataHandler.handleDelete)
+      }
+    }
+  }
+
   /**
    * Register dataset (implicitly) to be supported by server.
    * Note: datasets needs to be registered only if you wish to override values provided by server.
@@ -38,7 +58,7 @@ class FeedhenrySync implements SyncApi {
    * @param datasetId
    * @param options
    */
-  public registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions) {
+  public registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions, dataHandler?: DataSetHandler) {
     syncAPI.init(datasetId, options, function (err: any) {
       if (err) {
         throw new Error(err);
@@ -47,10 +67,13 @@ class FeedhenrySync implements SyncApi {
         if (options && options.collisionHandler) {
           syncAPI.handleCollision(datasetId, options.collisionHandler);
         }
+
         // Set optional custom hash function to deal with detecting model changes.
         if (options && options.hashFunction) {
           syncAPI.setRecordHashFn(datasetId, options.hashFunction);
         }
+
+        this.setupHandlers(dataHandler);
       }
     });
   }
