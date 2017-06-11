@@ -14,6 +14,13 @@ interface SyncApi {
   connect(options: SyncOptions, callback: (err: any) => void): void;
 
   /**
+   * Allows to override default data handlers to store/retrieve data for all datasets
+   * 
+   * @param dataHandler - implementation DataSetHandler 
+   */
+  setGlobalDataHandlers(dataHandler: DataSetHandler): void;
+
+  /**
    * Register dataset to be monitored by sync with particular data handlers
    */
   registerDatasetDataHandler(datasetId: string, options: SyncDatasetOptions, dataHandler?: DataSetHandler): void;
