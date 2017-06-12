@@ -1,0 +1,48 @@
+{
+  "name": "@raincatcher/wfm",
+  "version": "1.0.0",
+  "description": "Set of WorkForce Management tools",
+  "types": "src/index.ts",
+  "author": "feedhenry-raincatcher@redhat.com",
+  "license": "Apache-2.0",
+  "scripts": {
+    "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
+    "build": "tsc",
+    "start": "ts-node src/index.ts",
+    "test": "nyc mocha",
+    "prepublish": "npm run clean && npm run build"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "check-coverage": true,
+    "lines": 75,
+    "functions": 100,
+    "branches": 80
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.5",
+    "@types/lodash": "^4.14.65",
+    "@types/mocha": "^2.2.41",
+    "del-cli": "^1.0.0",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.1",
+    "source-map-support": "^0.4.15",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "@types/node": "^7.0.29",
+    "ajv": "^5.1.5",
+    "bluebird": "^3.5.0",
+    "eventemitter3": "^2.0.3",
+    "lodash": "^4.17.4"
+  }
+}
