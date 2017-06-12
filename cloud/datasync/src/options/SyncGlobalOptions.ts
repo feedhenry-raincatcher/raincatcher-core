@@ -35,7 +35,7 @@ export interface SyncGlobalParameters {
  * Global sync options used to initialize sync
  * @field datasetConfiguration - required mongodb and redis configuration
  */
-interface SyncOptions {
+export interface SyncOptions {
   datasetConfiguration: SyncDataLayerOptions;
   globalSyncOptions?: SyncGlobalParameters;
 }
@@ -45,7 +45,7 @@ interface SyncOptions {
  */
 export interface SyncDataLayerOptions {
   mongoDbConnectionUrl: string;
-  mongoDbOptions: any;
+  mongoDbOptions?: any;
   redisConnectionUrl: string;
 }
 

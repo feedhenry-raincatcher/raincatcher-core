@@ -3,12 +3,12 @@ import * as Express from 'express';
 import * as path from 'path';
 import * as secMiddleware from './SyncSecurityMiddleware';
 
-const syncJs: any = require('fh-sync').api;
+import * as sync from 'fh-sync'
 
 /**
  * Expose Feedhenry Sync API using express middleware
  */
-class SyncExpressMiddleWare {
+export class SyncExpressMiddleWare {
 
   private router: Express.Router;
   private prefix: String;
@@ -41,7 +41,7 @@ class SyncExpressMiddleWare {
   private syncHandler(req: Express.Request, res: Express.Response) {
     const datasetId = req.params.datasetId;
     const params = req.body;
-    syncJs.invoke(datasetId, params, function (err: any, result: any) {
+    sync.invoke(datasetId, params, function (err: any, result: any) {
       if (err) {
         res.status(500).json(err);
         return;

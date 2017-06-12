@@ -10,17 +10,19 @@ import * as sync from 'fh-sync'
 /**
  * Implementation for sync api
  */
-class FeedhenrySync implements SyncApi {
+export class FeedhenrySync implements SyncApi {
 
   public constructor() {
   }
 
   /**
    * Initialize sync server by connecting to database
+   * 
    * @param options global options for sync cloud service
    */
   public connect(options: SyncOptions, callback: (err: any) => void) {
     if (options.globalSyncOptions) {
+      console.log(sync);
       sync.setConfig(options.globalSyncOptions);
     }
     const sdo = options.datasetConfiguration;

@@ -4,7 +4,7 @@ import { CollisionHandler, HashFunction } from "./syncGlobalOptions";
 /**
  * Options used to initialize single dataset
  */
-interface SyncDataSetOptions {
+export interface SyncDataSetOptions {
   /**
    * Value indicating how often the dataset client should be sync with the backend. Matches the clients default 
    * frequency. Value in seconds

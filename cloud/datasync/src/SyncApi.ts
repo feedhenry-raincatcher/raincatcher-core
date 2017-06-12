@@ -5,7 +5,7 @@ import DataSetHandler from './crud-handlers/DataSetHandler'
 /**
  * Interface for offline data sync solutions
  */
-interface SyncApi {
+export interface SyncApi {
 
   /**
    * Connect sync service to database and cache servers. Setup middleware required to process sync calls from clients.

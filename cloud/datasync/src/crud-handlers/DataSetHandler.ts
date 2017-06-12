@@ -5,7 +5,7 @@ import * as sync from 'fh-sync'
  * Wraps sync data handlers into single object.
  * For more information see feedhenry sync documentation.
  */
-interface DataSetHandler {
+export interface DataSetHandler {
   /**
     * Handle list operation for specific dataset.
     * Method may be used to override default data handler to have control over how sync is retrieving and storing data
