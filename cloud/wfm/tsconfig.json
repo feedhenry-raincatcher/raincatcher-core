@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "experimentalDecorators": true,
+        "strictNullChecks": true,
+        "alwaysStrict": true,
+        "sourceMap": true,
+        "strict": true
+    },
+    "include": [
+        "src/",
+        "test/"
+    ]
+}
