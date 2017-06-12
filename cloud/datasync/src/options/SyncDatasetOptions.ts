@@ -1,5 +1,6 @@
 import { CollisionHandler, HashFunction } from "./syncGlobalOptions";
 
+
 /**
  * Options used to initialize single dataset
  */
@@ -25,10 +26,14 @@ interface SyncDataSetOptions {
    */
   maxScheduleWaitTime?: number
 
-  // Collision handler for dataset
+  /**
+   * Collision handler for dataset
+   */
   collisionHandler?: CollisionHandler;
   
-  // Function that returns hash string (or any unique string) to determine if dataset was changed
+  /**
+   * Function that returns hash string (or any unique string) to determine if dataset was changed
+   */
   hashFunction?: HashFunction;
 }
 

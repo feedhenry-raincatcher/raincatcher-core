@@ -1,16 +1,40 @@
 
-type StandardCb<T> = (err: Error | string | null, res: T | null) => void;
+import * as sync from 'fh-sync'
 
+/**
+ * Wraps sync data handlers into single object.
+ * For more information see feedhenry sync documentation.
+ */
 interface DataSetHandler {
-    handleList?(dataset_id: string, onList: (dataset_id: string, params: any, meta_data: any, callback: StandardCb<any>) => void): void;
+  /**
+    * Handle list operation for specific dataset.
+    * Method may be used to override default data handler to have control over how sync is retrieving and storing data
+    */
+  onList?: (datasetId: string, params: any, metaData: any, callback: sync.StandardCb<any>) => void;
 
-    handleCreate?(dataset_id: string, onCreate: (dataset_id: string, data: any, meta_data: any, callback: StandardCb<any>) => void): void;
+  /**
+   * Handle create operation for specific dataset
+   * Method may be used to override default data handler to have control over how sync is retrieving and storing data
+   */
+  onCreate?: (datasetId: string, data: any, metaData: any, callback: sync.StandardCb<any>) => void;
 
-    handleRead?(dataset_id: string, onRead: (dataset_id: string, uid: any, meta_data: any, callback: StandardCb<any>) => void): void;
+  /**
+  * Handle read operation for specific dataset
+  * Method may be used to override default data handler to have control over how sync is retrieving and storing data
+  */
+  onRead?: (datasetId: string, uid: any, metaData: any, callback: sync.StandardCb<any>) => void
 
-    handleUpdate?(dataset_id: string, onUpdate: (dataset_id: string, uid: string, data: any, meta_data: any, callback: StandardCb<any>) => void): void;
+  /**
+   * Handle update operation for specific dataset
+   * Method may be used to override default data handler to have control over how sync is retrieving and storing data
+   */
+  onUpdate?: (datasetId: string, uid: string, data: any, metaData: any, callback: sync.StandardCb<any>) => void;
 
-    handleDelete?(dataset_id: string, onCreate: (dataset_id: string, uid: string, meta_data: any, callback: StandardCb<any>) => void): void;
+  /**
+   * Handle delete operation for specific dataset
+   * Method may be used to override default data handler to have control over how sync is retrieving and storing data
+   */
+  onDelete?: (datasetId: string, uid: string, metaData: any, callback: sync.StandardCb<any>) => void;
 }
 
 export default DataSetHandler;

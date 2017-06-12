@@ -5,8 +5,7 @@ import SyncDataSetOptions from './options/SyncDatasetOptions';
 import { setupGlobalHandlers, setupHandlers } from './crud-handlers/HandlerMapper'
 import DataSetHandler from './crud-handlers/DataSetHandler'
 
-// Wrapping sync api js code (no type definition supported)
-const syncAPI: any = require('fh-sync').api;
+import * as sync from 'fh-sync'
 
 /**
  * Implementation for sync api
@@ -22,21 +21,17 @@ class FeedhenrySync implements SyncApi {
    */
   public connect(options: SyncOptions, callback: (err: any) => void) {
     if (options.globalSyncOptions) {
-      syncAPI.setConfig(options.globalSyncOptions);
-    }
-    if (options.globalHashFunction) {
-      syncAPI.setGlobalHashFn(options.globalHashFunction);
+      sync.setConfig(options.globalSyncOptions);
     }
     const sdo = options.datasetConfiguration;
-    syncAPI.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function (err: any) {
+    sync.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function (err: any) {
       callback(err);
     });
   }
 
   setGlobalDataHandlers(dataHandler: DataSetHandler) {
-    setupGlobalHandlers(syncAPI, dataHandler);
+    setupGlobalHandlers(dataHandler);
   };
-
 
   /**
    * Register dataset (implicitly) to be supported by server.
@@ -47,23 +42,25 @@ class FeedhenrySync implements SyncApi {
    * @param options
    */
   public registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions, dataHandler?: DataSetHandler) {
-    syncAPI.init(datasetId, options, function (err: any) {
+    sync.init(datasetId, options, function (err: any) {
       if (err) {
         throw new Error(err);
       } else {
         // set optional custom collision handler if its a function
         if (options && options.collisionHandler) {
-          syncAPI.handleCollision(datasetId, options.collisionHandler);
+          sync.handleCollision(datasetId, options.collisionHandler);
         }
 
         // Set optional custom hash function to deal with detecting model changes.
         if (options && options.hashFunction) {
-          syncAPI.setRecordHashFn(datasetId, options.hashFunction);
+          sync.setRecordHashFn(datasetId, options.hashFunction);
         }
-        if(dataHandler){
-          setupHandlers(syncAPI, dataHandler);
+        if (dataHandler) {
+          setupHandlers(datasetId, dataHandler);
         }
       }
     });
   }
 }
+
+export default FeedhenrySync;

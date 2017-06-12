@@ -2,6 +2,9 @@
 
 Raincatcher Wrapper for Feedhenry DataSync Cloud
 
-For Raincatcher sync documentation see: https://github.com/feedhenry/fh-sync
+For FeedHenry sync documentation see: https://github.com/feedhenry/fh-sync/docs
+
+## Quick start
+
 
 ## Custom data handlers

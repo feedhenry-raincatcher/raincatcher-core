@@ -1,32 +1,34 @@
+import * as sync from 'fh-sync'
+
 /** 
  * List of global options passed to sync on init 
  **/
 export interface SyncGlobalParameters {
-    /** 
-     * How often the scheduler should check the datasetClients, in ms.
-     * Default: 500
-     */
-    schedulerInterval?: number;
+  /** 
+   * How often the scheduler should check the datasetClients, in ms.
+   * Default: 500
+   */
+  schedulerInterval?: number;
 
-    /** 
-     * The default concurrency value when update dataset clients in the sync API. 
-     * In most case this value should not need to be changed. 
-     * Default is 10
-     **/
-    datasetClientUpdateConcurrency?: number;
+  /** 
+   * The default concurrency value when update dataset clients in the sync API. 
+   * In most case this value should not need to be changed. 
+   * Default is 10
+   **/
+  datasetClientUpdateConcurrency?: number;
 
-    /**
-     * If cache the dataset client records using redis. 
-     * This can help improve performance for the syncRecords API.
-     * Can be turned on if there are no records are shared between many different dataset clients. 
-     * Default is false.
-    */
-    useCache?: boolean;
+  /**
+   * If cache the dataset client records using redis. 
+   * This can help improve performance for the syncRecords API.
+   * Can be turned on if there are no records are shared between many different dataset clients. 
+   * Default is false.
+  */
+  useCache?: boolean;
 
-    /** 
-     * Specify the frequency the datasetClient cleaner should run. 
-     * Default every hour ('1h') */
-    datasetClientCleanerCheckFrequency?: string;
+  /** 
+   * Specify the frequency the datasetClient cleaner should run. 
+   * Default every hour ('1h') */
+  datasetClientCleanerCheckFrequency?: string;
 }
 
 /**
@@ -36,7 +38,6 @@ export interface SyncGlobalParameters {
 interface SyncOptions {
   datasetConfiguration: SyncDataLayerOptions;
   globalSyncOptions?: SyncGlobalParameters;
-  globalHashFunction?: HashFunction;
 }
 
 /**
@@ -52,7 +53,7 @@ export interface SyncDataLayerOptions {
  * Provide custom hash function to determine if object was changed
  */
 export interface HashFunction {
-   function(object: any): any;
+  (object: any): any;
 }
 
 /**
@@ -60,7 +61,7 @@ export interface HashFunction {
  */
 export interface CollisionHandler {
   // tslint:disable-next-line:max-line-length
-  function(datasetId: string, hash: string, timestamp: string, uid: any, pre: any, post: any, metaData: any, cb: any): void;
+  (datasetId: string, hash: string, timestamp: any, uid: string, pre: any, post: any, metaData: any, callback: sync.StandardCb<any>): void;
 }
 
 export default SyncOptions;

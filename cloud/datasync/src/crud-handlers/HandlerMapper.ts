@@ -3,7 +3,8 @@ import SyncOptions, { SyncDataLayerOptions } from '../options/SyncGlobalOptions'
 import SyncDataSetOptions from '../options/SyncDatasetOptions';
 import DataSetHandler from '../crud-handlers/DataSetHandler'
 
-const syncAPI: any = require('fh-sync').api;
+import * as sync from 'fh-sync'
+
 
 /**
  * Maps dataHandler to sync api methods
@@ -11,21 +12,21 @@ const syncAPI: any = require('fh-sync').api;
  * @param syncAPI 
  * @param dataHandler 
  */
-export function setupHandlers(syncAPI: any, dataHandler: DataSetHandler) {
-    if (dataHandler.handleList) {
-        syncAPI.handleList(dataHandler.handleList)
+export function setupHandlers(datasetId: string, dataHandler: DataSetHandler) {
+    if (dataHandler.onList) {
+        sync.handleList(datasetId, dataHandler.onList);
     }
-    if (dataHandler.handleCreate) {
-        syncAPI.handleCreate(dataHandler.handleCreate)
+    if (dataHandler.onCreate) {
+        sync.handleCreate(datasetId, dataHandler.onCreate);
     }
-    if (dataHandler.handleRead) {
-        syncAPI.handleRead(dataHandler.handleRead)
+    if (dataHandler.onRead) {
+        sync.handleRead(datasetId, dataHandler.onRead);
     }
-    if (dataHandler.handleUpdate) {
-        syncAPI.handleUpdate(dataHandler.handleUpdate)
+    if (dataHandler.onUpdate) {
+        sync.handleUpdate(datasetId, dataHandler.onUpdate)
     }
-    if (dataHandler.handleDelete) {
-        syncAPI.handleDelete(dataHandler.handleDelete)
+    if (dataHandler.onDelete) {
+        sync.handleDelete(datasetId, dataHandler.onDelete)
     }
 }
 
@@ -35,22 +36,22 @@ export function setupHandlers(syncAPI: any, dataHandler: DataSetHandler) {
  * @param syncAPI 
  * @param dataHandler
  */
-export function setupGlobalHandlers(syncAPI: any, dataHandler: DataSetHandler) {
+export function setupGlobalHandlers(dataHandler: DataSetHandler) {
     if (dataHandler) {
-        if (dataHandler.handleList) {
-            syncAPI.globalHandleList(dataHandler.handleList)
+        if (dataHandler.onList) {
+            sync.globalHandleList(dataHandler.onList);
         }
-        if (dataHandler.handleCreate) {
-            syncAPI.globalHandleCreate(dataHandler.handleCreate)
+        if (dataHandler.onCreate) {
+            sync.globalHandleCreate(dataHandler.onCreate);
         }
-        if (dataHandler.handleRead) {
-            syncAPI.globalHandleRead(dataHandler.handleRead)
+        if (dataHandler.onRead) {
+            sync.globalHandleRead(dataHandler.onRead);
         }
-        if (dataHandler.handleUpdate) {
-            syncAPI.globalHandleUpdate(dataHandler.handleUpdate)
+        if (dataHandler.onUpdate) {
+            sync.globalHandleUpdate(dataHandler.onUpdate)
         }
-        if (dataHandler.handleDelete) {
-            syncAPI.globalHandleDelete(dataHandler.handleDelete)
+        if (dataHandler.onDelete) {
+            sync.globalHandleDelete(dataHandler.onDelete)
         }
     }
 }
