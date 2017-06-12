@@ -1,81 +1,54 @@
 'use strict';
 
-//Imports
-import * as express from 'express';
 import * as passport from 'passport';
 import {Strategy} from 'passport-local';
+import * as express from 'express';
 
-/*
- * Interface for passport authentication
- */
-
-interface PassportAuth {
-  //Initialize passport authentication
-  init()
-
-  //Authenticate user
-  authenticate(strategy: string, opts: Object)
-
-  //Check if user is already logged in otherwise redirect to login page
-  loginRequired(req: express.Request, res: express.Response)
-
-  //Returns the roles assigned to the authenticated user
-  getUserRoles()
-
-  //Returns a boolean whether the user has a particular role.
-  checkHasRole(role: string)
-
-  //Returns the user's profile
-  getUserProfile()
-
-  //Log out the authenticated user //?
-  logout()
+interface PassportAuth<T> {
+  init(app: express.Express): void
+  setStrategy(strategy: Function): void
+  setSerializeFunction(serialize: Function): void
+  setDeserializeFunction(deserialize: Function): void
+  authenticate(strategy: string, opts: Object): void
 }
 
-class PassportAuthImpl implements PassportAuth {
-
-  init() {
-    //passport.serializeUser
-    passport.serializeUser(serializeFunc);
-    //passport.deserializeUser //require db access
-    passport.deserializeUser(deserializeFunc);
-    //define strategy //will use bcrypt to compare pass //make configurable //need db access
-    passport.use(new Strategy (function(username, password, done) {
-      //check db if user exists
-        //no user => return done(null, false)
-        //invalid password => return done(null, false)
-        //right credentials => return done(null, user)
-      //Catch for any errors => return (done(err)
-    }))
+class PassportAuthImpl<T> implements PassportAuth<T> {
+  public init(app: express.Express) {
+    console.log('>>>>>>>', 'initializing passport auth');
+    app.use(passport.initialize());
+    app.use(passport.session());
   }
 
-  authenticate(strategy: string, opts: Object) {
-    passport.authenticate(strategy, opts); //does this check if the user is already logged in?
+  public setStrategy(strategy: Function) {
+    console.log('>>>>>>>', 'setting strategy');
+    passport.use(new Strategy((username: string, password: string, done: Function) => {
+      strategy(username, password, done);
+    }));
   }
 
-  loginRequired(req: express.Request, res: express.Response) {
-    //if(!req.user) res.redirect(loginRoute);
-    //return next();
+  public setSerializeFunction(serialize: Function) {
+    //determines which data of the user object should be stored in the session.
+    //will be attached to req.session.passport.user
+    //Will use this info to deserialize the whole user object later.
+    console.log('>>>>>>>', 'setting serialize function');
+    passport.serializeUser((user: T, done: Function) => {
+      serialize(user, done);
+    });
   }
 
-  getUserRoles() {
-   //return req.user.roles;
-  }
+  public setDeserializeFunction(deserialize: Function) {
+    //Retrieves user object from the source using the id as an identifier.
+    console.log('>>>>>>>', 'setting deserialize function');
+    passport.deserializeUser((id: string, done: Function) => {
+      deserialize(id, done);
+    });
+  };
 
-  checkHasRole(role: string) {
-    //user profile in req.user
-    //return boolean
-  }
+  public authenticate(strategy: string, opts: Object) {
+    //check if user is already logged in.
 
-  getUserProfile() {
-    //user profile in req.user
-    //return req.user
-  }
-
-  logout() {
-    //req.logout
+    passport.authenticate(strategy, opts);
   }
 }
-
 
 export default PassportAuthImpl;
