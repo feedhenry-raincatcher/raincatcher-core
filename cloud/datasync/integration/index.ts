@@ -31,7 +31,7 @@ app.use(cors());
 
 const middleware: SyncExpressMiddleWare = new SyncExpressMiddleWare('/sync/:datasetId');
 const router = middleware.createSyncExpressRouter();
-app.use(router);
+app.use("/", router);
 
 import { NativeSync } from '../src/index'
 //NativeSync.api.globalHandleList;

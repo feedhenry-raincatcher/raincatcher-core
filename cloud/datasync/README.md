@@ -16,17 +16,17 @@ Starting sync service that will monitor and process
 new tasks that are sent from sync clients
 
 ```typescript
-    import SyncServer, { SyncApi, SyncOptions, SyncExpressMiddleWare } from '../src/index'
-    // Create api object
-    const sync: SyncApi = new SyncServer();
-    // Options for sync connection
-    const connectOptions: SyncOptions = {},
-    // Connect database and start sync
-    sync.connect(connectOptions, function (err) {
-      if (err) {
-        console.log(err);
-      }
-    })
+import SyncServer, { SyncApi, SyncOptions, SyncExpressMiddleWare } from '../src/index'
+// Create api object
+const sync: SyncApi = new SyncServer();
+// Options for sync connection
+const connectOptions: SyncOptions = {},
+// Connect database and start sync
+sync.connect(connectOptions, function (err) {
+  if (err) {
+    console.log(err);
+  }
+})
 ```
 
 2. Create api endpoint for sync.
@@ -41,11 +41,10 @@ app.use(cors());
 // Use api path of your wish
 // Same endpoint needs to be configured in js client
 const path = '/sync/:datasetId';
-const middleware: SyncExpressMiddleWare = new
-SyncExpressMiddleWare();
+const middleware: SyncExpressMiddleWare = new SyncExpressMiddleWare();
 
 const router = middleware.createSyncExpressRouter();
-app.use(router);
+app.use("/", router);
 ```
 
 See [integration](./integration) for complete runnable example.
