@@ -1,11 +1,13 @@
-import * as FeedhenrySync from './FeedhenrySync';
+import SyncServer from './SyncServer';
 
+export * from './crud-handlers/DataSetHandler';
 export * from './options/SyncGlobalOptions';
 export * from './options/SyncDatasetOptions';
-export { SyncApi } from './SyncApi';
+export * from './SyncApi';
+export * from './web/SyncWebExpress';
 
-// Web interface
-export {SyncExpressMiddleWare} from './web/SyncWebExpress';
-export {FeedhenrySync} from './FeedhenrySync';
+import * as sync from 'fh-sync'
 
-export default FeedhenrySync;
+export { sync as NativeSync };
+
+export default SyncServer;

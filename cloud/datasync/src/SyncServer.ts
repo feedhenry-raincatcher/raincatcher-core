@@ -8,21 +8,20 @@ import DataSetHandler from './crud-handlers/DataSetHandler'
 import { api } from 'fh-sync'
 
 /**
- * Implementation for sync api
+ * Implementation for sync server side api
  */
-export class FeedhenrySync implements SyncApi {
+export class SyncServer implements SyncApi {
 
   public constructor() {
   }
 
   /**
    * Initialize sync server by connecting to database
-   * 
+   *
    * @param options global options for sync cloud service
    */
   public connect(options: SyncOptions, callback: (err: any) => void) {
     if (options.globalSyncOptions) {
-      console.log(api);
       api.setConfig(options.globalSyncOptions);
     }
     const sdo = options.datasetConfiguration;
@@ -51,6 +50,7 @@ export class FeedhenrySync implements SyncApi {
         // set optional custom collision handler if its a function
         if (options && options.collisionHandler) {
           api.handleCollision(datasetId, options.collisionHandler);
+          console.log( api.handleCollision)
         }
 
         // Set optional custom hash function to deal with detecting model changes.
@@ -65,4 +65,4 @@ export class FeedhenrySync implements SyncApi {
   }
 }
 
-export default FeedhenrySync;
+export default SyncServer;

@@ -28,7 +28,9 @@
     "branches": 80
   },
   "devDependencies": {
+    "@types/proxyquire": "^1.3.27",
     "@types/mocha": "^2.2.41",
+    "proxyquire": "^1.8.0",
     "del-cli": "^1.0.0",
     "mocha": "^3.4.2",
     "nyc": "^11.0.1",
