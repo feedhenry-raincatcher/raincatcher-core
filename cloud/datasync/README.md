@@ -17,8 +17,9 @@ new tasks that are sent from sync clients
 
 ```typescript
 import SyncServer, { SyncApi, SyncOptions, SyncExpressMiddleWare } from '../src/index'
-// Create api object
-const sync: SyncApi = new SyncServer();
+
+// Assign default implementation to sync interface
+const sync: SyncApi = SyncServer;
 // Options for sync connection
 const connectOptions: SyncOptions = {},
 // Connect database and start sync

@@ -24,7 +24,7 @@
     "check-coverage": true,
     "lines": 75,
     "functions": 100,
-    "branches": 80
+    "branches": 50
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.3",

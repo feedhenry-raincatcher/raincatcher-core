@@ -1,5 +1,5 @@
 
-import { SyncOptions, DataSetHandler, SyncDataSetOptions } from '../src/index';
+import { SyncApi, SyncOptions, DataSetHandler, SyncDataSetOptions } from '../src/index';
 import * as proxyquire from "proxyquire";
 import * as assert from 'assert';
 
@@ -13,7 +13,7 @@ const connectOptions: SyncOptions = {
 }
 
 // Import original and provide mocked version of the api
-import { SyncServer } from '../src/SyncServer';
+import SyncServer from '../src/SyncServer';
 const SyncServerMock = proxyquire.noCallThru().load('../src/SyncServer', {
   'fh-sync': {
     api: {
@@ -39,13 +39,14 @@ class MyTestDataSetHandler implements DataSetHandler {
 }
 
 describe("FeedHenry Sync Tests", function () {
-  let testSubject: SyncServer;
+  let testSubject: SyncApi;
   beforeEach(function () {
-    testSubject = new SyncServerMock.SyncServer();
+    console.log(SyncServerMock);
+    testSubject = SyncServerMock.SyncServer;
   });
   describe('Test end user api', function () {
     it('connect', function () {
-      return testSubject.connect(connectOptions, function (err) {
+      return testSubject.connect(connectOptions, function (err: any) {
         assert.ok(!err, "No error happened");
       })
     });

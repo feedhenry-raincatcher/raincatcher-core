@@ -1,6 +1,6 @@
 import SyncServer, { SyncApi, SyncOptions, SyncExpressMiddleWare } from '../src/index'
 
-const sync: SyncApi = new SyncServer();
+const sync: SyncApi = SyncServer;
 
 // Connect sync
 const connectOptions: SyncOptions = {

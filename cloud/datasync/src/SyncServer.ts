@@ -10,17 +10,14 @@ import { api } from 'fh-sync'
 /**
  * Implementation for sync server side api
  */
-export class SyncServer implements SyncApi {
-
-  public constructor() {
-  }
+export const SyncServer: SyncApi = {
 
   /**
    * Initialize sync server by connecting to database
    *
    * @param options global options for sync cloud service
    */
-  public connect(options: SyncOptions, callback: (err: any) => void) {
+  connect(options: SyncOptions, callback: (err: any) => void) {
     if (options.globalSyncOptions) {
       api.setConfig(options.globalSyncOptions);
     }
@@ -28,11 +25,11 @@ export class SyncServer implements SyncApi {
     api.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function (err: any) {
       callback(err);
     });
-  }
+  },
 
   setGlobalDataHandlers(dataHandler: DataSetHandler) {
     setupGlobalHandlers(dataHandler);
-  };
+  },
 
   /**
    * Register dataset (implicitly) to be supported by server.
@@ -42,7 +39,7 @@ export class SyncServer implements SyncApi {
    * @param datasetId
    * @param options
    */
-  public registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions, dataHandler?: DataSetHandler) {
+  registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions, dataHandler?: DataSetHandler) {
     api.init(datasetId, options, function (err: any) {
       if (err) {
         throw new Error(err);
@@ -50,7 +47,7 @@ export class SyncServer implements SyncApi {
         // set optional custom collision handler if its a function
         if (options && options.collisionHandler) {
           api.handleCollision(datasetId, options.collisionHandler);
-          console.log( api.handleCollision)
+          console.log(api.handleCollision)
         }
 
         // Set optional custom hash function to deal with detecting model changes.
