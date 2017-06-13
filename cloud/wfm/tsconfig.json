@@ -9,6 +9,7 @@
         "alwaysStrict": true,
         "sourceMap": true,
         "strict": true
+        "outDir": "lib/"
     },
     "include": [
         "src/",

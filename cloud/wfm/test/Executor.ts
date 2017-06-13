@@ -13,19 +13,12 @@ describe('Executor', function() {
       return Promise.resolve(instance);
     }
   }
-  class NullStep extends BaseStep {
-    public run() {
-      // does nothing but advance to next status
-      this.status += 100;
-    }
-  }
-
   const repository = new SingleRepository();
   const process = new Process('sample');
   process.tasks = [
-    new NullStep(),
-    new NullStep(),
-    new NullStep()
+    new BaseStep(),
+    new BaseStep(),
+    new BaseStep()
   ];
   let executor: Executor;
 
@@ -33,13 +26,14 @@ describe('Executor', function() {
     executor = new ExecutorImpl(process, repository);
     return Promise.resolve(executor);
   });
-  it('Can start the execution of the Task and its Steps', function(done) {
+  it('can run the execution of the ProcessInstance and its Tasks', function(done) {
     executor = new ExecutorImpl(process, repository);
     if (!executor.instance) {
       return done(new Error('instance should not be null'));
     }
     executor.instance.on('process:done', function(e) {
-      assert(e.instance.currentTask.getStatus() === TaskStatus.done);
+      e.instance.tasks.forEach(t => assert(t.getStatus() === TaskStatus.done));
+      done();
     });
     executor.start();
   });

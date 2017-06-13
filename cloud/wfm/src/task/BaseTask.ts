@@ -14,7 +14,7 @@ class BaseTask extends EventEmitter implements Task {
       previousStatus: this.status,
       step: this
     };
-    this.status = to;
+    this._status = to;
     this.emit('statusChange', e);
   }
   public get status() {

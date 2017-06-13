@@ -13,7 +13,7 @@ describe('Workflow', function() {
   });
 
   it('should be able to instantiate a ProcessInstance', function() {
-    const task: ProcessInstance = process.toInstance();
+    const task: ProcessInstance = process.createInstance();
     task.assigneeId = 'trever.id';
   });
 });
