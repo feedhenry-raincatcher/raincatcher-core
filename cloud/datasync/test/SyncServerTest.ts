@@ -51,7 +51,6 @@ describe("FeedHenry Sync Tests", function () {
     });
 
     it('setGlobalHandlers can be called', function () {
-
       let handler: DataSetHandler = new MyTestDataSetHandler();
       return testSubject.setGlobalDataHandlers(handler);
     });

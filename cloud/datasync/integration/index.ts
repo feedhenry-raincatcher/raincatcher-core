@@ -33,6 +33,9 @@ const middleware: SyncExpressMiddleWare = new SyncExpressMiddleWare('/sync/:data
 const router = middleware.createSyncExpressRouter();
 app.use(router);
 
+import { NativeSync } from '../src/index'
+//NativeSync.api.globalHandleList;
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
