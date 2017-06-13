@@ -19,7 +19,6 @@ api.connect(connectOptions, function (err) {
 })
 
 // Create express middleware
-
 import * as cors from 'cors';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';

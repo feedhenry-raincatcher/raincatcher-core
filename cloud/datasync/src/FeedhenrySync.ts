@@ -5,7 +5,7 @@ import SyncDataSetOptions from './options/SyncDatasetOptions';
 import { setupGlobalHandlers, setupHandlers } from './crud-handlers/HandlerMapper'
 import DataSetHandler from './crud-handlers/DataSetHandler'
 
-import * as sync from 'fh-sync'
+import { api } from 'fh-sync'
 
 /**
  * Implementation for sync api
@@ -22,11 +22,11 @@ export class FeedhenrySync implements SyncApi {
    */
   public connect(options: SyncOptions, callback: (err: any) => void) {
     if (options.globalSyncOptions) {
-      console.log(sync);
-      sync.setConfig(options.globalSyncOptions);
+      console.log(api);
+      api.setConfig(options.globalSyncOptions);
     }
     const sdo = options.datasetConfiguration;
-    sync.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function (err: any) {
+    api.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function (err: any) {
       callback(err);
     });
   }
@@ -44,18 +44,18 @@ export class FeedhenrySync implements SyncApi {
    * @param options
    */
   public registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions, dataHandler?: DataSetHandler) {
-    sync.init(datasetId, options, function (err: any) {
+    api.init(datasetId, options, function (err: any) {
       if (err) {
         throw new Error(err);
       } else {
         // set optional custom collision handler if its a function
         if (options && options.collisionHandler) {
-          sync.handleCollision(datasetId, options.collisionHandler);
+          api.handleCollision(datasetId, options.collisionHandler);
         }
 
         // Set optional custom hash function to deal with detecting model changes.
         if (options && options.hashFunction) {
-          sync.setRecordHashFn(datasetId, options.hashFunction);
+          api.setRecordHashFn(datasetId, options.hashFunction);
         }
         if (dataHandler) {
           setupHandlers(datasetId, dataHandler);
