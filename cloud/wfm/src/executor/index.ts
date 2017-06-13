@@ -1,7 +1,13 @@
 import * as Promise from 'bluebird';
 import { Process } from '../process';
-import { InstanceEventData, ProcessInstance } from '../process-instance';
-import { Task } from '../task';
+import { ProcessInstance } from '../process-instance';
+import { Task, TaskEventData } from '../task';
+
+/**
+ * Executor engine for a Process
+ *
+ * Triggers instantiation and execution of a ProcessInstance
+ */
 export interface Executor {
   process: Process;
   instance?: ProcessInstance;
@@ -14,20 +20,23 @@ export interface InstanceRepository {
 
 class ExecutorImpl implements Executor {
   public instance: ProcessInstance;
-  constructor(public process: Process, public taskRepository: InstanceRepository) {
+  constructor(public process: Process, public instanceRepository: InstanceRepository) {
+    this.instance = this.process.createInstance();
   }
   public start() {
-    this.instance = this.process.toInstance();
-    this.instance.currentTask.run();
-    this.instance.on('task:change', this.stepChanged);
+    this.runCurrentTask();
   }
-  public stepChanged(e: InstanceEventData<ProcessInstance>) {
+  protected onTaskDone(e: TaskEventData<Task>) {
     Promise.resolve(this.instance.next())
-      .then(this.saveTask)
-      .then(() => this.instance.currentTask.run());
+      .then(() => this.saveInstance)
+      .then(() => this.runCurrentTask());
   }
-  protected saveTask() {
-    return this.taskRepository.save(this.instance);
+  protected saveInstance() {
+    return this.instanceRepository.save(this.instance);
+  }
+  protected runCurrentTask() {
+    this.instance.currentTask.on('done', this.onTaskDone);
+    this.instance.currentTask.run();
   }
 }
 
