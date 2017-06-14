@@ -1,0 +1,57 @@
+import * as Express from 'express';
+import * as sync from 'fh-sync';
+import * as path from 'path';
+
+/**
+ * Expose Feedhenry Sync API using express middleware
+ */
+export class SyncExpressMiddleWare {
+
+  private router: Express.Router;
+  private prefix: string;
+
+  /**
+   * @field prefix - used to create api endpoint
+   */
+  constructor(prefix: string) {
+    this.router = Express.Router();
+    this.prefix = prefix;
+  }
+
+  /**
+   * Create express router for sync endpoints
+   */
+  public createSyncExpressRouter() {
+    const apiURI = path.join(this.prefix + ':datasetId');
+    const syncRoute = this.router.route(apiURI);
+
+    /**
+     * Sync express api required for sync clients
+     * All sync clients will call that endpoint to sync data
+     */
+    syncRoute.post(this.syncHandler);
+    return this.router;
+  }
+
+  /** Returns router instance */
+  public getRouter() {
+    return this.router;
+  }
+
+  /**
+   * Middleware handler responsible for calling sync api
+   */
+  private syncHandler(req: Express.Request, res: Express.Response) {
+    const datasetId = req.params.datasetId;
+    const params = req.body;
+    sync.invoke(datasetId, params, function(err: any, result: any) {
+      if (err) {
+        res.status(500).json(err);
+        return;
+      }
+      return res.json(result);
+    });
+  }
+}
+
+export default SyncExpressMiddleWare;
