@@ -1,13 +1,13 @@
 'use strict';
 
-import * as express from 'express';
-import * as path from 'path';
-import * as logger from 'morgan';
-import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
-import index from './routes/index';
+import * as cookieParser from 'cookie-parser';
+import * as express from 'express';
+import * as logger from 'morgan';
+import * as path from 'path';
 import * as favicon from 'serve-favicon';
-import EnvironmentConfig, { Config, CloudAppConfig } from './util/config';
+import index from './routes/index';
+import EnvironmentConfig, { CloudAppConfig, Config } from './util/config';
 
 const app: express.Express = express();
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
@@ -18,12 +18,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')))
+app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 
 app.use('/', index);
 
 app.use((req: express.Request, res: express.Response, next) => {
-  var err: any = new Error('Not Found');
+  const err: any = new Error('Not Found');
   err.status = 404;
   next(err);
 });
@@ -41,4 +41,3 @@ errHandler = (err: any, req: express.Request, res: express.Response, next: () =>
 
 app.use(errHandler);
 export default app;
-

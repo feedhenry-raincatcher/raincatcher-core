@@ -8,7 +8,9 @@ services:
 - mongodb
 script:
 - npm run bootstrap
+- npm run lint
 - npm test
 cache:
   directories:
+    - node_modules
     - demo/server/node_modules

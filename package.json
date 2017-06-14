@@ -9,7 +9,7 @@
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start  --parallel --stream --scope=@raincatcher/demo-*",
     "docs": "lerna exec -- typedoc --out docs/ --excludePrivate",
-    "lint": "tslint --fix '*/*/src/**/*.ts'"
+    "lint": "tslint --fix '*/*/src/**/*.ts' '*/*/test/**/*.ts'"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/feedhenry-raincatcher/raincatcher#readme",
   "devDependencies": {
-    "lerna": "^2.0.0-rc.5"
+    "lerna": "^2.0.0-rc.5",
+    "tslint": "^5.4.3",
+    "typescript": "^2.3.4"
   }
 }
