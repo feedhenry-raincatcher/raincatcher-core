@@ -4,7 +4,7 @@ import * as express from 'express';
 const router = express.Router();
 
 router.get('/', (req: express.Request, res: express.Response) => {
-  var api = { name: 'raincatcher', version: require("../../package.json").version };
+  const api = { name: 'raincatcher', version: require('../../package.json').version };
   res.json(api);
 });
 

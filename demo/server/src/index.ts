@@ -1,9 +1,9 @@
 'use strict';
 /**
  * Module dependencies.
-*/
-import app from './app';
+ */
 import * as http from 'http';
+import app from './app';
 
 /**
  * Get port from environment and store in Express.
@@ -14,7 +14,7 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-var server = http.createServer(app);
+const server = http.createServer(app);
 
 /**
  * Listen on provided port,on all network interfaces.
@@ -26,7 +26,7 @@ server.on('error', onError);
  * Event listener for HTTP server "error" event.
  */
 function onError(error: any) {
-  if (error.syscall != 'listen') {
+  if (error.syscall !== 'listen') {
     throw error;
   }
   if (error.code === 'EADDRINUSE') {
@@ -40,6 +40,7 @@ function onError(error: any) {
  * Event listener for HTTP server "listening" event.
  */
 function onListening() {
-  var addr = server.address();
+  const addr = server.address();
+  // tslint:disable-next-line:no-console
   console.log('Listening on ' + addr.port);
 }

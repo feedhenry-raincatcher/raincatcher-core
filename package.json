@@ -9,7 +9,7 @@
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start  --parallel --stream --scope=@raincatcher/demo-*",
     "docs": "lerna exec -- typedoc --out docs/ --excludePrivate",
-    "lint": "tslint --fix '*/*/src/**/*.ts'"
+    "lint": "tslint --fix '*/*/src/**/*.ts' '*/*/test/**/*.ts'"
   },
   "repository": {
     "type": "git",

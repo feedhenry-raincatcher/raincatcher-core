@@ -12,4 +12,5 @@ script:
 - npm test
 cache:
   directories:
+    - node_modules
     - demo/server/node_modules
