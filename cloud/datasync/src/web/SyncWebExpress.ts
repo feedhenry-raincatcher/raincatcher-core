@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird';
 import * as Express from 'express';
 import * as path from 'path';
 import * as secMiddleware from './SyncSecurityMiddleware';
@@ -41,7 +40,7 @@ export class SyncExpressMiddleWare {
   private syncHandler(req: Express.Request, res: Express.Response) {
     const datasetId = req.params.datasetId;
     const params = req.body;
-    sync.api.invoke(datasetId, params, function (err: any, result: any) {
+    sync.invoke(datasetId, params, function (err: any, result: any) {
       if (err) {
         res.status(500).json(err);
         return;

@@ -1,32 +1,32 @@
 import * as sync from 'fh-sync'
 
-/** 
- * List of global options passed to sync on init 
+/**
+ * List of global options passed to sync on init
  **/
 export interface SyncGlobalParameters {
-  /** 
+  /**
    * How often the scheduler should check the datasetClients, in ms.
    * Default: 500
    */
   schedulerInterval?: number;
 
-  /** 
-   * The default concurrency value when update dataset clients in the sync API. 
-   * In most case this value should not need to be changed. 
+  /**
+   * The default concurrency value when update dataset clients in the sync API.
+   * In most case this value should not need to be changed.
    * Default is 10
    **/
   datasetClientUpdateConcurrency?: number;
 
   /**
-   * If cache the dataset client records using redis. 
+   * If cache the dataset client records using redis.
    * This can help improve performance for the syncRecords API.
-   * Can be turned on if there are no records are shared between many different dataset clients. 
+   * Can be turned on if there are no records are shared between many different dataset clients.
    * Default is false.
   */
   useCache?: boolean;
 
-  /** 
-   * Specify the frequency the datasetClient cleaner should run. 
+  /**
+   * Specify the frequency the datasetClient cleaner should run.
    * Default every hour ('1h') */
   datasetClientCleanerCheckFrequency?: string;
 }

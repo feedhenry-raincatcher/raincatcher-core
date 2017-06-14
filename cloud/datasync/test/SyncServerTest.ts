@@ -16,17 +16,15 @@ const connectOptions: SyncOptions = {
 import SyncServer from '../src/SyncServer';
 const SyncServerMock = proxyquire.noCallThru().load('../src/SyncServer', {
   'fh-sync': {
-    api: {
-      setConfig: function () { },
-      connect: function (url: any, options: any, redis: any, cb: any) {
-        cb();
-      },
-      handleCollision: function () { },
-      setRecordHashFn: function () { },
-      globalHandleList: function () { },
-      init: function (datasetId: any, options: any, cb: any) {
-        cb();
-      }
+    setConfig: function () { },
+    connect: function (url: any, options: any, redis: any, cb: any) {
+      cb();
+    },
+    handleCollision: function () { },
+    setRecordHashFn: function () { },
+    globalHandleList: function () { },
+    init: function (datasetId: any, options: any, cb: any) {
+      cb();
     }
   }
 });
@@ -41,7 +39,6 @@ class MyTestDataSetHandler implements DataSetHandler {
 describe("FeedHenry Sync Tests", function () {
   let testSubject: SyncApi;
   beforeEach(function () {
-    console.log(SyncServerMock);
     testSubject = SyncServerMock.SyncServer;
   });
   describe('Test end user api', function () {
