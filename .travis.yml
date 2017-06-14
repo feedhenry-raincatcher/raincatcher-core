@@ -9,3 +9,6 @@ services:
 script:
 - npm run bootstrap
 - npm test
+cache:
+  directories:
+    - demo/server/node_modules
