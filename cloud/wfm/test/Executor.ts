@@ -32,8 +32,9 @@ describe('Executor', function() {
       return done(new Error('instance should not be null'));
     }
     executor.instance.on('process:done', function(e) {
-      e.instance.getTasks().each<Task, void>(t => assert(t.getStatus() === TaskStatus.done));
-      done();
+      e.instance.getTasks()
+        .each<Task, void>(t => assert(t.getStatus() === TaskStatus.done))
+        .then(() => done());
     });
     executor.start();
   });

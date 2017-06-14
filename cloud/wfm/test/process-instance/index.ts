@@ -3,7 +3,7 @@ import InstanceImpl, {ProcessInstance} from '../../src/process-instance';
 import BaseTask, {Task} from '../../src/task';
 
 function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
-  describe('ProcessInstance', function() {
+  describe('ProcessInstance Interface', function() {
     let instance: ProcessInstance;
     beforeEach(function() {
       instance = instanceFactory([

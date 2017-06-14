@@ -10,6 +10,7 @@
     "build": "tsc",
     "start": "ts-node src/index.ts",
     "test": "nyc mocha",
+    "debug": "node --inspect-brk ./node_modules/.bin/_mocha",
     "prepublish": "npm run clean && npm run build"
   },
   "nyc": {
