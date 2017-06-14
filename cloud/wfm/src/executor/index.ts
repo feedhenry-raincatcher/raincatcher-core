@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird';
 import { Process } from '../process';
 import { ProcessInstance } from '../process-instance';
-import { Task, TaskEventData } from '../task';
+import { Task, TaskEventData, TaskStatus } from '../task';
 
 /**
  * Executor engine for a Process
@@ -27,16 +27,18 @@ class ExecutorImpl implements Executor {
     this.runCurrentTask();
   }
   protected onTaskDone(e: TaskEventData<Task>) {
-    Promise.resolve(this.instance.next())
-      .then(() => this.saveInstance)
-      .then(() => this.runCurrentTask());
+    if (e.currentStatus === TaskStatus.done) {
+      Promise.resolve(this.instance.next())
+        .then(() => this.saveInstance)
+        .then(() => this.runCurrentTask());
+    }
   }
   protected saveInstance() {
     return this.instanceRepository.save(this.instance);
   }
   protected runCurrentTask() {
     this.instance.getCurrentTask()
-      .then(t => t.on('done', this.onTaskDone).run());
+      .then(t => t.on('statusChange', this.onTaskDone).run());
   }
 }
 

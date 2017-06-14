@@ -2,8 +2,9 @@ import { EventEmitter } from 'eventemitter3';
 import JsonSchema from '../JsonSchema';
 
 export interface TaskEventData<T extends Task> {
-  step: T;
+  task: T;
   previousStatus: TaskStatus;
+  currentStatus: TaskStatus;
   date: Date;
 }
 
@@ -46,7 +47,7 @@ export enum TaskStatus {
   'error' = 500
 }
 
-type events = 'statusChange' | 'done';
+type events = 'statusChange';
 
 export interface Task {
   status: TaskStatus | number;
@@ -55,7 +56,7 @@ export interface Task {
    * This is intended to be rendered as a <form> in a front-end application
    * for instance with http://schemaform.io/
    */
-  getOptions: (...params: any[]) => JsonSchema;
+  getOptionSchema: (...params: any[]) => JsonSchema;
   /**
    * Sets an object that is compatible with the Schema returned by {@link getOptions}
    * Implementations are expected to provide validation
