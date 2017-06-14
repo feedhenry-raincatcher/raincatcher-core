@@ -1,19 +1,21 @@
 # RainCatcher Sync Cloud
 
-Raincatcher Wrapper for Feedhenry DataSync server
-This module creates server side service that allows
-mobile applications to sync offline data to preferred database. By default server connects and stores all client data in mongodb database. This behavior can be changed by providing custom handlers.
+Raincatcher Wrapper for Feedhenry DataSync server.
+This module creates server side service that allows mobile applications to sync offline data to preferred database.
+By default server connects and stores all client data in mongodb database.
+This behavior can be changed by providing custom handlers.
 
-For advanced usage see FeedHenry sync documentation:
-https://github.com/feedhenry/fh-sync/docs
+For advanced usage see [FeedHenry sync documentation](https://github.com/feedhenry/fh-sync/tree/master/docs).
 
-> **Note**: Cloud service is utilized by one of the sync clients. For more information about client go to: https://github.com/feedhenry/fh-sync-js
+
+> **Note**: Cloud service is utilized by one of the sync clients. For more information about client go to: [sync.js client] repository(https://github.com/feedhenry/fh-sync-js)
 
 ## Quick start
 
 1. Start sync service process
-Starting sync service that will monitor and process
-new tasks that are sent from sync clients
+
+Starting sync service  will monitor and process
+mew tasks are sent from sync clients
 
 ```typescript
 import SyncServer, { SyncApi, SyncOptions, SyncExpressMiddleWare } from '../src/index'
@@ -58,17 +60,19 @@ By default sync will use the same mongodb connection for retrieving and storing 
 
 ```typescript
 class MySQLDataSetHandler implements DataSetHandler {
-  // We can implement any any method we wish
+  // We can implement any method we wish
   onList(datasetId: string, query: any, metaData: any, callback: (err: Error | string | undefined, res: any | undefined) => void) {
     let taskList = mysqlTaskRepository.getTasks(query);
     callback(undefined, taskList);
   }
 }
-
-sync.registerDatasetDataHandler("task", options, new MySQLDataSetHandler());
 ```
 
 2. Add handler
+
+```typescript
+sync.registerDatasetDataHandler("task", options, new MySQLDataSetHandler());
+```
 
 ## Accessing underlying sync library
 
@@ -83,4 +87,4 @@ NativeSync.api.anyapicall ;
 Where `anyapicall` is one of the types defined in:
 https://github.com/feedhenry/fh-sync/blob/master/types/fh-sync.d.ts
 
-For more advanced usages please follow documentation: https://github.com/feedhenry/fh-sync/docs
+For more advanced usages please follow [FeedHenry sync documentation](https://github.com/feedhenry/fh-sync/tree/master/docs)

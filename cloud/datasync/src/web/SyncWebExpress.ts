@@ -1,8 +1,6 @@
 import * as Express from 'express';
+import * as sync from 'fh-sync';
 import * as path from 'path';
-import * as secMiddleware from './SyncSecurityMiddleware';
-
-import * as sync from 'fh-sync'
 
 /**
  * Expose Feedhenry Sync API using express middleware
@@ -10,15 +8,16 @@ import * as sync from 'fh-sync'
 export class SyncExpressMiddleWare {
 
   private router: Express.Router;
-  private prefix: String;
+  private prefix: string;
 
   /**
    * @field prefix - used to create api endpoint
    */
-  constructor(prefix: String) {
+  constructor(prefix: string) {
     this.router = Express.Router();
     this.prefix = prefix;
   }
+
   /**
    * Create express router for sync endpoints
    */
@@ -34,13 +33,18 @@ export class SyncExpressMiddleWare {
     return this.router;
   }
 
+  /** Returns router instance */
+  public getRouter() {
+    return this.router;
+  }
+
   /**
    * Middleware handler responsible for calling sync api
    */
   private syncHandler(req: Express.Request, res: Express.Response) {
     const datasetId = req.params.datasetId;
     const params = req.body;
-    sync.invoke(datasetId, params, function (err: any, result: any) {
+    sync.invoke(datasetId, params, function(err: any, result: any) {
       if (err) {
         res.status(500).json(err);
         return;
@@ -48,11 +52,6 @@ export class SyncExpressMiddleWare {
       return res.json(result);
     });
   }
-
-  /** Returns router instance */
-  public getRouter() {
-    return this.router;
-  };
 }
 
 export default SyncExpressMiddleWare;

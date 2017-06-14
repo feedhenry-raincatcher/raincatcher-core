@@ -36,9 +36,6 @@ contained in the following directories:
 
   <dt>examples/</dt>
   <dd>Smaller examples and templates for other packages in the repository</dd>
-
-   <dt>integration/</dt>
-  <dd>Examples how Raincatcher modules integrate with each other in form of functional tests</dd>
 </dl>
 
 ## Creating a new package
@@ -131,5 +128,5 @@ See the example on [examples/js]() for more information also for reusing the uni
  `npm run start` - run top level applications
 
  `npm run lint` - execute tslint for all modules
- 
+
  `npm run cleanInstall` - perform install without executing additional scripts

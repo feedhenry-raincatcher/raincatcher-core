@@ -1,12 +1,11 @@
-import SyncOptions from './options/SyncGlobalOptions';
+import DataSetHandler from './crud-handlers/DataSetHandler';
 import SyncDatasetOptions from './options/SyncDatasetOptions';
-import DataSetHandler from './crud-handlers/DataSetHandler'
+import SyncOptions from './options/SyncGlobalOptions';
 
 /**
  * Interface for offline data sync solutions
  */
 export interface SyncApi {
-
   /**
    * Connect sync service to database and cache servers. Setup middleware required to process sync calls from clients.
    * Method will If you wish to use sync with default data handlers and options that are passed from client app
@@ -15,8 +14,8 @@ export interface SyncApi {
 
   /**
    * Allows to override default data handlers to store/retrieve data for all datasets
-   * 
-   * @param dataHandler - implementation DataSetHandler 
+   *
+   * @param dataHandler - implementation DataSetHandler
    */
   setGlobalDataHandlers(dataHandler: DataSetHandler): void;
 

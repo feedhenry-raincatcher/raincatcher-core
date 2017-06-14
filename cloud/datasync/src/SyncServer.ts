@@ -1,11 +1,9 @@
-import SyncApi from './SyncApi';
-import SyncOptions, { SyncDataLayerOptions } from './options/SyncGlobalOptions';
+import * as sync from 'fh-sync';
+import DataSetHandler from './crud-handlers/DataSetHandler';
+import {setupGlobalHandlers, setupHandlers} from './crud-handlers/HandlerMapper';
 import SyncDataSetOptions from './options/SyncDatasetOptions';
-
-import { setupGlobalHandlers, setupHandlers } from './crud-handlers/HandlerMapper'
-import DataSetHandler from './crud-handlers/DataSetHandler'
-
-import * as sync from 'fh-sync'
+import SyncOptions from './options/SyncGlobalOptions';
+import SyncApi from './SyncApi';
 
 /**
  * Implementation for sync server side api
@@ -17,12 +15,12 @@ export const SyncServer: SyncApi = {
    *
    * @param options global options for sync cloud service
    */
-  connect(options: SyncOptions, callback: (err: any) => void) {
+    connect(options: SyncOptions, callback: (err: any) => void) {
     if (options.globalSyncOptions) {
       sync.setConfig(options.globalSyncOptions);
     }
     const sdo = options.datasetConfiguration;
-    sync.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function (err: any) {
+    sync.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function(err: any) {
       callback(err);
     });
   },
@@ -39,15 +37,14 @@ export const SyncServer: SyncApi = {
    * @param datasetId
    * @param options
    */
-  registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions, dataHandler?: DataSetHandler) {
-    sync.init(datasetId, options, function (err: any) {
+    registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions, dataHandler?: DataSetHandler) {
+    sync.init(datasetId, options, function(err: any) {
       if (err) {
         throw new Error(err);
       } else {
         // set optional custom collision handler if its a function
         if (options && options.collisionHandler) {
           sync.handleCollision(datasetId, options.collisionHandler);
-          console.log(sync.handleCollision)
         }
 
         // Set optional custom hash function to deal with detecting model changes.
@@ -60,6 +57,6 @@ export const SyncServer: SyncApi = {
       }
     });
   }
-}
+};
 
 export default SyncServer;
