@@ -31,7 +31,7 @@ class BaseTask extends EventEmitter implements Task {
     this.status = TaskStatus.done;
   }
 
-  public getOptions = () => ({});
+  public getOptionSchema = () => ({});
   public setOptions(options: object) {
     // TODO: JsonSchema validation with http://epoberezkin.github.io/ajv/
     this.options = options;
