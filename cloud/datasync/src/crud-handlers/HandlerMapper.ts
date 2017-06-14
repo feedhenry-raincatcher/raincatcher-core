@@ -1,5 +1,4 @@
 import SyncApi from '../SyncApi';
-import SyncOptions, { SyncDataLayerOptions } from '../options/SyncGlobalOptions';
 import SyncDataSetOptions from '../options/SyncDatasetOptions';
 import DataSetHandler from '../crud-handlers/DataSetHandler'
 
