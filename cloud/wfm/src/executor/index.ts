@@ -35,8 +35,8 @@ class ExecutorImpl implements Executor {
     return this.instanceRepository.save(this.instance);
   }
   protected runCurrentTask() {
-    this.instance.currentTask.on('done', this.onTaskDone);
-    this.instance.currentTask.run();
+    this.instance.getCurrentTask()
+      .then(t => t.on('done', this.onTaskDone).run());
   }
 }
 
