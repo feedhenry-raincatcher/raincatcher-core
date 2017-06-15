@@ -1,8 +1,8 @@
 import * as Promise from 'bluebird';
-import { EventEmitter } from 'eventemitter3';
+import {EventEmitter} from 'eventemitter3';
 import * as _ from 'lodash';
-import { Process } from '../process';
-import { Task } from '../task';
+import {Process} from '../process';
+import {Task} from '../task';
 
 export interface InstanceTaskEventData<T extends ProcessInstance>  {
   instance: T;
@@ -14,7 +14,7 @@ export interface InstanceEventData<T extends ProcessInstance> {
 }
 
 /**
- * The executable instance of a Process
+ * The executable instance of a {@link Process}
  */
 export interface ProcessInstance extends EventEmitter {
   assigneeId: string;
@@ -22,7 +22,8 @@ export interface ProcessInstance extends EventEmitter {
   getTasks(): Promise<Task[]>;
   getCurrentTask(): Promise<Task>;
   /**
-   * @return A promise that resolves to the next task in it's list, can be async
+   * @return A promise that resolves to the next task in it's list,
+   * so implementation be async
    */
   next(): Promise<Task>;
 
@@ -31,48 +32,12 @@ export interface ProcessInstance extends EventEmitter {
   /**
    * Event emitted when
    */
-  on(event: 'task:change', handler: (e: InstanceTaskEventData<this>) => any): this;
-  on(event: 'process:done', handler: (e: InstanceEventData<this>) => any): this;
+  on(event: 'task:statusChange', handler: (e: InstanceTaskEventData<this>) => any): this;
+  /**
+   * Event emitted when all {@link Task}s achieve the done state
+   */
+  on(event: 'done', handler: (e: InstanceEventData<this>) => any): this;
 }
 
-class InstanceImpl extends EventEmitter implements ProcessInstance {
-  public id: string;
-  public assigneeId: string;
-  public processId: string;
-  public currentTask: Task;
-  public tasks: Task[];
-
-  protected currentTaskIdx: number;
-
-  // TODO: add repository for data storage
-  constructor(initialTasks: Task[]) {
-    super();
-    this.tasks = _.cloneDeep(initialTasks);
-    this.currentTask = this.tasks[0];
-    this.currentTaskIdx = 0;
-  }
-
-  public getId() {
-    return this.id;
-  }
-
-  public next() {
-    this.currentTask = this.tasks[++this.currentTaskIdx];
-    const e: InstanceTaskEventData<this> = {
-      instance: this,
-      task: this.currentTask
-    };
-    this.emit('task:change', e);
-    return Promise.resolve(this.currentTask);
-  }
-
-  public getCurrentTask() {
-    return Promise.resolve(this.currentTask);
-  }
-
-  public getTasks() {
-    return Promise.resolve(this.tasks);
-  }
-}
-
+import InstanceImpl from './InstanceImpl';
 export default InstanceImpl;

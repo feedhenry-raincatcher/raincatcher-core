@@ -1,5 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import JsonSchema from '../JsonSchema';
+import {Result} from '../result';
 
 export interface TaskEventData<T extends Task> {
   task: T;
@@ -8,7 +9,7 @@ export interface TaskEventData<T extends Task> {
   date: Date;
 }
 
-export type StepEventHandler<T extends Task> = (e: TaskEventData<T>) => any;
+export type TaskEventHandler<T extends Task> = (e: TaskEventData<T>) => any;
 
 /**
  * Set of high-level status types, intended to have semantic meaning
@@ -22,57 +23,64 @@ export type StepEventHandler<T extends Task> = (e: TaskEventData<T>) => any;
  */
 export enum TaskStatus {
   /**
-   * Indicates that the {@link Step} has been created and is unnassigned
+   * Indicates that the Task has been created and is unnassigned
    */
   'pending' = 0,
   /**
-   * Indicates that the {@link Step} has been assigned to an executor and is pending initiation
+   * Indicates that the Task has been assigned to an executor and is pending initiation
    */
   'assigned' = 100,
   /**
-   * Indicates that the {@link Step} has begun being executed
+   * Indicates that the Task has begun being executed
    */
   'in progress' = 200,
   /**
-   * Indicates that the {@link Step} has finished successfully
+   * Indicates that the Task has finished successfully
    */
   'done' = 300,
   /**
-   * Indicates that the {@link Step} has had its execution paused by a resolvable issue and can be resumed
+   * Indicates that the Task has had its execution paused by a resolvable issue and can be resumed
    */
   'blocked' = 400,
   /**
-   * Indicates that the {@link Step} has finished in an unpredicted and unrecoverable state
+   * Indicates that the Task has finished in an unpredicted and unrecoverable state
    */
   'error' = 500
 }
 
 type events = 'statusChange';
 
+/**
+ * Represents a single unit of work to be executed by a human or by the system.
+ * Each task potentially has it's own, implementation-specific Result, and
+ */
 export interface Task {
   status: TaskStatus | number;
+  result?: Result;
   /**
    * Set of runtime configuration options
-   * This is intended to be rendered as a <form> in a front-end application
-   * for instance with http://schemaform.io/
+   * This is intended to be rendered as a `<form>` in a front-end application
+   * for instance by utilizing http://schemaform.io/
    */
-  getOptionSchema: (...params: any[]) => JsonSchema;
+  getOptionsSchema: () => JsonSchema;
   /**
-   * Sets an object that is compatible with the Schema returned by {@link getOptions}
+   * Sets an object that is compatible with the JsonSchema returned by {@link getOptionsSchema}
    * Implementations are expected to provide validation
    */
   setOptions: (options: object) => void;
 
-  on(event: events, handler: StepEventHandler<this>): this;
+  on(event: events, handler: TaskEventHandler<this>): this;
 
   /**
-   * A Step needs to know how to execute itself,
-   * however progress and results should be provided via events since they can involve human execution and so on
+   * Implementation for the execution of the Task.
+   * Progress and results should be provided via events since they can involve human execution and
+   * other assyncronous out-of-process events
    */
   run(): void;
 
   /**
-   * Returns the current Step's status, rounded down to the nearest StepStatus
+   * Returns the current Task's status, rounded down to the nearest TaskStatus
+   * (i.e. ignoring custom intermediate status)
    */
   getStatus(): TaskStatus | number;
 

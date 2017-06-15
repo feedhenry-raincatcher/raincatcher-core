@@ -9,6 +9,8 @@ describe('BaseTask', function() {
 
   suite(() => new BaseTask());
 
+  it('should have a default status of pending');
+
   describe('run', function() {
     it('should set the status to done');
   });
