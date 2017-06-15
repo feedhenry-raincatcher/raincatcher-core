@@ -5,13 +5,13 @@
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
+  "main": "src/",
   "scripts": {
     "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "test": "nyc mocha",
-    "debug": "node --inspect-brk ./node_modules/.bin/_mocha",
-    "prepublish": "npm run clean && npm run build"
+    "test": "npm run clean && nyc mocha",
+    "debug": "node --inspect-brk ./node_modules/.bin/_mocha"
   },
   "nyc": {
     "include": [

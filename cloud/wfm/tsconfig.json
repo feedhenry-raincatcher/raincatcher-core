@@ -8,8 +8,7 @@
         "strictNullChecks": true,
         "alwaysStrict": true,
         "sourceMap": true,
-        "strict": true,
-        "outDir": "lib/"
+        "strict": true
     },
     "include": [
         "src/",
