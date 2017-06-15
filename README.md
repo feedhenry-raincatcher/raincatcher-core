@@ -119,6 +119,10 @@ We recommend users to write their code in TypeScript, especially if their new Ra
 
 See the example on [examples/js]() for more information also for reusing the unit test suites from JavaScript code.
 
+### Publishing modules
+
+Before publishing the typescript modules, do a manual compilation step via `npm run build` on the root of the repository.
+
 ### Repository commands
 
  `npm run test` - run unit tests
@@ -128,5 +132,7 @@ See the example on [examples/js]() for more information also for reusing the uni
  `npm run start` - run top level applications
 
  `npm run lint` - execute tslint for all modules
+
+ `npm run build` - execute the build command for all modules, compiling TypeScript sources to JavaScript
 
  `npm run cleanInstall` - perform install without executing additional scripts
