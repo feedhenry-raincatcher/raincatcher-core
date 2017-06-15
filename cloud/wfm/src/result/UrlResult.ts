@@ -3,12 +3,12 @@ import * as nodeUrl from 'url';
 import {Result} from './index';
 
 /**
- * Represents a Result that can be accessed via a URL
+ * Represents a {@link Result} that can be accessed via a URL
  */
 export default class UrlResult implements Result {
   public type: 'UrlResult';
   /**
-   * Convenience object parsed by url.parse
+   * Convenience object parsed by url.parse()
    */
   public urlObject: nodeUrl.UrlObject;
   constructor(public url: string) {
