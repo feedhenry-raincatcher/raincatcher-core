@@ -42,14 +42,14 @@ class InstanceImpl extends EventEmitter implements ProcessInstance {
   public currentTask: Task;
   public tasks: Task[];
 
-  protected currentStepIdx: number;
+  protected currentTaskIdx: number;
 
   // TODO: add repository for data storage
   constructor(initialSteps: Task[]) {
     super();
     this.tasks = _.cloneDeep(initialSteps);
     this.currentTask = this.tasks[0];
-    this.currentStepIdx = 0;
+    this.currentTaskIdx = 0;
   }
 
   public getId() {
@@ -57,7 +57,7 @@ class InstanceImpl extends EventEmitter implements ProcessInstance {
   }
 
   public next() {
-    this.currentTask = this.tasks[++this.currentStepIdx];
+    this.currentTask = this.tasks[++this.currentTaskIdx];
     const e: InstanceStepEventData<this> = {
       instance: this,
       task: this.currentTask
