@@ -9,5 +9,6 @@ export interface Result {
 import BooleanResult from './BooleanResult';
 export { BooleanResult };
 
+// Use UrlResult as default export since it's a simple implementation that can handle lots of use cases
 import UrlResult from './UrlResult';
 export default UrlResult;
