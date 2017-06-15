@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { Process } from '../process';
 import { Task } from '../task';
 
-export interface InstanceStepEventData<T extends ProcessInstance>  {
+export interface InstanceTaskEventData<T extends ProcessInstance>  {
   instance: T;
   task: Task;
 }
@@ -31,7 +31,7 @@ export interface ProcessInstance extends EventEmitter {
   /**
    * Event emitted when
    */
-  on(event: 'task:change', handler: (e: InstanceStepEventData<this>) => any): this;
+  on(event: 'task:change', handler: (e: InstanceTaskEventData<this>) => any): this;
   on(event: 'process:done', handler: (e: InstanceEventData<this>) => any): this;
 }
 
@@ -45,9 +45,9 @@ class InstanceImpl extends EventEmitter implements ProcessInstance {
   protected currentTaskIdx: number;
 
   // TODO: add repository for data storage
-  constructor(initialSteps: Task[]) {
+  constructor(initialTasks: Task[]) {
     super();
-    this.tasks = _.cloneDeep(initialSteps);
+    this.tasks = _.cloneDeep(initialTasks);
     this.currentTask = this.tasks[0];
     this.currentTaskIdx = 0;
   }
@@ -58,11 +58,11 @@ class InstanceImpl extends EventEmitter implements ProcessInstance {
 
   public next() {
     this.currentTask = this.tasks[++this.currentTaskIdx];
-    const e: InstanceStepEventData<this> = {
+    const e: InstanceTaskEventData<this> = {
       instance: this,
       task: this.currentTask
     };
-    this.emit('step:change', e);
+    this.emit('task:change', e);
     return Promise.resolve(this.currentTask);
   }
 
