@@ -1,7 +1,10 @@
 import { Task } from '../../src/task';
 function suite(taskFactory: () => Task) {
   describe('Task Interface', function() {
-    it('should emit a statusChange event on a changed status');
+    describe('#status property', function() {
+      it('should emit a statusChange event when set');
+      it('should not emit a statusChange event when set to the same value');
+    });
     describe('#getStatus', function() {
       it('should round a custom status number to a value on the TaskStatus enum');
     });

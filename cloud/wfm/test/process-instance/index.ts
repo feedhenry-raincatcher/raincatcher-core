@@ -22,7 +22,7 @@ function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
     });
 
     it('next() should fire events related to a change in the active Task', function(done) {
-      instance.on('task:change', function(e) {
+      instance.on('task:statusChange', function(e) {
         assert(e.instance === instance);
         done();
       });

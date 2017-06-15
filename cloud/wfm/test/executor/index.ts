@@ -5,6 +5,14 @@ import Process from '../../src/process';
 import { ProcessInstance } from '../../src/process-instance';
 import BaseTask, { Task, TaskStatus } from '../../src/task';
 
+class NoopTask extends BaseTask {
+  // BaseTask's implementation should be the same,
+  // but this is so these tests don't rely on it
+  public run() {
+    this.status = TaskStatus.done;
+  }
+}
+
 function suite(executorFactory: (process: Process) => Executor) {
   describe('Executor', function() {
     let executor: Executor;
@@ -12,9 +20,9 @@ function suite(executorFactory: (process: Process) => Executor) {
     beforeEach(function() {
       const process = new Process('sample');
       process.tasks = [
-        new BaseTask(),
-        new BaseTask(),
-        new BaseTask()
+        new NoopTask(),
+        new NoopTask(),
+        new NoopTask()
       ];
       executor = executorFactory(process);
     });
@@ -27,7 +35,7 @@ function suite(executorFactory: (process: Process) => Executor) {
       if (!executor.instance) {
         return done(new Error('instance should not be null'));
       }
-      executor.instance.on('process:done', function(e) {
+      executor.instance.on('done', function(e) {
         e.instance.getTasks()
           .each<Task, void>(t => assert(t.getStatus() === TaskStatus.done))
           .then(() => done());
