@@ -5,11 +5,12 @@
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
+  "main": "src/",
   "scripts": {
     "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
-    "test": "nyc mocha",
-    "prepublish": "npm run clean && npm run build"
+    "start": "ts-node src/index.ts",
+    "test": "npm run clean && nyc mocha"
   },
   "nyc": {
     "include": [
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.0.35",
+    "@types/express-session": "^1.15.0",
     "@types/mocha": "^2.2.41",
     "@types/passport": "^0.3.2",
     "@types/passport-local": "^1.0.0",
@@ -40,6 +42,7 @@
   },
   "dependencies": {
     "express": "^4.15.3",
+    "express-session": "^1.15.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0"
   }

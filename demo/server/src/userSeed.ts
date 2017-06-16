@@ -34,7 +34,7 @@ const userSeedData: User[] = [
     password: '123',
     phone: '2657548176',
     position: 'Junior Dispatcher',
-    username: 'daisy',
+    username: 'daisy'
   },
   {
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/davidburlton/128.jpg',
@@ -46,7 +46,7 @@ const userSeedData: User[] = [
     password: '123',
     phone: '2657134154',
     position: 'Manager',
-    username: 'max',
+    username: 'max'
   },
   {
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
@@ -58,7 +58,7 @@ const userSeedData: User[] = [
     password: '123',
     phone: '2657343446',
     position: 'Phone Support',
-    username: 'phylis',
+    username: 'phylis'
   }
 ];
 
