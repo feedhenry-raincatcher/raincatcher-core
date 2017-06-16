@@ -29,7 +29,7 @@ import * as sync from 'fh-sync-js';
 // Provide backwards compatibility with upstream documentation and examples
 const $fh = { sync };
 
-const options = {
+const options: sync.SyncOptions = {
   cloudUrl: 'http://localhost:3000',
   sync_frequency: 10,
   storage_strategy: 'dom'

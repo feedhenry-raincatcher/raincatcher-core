@@ -4,7 +4,7 @@ import * as sync from 'fh-sync-js';
 const $fh = { sync };
 const datasetId = 'UserTasks';
 
-const options = {
+const options: sync.SyncOptions = {
   cloudUrl: 'http://localhost:3000',
   sync_frequency: 10,
   storage_strategy: 'dom'
