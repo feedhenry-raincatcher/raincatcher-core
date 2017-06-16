@@ -1,7 +1,7 @@
 import Logger, {LOG_LEVEL} from './Logger';
 import * as bunyan from 'bunyan';
 
-class BunyanLogger implements Logger{
+export class BunyanLogger implements Logger{
     logger:bunyan;
 
     constructor(logLevel: LOG_LEVEL){
@@ -28,5 +28,5 @@ class BunyanLogger implements Logger{
     warn(message: string, object: any): void {
         this.logger.warn(message,object);
     }
-
 }
+
