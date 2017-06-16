@@ -7,5 +7,6 @@ export * from './options/SyncDatasetOptions';
 export * from './SyncApi';
 export * from './web/SyncWebExpress';
 
-export {sync as NativeSync};
+export { sync as NativeSync };
+export { SyncServer };
 export default SyncServer;
