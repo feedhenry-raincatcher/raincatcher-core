@@ -8,4 +8,5 @@ export * from './SyncApi';
 export * from './web/SyncWebExpress';
 
 export {sync as NativeSync};
+export {SyncServer};
 export default SyncServer;

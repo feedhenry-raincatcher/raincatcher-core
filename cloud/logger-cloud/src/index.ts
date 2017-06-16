@@ -2,7 +2,8 @@
  * Created by acunningham on 15/06/17.
  */
 
-export * from  './Logger';
-export * from  './BunyanLogger';
+import {BunyanLogger} from './BunyanLogger'
 
+export {Logger, LOG_LEVEL} from  './Logger';
+export {BunyanLogger} from  './BunyanLogger';
 

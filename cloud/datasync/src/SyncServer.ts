@@ -4,6 +4,7 @@ import {setupGlobalHandlers, setupHandlers} from './crud-handlers/HandlerMapper'
 import SyncDataSetOptions from './options/SyncDatasetOptions';
 import SyncOptions from './options/SyncGlobalOptions';
 import SyncApi from './SyncApi';
+import {BunyanLogger} from '../../logger-cloud/src/index'
 
 /**
  * Implementation for sync server side api
@@ -21,6 +22,7 @@ export const SyncServer: SyncApi = {
     }
     const sdo = options.datasetConfiguration;
     sync.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function(err: any) {
+      
       callback(err);
     });
   },
