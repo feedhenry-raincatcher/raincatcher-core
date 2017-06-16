@@ -6,23 +6,25 @@ const datasetId = 'UserTasks';
 
 const options = {
   cloudUrl: 'http://localhost:3000',
-  sync_frequency: 10
+  sync_frequency: 10,
+  storage_strategy: 'dom'
 };
 
 $fh.sync.init(options);
 
 const queryParams = {};
-const metaMata = {};
+const metaData = {};
+
 const task: any = {
   name: 'test task',
   status: 'finished'
 };
 
-$fh.sync.manage(datasetId, options, queryParams, metaMata, function() {
+$fh.sync.manage(datasetId, options, queryParams, metaData, function() {
   $fh.sync.doCreate(datasetId, task, function(data) {
     // tslint:disable-next-line:no-console
     console.log('Data Saved', data);
-    $fh.sync.doUpdate(datasetId, data.localId, function(result) {
+    $fh.sync.doUpdate(datasetId, data.localId, function(result: any) {
        // tslint:disable-next-line:no-console
       console.log('Data updated', result);
     }, function(err) {

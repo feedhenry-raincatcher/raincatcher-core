@@ -1,13 +1,12 @@
 /// <reference types="mocha" />
-let api: any;
+import sync from '../src/index';
 
 describe('Client Tests', function() {
-  beforeEach(function() {
-    api = { test: 5 };
-  });
   describe('#test api', function() {
     it('api should be available', function() {
-      api.test = 4;
+      if (!sync.doList) {
+        throw new Error('Api not mounted');
+      }
     });
   });
 });

@@ -4,4 +4,3 @@ import * as sync from 'fh-sync-js';
 export {sync};
 // Support named import
 export default sync;
-
