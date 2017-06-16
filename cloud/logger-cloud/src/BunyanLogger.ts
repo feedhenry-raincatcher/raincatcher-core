@@ -1,6 +1,7 @@
 import Logger, {LOG_LEVEL} from './Logger';
 import * as bunyan from 'bunyan';
 
+
 export class BunyanLogger implements Logger{
     logger:bunyan;
 
@@ -30,3 +31,7 @@ export class BunyanLogger implements Logger{
     }
 }
 
+
+// basic usage
+/*let logger = new BunyanLogger(LOG_LEVEL.DEBUG);
+logger.debug("debug message ", {test:"test"});*/

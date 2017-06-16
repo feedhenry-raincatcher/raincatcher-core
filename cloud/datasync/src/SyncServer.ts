@@ -4,7 +4,10 @@ import {setupGlobalHandlers, setupHandlers} from './crud-handlers/HandlerMapper'
 import SyncDataSetOptions from './options/SyncDatasetOptions';
 import SyncOptions from './options/SyncGlobalOptions';
 import SyncApi from './SyncApi';
-import {BunyanLogger} from '../../logger-cloud/src/index'
+import {BunyanLogger,LOG_LEVEL} from '../../logger-cloud/src/index';
+//import {BunyanLogger,LOG_LEVEL} from '@raincatcher/logger-cloud'; this don't work 
+
+const log = new BunyanLogger(LOG_LEVEL.DEBUG);
 
 /**
  * Implementation for sync server side api
@@ -22,7 +25,7 @@ export const SyncServer: SyncApi = {
     }
     const sdo = options.datasetConfiguration;
     sync.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function(err: any) {
-      
+      log.debug("SyncServer sync.connect Error", err);
       callback(err);
     });
   },
@@ -42,6 +45,7 @@ export const SyncServer: SyncApi = {
     registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions, dataHandler?: DataSetHandler) {
     sync.init(datasetId, options, function(err: any) {
       if (err) {
+        log.debug("SyncServer sync.init Error", err);
         throw new Error(err);
       } else {
         // set optional custom collision handler if its a function
