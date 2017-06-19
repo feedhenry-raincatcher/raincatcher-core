@@ -1,9 +1,4 @@
-/**
- * Created by acunningham on 15/06/17.
- */
+import {BunyanLogger} from './BunyanLogger';
 
-import {BunyanLogger} from './BunyanLogger'
-
-export {Logger, LOG_LEVEL} from  './Logger';
+export {Logger} from  './Logger';
 export {BunyanLogger} from  './BunyanLogger';
-
