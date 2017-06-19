@@ -3,7 +3,6 @@
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
-import * as session from 'express-session';
 import * as logger from 'morgan';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
@@ -17,7 +16,6 @@ app.use(logger(config.morganOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({secret: 'test', resave: false, saveUninitialized: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 
