@@ -6,14 +6,15 @@ export class BunyanLogger implements Logger{
     logger:bunyan;
 
     constructor(logLevel: LOG_LEVEL){
-        const log = bunyan.createLogger({ name: '__filename', level:logLevel});
+        const log = bunyan.createLogger({ name: '__filename', level:logLevel})
     }
 
-    log(message: string, object: any): void {
-
-    }
+    /*log(message: string, object: any): void {
+        this.logger.log(message,object);
+    }*/
 
     debug(message: string, object: any): void {
+        console.log;
         this.logger.debug(message,object);
     }
 
@@ -23,11 +24,11 @@ export class BunyanLogger implements Logger{
 
 
     info(message: string, object: any): void {
-        this.logger.info(message,object);
+        this.info(message,object);
     }
 
     warn(message: string, object: any): void {
-        this.logger.warn(message,object);
+        this.warn(message,object);
     }
 }
 

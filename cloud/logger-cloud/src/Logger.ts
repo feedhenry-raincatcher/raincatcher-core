@@ -5,7 +5,7 @@
 
 
 export interface Logger {
-    log(message:string, object:any): void;
+    //log(message:string, object:any): void;
     debug(message:string, object:any): void;
     error(message:string, object:any): void;
     info(message:string, object:any): void;
@@ -13,11 +13,11 @@ export interface Logger {
 }
 
 export enum LOG_LEVEL {
-    LOG,
-    DEBUG,
-    ERROR,
-    INFO,
-    WARN
+    log,
+    debug,
+    error,
+    info,
+    warn
 }
 
 export default Logger;
