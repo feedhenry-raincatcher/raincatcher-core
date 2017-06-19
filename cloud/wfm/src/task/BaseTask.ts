@@ -11,7 +11,7 @@ class BaseTask extends EventEmitter implements Task {
   /**
    * Storage field for the `status` property
    */
-  protected _status: TaskStatus | number = TaskStatus.pending;
+  protected _status: TaskStatus | number = TaskStatus.PENDING;
   protected options: object;
 
   /**
@@ -46,7 +46,7 @@ class BaseTask extends EventEmitter implements Task {
    * This implementation simply sets the status to {@link TaskStatus#done}
    */
   public run() {
-    this.status = TaskStatus.done;
+    this.status = TaskStatus.DONE;
   }
 
   public getOptionsSchema = () => ({});
@@ -57,7 +57,7 @@ class BaseTask extends EventEmitter implements Task {
 
   public getStatus() {
     const roundedDownStatus = this.status - (this.status % 100);
-    return roundedDownStatus || TaskStatus.pending;
+    return roundedDownStatus || TaskStatus.PENDING;
   }
 }
 
