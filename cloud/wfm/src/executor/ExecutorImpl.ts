@@ -28,6 +28,6 @@ export default class ExecutorImpl implements Executor {
   }
   protected runCurrentTask() {
     this.instance.getCurrentTask()
-      .then(t => t.on('statusChange', this.onTaskDone).run());
+      .then(t => t.on('statusChange', this.onTaskDone.bind(this)).run());
   }
 }

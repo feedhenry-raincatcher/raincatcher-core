@@ -1,9 +1,9 @@
 import * as assert from 'assert';
-import InstanceImpl, {ProcessInstance} from '../../src/process-instance';
-import BaseTask, {Task} from '../../src/task';
+import InstanceImpl, {InstanceEventData, ProcessInstance} from '../../src/process-instance';
+import BaseTask, {Task, TaskStatus} from '../../src/task';
 
 function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
-  describe('ProcessInstance Interface', function() {
+  describe('implementing ProcessInstance', function() {
     let instance: ProcessInstance;
     beforeEach(function() {
       instance = instanceFactory([
@@ -22,14 +22,21 @@ function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
     });
 
     it('next() should fire events related to a change in the active Task', function(done) {
-      instance.on('task:statusChange', function(e) {
-        assert(e.instance === instance);
+      instance.on('taskChange', function(e) {
+        assert(e.instance === instance, 'Instance from event should be the same as the test fixture');
         done();
       });
       instance.next();
     });
 
-    it('should fire an event when all Tasks are done');
+    it('should fire an event when all Tasks are done', function(done) {
+      instance.on('done', e => {
+        assert(e.instance === instance, 'Instance from event should be the same as the test fixture');
+        done();
+      });
+      instance.getTasks()
+        .each<Task, any>(task => task.status = TaskStatus.done);
+    });
   });
 }
 

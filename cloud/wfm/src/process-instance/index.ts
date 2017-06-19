@@ -30,9 +30,9 @@ export interface ProcessInstance extends EventEmitter {
   getId(): string;
 
   /**
-   * Event emitted when
+   * Event emitted when the current active task changes to the next one
    */
-  on(event: 'task:statusChange', handler: (e: InstanceTaskEventData<this>) => any): this;
+  on(event: 'taskChange', handler: (e: InstanceTaskEventData<this>) => any): this;
   /**
    * Event emitted when all {@link Task}s achieve the done state
    */
