@@ -38,7 +38,8 @@ function suite(executorFactory: (process: Process) => Executor) {
       executor.instance.on('done', function(e) {
         e.instance.getTasks()
           .each<Task, void>(t => assert(t.getStatus() === TaskStatus.done))
-          .then(() => done());
+          .then(() => done())
+          .catch(done);
       });
       executor.start();
     });

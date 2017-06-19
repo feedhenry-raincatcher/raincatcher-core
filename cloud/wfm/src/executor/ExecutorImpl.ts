@@ -19,7 +19,7 @@ export default class ExecutorImpl implements Executor {
   protected onTaskDone(e: TaskEventData<Task>) {
     if (e.currentStatus === TaskStatus.done) {
       Promise.resolve(this.instance.next())
-        .then(() => this.saveInstance)
+        .then(() => this.saveInstance())
         .then(() => this.runCurrentTask());
     }
   }
@@ -28,6 +28,12 @@ export default class ExecutorImpl implements Executor {
   }
   protected runCurrentTask() {
     this.instance.getCurrentTask()
-      .then(t => t.on('statusChange', this.onTaskDone.bind(this)).run());
+    .then(t => {
+      // currentTask is undefined after all are done
+      if (!t) {
+        return;
+      }
+      return t.on('statusChange', this.onTaskDone.bind(this)).run();
+    });
   }
 }
