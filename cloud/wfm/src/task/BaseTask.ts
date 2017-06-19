@@ -22,13 +22,16 @@ class BaseTask extends EventEmitter implements Task {
     if (to === this._status) {
       return;
     }
+    const previousStatus = this.getStatus();
+    this._status = to;
+    const currentStatus = this.getStatus();
+
     const e: TaskEventData<this> = {
       date: new Date(),
-      previousStatus: this.getStatus(),
-      currentStatus: this.getStatus(),
+      previousStatus,
+      currentStatus,
       task: this
     };
-    this._status = to;
     this.emit('statusChange', e);
   }
 
