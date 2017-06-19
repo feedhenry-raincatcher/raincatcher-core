@@ -25,27 +25,27 @@ export enum TaskStatus {
   /**
    * Indicates that the Task has been created and is unnassigned
    */
-  'pending' = 0,
+  'PENDING' = 0,
   /**
    * Indicates that the Task has been assigned to an executor and is pending initiation
    */
-  'assigned' = 100,
+  'ASSIGNED' = 100,
   /**
    * Indicates that the Task has begun being executed
    */
-  'in progress' = 200,
+  'IN_PROGRESS' = 200,
   /**
    * Indicates that the Task has finished successfully
    */
-  'done' = 300,
+  'DONE' = 300,
   /**
    * Indicates that the Task has had its execution paused by a resolvable issue and can be resumed
    */
-  'blocked' = 400,
+  'BLOCKED' = 400,
   /**
    * Indicates that the Task has finished in an unpredicted and unrecoverable state
    */
-  'error' = 500
+  'ERROR' = 500
 }
 
 type events = 'statusChange';

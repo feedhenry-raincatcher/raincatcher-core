@@ -51,7 +51,7 @@ export default class InstanceImpl extends EventEmitter implements ProcessInstanc
   }
 
   protected checkDone() {
-    if (every(this.tasks, t => t.getStatus() === TaskStatus.done)) {
+    if (every(this.tasks, t => t.getStatus() === TaskStatus.DONE)) {
       const e: InstanceEventData<this> = {
         instance: this
       };
