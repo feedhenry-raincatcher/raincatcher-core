@@ -1,54 +1,51 @@
 import * as express from 'express';
 import * as passport from 'passport';
-import BaseUser from '../user/BaseUser';
-import UserSecService from '../user/UserSec';
+import {BaseUser} from '../user/BaseUser';
+import {UserSecService} from '../user/UserSec';
 
 interface Auth {
-  protect(req: express.Request, res: express.Response, next: () => void): void; // protect/authenticate?
-  login(opts?: object): void;
+  login(strategy: string, opts?: object): void;
+  protect(role: string, loginRoute: string): void;
+  isAuthenticated(req: express.Request): boolean;
+  getUserProfile(userId: string): void;
   logout(req: express.Request): void;
-  isAuthenticated(req: express.Request, res: express.Response, next: () => void): void;
-  getUserProfile(req: express.Request): void;
 }
 
-class PassportAuth<T extends BaseUser> implements Auth {
-  protected strategy: string;
-  protected loginRoute: string;
+export class PassportAuth<T extends BaseUser> implements Auth {
   protected userSec: UserSecService<T>;
 
-  constructor(protected readonly Strategy: string, LoginRoute: string, UserSec: UserSecService<T>) {
-    this.strategy = Strategy;
-    this.loginRoute = LoginRoute;
+  constructor(protected readonly UserSec: UserSecService<T>) {
     this.userSec = UserSec;
   }
-  public protect(req: express.Request, res: express.Response, next: () => void) {
-    if (this.isAuthenticated(req, res, next)) {
-      // add check for role here.
-      return next();
-    } else {
-      res.redirect(this.loginRoute);
-    }
-  }
 
-  public login(opts?: object) {
+  public login(strategy: string, opts?: object) {
     if (!opts) {
       opts = {};
     }
-
-    passport.authenticate(this.strategy, opts);
+    return passport.authenticate(strategy, opts);
   }
 
-  public logout(req: express.Request) {
-    return req.logout();
+  public protect(role: string, loginRoute: string) {
+    return function(req: express.Request, res: express.Response, next: () => void) {
+      if (req.isAuthenticated()) {
+        // add check for role here.
+        return next();
+      } else {
+        res.redirect(loginRoute);
+      }
+    };
   }
 
-  public isAuthenticated(req: express.Request, res: express.Response, next: () => void) {
+  public isAuthenticated(req: express.Request) {
     return req.isAuthenticated();
   }
 
-  public getUserProfile(req: express.Request) {
-    return this.userSec.getProfileData(req.user);
+  public getUserProfile(userId: string) {
+    return this.userSec.getProfileData(userId);
+  }
+
+  public logout(req: express.Request) {
+    req.logout();
+    // add a redirect here to homepage/logoutRoute/etc.?
   }
 }
-
-export default PassportAuth;

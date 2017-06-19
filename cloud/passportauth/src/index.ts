@@ -6,4 +6,4 @@ export * from './user/UserSec';
 export * from './auth/PassportSetup';
 export * from './auth/PassportAuth';
 
-export {passport as NativePassport};
+export {passport};

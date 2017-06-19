@@ -9,6 +9,7 @@ export interface User {
   phone: string;
   position: string;
   username: string;
+  roles: string[];
 }
 
 const userSeedData: User[] = [
@@ -22,7 +23,8 @@ const userSeedData: User[] = [
     password: '123',
     phone: '2657258272',
     position: 'Senior Truck Driver',
-    username: 'trever'
+    username: 'trever',
+    roles: []
   },
   {
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/madysondesigns/128.jpg',
@@ -34,7 +36,8 @@ const userSeedData: User[] = [
     password: '123',
     phone: '2657548176',
     position: 'Junior Dispatcher',
-    username: 'daisy'
+    username: 'daisy',
+    roles: []
   },
   {
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/davidburlton/128.jpg',
@@ -46,7 +49,8 @@ const userSeedData: User[] = [
     password: '123',
     phone: '2657134154',
     position: 'Manager',
-    username: 'max'
+    username: 'max',
+    roles: []
   },
   {
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
@@ -58,7 +62,8 @@ const userSeedData: User[] = [
     password: '123',
     phone: '2657343446',
     position: 'Phone Support',
-    username: 'phylis'
+    username: 'phylis',
+    roles: []
   }
 ];
 

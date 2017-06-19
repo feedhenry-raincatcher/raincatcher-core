@@ -4,5 +4,3 @@ export interface BaseUser {
   password: string;
   roles: string[];
 }
-
-export default BaseUser;
