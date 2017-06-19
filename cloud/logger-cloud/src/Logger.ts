@@ -1,7 +1,3 @@
-/**
- * Created by acunningham on 15/06/17.
- */
-
 
 
 export interface Logger {
@@ -10,14 +6,6 @@ export interface Logger {
     error(message:string, object:any): void;
     info(message:string, object:any): void;
     warn(message:string, object:any): void;
-}
-
-export enum LOG_LEVEL {
-    log,
-    debug,
-    error,
-    info,
-    warn
 }
 
 export default Logger;

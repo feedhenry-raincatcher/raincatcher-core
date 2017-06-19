@@ -1,20 +1,14 @@
-import Logger, {LOG_LEVEL} from './Logger';
+import Logger from './Logger';
 import * as bunyan from 'bunyan';
-
 
 export class BunyanLogger implements Logger{
     logger:bunyan;
 
-    constructor(logLevel: LOG_LEVEL){
-        const log = bunyan.createLogger({ name: '__filename', level:logLevel})
+    constructor(options: bunyan.LoggerOptions){
+        this.logger = bunyan.createLogger(options)
     }
 
-    /*log(message: string, object: any): void {
-        this.logger.log(message,object);
-    }*/
-
     debug(message: string, object: any): void {
-        console.log;
         this.logger.debug(message,object);
     }
 
@@ -24,15 +18,12 @@ export class BunyanLogger implements Logger{
 
 
     info(message: string, object: any): void {
-        this.info(message,object);
+      this.logger.info(message,object);
     }
 
     warn(message: string, object: any): void {
-        this.warn(message,object);
+      this.logger.warn(message,object);
     }
 }
 
-
-// basic usage
-/*let logger = new BunyanLogger(LOG_LEVEL.DEBUG);
-logger.debug("debug message ", {test:"test"});*/
+export default BunyanLogger;
