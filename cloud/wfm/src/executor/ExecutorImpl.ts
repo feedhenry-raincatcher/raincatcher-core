@@ -5,7 +5,6 @@ import {Task, TaskEventData, TaskStatus} from '../task';
 import {Executor} from './index';
 import {InstanceRepository} from './InstanceRepository';
 
-export {InstanceRepository};
 export default class ExecutorImpl implements Executor {
   public instance: ProcessInstance;
   constructor(public process: Process, public instanceRepository: InstanceRepository) {

@@ -12,6 +12,6 @@ export interface Executor {
   start(): void;
 }
 
-import ExecutorImpl, {InstanceRepository} from './ExecutorImpl';
-export {InstanceRepository};
+import ExecutorImpl from './ExecutorImpl';
+export {InstanceRepository} from './InstanceRepository';
 export default ExecutorImpl;
