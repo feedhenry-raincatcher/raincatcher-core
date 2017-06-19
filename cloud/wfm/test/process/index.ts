@@ -8,14 +8,14 @@ function suite(processFactory: (name: string) => Process) {
     let process: Process;
     beforeEach(function() {
       process = processFactory('Example Process');
-    });
-    it('should allow for defining a set of Steps', function() {
       process.tasks = [
         new Task(),
         new Task(),
         new Task(),
         new Task()
       ];
+    });
+    it('should allow for defining a set of Steps', function() {
       assert(Array.isArray(process.tasks));
     });
 

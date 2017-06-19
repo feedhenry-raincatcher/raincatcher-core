@@ -9,6 +9,9 @@ export default class ProcessImpl implements Process {
   }
 
   public createInstance() {
+    if (!this.tasks || this.tasks.length === 0) {
+      throw new Error('Task list must be set before calling createInstance()');
+    }
     const instance = new Instance(this.tasks);
     return instance;
   }

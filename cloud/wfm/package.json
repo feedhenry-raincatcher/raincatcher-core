@@ -21,8 +21,10 @@
       ".ts"
     ],
     "require": [
-      "ts-node/register"
+      "ts-node/register",
+      "source-map-support/register"
     ],
+    "produce-source-map": true,
     "check-coverage": true,
     "lines": 75,
     "functions": 100,
