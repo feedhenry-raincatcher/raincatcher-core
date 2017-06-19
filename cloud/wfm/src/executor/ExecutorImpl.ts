@@ -3,11 +3,9 @@ import {Process} from '../process';
 import {ProcessInstance} from '../process-instance';
 import {Task, TaskEventData, TaskStatus} from '../task';
 import {Executor} from './index';
+import {InstanceRepository} from './InstanceRepository';
 
-export interface InstanceRepository {
-  save(instance: ProcessInstance): Promise<ProcessInstance>;
-}
-
+export {InstanceRepository};
 export default class ExecutorImpl implements Executor {
   public instance: ProcessInstance;
   constructor(public process: Process, public instanceRepository: InstanceRepository) {
