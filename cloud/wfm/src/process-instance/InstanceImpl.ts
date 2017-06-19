@@ -16,6 +16,9 @@ export default class InstanceImpl extends EventEmitter implements ProcessInstanc
   // TODO: add repository for data storage
   constructor(initialTasks: Task[]) {
     super();
+    if (!initialTasks || initialTasks.length === 0) {
+      throw new Error('Task list must have at least one item');
+    }
     this.tasks = cloneDeep(initialTasks);
     this.currentTask = this.tasks[0];
     this.currentTaskIdx = 0;
