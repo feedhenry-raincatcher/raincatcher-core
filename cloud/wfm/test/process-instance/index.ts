@@ -21,12 +21,12 @@ function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
       instance.assigneeId = 'trever';
     });
 
-    it('next() should fire events related to a change in the active Task', function(done) {
+    it('nextTask() should fire events related to a change in the active Task', function(done) {
       instance.on('taskChange', function(e) {
         assert(e.instance === instance, 'Instance from event should be the same as the test fixture');
         done();
       });
-      instance.next();
+      instance.nextTask();
     });
 
     it('should fire an event when all Tasks are done', function(done) {

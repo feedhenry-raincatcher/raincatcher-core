@@ -25,7 +25,7 @@ export interface ProcessInstance extends EventEmitter {
    * @return A promise that resolves to the next task in it's list,
    * so implementation be async
    */
-  next(): Promise<Task>;
+  nextTask(): Promise<Task>;
 
   getId(): string;
 

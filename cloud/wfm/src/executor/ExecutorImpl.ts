@@ -15,7 +15,7 @@ export default class ExecutorImpl implements Executor {
   }
   protected onTaskDone(e: TaskEventData<Task>) {
     if (e.currentStatus === TaskStatus.DONE) {
-      Promise.resolve(this.instance.next())
+      Promise.resolve(this.instance.nextTask())
         .then(() => this.saveInstance())
         .then(() => this.runCurrentTask());
     }
