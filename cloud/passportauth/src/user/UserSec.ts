@@ -1,24 +1,27 @@
-import BaseUser from './BaseUser';
-import UserApiService from './UserApi';
+import {BaseUser} from './BaseUser';
+import {UserApiService} from './UserApi';
 
-export interface UserSec {
-  getLogin(id: string): void;
-  // getPassword(id: string): string;
-  comparePassword(id: string, password: string): void;
+export interface UserSec<T extends BaseUser> {
+  getUserId(username: string): Promise<string>;
+  comparePassword(id: string, password: string): Promise<boolean>;
+  getProfileData(id: string): Promise<T>;
   // getRoles(id: string): any;
-  getProfileData(id: string): void;
 }
 
-class UserSecService<T extends BaseUser> implements UserSec {
+export class UserSecService<T extends BaseUser> implements UserSec<T> {
   protected userApi: UserApiService<T>;
 
   constructor(protected readonly userApiService: UserApiService<T>) {
     this.userApi = userApiService;
   }
 
-  public getLogin(id: string) {
-    return this.userApi.read(id).then((user) => {
-      return user.username;
+  public getUserId(username: string) {
+    return this.userApi.read(username).then((user) => {
+      let id = null;
+      if (user) {
+        id = user.id;
+      }
+      return id;
     });
   }
 
@@ -34,9 +37,5 @@ class UserSecService<T extends BaseUser> implements UserSec {
     });
   }
 
-  // public getPassword(id: string)
-
   // getRoles(id: string)
 }
-
-export default UserSecService;

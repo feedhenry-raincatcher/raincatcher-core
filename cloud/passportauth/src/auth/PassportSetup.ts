@@ -2,8 +2,8 @@ import * as express from 'express';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import {Strategy} from 'passport-local';
-import BaseUser from '../user/BaseUser';
-import UserSecService from '../user/UserSec';
+import {BaseUser} from '../user/BaseUser';
+import {UserSecService} from '../user/UserSec';
 
 export interface Setup {
   init(app: express.Express): void;
@@ -12,7 +12,7 @@ export interface Setup {
   setDeserializeUser(): void;
 }
 
-class PassportSetup<T extends BaseUser> {
+export class PassportSetup<T extends BaseUser> {
   protected userSec: UserSecService<T>;
 
   constructor(protected readonly userSecService: UserSecService<T>) {
@@ -20,6 +20,7 @@ class PassportSetup<T extends BaseUser> {
   }
 
   public init(app: express.Express) {
+    console.log('initializing passport');
     app.use(session({secret: 'test', resave: false, saveUninitialized: false}));
     app.use(passport.initialize());
     app.use(passport.session());
@@ -30,44 +31,38 @@ class PassportSetup<T extends BaseUser> {
   }
 
   public setStrategy() {
+    console.log('initializing strategy');
     passport.use(new Strategy((username, password, done) => {
-      this.userSec.getLogin(username).then((user) => {
-        if (!user) {
+      this.userSec.getUserId(username).then((userId: string) => {
+        if (!userId) {
           return done(null, false);
         } else {
           this.userSec.comparePassword(username, password).then((valid) => {
             if (valid) {
-              return done(null, username);
+              return done(null, userId);
             } else {
               return done(null, false);
             }
           });
         }
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         return done(err);
       });
     }));
   }
 
   public setSerializeUser() {
+    console.log('initializing user serialize function');
     passport.serializeUser((user: T, done) => {
       return done(null, user);
     });
   }
 
   public setDeserializeUser() {
-    // set deserialize function
+    console.log('initializing user deserialize function');
     passport.deserializeUser((id: string, done) => {
       return done(null, id);
-      // this.userSec.getProfileData(id).then((user) => {
-      //   return done(null, user.id);
-      // })
-      // .catch((err) => {
-      //   return done(err);
-      // });
     });
   }
 }
-
-export default PassportSetup;
