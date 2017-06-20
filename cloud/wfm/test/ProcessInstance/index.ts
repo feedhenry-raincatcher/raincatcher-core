@@ -1,6 +1,8 @@
 import * as assert from 'assert';
-import InstanceImpl, {InstanceEventData, ProcessInstance} from '../../src/process-instance';
-import BaseTask, {Task, TaskStatus} from '../../src/task';
+import ProcessInstance, {InstanceEventData} from '../../src/process-instance/ProcessInstance';
+import InstanceImpl from '../../src/process-instance/ProcessInstanceImpl';
+import BaseTask from '../../src/task/BaseTask';
+import Task, {TaskStatus} from '../../src/task/Task';
 
 function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
   describe('implementing ProcessInstance', function() {

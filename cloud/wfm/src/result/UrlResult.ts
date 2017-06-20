@@ -1,6 +1,6 @@
 // NOTE: browserify can provide an implementation for node's url module
 import * as nodeUrl from 'url';
-import {Result} from './index';
+import Result from './Result';
 
 /**
  * Represents a {@link Result} that can be accessed via a URL

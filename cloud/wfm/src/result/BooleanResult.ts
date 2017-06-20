@@ -1,4 +1,4 @@
-import {Result} from './index';
+import Result from './Result';
 
 /**
  * Represents a {@link Result} that can be represented via a boolean value

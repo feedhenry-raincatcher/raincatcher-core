@@ -1,6 +1,6 @@
-import { EventEmitter } from 'eventemitter3';
+import {EventEmitter} from 'eventemitter3';
 import JsonSchema from '../JsonSchema';
-import {Result} from '../result';
+import Result from '../result/Result';
 
 export interface TaskEventData<T extends Task> {
   task: T;
@@ -54,7 +54,7 @@ type events = 'statusChange';
  * Represents a single unit of work to be executed by a human or by the system.
  * Each task potentially has it's own, implementation-specific Result, and
  */
-export interface Task {
+interface Task {
   status: TaskStatus | number;
   result?: Result;
   /**
@@ -87,5 +87,4 @@ export interface Task {
   // Step implementations would carry extra metadata needed for execution and UI
 }
 
-import BaseTask from './BaseTask';
-export default BaseTask;
+export default Task;

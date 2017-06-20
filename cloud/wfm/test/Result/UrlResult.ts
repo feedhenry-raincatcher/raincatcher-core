@@ -1,4 +1,4 @@
-import UrlResult from '../../src/result';
+import UrlResult from '../../src/result/UrlResult';
 import suite from './index';
 
 const sampleUrl = 'https://github.com/feedhenry-raincatcher';

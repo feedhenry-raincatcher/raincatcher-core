@@ -1,4 +1,4 @@
-import { Task } from '../../src/task';
+import Task from '../../src/task/Task';
 function suite(taskFactory: () => Task) {
   describe('Task Interface', function() {
     describe('#status property', function() {
