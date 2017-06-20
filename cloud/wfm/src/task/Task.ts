@@ -3,9 +3,21 @@ import JsonSchema from '../JsonSchema';
 import Result from '../result/Result';
 
 export interface TaskEventData<T extends Task> {
+  /**
+   * The {@link Task} that triggered this event
+   */
   task: T;
+  /**
+   * The previous {@link TaskStatus} of the {@link Task}
+   */
   previousStatus: TaskStatus;
+  /**
+   * The current {@link TaskStatus} of the {@link Task}
+   */
   currentStatus: TaskStatus;
+  /**
+   * The time when the status change happened
+   */
   date: Date;
 }
 
@@ -48,8 +60,6 @@ export enum TaskStatus {
   'ERROR' = 500
 }
 
-type events = 'statusChange';
-
 /**
  * Represents a single unit of work to be executed by a human or by the system.
  * Each task potentially has it's own, implementation-specific Result, and
@@ -69,7 +79,10 @@ interface Task {
    */
   setOptions: (options: object) => void;
 
-  on(event: events, handler: TaskEventHandler<this>): this;
+  /**
+   * Emitted when the task's status changes to a different value
+   */
+  on(event: 'statusChange', handler: TaskEventHandler<this>): this;
 
   /**
    * Implementation for the execution of the Task.
