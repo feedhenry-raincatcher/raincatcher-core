@@ -9,8 +9,15 @@ interface Process {
   id: string;
   /** Description for UI */
   displayName: string;
+  /**
+   * Sequential list of {@link Task}s that compose this {@link Process}
+   */
   tasks: Task[];
 
+  // TODO: Maybe move this to Executor
+  /**
+   * Instantiates a {@link ProcessInstance} for execution
+   */
   createInstance(): ProcessInstance;
 }
 

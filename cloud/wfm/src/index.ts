@@ -14,7 +14,7 @@ import UrlResult from './result/UrlResult';
 import BaseTask from './task/BaseTask';
 
 // Repositories
-import ExecutorRepository from './executor/InstanceRepository';
+import ExecutorRepository from './executor/ExecutorRepository';
 
 export {
   Executor,

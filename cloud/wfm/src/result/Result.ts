@@ -1,3 +1,7 @@
+/**
+ * Represents the output of a {@link Task}
+ * Implementations are expected to be accompanied by a front end component to render it
+ */
 interface Result {
   /**
    * The Type's name in order for it to be serializable and sent over the wire
