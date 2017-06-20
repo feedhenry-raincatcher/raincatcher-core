@@ -1,9 +1,9 @@
 import * as Promise from 'bluebird';
-import {Process} from '../process';
-import {ProcessInstance} from '../process-instance';
-import {Task, TaskEventData, TaskStatus} from '../task';
-import {Executor} from './index';
-import {InstanceRepository} from './InstanceRepository';
+import ProcessInstance from '../process-instance/ProcessInstance';
+import Process from '../process/Process';
+import Task, {TaskEventData, TaskStatus} from '../task/Task';
+import Executor from './Executor';
+import InstanceRepository from './InstanceRepository';
 
 export default class ExecutorImpl implements Executor {
   public instance: ProcessInstance;

@@ -1,7 +1,7 @@
 import * as assert from 'assert';
-import {Process} from '../../src/process';
-import {ProcessInstance} from '../../src/process-instance';
-import Task from '../../src/task';
+import ProcessInstance from '../../src/process-instance/ProcessInstance';
+import Process from '../../src/process/Process';
+import Task from '../../src/task/BaseTask';
 
 function suite(processFactory: (name: string) => Process) {
   describe('Process', function() {

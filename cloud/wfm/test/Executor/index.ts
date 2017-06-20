@@ -1,9 +1,12 @@
 import * as assert from 'assert';
 import * as Promise from 'bluebird';
-import { Executor, InstanceRepository } from '../../src/executor';
-import Process from '../../src/process';
-import { ProcessInstance } from '../../src/process-instance';
-import BaseTask, { Task, TaskStatus } from '../../src/task';
+import Executor from '../../src/executor/Executor';
+import InstanceRepository from '../../src/executor/InstanceRepository';
+import ProcessInstance from '../../src/process-instance/ProcessInstance';
+import Process from '../../src/process/Process';
+import ProcessImpl from '../../src/process/ProcessImpl';
+import BaseTask from '../../src/task/BaseTask';
+import Task, {TaskStatus} from '../../src/task/Task';
 
 class NoopTask extends BaseTask {
   // BaseTask's implementation should be the same,
@@ -18,7 +21,7 @@ function suite(executorFactory: (process: Process) => Executor) {
     let executor: Executor;
 
     beforeEach(function() {
-      const process = new Process('sample');
+      const process = new ProcessImpl('sample');
       process.tasks = [
         new NoopTask(),
         new NoopTask(),

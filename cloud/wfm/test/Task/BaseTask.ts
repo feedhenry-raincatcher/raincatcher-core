@@ -1,4 +1,4 @@
-import BaseTask from '../../src/task';
+import BaseTask from '../../src/task/BaseTask';
 import suite from './index';
 
 describe('BaseTask', function() {

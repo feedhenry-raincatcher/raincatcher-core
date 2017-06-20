@@ -1,10 +1,10 @@
-import {ProcessInstance} from '../process-instance';
-import {Task} from '../task';
+import ProcessInstance from '../process-instance/ProcessInstance';
+import Task from '../task/Task';
 /**
  * Definition holder for a linear set of {@link Task}s
  * Intended to be instantiated as a {@link ProcessInstance} in order to be executed
  */
-export interface Process {
+interface Process {
   /** Unique identifier for this {@link Process} */
   id: string;
   /** Description for UI */
@@ -14,5 +14,4 @@ export interface Process {
   createInstance(): ProcessInstance;
 }
 
-import ProcessImpl from './ProcessImpl';
-export default ProcessImpl;
+export default Process;

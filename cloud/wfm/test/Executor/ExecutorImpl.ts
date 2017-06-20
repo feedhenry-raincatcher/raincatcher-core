@@ -1,7 +1,8 @@
 import * as assert from 'assert';
 import * as Promise from 'bluebird';
-import ExecutorImpl, { InstanceRepository } from '../../src/executor';
-import { ProcessInstance } from '../../src/process-instance';
+import ExecutorImpl from '../../src/executor/ExecutorImpl';
+import InstanceRepository from '../../src/executor/InstanceRepository';
+import ProcessInstance from '../../src/process-instance/ProcessInstance';
 import suite from './index';
 
 class SingleRepository implements InstanceRepository {
