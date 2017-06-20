@@ -25,7 +25,7 @@
       "source-map-support/register"
     ],
     "produce-source-map": true,
-    "check-coverage": true,
+    "check-coverage": false,
     "lines": 75,
     "functions": 100,
     "branches": 80
