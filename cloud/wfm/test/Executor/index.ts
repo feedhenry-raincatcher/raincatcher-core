@@ -1,7 +1,7 @@
 import * as assert from 'assert';
 import * as Promise from 'bluebird';
 import Executor from '../../src/executor/Executor';
-import InstanceRepository from '../../src/executor/InstanceRepository';
+import ExecutorRepository from '../../src/executor/InstanceRepository';
 import ProcessInstance from '../../src/process-instance/ProcessInstance';
 import Process from '../../src/process/Process';
 import ProcessImpl from '../../src/process/ProcessImpl';
