@@ -17,6 +17,7 @@ export interface InstanceEventData<T extends ProcessInstance> {
  * The executable instance of a {@link Process}
  */
 interface ProcessInstance extends EventEmitter {
+  id: string;
   assigneeId: string;
 
   getTasks(): Promise<Task[]>;
@@ -26,8 +27,6 @@ interface ProcessInstance extends EventEmitter {
    * so implementation be async
    */
   nextTask(): Promise<Task>;
-
-  getId(): string;
 
   /**
    * Event emitted when the current active task changes to the next one

@@ -28,10 +28,6 @@ export default class ProcessInstanceImpl extends EventEmitter implements Process
     this.currentTaskIdx = 0;
   }
 
-  public getId() {
-    return this.id;
-  }
-
   public nextTask() {
     this.currentTask = this.tasks[++this.currentTaskIdx];
     const e: InstanceTaskEventData<this> = {
