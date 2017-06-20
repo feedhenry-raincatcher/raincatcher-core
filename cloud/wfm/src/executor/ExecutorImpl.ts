@@ -3,11 +3,11 @@ import ProcessInstance from '../process-instance/ProcessInstance';
 import Process from '../process/Process';
 import Task, {TaskEventData, TaskStatus} from '../task/Task';
 import Executor from './Executor';
-import InstanceRepository from './InstanceRepository';
+import ExecutorRepository from './InstanceRepository';
 
 export default class ExecutorImpl implements Executor {
   public instance: ProcessInstance;
-  constructor(public process: Process, public instanceRepository: InstanceRepository) {
+  constructor(public process: Process, public repository: ExecutorRepository) {
     this.instance = this.process.createInstance();
   }
   public start() {
@@ -21,7 +21,7 @@ export default class ExecutorImpl implements Executor {
     }
   }
   protected saveInstance() {
-    return this.instanceRepository.save(this.instance);
+    return this.repository.saveInstance(this.instance);
   }
   protected runCurrentTask() {
     this.instance.getCurrentTask()

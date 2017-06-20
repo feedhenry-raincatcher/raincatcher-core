@@ -1,19 +1,33 @@
-export * from './executor';
-export * from './process';
-export * from './process-instance';
-export * from './result';
-export * from './task';
+// Interfaces
+import Executor from './executor/Executor';
+import ProcessInstance from './process-instance/ProcessInstance';
+import Process from './process/Process';
+import Result from './result/Result';
+import Task from './task/Task';
 
-import ExecutorImpl from './executor';
-import ProcessImpl from './process';
-import ProcessInstanceImpl from './process-instance';
-import UrlResult from './result';
-import TaskImpl from './task';
+// Implementations
+import ExecutorImpl from './executor/Executor';
+import ProcessInstanceImpl from './process-instance/ProcessInstanceImpl';
+import ProcessImpl from './process/ProcessImpl';
+import BooleanResult from './result/BooleanResult';
+import UrlResult from './result/UrlResult';
+import BaseTask from './task/BaseTask';
+
+// Repositories
+import ExecutorRepository from './executor/InstanceRepository';
 
 export {
+  Executor,
+  ProcessInstance,
+  Process,
+  Result,
+  Task,
+
+  ExecutorRepository,
+
   ExecutorImpl,
   ProcessImpl,
   ProcessInstanceImpl,
   UrlResult,
-  TaskImpl
+  BaseTask
 };
