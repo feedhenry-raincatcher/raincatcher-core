@@ -35,7 +35,7 @@ export type TaskEventHandler<T extends Task> = (e: TaskEventData<T>) => any;
  */
 export enum TaskStatus {
   /**
-   * Indicates that the Task has been created and is unnassigned
+   * Indicates that the Task has been created and is unassigned
    */
   'PENDING' = 0,
   /**
@@ -87,7 +87,7 @@ interface Task {
   /**
    * Implementation for the execution of the Task.
    * Progress and results should be provided via events since they can involve human execution and
-   * other assyncronous out-of-process events
+   * other asynchronous out-of-process events
    */
   run(): void;
 
