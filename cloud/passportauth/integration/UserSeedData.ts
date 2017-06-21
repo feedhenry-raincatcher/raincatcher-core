@@ -5,10 +5,10 @@ export interface User {
   id: string;
   name: string;
   notes: string;
-  password: string;
+  password: string; // TODO: map password instead of hard coding them.
   phone: string;
   position: string;
-  username: string;
+  username: string; // TODO: map username instead of hard coding them.
   roles: string[];
 }
 
@@ -24,7 +24,7 @@ const userSeedData: User[] = [
     phone: '2657258272',
     position: 'Senior Truck Driver',
     username: 'trever',
-    roles: []
+    roles: ['admin', 'user']
   },
   {
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/madysondesigns/128.jpg',
@@ -37,7 +37,7 @@ const userSeedData: User[] = [
     phone: '2657548176',
     position: 'Junior Dispatcher',
     username: 'daisy',
-    roles: []
+    roles: ['admin', 'user']
   },
   {
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/davidburlton/128.jpg',
@@ -50,7 +50,7 @@ const userSeedData: User[] = [
     phone: '2657134154',
     position: 'Manager',
     username: 'max',
-    roles: []
+    roles: ['user']
   },
   {
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
@@ -63,7 +63,7 @@ const userSeedData: User[] = [
     phone: '2657343446',
     position: 'Phone Support',
     username: 'phylis',
-    roles: []
+    roles: ['user']
   }
 ];
 

@@ -1,27 +1,35 @@
 import * as express from 'express';
 import * as session from 'express-session';
+import {SessionOptions} from 'express-session';
 import * as passport from 'passport';
 import {Strategy} from 'passport-local';
 import {BaseUser} from '../user/BaseUser';
 import {UserSecService} from '../user/UserSec';
 
 export interface Setup {
-  init(app: express.Express): void;
+  init(app: express.Express, sessionOpts: SessionOptions): void;
   setStrategy(): void;
   setSerializeUser(): void;
   setDeserializeUser(): void;
 }
 
-export class PassportSetup<T extends BaseUser> {
+export class PassportSetup<T extends BaseUser> implements Setup {
   protected userSec: UserSecService<T>;
 
   constructor(protected readonly userSecService: UserSecService<T>) {
     this.userSec = userSecService;
   }
 
-  public init(app: express.Express) {
-    console.log('initializing passport');
-    app.use(session({secret: 'test', resave: false, saveUninitialized: false}));
+  /**
+   * Initializes passport authentication on an Express application.
+   * This initializes the Express session, passport as well as
+   * setting the local strategy, serializeUser and deserializeUser function.
+   *
+   * @param app {express.Express} An express app used by the application.
+   * @param sessionOpts {SessionOptions} Configuration used by Express session
+   */
+  public init(app: express.Express, sessionOpts: SessionOptions) {
+    app.use(session(sessionOpts));
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -30,8 +38,10 @@ export class PassportSetup<T extends BaseUser> {
     this.setDeserializeUser();
   }
 
+  /**
+   * Sets the local strategy used by passport authentication.
+   */
   public setStrategy() {
-    console.log('initializing strategy');
     passport.use(new Strategy((username, password, done) => {
       this.userSec.getUserId(username).then((userId: string) => {
         if (!userId) {
@@ -52,15 +62,19 @@ export class PassportSetup<T extends BaseUser> {
     }));
   }
 
+  /**
+   * Sets the serializeUser function to be used by passport.
+   */
   public setSerializeUser() {
-    console.log('initializing user serialize function');
-    passport.serializeUser((user: T, done) => {
+    passport.serializeUser((user: string, done) => {
       return done(null, user);
     });
   }
 
+  /**
+   * Sets the deserializeUser function to be used by passport.
+   */
   public setDeserializeUser() {
-    console.log('initializing user deserialize function');
     passport.deserializeUser((id: string, done) => {
       return done(null, id);
     });
