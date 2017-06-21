@@ -5,7 +5,7 @@ import Result from './Result';
  * i.e. pass/fail, approval/rejection, etc.
  */
 export default class BooleanResult implements Result {
-  public type: 'BooleanResult';
+  public type = 'BooleanResult';
   constructor(public value: boolean) {
   }
 }

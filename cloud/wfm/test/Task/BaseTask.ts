@@ -1,4 +1,6 @@
+import * as assert from 'assert';
 import BaseTask from '../../src/task/BaseTask';
+import {TaskStatus} from '../../src/task/Task';
 import suite from './index';
 
 describe('BaseTask', function() {
@@ -9,9 +11,10 @@ describe('BaseTask', function() {
 
   suite(() => new BaseTask());
 
-  it('should have a default status of pending');
-
   describe('run', function() {
-    it('should set the status to done');
+    it('should set the status to done', function() {
+      task.run();
+      assert.strictEqual(task.status, TaskStatus.DONE);
+    });
   });
 });

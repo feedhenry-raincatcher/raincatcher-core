@@ -65,6 +65,10 @@ export enum TaskStatus {
  * Each task potentially has it's own, implementation-specific Result, and
  */
 interface Task {
+  /**
+   * The current status of the task, see {@link TaskStatus}
+   * should default to {@link TaskStatus.PENDING}
+   */
   status: TaskStatus | number;
   result?: Result;
   /**

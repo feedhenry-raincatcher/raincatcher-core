@@ -11,7 +11,8 @@
     "build": "tsc",
     "start": "ts-node src/index.ts",
     "test": "nyc mocha",
-    "debug": "node --inspect-brk ./node_modules/.bin/_mocha"
+    "debug": "node --inspect-brk ./node_modules/.bin/_mocha",
+    "debug-legacy": "node --debug-brk ./node_modules/.bin/_mocha"
   },
   "nyc": {
     "include": [
@@ -34,6 +35,7 @@
     "@types/bluebird": "^3.5.5",
     "@types/lodash": "^4.14.65",
     "@types/mocha": "^2.2.41",
+    "@types/valid-url": "^1.0.2",
     "del-cli": "^1.0.0",
     "mocha": "^3.4.2",
     "nyc": "^11.0.1",
@@ -46,6 +48,7 @@
     "ajv": "^5.1.5",
     "bluebird": "^3.5.0",
     "eventemitter3": "^2.0.3",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "valid-url": "^1.0.9"
   }
 }
