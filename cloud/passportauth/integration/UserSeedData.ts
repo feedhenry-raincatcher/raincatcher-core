@@ -5,10 +5,10 @@ export interface User {
   id: string;
   name: string;
   notes: string;
-  password: string; // TODO: map password instead of hard coding them.
+  password: string;
   phone: string;
   position: string;
-  username: string; // TODO: map username instead of hard coding them.
+  username: string;
   roles: string[];
 }
 

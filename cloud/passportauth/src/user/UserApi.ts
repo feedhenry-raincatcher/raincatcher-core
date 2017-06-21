@@ -9,13 +9,13 @@ export interface UserApi<T extends BaseUser> {
 }
 
 export class UserApiService<T extends BaseUser> implements UserApi<T> {
-  protected dataSource: DataRepository<T>;
+  protected dataRepo: DataRepository<T>;
 
-  constructor(protected readonly source: DataRepository<T>) {
-    this.dataSource = source;
+  constructor(protected readonly repo: DataRepository<T>) {
+    this.dataRepo = repo;
   }
 
   public findUserById(id: string) {
-    return this.dataSource.findUserById(id);
+    return this.dataRepo.findUserById(id);
   }
 }

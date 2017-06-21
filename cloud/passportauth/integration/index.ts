@@ -1,6 +1,7 @@
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
+import * as path from 'path';
 import {passport, PassportAuth, PassportSetup, UserApiService, UserSecService} from '../src/index';
 import {UserDataRepository} from './UserDataRepository';
 import userSeedData, {User} from './UserSeedData';
@@ -11,7 +12,7 @@ const sessionOpts = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     path: '/'
   }
@@ -26,6 +27,9 @@ const authService = new PassportAuth<User>(userSec);
 const app = express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cors());
 passportSetup.init(app, sessionOpts);
 
@@ -38,11 +42,10 @@ app.get('/testUserEndpoint', authService.protect('user'), (req: express.Request,
 });
 
 app.get('/login', (req: express.Request, res: express.Response) => {
-  // TODO: Integrate login page from demo app -- Use handlebars
-  res.json({routeName: '/login', msg: 'You need to login'});
+  res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
-app.post('/login', passport.authenticate('local', {successReturnToOrRedirect: '/testAdminEndpoint'}));
+app.post('/login', passport.authenticate('local', {successReturnToOrRedirect: '/testUserEndpoint'}));
 
 app.listen(3000, function() {
   console.log('Example auth app listening on port 3000');
