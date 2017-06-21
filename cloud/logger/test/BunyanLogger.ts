@@ -17,7 +17,7 @@ const log = new BunyanLogger({name: 'test'});
 // call the different end points for logger
 describe('Expected results', () => {
  it('should return the expected responses', () => {
-   log.debug('debug logger message', loggerObject);
+   log.debug('debug logger message', loggerObject, loggerObject);
    log.error('error logger message', loggerObject);
    log.info('info logger message', loggerObject);
    log.warn('warn logger message', loggerObject);
