@@ -6,13 +6,24 @@ By default module provides [Bunyan](https://www.npmjs.com/package/bunyan) logger
 
 ## Quick start
 
+Implement Logger interface to be used with your logging library of choice e.g. Bunyan
+```typescript
+  import * as bunyan from 'bunyan';
+  import Logger from './Logger';
+
+  export class BunyanLogger implements Logger {....}
+```
+
+change the `./src/index.ts` to reflect the new logger
+## Usage
+
 ```typescript
   import {BunyanLogger, Logger} from '../src/index';
 
   // constructor needs at least name
   const log: Logger = new BunyanLogger({name: 'index'});
-  
-  log.info('info logger message', {logger: 'info object'});
+
+  log.info('info logger message', {test: 'info object'});
 ```
 
 See `./integration/index.ts` for usage
