@@ -1,6 +1,6 @@
 # RainCatcher Logger Cloud
 
-This module creates logging facade for node.js that is used by all Raincatcher modules.
+This module creates logging facade for node.js based applications that is used by all Raincatcher modules.
 Users can use their own loggers by wrapping them into provided interface.
 By default module provides [Bunyan](https://www.npmjs.com/package/bunyan) logger implementation.
 
