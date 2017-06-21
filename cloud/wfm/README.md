@@ -20,4 +20,46 @@ Users can write custom Tasks that will implement any business logic and link imp
 
 ## Getting Started
 
+1) Implementing base flow
+
+```typescript
+import {
+  BaseTask,
+  Executor,
+  ExecutorImpl,
+  ExecutorRepository,
+  Process,
+  ProcessImpl,
+  ProcessInstance,
+  ProcessInstanceImpl,
+  Result,
+  Task} from '@raincatcher/wfm';
+
+// Create set of tasks you want to store
+class MyTask extends BaseTask {
+  public run() {
+    // tslint:disable-next-line:no-console
+    console.log('Executed task');
+  }
+}
+
+// Create example process
+const exampleProcess: Process = new ProcessImpl('Example');
+exampleProcess.tasks = [];
+
+// Store process instances.
+const repository: ExecutorRepository = {
+  saveInstance(instance: ProcessInstance): Promise<ProcessInstance> {
+    // Save data here
+    return Promise.resolve(instance);
+  }
+};
+
+const executor: Executor = new ExecutorImpl(exampleProcess, repository);
+executor.start();
+
+```
+
 ## Supported events
+
+TODO

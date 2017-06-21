@@ -4,7 +4,7 @@ import Task from '../task/Task';
  * Definition holder for a linear set of {@link Task}s
  * Intended to be instantiated as a {@link ProcessInstance} in order to be executed
  */
-interface Process {
+export interface Process {
   /** Unique identifier for this {@link Process} */
   id: string;
   /** Description for UI */

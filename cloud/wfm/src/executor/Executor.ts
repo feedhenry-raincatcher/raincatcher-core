@@ -6,7 +6,7 @@ import Process from '../process/Process';
  *
  * Triggers instantiation and execution of a {@link ProcessInstance}
  */
-interface Executor {
+export interface Executor {
   /**
    * {@link Process} to be executed
    */
@@ -17,7 +17,7 @@ interface Executor {
   instance?: ProcessInstance;
 
   /**
-   * Starts the execution of the assignend Process
+   * Starts the execution of the assigned Process
    */
   start(): void;
 }

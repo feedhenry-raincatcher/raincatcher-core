@@ -8,7 +8,7 @@ import ExecutorRepository from './ExecutorRepository';
 /**
  * Default implementation for {@link Executor}
  */
-export default class ExecutorImpl implements Executor {
+export class ExecutorImpl implements Executor {
   public instance: ProcessInstance;
   /**
    * @param process The {@link Process} this {@link Executor} is to run
@@ -20,7 +20,7 @@ export default class ExecutorImpl implements Executor {
   public start() {
     this.runCurrentTask();
   }
-  protected onTaskDone(e: TaskEventData<Task>) {
+  protected onTaskChanged(e: TaskEventData<Task>) {
     if (e.currentStatus === TaskStatus.DONE) {
       Promise.resolve(this.instance.nextTask())
         .then(() => this.saveInstance())
@@ -50,8 +50,10 @@ export default class ExecutorImpl implements Executor {
         // TODO: this assumes the Task object will be kept in memory forever
         // but human-executed tasks can take very long to complete
         // we might have to change this to an out-of-process message bus
-        .on('statusChange', this.onTaskDone.bind(this))
+        .on('statusChange', this.onTaskChanged.bind(this))
         .run();
     });
   }
 }
+
+export default ExecutorImpl;
