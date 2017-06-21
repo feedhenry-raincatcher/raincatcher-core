@@ -6,11 +6,20 @@ By default module provides [Bunyan](https://www.npmjs.com/package/bunyan) logger
 
 ## Quick start
 
+```typescript
+  import {BunyanLogger, Logger} from '../src/index';
 
+  // constructor needs at least name
+  const log: Logger = new BunyanLogger({name: 'index'});
+  
+  log.info('info logger message', {logger: 'info object'});
+```
+
+See `./integration/index.ts` for usage
 
 ### Unit tests
 
-
+`npm run test` - execute unit tests
 
 
 ### Supported scripts
