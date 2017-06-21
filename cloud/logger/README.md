@@ -17,6 +17,7 @@ Implement Logger interface to be used with your logging library of choice e.g. B
 change the `./src/index.ts` to reflect the new logger
 ## Usage
 
+Import the your logger implementation and the Logger interface to be used.
 ```typescript
   import {BunyanLogger, Logger} from '../src/index';
 
@@ -35,12 +36,11 @@ See `./integration/index.ts` for usage
 
 ### Supported scripts
 
-`npm run clean` - removes all compiled sources
 
-`npm run build` - build typescript code
-
-`npm run start` - run module (valid only for top level modules)
-
-`npm run test` - execute unit tests
-
-`npm run integration` - execute integration
+| Command        | Description           |
+| :------------- |:-------------|
+| `npm run clean` | removes all compiled sources |
+| `npm run build` | build typescript code |
+| `npm run start` | run module (valid only for top level modules) |
+| `npm run test` | execute integration |
+| `npm run integration`| execute integration |
