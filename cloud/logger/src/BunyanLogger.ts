@@ -2,27 +2,27 @@ import * as bunyan from 'bunyan';
 import Logger from './Logger';
 
 export class BunyanLogger implements Logger {
-    public logger: bunyan;
+  public logger: bunyan;
 
-    constructor(options: bunyan.LoggerOptions) {
-        this.logger = bunyan.createLogger(options);
-    }
+  constructor(options: bunyan.LoggerOptions) {
+    this.logger = bunyan.createLogger(options);
+  }
 
-    public debug(message: string, object: any): void {
-        this.logger.debug(message, object);
-    }
+  public debug(format: any, ...params: any[]): void {
+    this.logger.debug(format, params);
+  }
 
-    public error(message: string, object: any): void {
-        this.logger.error(message, object);
-    }
+  public error(format: any, ...params: any[]): void {
+    this.logger.debug(format, params);
+  }
 
-    public info(message: string, object: any): void {
-      this.logger.info(message, object);
-    }
+  public info(format: any, ...params: any[]): void {
+    this.logger.debug(format, params);
+  }
 
-    public warn(message: string, object: any): void {
-      this.logger.warn(message, object);
-    }
+  public warn(format: any, ...params: any[]): void {
+    this.logger.debug(format, params);
+  }
 }
 
 export default BunyanLogger;
