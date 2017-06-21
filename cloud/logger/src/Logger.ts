@@ -1,9 +1,9 @@
 
 export interface Logger {
-    debug(message: string, object: any): void;
-    error(message: string, object: any): void;
-    info(message: string, object: any): void;
-    warn(message: string, object: any): void;
+    debug(format: any, ...params: any[]): void;
+    error(format: any, ...params: any[]): void;
+    info(format: any, ...params: any[]): void;
+    warn(format: any, ...params: any[]): void;
 }
 
 export default Logger;
