@@ -1,5 +1,5 @@
 {
-  "name": "@raincatcher/logger-cloud",
+  "name": "@raincatcher/logger",
   "version": "0.0.1",
   "description": "NPM package for logger in RainCatcher project",
   "types": "src/index.ts",
