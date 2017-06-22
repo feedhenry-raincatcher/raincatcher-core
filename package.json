@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "lerna run test",
+    "clean": "lerna exec npm run clean",
     "cleanInstall": "lerna exec npm install --ignore-scripts",
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start  --parallel --stream --scope=@raincatcher/demo-*",
