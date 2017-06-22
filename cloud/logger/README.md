@@ -9,7 +9,7 @@ By default module provides [Bunyan](https://www.npmjs.com/package/bunyan) and Co
 
 Import the your logger implementation and the Logger interface to be used.
 ```typescript
-  import {BunyanLogger, Logger} from '@raincatcher/logger-cloud';
+  import {BunyanLogger, Logger} from '@raincatcher/logger';
 
   // constructor needs at least name
   const log: Logger = new BunyanLogger({name: 'index'});
