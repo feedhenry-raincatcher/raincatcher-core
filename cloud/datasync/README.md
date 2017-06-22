@@ -18,7 +18,7 @@ Starting sync service  will monitor and process
 mew tasks are sent from sync clients
 
 ```typescript
-import SyncServer, { SyncApi, SyncExpressMiddleWare, SyncOptions } from '../src/index';
+import SyncServer, { SyncApi, SyncExpressMiddleWare, SyncOptions } from '@raincatcher/datasync-cloud';
 const sync: SyncApi = SyncServer;
 
 // Connect sync
