@@ -3,9 +3,8 @@ import {Task} from '../task/Task';
 import {Process} from './Process';
 
 export class ProcessImpl implements Process {
-  public tasks: Task[];
   public id: string;
-  constructor(public displayName: string) {
+  constructor(public displayName: string, public tasks: Task[]) {
   }
 
   public createInstance() {
