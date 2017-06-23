@@ -1,10 +1,10 @@
 import * as assert from 'assert';
-import ProcessInstance, {InstanceEventData} from '../../src/process-instance/ProcessInstance';
-import InstanceImpl from '../../src/process-instance/ProcessInstanceImpl';
-import BaseTask from '../../src/task/BaseTask';
-import Task, {TaskStatus} from '../../src/task/Task';
+import {InstanceEventData, ProcessInstance} from '../../src/process-instance/ProcessInstance';
+import {ProcessInstanceImpl} from '../../src/process-instance/ProcessInstanceImpl';
+import {BaseTask} from '../../src/task/BaseTask';
+import {Task, TaskStatus} from '../../src/task/Task';
 
-function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
+export function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
   describe('implementing ProcessInstance', function() {
     let instance: ProcessInstance;
     beforeEach(function() {
@@ -41,5 +41,3 @@ function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
     });
   });
 }
-
-export default suite;

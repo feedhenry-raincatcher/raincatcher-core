@@ -1,18 +1,18 @@
 import * as assert from 'assert';
-import ProcessInstance from '../../src/process-instance/ProcessInstance';
-import Process from '../../src/process/Process';
-import Task from '../../src/task/BaseTask';
+import {ProcessInstance} from '../../src/process-instance/ProcessInstance';
+import {Process} from '../../src/process/Process';
+import {BaseTask} from '../../src/task/BaseTask';
 
-function suite(processFactory: (name: string) => Process) {
+export function suite(processFactory: (name: string) => Process) {
   describe('Process', function() {
     let process: Process;
     beforeEach(function() {
       process = processFactory('Example Process');
       process.tasks = [
-        new Task(),
-        new Task(),
-        new Task(),
-        new Task()
+        new BaseTask(),
+        new BaseTask(),
+        new BaseTask(),
+        new BaseTask()
       ];
     });
     it('should allow for defining a set of Steps', function() {
@@ -25,5 +25,3 @@ function suite(processFactory: (name: string) => Process) {
     });
   });
 }
-
-export default suite;

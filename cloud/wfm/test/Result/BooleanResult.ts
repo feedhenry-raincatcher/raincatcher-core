@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import BooleanResult from '../../src/result/BooleanResult';
-import suite from './index';
+import {BooleanResult} from '../../src/result/BooleanResult';
+import {suite} from './index';
 
 describe('BooleanResult', function() {
   suite(() => new BooleanResult(true));

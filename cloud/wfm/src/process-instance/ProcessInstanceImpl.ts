@@ -1,10 +1,10 @@
 import * as Promise from 'bluebird';
 import {EventEmitter} from 'eventemitter3';
 import {cloneDeep, every} from 'lodash';
-import Task, {TaskStatus} from '../task/Task';
-import ProcessInstance, {InstanceEventData, InstanceTaskEventData} from './ProcessInstance';
+import {Task, TaskStatus} from '../task/Task';
+import {InstanceEventData, InstanceTaskEventData, ProcessInstance} from './ProcessInstance';
 
-export default class ProcessInstanceImpl extends EventEmitter implements ProcessInstance {
+export class ProcessInstanceImpl extends EventEmitter implements ProcessInstance {
   public id: string;
   public assigneeId: string;
   public processId: string;

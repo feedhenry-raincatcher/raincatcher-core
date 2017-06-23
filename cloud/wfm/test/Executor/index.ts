@@ -1,12 +1,12 @@
 import * as assert from 'assert';
 import * as Promise from 'bluebird';
-import Executor from '../../src/executor/Executor';
-import ExecutorRepository from '../../src/executor/ExecutorRepository';
-import ProcessInstance from '../../src/process-instance/ProcessInstance';
-import Process from '../../src/process/Process';
-import ProcessImpl from '../../src/process/ProcessImpl';
-import BaseTask from '../../src/task/BaseTask';
-import Task, {TaskStatus} from '../../src/task/Task';
+import {Executor} from '../../src/executor/Executor';
+import {ExecutorRepository} from '../../src/executor/ExecutorRepository';
+import {ProcessInstance} from '../../src/process-instance/ProcessInstance';
+import {Process} from '../../src/process/Process';
+import {ProcessImpl} from '../../src/process/ProcessImpl';
+import {BaseTask} from '../../src/task/BaseTask';
+import {Task, TaskStatus} from '../../src/task/Task';
 
 class NoopTask extends BaseTask {
   // BaseTask's implementation should be the same,
@@ -16,7 +16,7 @@ class NoopTask extends BaseTask {
   }
 }
 
-function suite(executorFactory: (process: Process) => Executor) {
+export function suite(executorFactory: (process: Process) => Executor) {
   describe('Executor', function() {
     let executor: Executor;
 
@@ -48,5 +48,3 @@ function suite(executorFactory: (process: Process) => Executor) {
     });
   });
 }
-
-export default suite;

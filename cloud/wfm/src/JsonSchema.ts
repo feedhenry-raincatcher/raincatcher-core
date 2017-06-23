@@ -24,7 +24,7 @@
 
 // retrieved from https://gist.github.com/enriched/c84a2a99f886654149908091a3183e15
 
-interface JsonSchema {
+export interface JsonSchema {
   $ref?: string;
   /////////////////////////////////////////////////
   // Schema Metadata
@@ -151,5 +151,3 @@ interface JsonSchema {
    */
   not?: JsonSchema;
 }
-
-export default JsonSchema;

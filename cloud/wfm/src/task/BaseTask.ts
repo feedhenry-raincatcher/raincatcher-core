@@ -1,12 +1,12 @@
 import { EventEmitter } from 'eventemitter3';
-import Result from '../result/Result';
-import Task, {TaskEventData, TaskStatus} from './Task';
+import {Result} from '../result/Result';
+import {Task, TaskEventData, TaskStatus} from './Task';
 
 /**
  * Base implementation for {@link Task}s
  * Derived classes are expected to implement their run {@link #run} methods
  */
-class BaseTask extends EventEmitter implements Task {
+export class BaseTask extends EventEmitter implements Task {
   public result: Result;
   /**
    * Storage field for the `status` property
@@ -63,5 +63,3 @@ class BaseTask extends EventEmitter implements Task {
     return roundedDownStatus || TaskStatus.PENDING;
   }
 }
-
-export default BaseTask;

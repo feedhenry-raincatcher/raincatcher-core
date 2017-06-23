@@ -1,14 +1,14 @@
 import * as Promise from 'bluebird';
-import ProcessInstance from '../process-instance/ProcessInstance';
-import Process from '../process/Process';
-import Task, {TaskEventData, TaskStatus} from '../task/Task';
-import Executor from './Executor';
-import ExecutorRepository from './ExecutorRepository';
+import {ProcessInstance} from '../process-instance/ProcessInstance';
+import {Process} from '../process/Process';
+import {Task, TaskEventData, TaskStatus} from '../task/Task';
+import {Executor} from './Executor';
+import {ExecutorRepository} from './ExecutorRepository';
 
 /**
  * Default implementation for {@link Executor}
  */
-export default class ExecutorImpl implements Executor {
+export class ExecutorImpl implements Executor {
   public instance: ProcessInstance;
   /**
    * @param process The {@link Process} this {@link Executor} is to run

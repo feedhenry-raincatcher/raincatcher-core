@@ -1,8 +1,8 @@
 import * as Promise from 'bluebird';
 import {EventEmitter} from 'eventemitter3';
 import * as _ from 'lodash';
-import Process from '../process/Process';
-import Task from '../task/Task';
+import {Process} from '../process/Process';
+import {Task} from '../task/Task';
 
 export interface InstanceTaskEventData<T extends ProcessInstance>  {
   instance: T;
@@ -16,7 +16,7 @@ export interface InstanceEventData<T extends ProcessInstance> {
 /**
  * The executable instance of a {@link Process}
  */
-interface ProcessInstance extends EventEmitter {
+export interface ProcessInstance extends EventEmitter {
   id: string;
   assigneeId: string;
 
@@ -37,5 +37,3 @@ interface ProcessInstance extends EventEmitter {
    */
   on(event: 'done', handler: (e: InstanceEventData<this>) => any): this;
 }
-
-export default ProcessInstance;

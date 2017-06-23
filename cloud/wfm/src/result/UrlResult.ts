@@ -1,12 +1,12 @@
 // NOTE: browserify can provide an implementation for node's url module
 import * as nodeUrl from 'url';
 import {isWebUri} from 'valid-url';
-import Result from './Result';
+import {Result} from './Result';
 
 /**
  * Represents a {@link Result} that can be accessed via a URL
  */
-export default class UrlResult implements Result {
+export class UrlResult implements Result {
   public type = 'UrlResult';
   /**
    * Convenience object parsed by url.parse()

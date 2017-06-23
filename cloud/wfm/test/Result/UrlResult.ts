@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import UrlResult from '../../src/result/UrlResult';
-import suite from './index';
+import {UrlResult} from '../../src/result/UrlResult';
+import {suite} from './index';
 
 const sampleUrl = 'https://github.com/feedhenry-raincatcher';
 const invalidUrl = `http://<foo>`;

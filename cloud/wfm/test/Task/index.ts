@@ -1,6 +1,7 @@
 import * as assert from 'assert';
-import Task, {TaskStatus} from '../../src/task/Task';
-function suite(taskFactory: () => Task) {
+import {Task, TaskStatus} from '../../src/task/Task';
+
+export function suite(taskFactory: () => Task) {
   describe('Task Interface', function() {
     let task: Task;
     beforeEach(function(){
@@ -29,7 +30,7 @@ function suite(taskFactory: () => Task) {
     describe('#getStatus', function() {
       it('should round a custom status number to a value on the TaskStatus enum', function() {
         const customStatus = TaskStatus.IN_PROGRESS + 1;
-        task.status = customStatus; // custom status
+        task.status = customStatus;
         assert.strictEqual(task.getStatus(), TaskStatus.IN_PROGRESS);
       });
     });
@@ -42,5 +43,3 @@ function suite(taskFactory: () => Task) {
     });
   });
 }
-
-export default suite;

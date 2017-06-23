@@ -1,6 +1,6 @@
 import * as assert from 'assert';
-import Result from '../../src/result/Result';
-function suite(resultFactory: () => Result) {
+import {Result} from '../../src/result/Result';
+export function suite(resultFactory: () => Result) {
   describe('Result', function() {
     let result: Result;
     beforeEach(function() {
@@ -12,5 +12,3 @@ function suite(resultFactory: () => Result) {
     });
   });
 }
-
-export default suite;

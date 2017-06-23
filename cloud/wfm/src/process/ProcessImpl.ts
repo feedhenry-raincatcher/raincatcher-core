@@ -1,8 +1,8 @@
-import Instance from '../process-instance/ProcessInstanceImpl';
-import Task from '../task/Task';
-import Process from './Process';
+import {ProcessInstanceImpl} from '../process-instance/ProcessInstanceImpl';
+import {Task} from '../task/Task';
+import {Process} from './Process';
 
-export default class ProcessImpl implements Process {
+export class ProcessImpl implements Process {
   public tasks: Task[];
   public id: string;
   constructor(public displayName: string) {
@@ -14,7 +14,7 @@ export default class ProcessImpl implements Process {
     }
     // TODO: Replace this with customizable derivative of ProcessInstanceImpl
     // make generic of <T implements ProcessInstance>
-    const instance = new Instance(this.tasks);
+    const instance = new ProcessInstanceImpl(this.tasks);
     return instance;
   }
 }

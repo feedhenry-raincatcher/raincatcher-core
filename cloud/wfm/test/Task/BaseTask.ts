@@ -1,7 +1,7 @@
 import * as assert from 'assert';
-import BaseTask from '../../src/task/BaseTask';
+import {BaseTask} from '../../src/task/BaseTask';
 import {TaskStatus} from '../../src/task/Task';
-import suite from './index';
+import {suite} from './index';
 
 describe('BaseTask', function() {
   let task: BaseTask;
