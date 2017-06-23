@@ -57,6 +57,9 @@ expected of a new package. Refer to the linked README for more details.
 
   <dt>coverage/ and .nyc_output</dt>
   <dd>Istanbul output, should be .gitignored.</dd>
+
+  <dt>example/ </dt>
+  <dd>Example usage for module. </dd>
 </dl>
 
 ### Module structure
