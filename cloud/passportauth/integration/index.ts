@@ -2,11 +2,12 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as path from 'path';
-import {passport, PassportAuth, PassportSetup, UserApiService, UserSecService} from '../src/index';
-import {UserDataRepository} from './UserDataRepository';
-import userSeedData, {User} from './UserSeedData';
+import passport, {PassportAuth, PassportSetup, UserSecService} from '../src/index';
+import UserApi from './UserApi';
+import UserDataRepository from './UserDataRepository';
+import userSeedData from './UserSeedData';
 
-// Configuration for session options
+// Configuration for express session options
 const sessionOpts = {
   secret: process.env.SESSION_SECRET || 'wfm',
   resave: false,
@@ -20,10 +21,10 @@ const sessionOpts = {
 
 // Initialize user data repository and passport
 const userRepo = new UserDataRepository(userSeedData);
-const userApi = new UserApiService<User>(userRepo);
-const userSec = new UserSecService<User>(userApi);
-const passportSetup = new PassportSetup<User>(userSec);
-const authService = new PassportAuth<User>(userSec);
+const userApi = new UserApi(userRepo);
+const userSec = new UserSecService(userApi);
+const passportSetup = new PassportSetup(userSec);
+const authService = new PassportAuth(userSec);
 const app = express();
 
 app.use(bodyParser.json());

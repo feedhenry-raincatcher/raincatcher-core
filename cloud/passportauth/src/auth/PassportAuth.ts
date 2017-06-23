@@ -1,25 +1,24 @@
 import * as express from 'express';
-import {BaseUser} from '../user/BaseUser';
-import {UserSecService} from '../user/UserSec';
+import UserSecService from '../user/UserSec';
 
 export interface Auth {
   protect(role?: string): void;
 }
 
-export class PassportAuth<T extends BaseUser> implements Auth {
-  protected userSec: UserSecService<T>;
+export class PassportAuth implements Auth {
+  protected userSec: UserSecService;
   protected loginRoute: string;
   protected strategy: string;
 
-  constructor(protected readonly UserSecService: UserSecService<T>, loginRoute?: string) {
+  constructor(protected readonly UserSecService: UserSecService, loginRoute?: string, strategy?: string) {
     this.userSec = UserSecService;
     this.loginRoute = loginRoute || '/login';
-    this.strategy = 'local';
+    this.strategy = strategy || 'local';
   }
 
   /**
-   * Function which checks if the user requesting access to the route is authenticated and authorized to
-   * access the route. Redirects to the login page if user is not authenticated or returns an 'Unauthorized'
+   * Function which checks if the user requesting access to the resource is authenticated and authorized to
+   * access the resource. Redirects to the login page if user is not authenticated or returns an 'Unauthorized'
    * response if user does not have the required role.
    *
    * @param role {string} [Optional] Role which the user needs in order to access this resource
@@ -30,12 +29,8 @@ export class PassportAuth<T extends BaseUser> implements Auth {
         if (!role) {
           return next();
         } else {
-          this.userSec.getUserRoles(req.user).then((roles: string[]) => {
-            if (roles.indexOf(role) > -1) {
-              return next();
-            } else {
-              return res.status(401).send('Unauthorized');
-            }
+          this.userSec.hasResourceRole(req.user, role).then((hasRole: boolean) => {
+            return hasRole ? next() : res.status(401).send('Unauthorized');
           });
         }
       } else {
@@ -48,3 +43,5 @@ export class PassportAuth<T extends BaseUser> implements Auth {
     };
   }
 }
+
+export default PassportAuth;

@@ -3,7 +3,6 @@ import * as session from 'express-session';
 import {SessionOptions} from 'express-session';
 import * as passport from 'passport';
 import {Strategy} from 'passport-local';
-import {BaseUser} from '../user/BaseUser';
 import {UserSecService} from '../user/UserSec';
 
 export interface Setup {
@@ -13,10 +12,10 @@ export interface Setup {
   setDeserializeUser(): void;
 }
 
-export class PassportSetup<T extends BaseUser> implements Setup {
-  protected userSec: UserSecService<T>;
+export class PassportSetup implements Setup {
+  protected userSec: UserSecService;
 
-  constructor(protected readonly userSecService: UserSecService<T>) {
+  constructor(protected readonly userSecService: UserSecService) {
     this.userSec = userSecService;
   }
 
@@ -42,17 +41,13 @@ export class PassportSetup<T extends BaseUser> implements Setup {
    * Sets the local strategy used by passport authentication.
    */
   public setStrategy() {
-    passport.use(new Strategy((username, password, done) => {
-      this.userSec.getUserId(username).then((userId: string) => {
+    passport.use(new Strategy((loginId, password, done) => {
+      this.userSec.getUserId(loginId).then((userId: string) => {
         if (!userId) {
           return done(null, false);
         } else {
-          this.userSec.comparePassword(username, password).then((valid) => {
-            if (valid) {
-              return done(null, userId);
-            } else {
-              return done(null, false);
-            }
+          this.userSec.comparePassword(userId, password).then((valid: boolean) => {
+            return valid ? done(null, userId) : done(null, false);
           });
         }
       })
@@ -66,8 +61,8 @@ export class PassportSetup<T extends BaseUser> implements Setup {
    * Sets the serializeUser function to be used by passport.
    */
   public setSerializeUser() {
-    passport.serializeUser((user: string, done) => {
-      return done(null, user);
+    passport.serializeUser((userId: string, done) => {
+      return done(null, userId);
     });
   }
 
@@ -75,8 +70,10 @@ export class PassportSetup<T extends BaseUser> implements Setup {
    * Sets the deserializeUser function to be used by passport.
    */
   public setDeserializeUser() {
-    passport.deserializeUser((id: string, done) => {
-      return done(null, id);
+    passport.deserializeUser((userId: string, done) => {
+      return done(null, userId);
     });
   }
 }
+
+export default PassportSetup;

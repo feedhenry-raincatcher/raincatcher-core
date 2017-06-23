@@ -1,57 +1,54 @@
-import {BaseUser} from './BaseUser';
-import {UserApiService} from './UserApi';
+import BaseUser from './BaseUser';
 
-export interface UserSec<T extends BaseUser> {
-  getUserId(username: string): Promise<string>;
+export interface UserSec {
+  getUserId(loginId: string): Promise<string>;
   comparePassword(id: string, password: string): Promise<boolean>;
-  getUserRoles(id: string): Promise<string[]>;
+  hasResourceRole(id: string, role: string): Promise<boolean>;
 }
 
-export class UserSecService<T extends BaseUser> implements UserSec<T> {
-  protected userApi: UserApiService<T>;
+export class UserSecService implements UserSec {
+  protected userApi: BaseUser;
 
-  constructor(protected readonly userApiService: UserApiService<T>) {
-    this.userApi = userApiService;
+  constructor(protected readonly UserApi: BaseUser) {
+    this.userApi = UserApi;
   }
 
   /**
-   * Retrieves user ID by username
+   * Retrieves the user's id using the user's login id.
    *
-   * @param username {string} Username assigned to a user
-   * @returns {Promise<string|null>} Returns the user's id if found, otherwise it returns null
+   * @param loginId {string} - A unique login id
+   * @returns {Promise<string>} - Returns the user's id if found
    */
-  public getUserId(username: string) {
-    return this.userApi.findUserById(username).then((user) => {
-      let id = null;
-      if (user) {
-        id = user.id;
-      }
-      return id;
-    });
+  public getUserId(loginId: string) {
+    return this.userApi.getId(loginId);
   }
 
   /**
-   * Compares the password provided by the user with the password from the data source
+   * Compares the user's password with the user's password in the data source.
    *
-   * @param id {string} User ID
-   * @param password {string} Password provided by the user
-   * @returns {Promise<boolean>} Returns true if the passwords are the same, otherwise it returns false
+   * @param id {string} - A unique id used to identify the user
+   * @param password {string} - Password given by the user upon login
+   * @returns {Promise<boolean>} - Returns true/false if the password given matches with the password
+   * from the data source
    */
   public comparePassword(id: string, password: string) {
-    return this.userApi.findUserById(id).then((user) => {
-      return (user.password === password); // TODO: replace with bcrypt compare
+    return this.userApi.getPasswordHash(id).then((passwordHash: string) => {
+      return (password === passwordHash); // TODO: replace with bcrypt [RAINCATCH-872]
     });
   }
 
   /**
-   * Retrieves the roles assigned to a user
-   * @param id {string} User ID
-   * @returns {Promise<string[]>} Returns an array of roles assigned to the user. If no roles are assigned, it
-   * returns an empty array
+   * Checks if the user has the role specified
+   *
+   * @param id {string} - A unique id used to identify the user
+   * @param role {string} - Role to be checked if assigned to the given user
+   * @returns {Promise<boolean>} - Returns true/false if the user has the role specified
    */
-  public getUserRoles(id: string) {
-    return this.userApi.findUserById(id).then((user) => {
-      return user.roles || [];
+  public hasResourceRole(id: string, role: string) {
+    return this.userApi.getRoles(id).then((roles: string[]) => {
+      return (roles.indexOf(role) > -1);
     });
   }
 }
+
+export default UserSecService;

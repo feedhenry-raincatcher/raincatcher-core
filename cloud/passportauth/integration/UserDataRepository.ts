@@ -1,8 +1,14 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
-import {DataRepository} from '../src/index';
 import {User} from './UserSeedData';
 
+export interface DataRepository<T> {
+  getUserById(id: string): Promise<T|undefined>;
+}
+
+/**
+ * A sample implementation of a user data repository
+ */
 export class UserDataRepository implements DataRepository<User> {
   protected userData: User[];
 
@@ -10,8 +16,13 @@ export class UserDataRepository implements DataRepository<User> {
     this.userData = seedData;
   }
 
-  public findUserById(id: string) {
-    // A sample read user function from a data source
+  /**
+   * A sample get user using an id from a data source
+   *
+   * @param id {string} - A unique id used to identify the user
+   * @returns {Promise} - Returns a user object if user was found
+   */
+  public getUserById(id: string) {
     const userObj = _.find(this.userData, function(user: User) {
       if (user.id === id || user.username === id) {
         return user;
@@ -21,3 +32,5 @@ export class UserDataRepository implements DataRepository<User> {
     return Promise.resolve(userObj);
   }
 }
+
+export default UserDataRepository;
