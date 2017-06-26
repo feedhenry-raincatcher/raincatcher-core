@@ -34,8 +34,8 @@ contained in the following directories:
   <dt>demo/</dt>
   <dd>Full-fledged Demo applications, showcasing the usage of multiple modules</dd>
 
-  <dt>examples/</dt>
-  <dd>Smaller examples and templates for other packages in the repository</dd>
+  <dt>templates/</dt>
+  <dd>Templates and examples for other packages in the repository</dd>
 </dl>
 
 ## Creating a new package
@@ -57,6 +57,9 @@ expected of a new package. Refer to the linked README for more details.
 
   <dt>coverage/ and .nyc_output</dt>
   <dd>Istanbul output, should be .gitignored.</dd>
+
+  <dt>example/ </dt>
+  <dd>Example usage for module. </dd>
 </dl>
 
 ### Module structure

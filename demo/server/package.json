@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "Raincatcher demo application server using express",
   "types": "src/index.ts",
+  "main": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
   "scripts": {
     "clean": "del src/*.js src/**/*.js src/*.map src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "test": "nyc mocha",
-    "prepublish": "npm run clean && npm run build"
+    "test": "nyc mocha"
   },
   "nyc": {
     "include": [

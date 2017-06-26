@@ -1,14 +1,14 @@
 # RainCatcher Sync Cloud
 
-Raincatcher Wrapper for Feedhenry DataSync server.
+Raincatcher wrapper for Feedhenry DataSync server.
 This module creates server side service that allows mobile applications to sync offline data to preferred database.
 By default server connects and stores all client data in mongodb database.
 This behavior can be changed by providing custom handlers.
 
-For advanced usage see [FeedHenry sync documentation](https://github.com/feedhenry/fh-sync/tree/master/docs).
+For advanced usage see [FeedHenry Sync documentation](https://github.com/feedhenry/fh-sync/tree/master/docs).
 
+> **Note**: Cloud service is utilized by one of the sync clients. See [datasync-js](../client/datasync)
 
-> **Note**: Cloud service is utilized by one of the sync clients. For more information about client go to: [sync.js client] repository(https://github.com/feedhenry/fh-sync-js)
 
 ## Quick start
 
@@ -18,18 +18,18 @@ Starting sync service  will monitor and process
 mew tasks are sent from sync clients
 
 ```typescript
-import SyncServer, { SyncApi, SyncOptions, SyncExpressMiddleWare } from '../src/index'
-
-// Assign default implementation to sync interface
+import SyncServer, { SyncApi, SyncExpressMiddleWare, SyncOptions } from '@raincatcher/datasync-cloud';
 const sync: SyncApi = SyncServer;
-// Options for sync connection
-const connectOptions: SyncOptions = {},
-// Connect database and start sync
-sync.connect(connectOptions, function (err) {
+
+// Connect sync
+const connectOptions: SyncOptions = {
+  // Use intelisense to get list of options
+};
+sync.connect(connectOptions, function(err) {
   if (err) {
     console.log(err);
   }
-})
+});
 ```
 
 2. Create api endpoint for sync.
@@ -47,7 +47,7 @@ const path = '/sync/:datasetId';
 const middleware: SyncExpressMiddleWare = new SyncExpressMiddleWare();
 
 const router = middleware.createSyncExpressRouter();
-app.use("/", router);
+app.use('/', router);
 ```
 
 See [integration](./integration) for complete runnable example.

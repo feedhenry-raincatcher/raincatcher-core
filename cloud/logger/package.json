@@ -1,15 +1,17 @@
 {
-  "name": "@raincatcher/datasync-cloud",
-  "version": "1.0.0",
-  "description": "Raincatcher DataSync cloud",
+  "name": "@raincatcher/logger",
+  "version": "0.0.1",
+  "description": "NPM package for logger in RainCatcher project",
   "types": "src/index.ts",
-  "main": "src/",
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
+  "main": "src/",
   "scripts": {
     "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
-    "test": "nyc mocha"
+    "start": "ts-node src/index.ts",
+    "test": "npm run clean && nyc mocha",
+    "integration": "ts-node integration/index.ts"
   },
   "nyc": {
     "include": [
@@ -23,15 +25,12 @@
     ],
     "check-coverage": true,
     "lines": 75,
-    "functions": 80,
-    "branches": 50
+    "functions": 100,
+    "branches": 80
   },
   "devDependencies": {
-    "@types/body-parser": "^1.16.3",
-    "@types/cors": "^2.8.1",
-    "@types/express": "4.0.35",
+    "@types/bunyan": "^1.8.0",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^7.0.14",
     "@types/proxyquire": "^1.3.27",
     "del-cli": "^1.0.0",
     "mocha": "^3.4.2",
@@ -42,9 +41,9 @@
     "typescript": "^2.3.4"
   },
   "dependencies": {
-    "body-parser": "1.17.2",
-    "cors": "2.8.3",
-    "express": "4.15.3",
-    "fh-sync": "^1.0.3"
+    "@types/chai": "^4.0.0",
+    "bunyan": "^1.8.10",
+    "chai": "^4.0.2",
+    "tslint": "^5.4.3"
   }
 }
