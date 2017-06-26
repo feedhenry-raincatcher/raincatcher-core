@@ -11,7 +11,7 @@
     "build": "tsc",
     "start": "ts-node src/index.ts",
     "test": "npm run clean && nyc mocha",
-    "integration": "ts-node integration/index.ts"
+    "example": "ts-node example/index.ts"
   },
   "nyc": {
     "include": [
