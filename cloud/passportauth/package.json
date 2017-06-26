@@ -1,5 +1,5 @@
 {
-  "name": "@raincatcher/passport-auth",
+  "name": "@raincatcher/auth-passport",
   "version": "1.0.0",
   "description": "NPM package for passport authentication",
   "types": "src/index.ts",
@@ -10,7 +10,8 @@
     "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "test": "npm run clean && nyc mocha"
+    "test": "npm run clean && nyc mocha",
+    "integration": "ts-node integration/index.ts"
   },
   "nyc": {
     "include": [
@@ -24,7 +25,7 @@
     ],
     "check-coverage": true,
     "lines": 75,
-    "functions": 100,
+    "functions": 90,
     "branches": 80
   },
   "devDependencies": {
