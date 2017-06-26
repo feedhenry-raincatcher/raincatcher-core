@@ -10,8 +10,7 @@
     "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "test": "npm run clean && nyc mocha",
-    "integration": "ts-node integration/index.ts"
+    "test": "npm run clean && nyc mocha"
   },
   "nyc": {
     "include": [
