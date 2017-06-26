@@ -21,12 +21,11 @@ export function suite(executorFactory: (process: Process) => Executor) {
     let executor: Executor;
 
     beforeEach(function() {
-      const process = new ProcessImpl('sample');
-      process.tasks = [
+      const process = new ProcessImpl('sample', [
         new NoopTask(),
         new NoopTask(),
         new NoopTask()
-      ];
+      ]);
       executor = executorFactory(process);
     });
 
