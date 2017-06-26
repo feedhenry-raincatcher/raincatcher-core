@@ -22,6 +22,17 @@ class PassportAuthTest {
         let chai = require('chai');
         chai.use(chaiAsPromised);
     }
+
+    public before(){
+        this.passportAuth = new PassportAuth(this.userSecServiceMock.object);
+        this.passportMock.reset();
+        this.userSecServiceMock.reset();
+    }
+
+    public after(){
+        this.passportMock.reset();
+        this.userSecServiceMock.reset();
+    }
     
     @test
     public testIsAuthenticatedWithAuthenticatedRequest(){
@@ -64,11 +75,24 @@ class PassportAuthTest {
 
 
     @test
-    public testLoginWithoutOpts(){
+    public testLoginWithoutOptions(){
         let loginStrategy: string = 'Hello World!';
         let passportAuthProxy = proxyquire('../src/auth/PassportAuth',{'passport': this.passportMock.object});
         this.passportAuth = new passportAuthProxy.PassportAuth(this.userSecServiceMock.object);
         this.passportAuth.login(loginStrategy);
         this.passportMock.verify(passport => passport.authenticate(loginStrategy,{}), TypeMoq.Times.once());
+    }
+
+    @test
+    public testLoginWithOptions(){
+        let loginStrategy: string = 'Hello World!';
+        let loginOptions = {
+            prop: "Property",
+            cb: "Callback"
+        }
+        let passportAuthProxy = proxyquire('../src/auth/PassportAuth',{'passport': this.passportMock.object});
+        this.passportAuth = new passportAuthProxy.PassportAuth(this.userSecServiceMock.object);
+        this.passportAuth.login(loginStrategy,loginOptions);
+        this.passportMock.verify(passport => passport.authenticate(loginStrategy,loginOptions), TypeMoq.Times.once());
     }
 }

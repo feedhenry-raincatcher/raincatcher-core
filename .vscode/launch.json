@@ -1,20 +1,17 @@
-{
-  // Use IntelliSense to learn about possible Node.js debug attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "node",
-      "request": "attach",
-      "name": "Attach to inspector protocol (Node>=6)",
-      "protocol": "inspector"
-    },
-    {
-      "type": "node",
-      "request": "attach",
-      "name": "Attach to legacy protocol",
-      "port": 5858
-    }
-  ]
+ {
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "preLaunchTask": "tsc",
+            "name": "Run Mocha",
+            "sourceMaps": true,
+            "protocol": "inspector",
+            "program": "${workspaceRoot}/cloud/passportauth/node_modules/mocha/bin/_mocha",
+            "args": ["${workspaceRoot}/cloud/passportauth/test/**/*.js"],
+            "cwd": "${workspaceRoot}",
+            "outFiles": []
+        }
+    ]
 }

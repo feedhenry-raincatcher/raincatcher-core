@@ -11,24 +11,34 @@ import * as TypeMoq from 'typemoq';
 import * as express from 'express';
 import * as assert from 'assert';
 import * as sinon from 'sinon';
+import * as proxyquire from 'proxyquire';
 
 @suite
 class PassportSetupTest {
 
-    private static passportSetup : PassportSetup<BaseUser>;
+    private userSecServiceMock : TypeMoq.IMock<UserSecService<BaseUser>> = TypeMoq.Mock.ofType<UserSecService<BaseUser>>();
+    private passportSetup : PassportSetup<BaseUser> = new PassportSetup(this.userSecServiceMock.object);
 
     public static before(){
-        let userSecServiceMock : TypeMoq.IMock<UserSecService<BaseUser>> = TypeMoq.Mock.ofType<UserSecService<BaseUser>>();
-        this.passportSetup = new PassportSetup(userSecServiceMock.object);
         let chai = require('chai');
         chai.should();
     }
 
-    @test
-    public testInit(){
-        let expressAppMock: TypeMoq.IMock<express.Express> = TypeMoq.Mock.ofType<express.Express>();
-        PassportSetupTest.passportSetup.init(expressAppMock.object);
+    public before(){
+        this.userSecServiceMock.reset();
+        this.passportSetup = new PassportSetup(this.userSecServiceMock.object);
+    }
 
+    @test
+    public testInitShouldInitializeFunctions(){
+        let expressAppMock: TypeMoq.IMock<express.Express> = TypeMoq.Mock.ofType<express.Express>();
+        let passportSetupMock: TypeMoq.IMock<PassportSetup<BaseUser>> = TypeMoq.Mock.ofInstance(this.passportSetup);
+        passportSetupMock.callBase = true;
+        this.passportSetup = passportSetupMock.object;
+        this.passportSetup.init(expressAppMock.object);
+        passportSetupMock.verify(passportSetup => passportSetup.setStrategy(), TypeMoq.Times.once())
+        passportSetupMock.verify(passportSetup => passportSetup.setSerializeUser(),TypeMoq.Times.once());
+        passportSetupMock.verify(passportSetup => passportSetup.setDeserializeUser(), TypeMoq.Times.once());
     }
 
 }
