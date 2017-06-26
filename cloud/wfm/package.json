@@ -1,0 +1,54 @@
+{
+  "name": "@raincatcher/wfm",
+  "version": "1.0.0",
+  "description": "Set of WorkForce Management tools",
+  "types": "src/index.ts",
+  "author": "feedhenry-raincatcher@redhat.com",
+  "license": "Apache-2.0",
+  "main": "src/",
+  "scripts": {
+    "clean": "del src/*.js src/*.map src/**/*.js src/**/*.map test/*.js test/*.map test/**/*.js test/**/*.map",
+    "build": "tsc",
+    "start": "ts-node src/index.ts",
+    "test": "nyc mocha",
+    "debug": "node --inspect-brk ./node_modules/.bin/_mocha",
+    "debug-legacy": "node --debug-brk ./node_modules/.bin/_mocha"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register",
+      "source-map-support/register"
+    ],
+    "produce-source-map": true,
+    "check-coverage": false,
+    "lines": 75,
+    "functions": 100,
+    "branches": 80
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.5",
+    "@types/lodash": "^4.14.65",
+    "@types/mocha": "^2.2.41",
+    "@types/valid-url": "^1.0.2",
+    "del-cli": "^1.0.0",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.1",
+    "source-map-support": "^0.4.15",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "@types/node": "^7.0.29",
+    "ajv": "^5.1.5",
+    "bluebird": "^3.5.0",
+    "eventemitter3": "^2.0.3",
+    "lodash": "^4.17.4",
+    "valid-url": "^1.0.9"
+  }
+}
