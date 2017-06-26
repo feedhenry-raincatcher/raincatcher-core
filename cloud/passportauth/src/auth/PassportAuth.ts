@@ -29,7 +29,7 @@ export class PassportAuth implements Auth {
         if (!role) {
           return next();
         } else {
-          this.userSec.hasResourceRole(req.user, role).then((hasRole: boolean) => {
+          this.userSec.hasResourceRole(role).then((hasRole: boolean) => {
             return hasRole ? next() : res.status(401).send('Unauthorized');
           });
         }

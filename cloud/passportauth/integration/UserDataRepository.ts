@@ -2,14 +2,14 @@ import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import {User} from './UserSeedData';
 
-export interface DataRepository<T> {
-  getUserById(id: string): Promise<T|undefined>;
+export interface UserDataRepo {
+  getUserById(id: string): Promise<User|undefined>;
 }
 
 /**
  * A sample implementation of a user data repository
  */
-export class UserDataRepository implements DataRepository<User> {
+export class UserDataRepository implements UserDataRepo {
   protected userData: User[];
 
   constructor(protected readonly seedData: User[]) {

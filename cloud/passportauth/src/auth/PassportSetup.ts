@@ -46,12 +46,13 @@ export class PassportSetup implements Setup {
         if (!userId) {
           return done(null, false);
         } else {
-          this.userSec.comparePassword(userId, password).then((valid: boolean) => {
+          this.userSec.comparePassword(password).then((valid: boolean) => {
             return valid ? done(null, userId) : done(null, false);
           });
         }
       })
       .catch((err: Error) => {
+        console.log('An error occurred: ', err);
         return done(err);
       });
     }));

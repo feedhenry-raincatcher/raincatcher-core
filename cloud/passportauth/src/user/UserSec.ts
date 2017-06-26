@@ -26,13 +26,12 @@ export class UserSecService implements UserSec {
   /**
    * Compares the user's password with the user's password in the data source.
    *
-   * @param id {string} - A unique id used to identify the user
    * @param password {string} - Password given by the user upon login
    * @returns {Promise<boolean>} - Returns true/false if the password given matches with the password
    * from the data source
    */
-  public comparePassword(id: string, password: string) {
-    return this.userApi.getPasswordHash(id).then((passwordHash: string) => {
+  public comparePassword(password: string) {
+    return this.userApi.getPasswordHash().then((passwordHash: string) => {
       return (password === passwordHash); // TODO: replace with bcrypt [RAINCATCH-872]
     });
   }
@@ -40,12 +39,11 @@ export class UserSecService implements UserSec {
   /**
    * Checks if the user has the role specified
    *
-   * @param id {string} - A unique id used to identify the user
    * @param role {string} - Role to be checked if assigned to the given user
    * @returns {Promise<boolean>} - Returns true/false if the user has the role specified
    */
-  public hasResourceRole(id: string, role: string) {
-    return this.userApi.getRoles(id).then((roles: string[]) => {
+  public hasResourceRole(role: string) {
+    return this.userApi.getRoles().then((roles: string[]) => {
       return (roles.indexOf(role) > -1);
     });
   }

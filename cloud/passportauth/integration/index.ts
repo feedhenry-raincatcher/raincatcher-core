@@ -9,7 +9,7 @@ import userSeedData from './UserSeedData';
 
 // Configuration for express session options
 const sessionOpts = {
-  secret: process.env.SESSION_SECRET || 'wfm',
+  secret: process.env.SESSION_SECRET || 'raincatcher',
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -46,10 +46,8 @@ app.get('/login', (req: express.Request, res: express.Response) => {
   res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
-app.post('/login',  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/testUserEndpoint');
-  });
+app.post('/login',  passport.authenticate('local', { failureRedirect: '/login',
+  successReturnToOrRedirect: '/testUserEndpoint'}));
 
 app.listen(3000, function() {
   console.log('Example auth app listening on port 3000');

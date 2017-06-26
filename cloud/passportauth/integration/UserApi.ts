@@ -1,39 +1,37 @@
+import * as Promise from 'bluebird';
 import {BaseUser} from '../src/index';
-import {DataRepository} from './UserDataRepository';
+import UserDataRepository from './UserDataRepository';
 import {User} from './UserSeedData';
 
 /**
  * A sample implementation of a base user api
  */
 export class UserApi implements BaseUser {
-  protected userDataRepo: DataRepository<User>;
+  protected userDataRepo: UserDataRepository;
+  protected user: User|undefined;
 
-  constructor(protected readonly dataRepo: DataRepository<User>) {
+  constructor(protected readonly dataRepo: UserDataRepository) {
     this.userDataRepo = dataRepo;
   }
 
   public getId(loginId: string) {
     return this.dataRepo.getUserById(loginId).then((user) => {
-      return user ? user.id : null;
+      this.user = user;
+      return this.user ? this.user.id : null;
     });
   }
 
-  public getLoginId(id: string) {
-    return this.dataRepo.getUserById(id).then((user) => {
-      return user ? user.username : null;
-    });
+  public getLoginId() {
+    return this.user ? Promise.resolve(this.user.username) : Promise.resolve(null);
   }
 
-  public getPasswordHash(id: string) {
-    return this.dataRepo.getUserById(id).then((user) => {
-      return user ? user.password : null;
-    });
+  public getPasswordHash() {
+    return this.user ? Promise.resolve(this.user.password) : Promise.resolve(null);
+
   }
 
-  public getRoles(id: string) {
-    return this.dataRepo.getUserById(id).then((user) => {
-      return user ? user.roles : [];
-    });
+  public getRoles() {
+    return this.user ? Promise.resolve(this.user.roles) : Promise.resolve(null);
   }
 }
 
