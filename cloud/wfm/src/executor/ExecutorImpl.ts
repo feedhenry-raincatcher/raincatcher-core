@@ -47,9 +47,6 @@ export class ExecutorImpl implements Executor {
         return;
       }
       return task
-        // TODO: this assumes the Task object will be kept in memory forever
-        // but human-executed tasks can take very long to complete
-        // we might have to change this to an out-of-process message bus
         .on('statusChange', this.onTaskDone.bind(this))
         .run();
     });
