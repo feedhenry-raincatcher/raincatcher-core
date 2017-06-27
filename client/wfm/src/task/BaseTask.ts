@@ -18,16 +18,16 @@ export class BaseTask extends EventEmitter implements Task {
    * Setter for the status property
    * Emits a statusChange event when set
    */
-  public set status(to: TaskStatus | number) {
+  public updateStatus(to: TaskStatus | number) {
     if (to === this._status) {
       // TODO: replace with logger object
       // tslint:disable-next-line:max-line-length
       console.warn('BaseTask#status setter: attempted status change to same status as current, no event will be emitted');
       return;
     }
-    const previousStatus = this.getStatus();
+    const previousStatus = this._status;
     this._status = to;
-    const currentStatus = this.getStatus();
+    const currentStatus = this._status;
 
     const e: TaskEventData<this> = {
       date: new Date(),
@@ -38,7 +38,7 @@ export class BaseTask extends EventEmitter implements Task {
     this.emit('statusChange', e);
   }
 
-  public get status() {
+  public getStatus() {
     return this._status;
   }
 
@@ -49,7 +49,7 @@ export class BaseTask extends EventEmitter implements Task {
    * This implementation simply sets the status to {@link TaskStatus#done}
    */
   public run() {
-    this.status = TaskStatus.DONE;
+    this.updateStatus(TaskStatus.DONE);
   }
 
   public getOptionsSchema() {
@@ -61,8 +61,8 @@ export class BaseTask extends EventEmitter implements Task {
     this.options = options;
   }
 
-  public getStatus() {
-    const roundedDownStatus = this.status - (this.status % 100);
+  public getRoundedStatus() {
+    const roundedDownStatus = this._status - (this._status % 100);
     return roundedDownStatus || TaskStatus.PENDING;
   }
 }

@@ -54,7 +54,7 @@ class VehicleInspectionTask extends BaseTask {
     };
   }
   public run() {
-    this.status = TaskStatus.ASSIGNED;
+    this.updateStatus(TaskStatus.ASSIGNED);
   }
 
   public fillFormData(data: VehicleInspectionFormData) {
@@ -68,7 +68,7 @@ class VehicleInspectionTask extends BaseTask {
       }
     }
     this.result = new VehicleInspectionFormResult(data);
-    this.status = TaskStatus.DONE;
+    this.updateStatus(TaskStatus.DONE);
   }
 }
 

@@ -65,23 +65,24 @@ export enum TaskStatus {
  * Each task potentially has it's own, implementation-specific Result, and
  */
 export interface Task {
+  result?: Result;
+  updateStatus(to: TaskStatus | number): void;
   /**
-   * The current status of the task, see {@link TaskStatus}
+   * Gets the current status of the task, see {@link TaskStatus}
    * should default to {@link TaskStatus.PENDING}
    */
-  status: TaskStatus | number;
-  result?: Result;
+  getStatus(): TaskStatus | number;
   /**
    * Set of runtime configuration options
    * This is intended to be rendered as a `<form>` in a front-end application
    * for instance by utilizing http://schemaform.io/
    */
-  getOptionsSchema: () => JsonSchema;
+  getOptionsSchema(): JsonSchema;
   /**
    * Sets an object that is compatible with the JsonSchema returned by {@link getOptionsSchema}
    * Implementations are expected to provide validation
    */
-  setOptions: (options: object) => void;
+  setOptions(options: object): void;
 
   /**
    * Emitted when the task's status changes to a different value
@@ -99,7 +100,7 @@ export interface Task {
    * Returns the current Task's status, rounded down to the nearest TaskStatus
    * (i.e. ignoring custom intermediate status)
    */
-  getStatus(): TaskStatus | number;
+  getRoundedStatus(): TaskStatus;
 
   // Step implementations would carry extra metadata needed for execution and UI
 }
