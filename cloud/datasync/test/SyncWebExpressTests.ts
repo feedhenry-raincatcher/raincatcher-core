@@ -1,19 +1,27 @@
 import * as assert from 'assert';
 import {SyncExpressMiddleWare} from '../src/index';
 
-describe('FeedHenry Sync Express Tests', function() {
-  let testSubject: SyncExpressMiddleWare;
+import {suite,test} from 'mocha-typescript';
+import * as express from 'express';
 
-  beforeEach(function() {
-    testSubject = new SyncExpressMiddleWare('prefix');
-  });
+@suite
+class SyncWebExpressTest{
+  private syncExpressMidlleware : SyncExpressMiddleWare;
 
-  describe('Test end user api', function() {
-    it('createRouter', function() {
-      assert.ok(testSubject.createSyncExpressRouter());
-    });
-    it('getRouter', function() {
-      assert.ok(testSubject.getRouter());
-    });
-  });
-});
+  public before(){
+    this.syncExpressMidlleware = new SyncExpressMiddleWare('prefix')
+  }
+
+  @test
+  public createRouter(){
+    let createdRouter: express.Router = this.syncExpressMidlleware.createSyncExpressRouter();
+    assert.ok(createdRouter,"Failed to create router");
+  }
+
+  @test
+  public getRouter(){
+    let routerInstance: express.Router = this.syncExpressMidlleware.getRouter();
+    assert.ok(routerInstance, "Failed to retreive router instance");
+  }
+}
+

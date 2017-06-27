@@ -1,6 +1,8 @@
 import * as assert from 'assert';
 import * as proxyquire from 'proxyquire';
 import {DataSetHandler, SyncApi, SyncDataSetOptions, SyncOptions} from '../src/index';
+import {suite,test} from 'mocha-typescript';
+import * as TypeMoq from 'typemoq';
 // Import original and provide mocked version of the api
 
 const connectOptions: SyncOptions = {
@@ -74,3 +76,42 @@ describe('FeedHenry Sync Tests', function() {
     });
   });
 });
+
+@suite
+class SyncServerTest{
+  
+  private syncApi: SyncApi;
+
+  public before(){
+    this.syncApi = SyncServerMock.SyncServer;
+  }
+
+  @test
+  public testConnect(){
+    return this.syncApi.connect(connectOptions, function(err: any) {
+        assert.ok(!err, 'No error happened');
+      });
+  }
+
+  @test
+  public testOverrideDataSetHanlder(){
+    let customDataSetHandler: DataSetHandler = new MyTestDataSetHandler();
+    return this.syncApi.setGlobalDataHandlers(customDataSetHandler);
+  }
+
+  @test
+  public testCallRegisterDataSetHandler(){
+    let options: SyncDataSetOptions = {
+        backendListTimeout: 20,
+        // tslint:disable-next-line:no-empty
+        hashFunction() {
+        },
+        // tslint:disable-next-line:no-empty
+        collisionHandler() {
+        }
+      };
+    let customDataSetHandler: DataSetHandler = new MyTestDataSetHandler();
+    return this.syncApi.registerDatasetDataHandler('test',options,customDataSetHandler);
+  }
+
+}
