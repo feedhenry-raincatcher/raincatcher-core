@@ -46,7 +46,11 @@ app.get('/login', (req: express.Request, res: express.Response) => {
   res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
-app.post('/login', passport.authenticate('local', {successReturnToOrRedirect: '/testUserEndpoint'}));
+//app.post('/login', passport.authenticate('local', {successReturnToOrRedirect: '/testUserEndpoint'}));
+app.post('/login',  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/testUserEndpoint');
+  });
 
 app.listen(3000, function() {
   console.log('Example auth app listening on port 3000');
