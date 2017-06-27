@@ -27,7 +27,6 @@ export class UserApi implements BaseUser {
 
   public getPasswordHash() {
     return this.user ? Promise.resolve(this.user.password) : Promise.resolve(null);
-
   }
 
   public getRoles() {

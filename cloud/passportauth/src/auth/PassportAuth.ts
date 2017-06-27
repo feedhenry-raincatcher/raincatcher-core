@@ -1,19 +1,17 @@
 import * as express from 'express';
-import UserSecService from '../user/UserSec';
+import {UserSec} from '../user/UserSec';
 
 export interface Auth {
   protect(role?: string): void;
 }
 
 export class PassportAuth implements Auth {
-  protected userSec: UserSecService;
+  protected userSec: UserSec;
   protected loginRoute: string;
-  protected strategy: string;
 
-  constructor(protected readonly UserSecService: UserSecService, loginRoute?: string, strategy?: string) {
+  constructor(protected readonly UserSecService: UserSec, loginRoute?: string) {
     this.userSec = UserSecService;
     this.loginRoute = loginRoute || '/login';
-    this.strategy = strategy || 'local';
   }
 
   /**

@@ -3,7 +3,7 @@ import * as session from 'express-session';
 import {SessionOptions} from 'express-session';
 import * as passport from 'passport';
 import {Strategy} from 'passport-local';
-import {UserSecService} from '../user/UserSec';
+import {UserSec} from '../user/UserSec';
 
 export interface Setup {
   init(app: express.Express, sessionOpts: SessionOptions): void;
@@ -13,9 +13,9 @@ export interface Setup {
 }
 
 export class PassportSetup implements Setup {
-  protected userSec: UserSecService;
+  protected userSec: UserSec;
 
-  constructor(protected readonly userSecService: UserSecService) {
+  constructor(protected readonly userSecService: UserSec) {
     this.userSec = userSecService;
   }
 
