@@ -12,7 +12,7 @@ export class BaseTask extends EventEmitter implements Task {
    * Storage field for the `status` property
    */
   protected _status: TaskStatus | number = TaskStatus.PENDING;
-  protected options: object;
+  protected options: any;
 
   /**
    * Setter for the status property
@@ -52,8 +52,11 @@ export class BaseTask extends EventEmitter implements Task {
     this.status = TaskStatus.DONE;
   }
 
-  public getOptionsSchema = () => ({});
-  public setOptions(options: object) {
+  public getOptionsSchema() {
+    return {};
+  }
+
+  public setOptions(options: any) {
     // TODO: JsonSchema validation with http://epoberezkin.github.io/ajv/
     this.options = options;
   }

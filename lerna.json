@@ -3,6 +3,7 @@
   "packages": [
     "cloud/*",
     "client/*",
+    "examples/*",
     "demo/*"
   ],
   "version": "independent"

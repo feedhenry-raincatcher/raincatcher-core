@@ -1,0 +1,48 @@
+{
+  "name": "@raincatcher/example-vehicle-inspection",
+  "version": "1.0.0",
+  "description": "NPM package template for the RainCatcher project",
+  "types": "src/index.ts",
+  "author": "feedhenry-raincatcher@redhat.com",
+  "license": "Apache-2.0",
+  "main": "src/",
+  "scripts": {
+    "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
+    "build": "tsc",
+    "start": "ts-node src/index.ts",
+    "test": "npm run clean && nyc mocha"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "check-coverage": false,
+    "lines": 75,
+    "functions": 100,
+    "branches": 80
+  },
+  "devDependencies": {
+    "@raincatcher/wfm": "^1.0.0",
+    "@types/bluebird": "^3.5.8",
+    "@types/lodash": "^4.14.66",
+    "@types/mocha": "^2.2.41",
+    "del-cli": "^1.0.0",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.1",
+    "proxyquire": "^1.8.0",
+    "source-map-support": "^0.4.15",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "@types/node": "^8.0.3",
+    "bluebird": "^3.5.0",
+    "lodash": "^4.17.4"
+  }
+}

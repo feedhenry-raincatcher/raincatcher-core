@@ -21,6 +21,7 @@ class MyTask extends BaseTask {
     // moving the status as progress occurs
 
     // BaseTask's implementation takes care of publishing the 'statusChanged' event
+    // when a Task reaches the DONE status, the default Executor implementation will move to the next task.
     this.status = TaskStatus.DONE;
   }
 }
