@@ -52,7 +52,6 @@ export class PassportSetup implements Setup {
         }
       })
       .catch((err: Error) => {
-        console.log('An error occurred: ', err);
         return done(err);
       });
     }));

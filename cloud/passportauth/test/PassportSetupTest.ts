@@ -20,7 +20,7 @@ describe('Test Passport Setup', function() {
     app = express();
     mockSessionOpts = {
       secret: 'test',
-      resave: true,
+      resave: false,
       saveUninitialized: true
     };
     mockReq = {};
@@ -45,8 +45,7 @@ describe('Test Passport Setup', function() {
     mockReq = {
       body: {
         username: 'test',
-        password: 'testPassword',
-        done: sinon.spy()
+        password: 'testPassword'
       },
       logIn: sinon.spy(),
       user: null
@@ -73,4 +72,21 @@ describe('Test Passport Setup', function() {
 
     done();
   });
+
+  it('should return an error if an error occurred when retrieving the user id', function(done) {
+    mockReq = {
+      body: {
+        username: 'testError',
+        password: 'invalidPassword'
+      },
+      logIn: sinon.spy(),
+      user: null
+    };
+
+    passport.authenticate('local')(mockReq as express.Request, mockRes as express.Response,
+      mockNext as express.NextFunction);
+
+    done();
+  });
+
 });

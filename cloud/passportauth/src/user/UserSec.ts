@@ -1,7 +1,7 @@
 import BaseUser from './BaseUser';
 
 export interface UserSec {
-  getUserId(loginId: string): Promise<string>;
+  getUserId(loginId: string): Promise<string|null>;
   comparePassword(password: string): Promise<boolean>;
   hasResourceRole(role: string): Promise<boolean>;
 }
