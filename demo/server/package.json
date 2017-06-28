@@ -46,9 +46,11 @@
     "typescript": "^2.3.4"
   },
   "dependencies": {
+    "@types/express-handlebars": "0.0.29",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.3",
+    "express-handlebars": "^3.0.0",
     "morgan": "^1.8.1",
     "serve-favicon": "^2.4.3"
   }
