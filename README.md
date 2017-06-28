@@ -13,7 +13,7 @@ Check your Node.JS version running `node -v`
 
 ```bash
 git clone https://github.com/feedhenry-raincatcher/raincatcher-core.git
-cd raincatcher
+cd raincatcher-core
 npm install -g lerna
 npm install
 lerna bootstrap
