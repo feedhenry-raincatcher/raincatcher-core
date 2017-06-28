@@ -24,7 +24,6 @@ app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 
 app.use('/', index, login);
 
-
 app.use((req: express.Request, res: express.Response, next) => {
   const err: any = new Error('Not Found');
   err.status = 404;
