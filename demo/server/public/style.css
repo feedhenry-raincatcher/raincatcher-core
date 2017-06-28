@@ -15,7 +15,7 @@ a {
 
 /* Change content to change the title of the page*/
 div#header {
-  font-size: 4vw;
+  font-size: 40px;
   line-height: 20px;
   margin-bottom: 15px;
 }
