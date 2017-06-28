@@ -1,0 +1,194 @@
+body {
+  background-color: rgb(63,81,181);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  color: #fff;
+  font-family: sans-serif;
+  text-shadow: 0px 0px 10px #000;
+  margin: 0px;
+}
+
+a {
+  color: #fff;
+}
+
+/* Change content to change the title of the page*/
+div#header {
+  font-size: 40px;
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+
+div#info {
+}
+
+/*title banner size and colour*/
+div#container-wrapper {
+  width:100%;
+  background-color: rgb(40,53,147);
+  padding-top: 2.5em;
+  padding-bottom: 2.5em;
+  padding-right: 2em;
+  padding-left: 3em;
+}
+
+div#content {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  width: 95%;
+  margin-left: -44%;
+}
+
+div#form {
+
+}
+/* label change Username, Password text*/
+div#form label {
+  color: rgba(255, 255, 255, 0.7) !important;
+  display: block;
+  font-size: 30px;
+}
+/**/
+div#form-login {
+  text-align: center;
+}
+
+div#info-area {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin-top: 45px;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  width: 99%;
+}
+
+div#info-area p {
+  margin-right: 30px;
+  display: inline;
+  text-shadow: none;
+  font-size: 20px;
+}
+/*fields*/
+input[type=text], input[type=password] {
+  color: #ddd;
+  font-size: 30px;
+  margin-bottom: 20px;
+  background: none;
+  border-width: 0 0 1px 0;
+  padding: 12px;
+  width: 95%;
+}
+
+input[type=text]:hover, input[type=password]:hover {
+  background-color: rgba(3,70,114,0.4);
+}
+/*button*/
+input[type=submit] {
+  border: none;
+  border-radius: 3px;
+  background-color: rgb(40,53,147);
+  box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+  color: rgba(0,0,0,0.6);
+  font-size: 30px;
+  color: white;
+  text-transform: uppercase;
+  padding: 20px;
+  margin-top: 3em;
+  width: 95%;
+}
+
+input[type=submit]:hover {
+  background-color: rgba(255,255,255,0.8);
+}
+
+div#form-options div {
+  display: inline-block;
+  margin-right: 20px;
+  font-size: 25px;
+}
+
+div#form-options div label {
+  font-size: 20px;
+}
+
+div#feedback {
+  box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+div#feedback-wrapper {
+  padding: 1em;
+}
+
+div.feedback-success {
+  background-color: rgba(155,155,255,0.1);
+}
+
+div.feedback-warning {
+  background-color: rgba(255,175,0,0.1);
+}
+
+div.feedback-error {
+  background-color: rgba(255,0,0,0.1);
+}
+
+div#header-wrapper {
+  display: none;
+}
+
+div#registration {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  margin-top: 2em;
+}
+
+div#social-login {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  float: right;
+  width: 150px;
+  padding: 20px 0 200px 40px;
+}
+
+div.social-login span {
+  display: none;
+}
+
+div#social-providers ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+div#social-providers ul li {
+  margin-bottom: 20px;
+}
+
+div#social-providers ul li span {
+  display: inline;
+  width: 100px;
+}
+
+a.zocial {
+  border: none;
+  background: -webkit-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0.1)) !important;
+  background: -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0.1)) !important;
+  background: -ms-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0.1)) !important;
+  background: -o-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0.1)) !important;
+  box-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+  color: rgba(0,0,0,0.6);
+  width: 130px;
+  text-shadow: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
