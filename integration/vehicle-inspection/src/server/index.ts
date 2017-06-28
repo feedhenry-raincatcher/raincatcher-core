@@ -14,7 +14,7 @@ import * as express from 'express';
 import {cloneDeep, filter, isFunction, map} from 'lodash';
 import {VehicleInspectionTask} from '../vehicle-inspection/VehicleInspectionTask';
 
-class Server {
+export class Server {
   public app = express();
   public port = process.env.PORT || 3000;
 
@@ -29,8 +29,7 @@ class Server {
 
   public listen(cb?: () => any) {
     return this.app.listen(this.port, () => {
-      // tslint:disable-next-line:no-console
-      console.log(`Server listening at port ${this.port}`);
+      console.info(`Server listening at port ${this.port}`);
       if (isFunction(cb)) {
         cb();
       }
@@ -49,13 +48,14 @@ class Server {
       this.processRepo.getAll().then(processes => res.json(processes)));
     processRouter.post('/', (req, res) =>
       this.createProcess(req.body).then(process => res.json(process)));
-    this.app.use('processes/', processRouter);
+    this.app.use('/processes', processRouter);
 
     const processInstanceRouter = express.Router();
-    processInstanceRouter.get('/', (req, res) =>
-      this.processInstanceRepo.getAll().then(instances => res.json(instances)));
     processInstanceRouter.get('/unassigned', (req, res) =>
       this.processInstanceRepo.getUnassigned().then(instances => res.json(instances)));
+    processInstanceRouter.get('/', (req, res) =>
+      this.processInstanceRepo.getAll().then(instances => res.json(instances)));
+    this.app.use('/instances', processInstanceRouter);
 
     const taskRouter = express.Router();
     // Looks like the options schema would be a better fit for a static property,
@@ -65,6 +65,7 @@ class Server {
     taskRouter.get('/schemas', (req, res) => res.json({
       'VehicleInspectionTask': vehicleInspectionSchema
     }));
+    this.app.use('/tasks', taskRouter);
   }
 
   protected createProcess(formData: any) {

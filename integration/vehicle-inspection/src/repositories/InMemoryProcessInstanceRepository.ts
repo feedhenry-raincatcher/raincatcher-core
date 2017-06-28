@@ -2,7 +2,7 @@ import {ProcessInstance, ProcessInstanceRepository} from '@raincatcher/wfm';
 import * as Promise from 'bluebird';
 import {cloneDeep, filter} from 'lodash';
 
-class InMemoryProcessInstanceRepository implements ProcessInstanceRepository {
+export class InMemoryProcessInstanceRepository implements ProcessInstanceRepository {
   private data: ProcessInstance[];
   constructor(protected seedData: ProcessInstance[]) {
     this.data = cloneDeep(seedData);

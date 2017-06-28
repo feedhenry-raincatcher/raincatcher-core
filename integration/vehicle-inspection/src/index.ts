@@ -1,34 +1,13 @@
 import {
-  BaseTask,
-  Executor,
-  ExecutorImpl,
-  ExecutorRepository,
-  Process,
-  ProcessImpl,
-  ProcessInstance,
-  ProcessInstanceImpl,
-  Result,
-  Task,
-  TaskStatus
-} from '@raincatcher/wfm';
-import * as Promise from 'bluebird';
-import * as _ from 'lodash';
-import {VehicleInspectionTask} from './vehicle-inspection/VehicleInspectionTask';
+  InMemoryProcessInstanceRepository,
+  InMemoryProcessRepository,
+  InMemoryTaskRepository
+} from './repositories';
+import {Server} from './server';
 
-const inspectionProcess: Process = new ProcessImpl('Example', [
-  new VehicleInspectionTask('vehicle-inspector-id')
-]);
+const server = new Server(
+  new InMemoryProcessRepository([], new InMemoryTaskRepository()),
+  new InMemoryProcessInstanceRepository([])
+);
 
-// TODO: use mongo here
-class InMemoryExecutorRepository implements ExecutorRepository {
-  private instance: ProcessInstance;
-  public saveInstance(instance: ProcessInstance) {
-    this.instance = instance;
-    return Promise.resolve(this.instance);
-  }
-}
-
-const repository = new InMemoryExecutorRepository();
-
-const executor: Executor = new ExecutorImpl(inspectionProcess, repository);
-executor.start();
+server.listen(() => console.info('setup from index.ts finished'));
