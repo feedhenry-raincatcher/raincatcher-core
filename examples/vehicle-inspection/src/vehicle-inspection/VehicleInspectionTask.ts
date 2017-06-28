@@ -2,12 +2,19 @@ import {BaseTask, TaskStatus} from '@raincatcher/wfm';
 import * as _ from 'lodash';
 import {VehicleInspectionFormData} from './VehicleInspectionFormData';
 import {VehicleInspectionFormResult} from './VehicleInspectionFormResult';
-// Derive from BaseTask to implement one that deals with custom business logic
+
+/**
+ * A Task for realizing an inspection in a vehicle
+ *
+ * The following items of an automobile can be checked with this module:
+ * - Fuel
+ * - Tires
+ * - Lights
+ */
 export class VehicleInspectionTask extends BaseTask {
   public result: VehicleInspectionFormResult;
-  constructor(public userId: string) {
-    super();
-  }
+  public userId: string;
+
   public getOptionsSchema() {
     return {
       properties: {
