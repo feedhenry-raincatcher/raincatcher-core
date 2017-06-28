@@ -15,3 +15,6 @@ export {BaseTask} from './task/BaseTask';
 
 // Repositories
 export {ExecutorRepository} from './executor/ExecutorRepository';
+export {ProcessRepository} from './process/ProcessRepository';
+export {ProcessInstanceRepository} from './process-instance/ProcessInstanceRepository';
+export {TaskRepository} from './task/TaskRepository';
