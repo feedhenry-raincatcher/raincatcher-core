@@ -31,8 +31,11 @@ app.use((req: express.Request, res: express.Response, next) => {
   next(err);
 });
 
-app.engine('hbs', expressHbs());
-app.set('view engine', 'hbs');
+function setupCustomLoginPageRender() {
+  app.engine('hbs', expressHbs());
+  app.set('view engine', 'hbs');
+}
+setupCustomLoginPageRender();
 
 let errHandler: express.ErrorRequestHandler;
 
