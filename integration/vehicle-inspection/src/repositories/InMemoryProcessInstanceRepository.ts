@@ -1,14 +1,25 @@
-import {ProcessInstance, ProcessInstanceRepository} from '@raincatcher/wfm';
+import {ProcessInstance, ProcessInstanceRepository, ProcessRepository} from '@raincatcher/wfm';
 import * as Promise from 'bluebird';
-import {cloneDeep, filter} from 'lodash';
+import {cloneDeep, filter, find} from 'lodash';
 
 export class InMemoryProcessInstanceRepository implements ProcessInstanceRepository {
   private data: ProcessInstance[];
   constructor(protected seedData: ProcessInstance[]) {
-    this.data = cloneDeep(seedData);
+    this.reset();
+  }
+  public reset() {
+    this.data = cloneDeep(this.seedData);
   }
   public getAll() {
     return Promise.resolve(this.data);
+  }
+
+  public getById(id: string) {
+    return Promise.resolve(find(this.data, i => i.id === id));
+  }
+
+  public getByProcessId(id: string) {
+    return Promise.resolve(filter(this.data, i => i.processId === id));
   }
 
   public create(process: ProcessInstance) {
@@ -17,6 +28,6 @@ export class InMemoryProcessInstanceRepository implements ProcessInstanceReposit
   }
 
   public getUnassigned() {
-    return Promise.resolve(filter(this.data, p => !p.assigneeId));
+    return Promise.resolve(filter(this.data, i => !i.assigneeId));
   }
 }

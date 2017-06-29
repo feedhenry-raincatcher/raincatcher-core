@@ -1,3 +1,4 @@
+import {Logger} from '@raincatcher/logger';
 import {
   BaseTask,
   Process,
@@ -11,7 +12,7 @@ import {
 import * as Promise from 'bluebird';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import {cloneDeep, filter, isFunction, map} from 'lodash';
+import {isFunction, map} from 'lodash';
 import {VehicleInspectionTask} from '../vehicle-inspection/VehicleInspectionTask';
 
 export class Server {
@@ -20,8 +21,8 @@ export class Server {
 
   constructor(
     protected processRepo: ProcessRepository,
-    protected processInstanceRepo: ProcessInstanceRepository
-    // TODO: add logger module
+    protected processInstanceRepo: ProcessInstanceRepository,
+    protected logger: Logger
   ) {
     this.setupExpressMiddleware();
     this.setupExpressRoutes();
@@ -29,7 +30,7 @@ export class Server {
 
   public listen(cb?: () => any) {
     return this.app.listen(this.port, () => {
-      console.info(`Server listening at port ${this.port}`);
+      this.logger.info(`Server listening at port ${this.port}`);
       if (isFunction(cb)) {
         cb();
       }
@@ -43,20 +44,42 @@ export class Server {
   }
 
   protected setupExpressRoutes() {
+    this.app.use('/processes', this.buildProcessRouter());
+    this.app.use('/instances', this.buildProcessInstanceRouter());
+    this.app.use('/tasks', this.buildTaskRouter());
+  }
+
+  protected buildProcessRouter() {
     const processRouter = express.Router();
+
     processRouter.get('/', (req, res) =>
       this.processRepo.getAll().then(processes => res.json(processes)));
     processRouter.post('/', (req, res) =>
       this.createProcess(req.body).then(process => res.json(process)));
-    this.app.use('/processes', processRouter);
+    processRouter.get('/:id', (req, res) =>
+      this.processRepo.getById(req.params.id).then(process => res.json(process)));
 
+    // Sub-routes for instances
+    processRouter.get('/:id/instances', (req, res) =>
+      this.processInstanceRepo.getByProcessId(req.params.id).then(instances => res.json(instances)));
+    processRouter.post('/:id/instances', (req, res) =>
+      this.processRepo.getById(req.params.id).then(process => res.json(process)));
+
+    return processRouter;
+  }
+
+  protected buildProcessInstanceRouter() {
     const processInstanceRouter = express.Router();
+
     processInstanceRouter.get('/unassigned', (req, res) =>
       this.processInstanceRepo.getUnassigned().then(instances => res.json(instances)));
     processInstanceRouter.get('/', (req, res) =>
       this.processInstanceRepo.getAll().then(instances => res.json(instances)));
-    this.app.use('/instances', processInstanceRouter);
 
+    return processInstanceRouter;
+  }
+
+  protected buildTaskRouter() {
     const taskRouter = express.Router();
     // Looks like the options schema would be a better fit for a static property,
     // but it's complicated to enforce it on typescript:
@@ -65,11 +88,12 @@ export class Server {
     taskRouter.get('/schemas', (req, res) => res.json({
       'VehicleInspectionTask': vehicleInspectionSchema
     }));
-    this.app.use('/tasks', taskRouter);
+
+    return taskRouter;
   }
 
   protected createProcess(formData: any) {
-    const tasks: Task[] = map<any, any>(formData.tasks, taskData => {
+    const tasks: Task[] = map<any, Task>(formData.tasks, taskData => {
       let task: Task;
       // We can move this to a more robust dictionary-based registerTaskFactory(factory: (data) => Task)
       switch (taskData.type) {

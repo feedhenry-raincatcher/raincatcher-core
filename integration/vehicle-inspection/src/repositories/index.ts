@@ -1,3 +1,3 @@
-export * from './InMemoryProcessInstanceRepository';
-export * from './InMemoryProcessRepository';
-export * from './InMemoryTaskRepository';
+export {InMemoryProcessInstanceRepository} from './InMemoryProcessInstanceRepository';
+export {InMemoryProcessRepository} from './InMemoryProcessRepository';
+export {InMemoryTaskRepository} from './InMemoryTaskRepository';

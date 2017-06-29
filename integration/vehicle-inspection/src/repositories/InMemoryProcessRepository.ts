@@ -1,14 +1,18 @@
 import {Process, ProcessRepository, TaskRepository} from '@raincatcher/wfm';
 import * as Promise from 'bluebird';
-import {cloneDeep} from 'lodash';
+import {cloneDeep, find} from 'lodash';
 
 export class InMemoryProcessRepository implements ProcessRepository {
   private data: Process[] = [];
-  constructor(protected seedData: Process[], protected taskRepository: TaskRepository) {
+  constructor(protected seedData: Process[] = [], protected taskRepository: TaskRepository) {
     this.data = cloneDeep(seedData);
   }
   public getAll() {
     return Promise.resolve(this.data);
+  }
+
+  public getById(id: string) {
+    return Promise.resolve(find(this.data, p => p.id === id));
   }
 
   public create(process: Process) {
