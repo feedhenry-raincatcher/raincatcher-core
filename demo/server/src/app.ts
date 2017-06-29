@@ -8,7 +8,7 @@ import * as logger from 'morgan';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
 import index from './routes/index';
-import login from './securityRoutes/index';
+import security from './routes/security';
 import EnvironmentConfig, { CloudAppConfig, Config } from './util/config';
 
 const app: express.Express = express();
@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 
-app.use('/', index, login);
+app.use('/', index, security);
 
 app.use((req: express.Request, res: express.Response, next) => {
   const err: any = new Error('Not Found');
