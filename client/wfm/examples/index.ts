@@ -16,12 +16,13 @@ import {
 // Derive from BaseTask to implement one that deals with custom business logic
 class MyTask extends BaseTask {
   public run() {
-    this.status = TaskStatus.ASSIGNED;
+    this.updateStatus(TaskStatus.ASSIGNED);
     // Here the implementation would wait for user input or execute automatically
     // moving the status as progress occurs
 
     // BaseTask's implementation takes care of publishing the 'statusChanged' event
-    this.status = TaskStatus.DONE;
+    // when a Task reaches the DONE status, the default Executor implementation will move to the next task.
+    this.updateStatus(TaskStatus.DONE);
   }
 }
 
@@ -38,6 +39,6 @@ const repository: ExecutorRepository = {
   }
 
 };
-// Finally the executor creates a ProcessInstance from the supplied Process, allowing it to be exectuted
+// Finally the executor creates a ProcessInstance from the supplied Process, allowing it to be executed
 const executor: Executor = new ExecutorImpl(exampleProcess, repository);
 executor.start();

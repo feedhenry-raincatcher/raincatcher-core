@@ -12,7 +12,7 @@ class NoopTask extends BaseTask {
   // BaseTask's implementation should be the same,
   // but this is so these tests don't rely on it
   public run() {
-    this.status = TaskStatus.DONE;
+    this.updateStatus(TaskStatus.DONE);
   }
 }
 
@@ -39,7 +39,7 @@ export function suite(executorFactory: (process: Process) => Executor) {
       }
       executor.instance.on('done', function(e) {
         e.instance.getTasks()
-          .each<Task, void>(t => assert(t.getStatus() === TaskStatus.DONE))
+          .each<Task, void>(t => assert(t.getRoundedStatus() === TaskStatus.DONE))
           .then(() => done())
           .catch(done);
       });

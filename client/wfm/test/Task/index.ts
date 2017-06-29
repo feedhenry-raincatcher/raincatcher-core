@@ -10,28 +10,28 @@ export function suite(taskFactory: () => Task) {
 
     describe('#status property', function() {
       it('should have a default status of PENDING', function() {
-        assert.strictEqual(task.status, TaskStatus.PENDING);
+        assert.strictEqual(task.getStatus(), TaskStatus.PENDING);
       });
       it('should emit a statusChange event when set', function(done) {
         task.on('statusChange', e => {
-          assert.strictEqual(e.task.status, TaskStatus.DONE);
+          assert.strictEqual(e.task.getStatus(), TaskStatus.DONE);
           assert.strictEqual(e.currentStatus, TaskStatus.DONE);
           assert.strictEqual(e.previousStatus, TaskStatus.PENDING);
           done();
         });
-        task.status = TaskStatus.DONE;
+        task.updateStatus(TaskStatus.DONE);
       });
       it('should not emit a statusChange event when set to the same value', function(done) {
         task.on('statusChange', () => done('expected event not to be emitted'));
-        task.status = task.status;
+        task.updateStatus(task.getStatus());
         done();
       });
     });
     describe('#getStatus', function() {
       it('should round a custom status number to a value on the TaskStatus enum', function() {
         const customStatus = TaskStatus.IN_PROGRESS + 1;
-        task.status = customStatus;
-        assert.strictEqual(task.getStatus(), TaskStatus.IN_PROGRESS);
+        task.updateStatus(customStatus);
+        assert.strictEqual(task.getRoundedStatus(), TaskStatus.IN_PROGRESS);
       });
     });
     describe('#getOptionSchema', function() {

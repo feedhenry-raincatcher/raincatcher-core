@@ -47,7 +47,7 @@ export class ProcessInstanceImpl extends EventEmitter implements ProcessInstance
   }
 
   protected checkDone() {
-    if (every(this.tasks, t => t.getStatus() === TaskStatus.DONE)) {
+    if (every(this.tasks, t => t.getRoundedStatus() === TaskStatus.DONE)) {
       const e: InstanceEventData<this> = {
         instance: this
       };

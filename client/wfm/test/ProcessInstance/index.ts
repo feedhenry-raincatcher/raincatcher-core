@@ -37,7 +37,7 @@ export function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
         done();
       });
       instance.getTasks()
-        .each<Task, any>(task => task.status = TaskStatus.DONE);
+        .each<Task, any>(task => task.updateStatus(TaskStatus.DONE));
     });
   });
 }
