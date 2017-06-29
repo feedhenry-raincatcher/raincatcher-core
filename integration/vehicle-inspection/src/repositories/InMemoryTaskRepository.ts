@@ -1,6 +1,6 @@
 import {Task, TaskRepository} from '@raincatcher/wfm';
 import * as Promise from 'bluebird';
-import {cloneDeep} from 'lodash';
+import {cloneDeep, filter} from 'lodash';
 
 export class InMemoryTaskRepository implements TaskRepository {
   private data: Task[] = [];
@@ -15,7 +15,7 @@ export class InMemoryTaskRepository implements TaskRepository {
     return Promise.resolve(this.data);
   }
 
-  public createBatch(tasks: Task[]) {
+  public createMany(tasks: Task[]) {
     this.data = this.data.concat(tasks);
     return Promise.resolve(this.data);
   }

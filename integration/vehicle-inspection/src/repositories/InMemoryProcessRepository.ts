@@ -16,7 +16,7 @@ export class InMemoryProcessRepository implements ProcessRepository {
   }
 
   public create(process: Process) {
-    return this.taskRepository.createBatch(process.tasks)
+    return this.taskRepository.createMany(process.tasks)
     .then(tasks => {
       process.tasks = tasks;
       this.data.push(process);

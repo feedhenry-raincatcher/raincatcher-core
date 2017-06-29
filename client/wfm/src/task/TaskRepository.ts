@@ -1,6 +1,7 @@
 import {Task} from './Task';
 export interface TaskRepository {
-  // TODO: Methods that return collections/arrays should be paginated
-  getAll(): Promise<Task[]>;
-  createBatch(tasks: Task[]): Promise<Task[]>;
+  /**
+   * Persist multiple Tasks at once, commonly used for the list of Tasks in a Process or ProcessInstance
+   */
+  createMany(tasks: Task[]): Promise<Task[]>;
 }

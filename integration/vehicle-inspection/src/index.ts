@@ -1,12 +1,12 @@
 import {ConsoleLogger} from '@raincatcher/logger';
+import {HttpServer} from './http-server';
 import {
   InMemoryProcessInstanceRepository,
   InMemoryProcessRepository,
   InMemoryTaskRepository
 } from './repositories';
-import {Server} from './server';
 
-const server = new Server(
+const server = new HttpServer(
   new InMemoryProcessRepository([], new InMemoryTaskRepository()),
   new InMemoryProcessInstanceRepository([]),
   new ConsoleLogger()

@@ -15,7 +15,7 @@ import * as express from 'express';
 import {isFunction, map} from 'lodash';
 import {VehicleInspectionTask} from '../vehicle-inspection/VehicleInspectionTask';
 
-export class Server {
+export class HttpServer {
   public app = express();
   public port = process.env.PORT || 3000;
 
