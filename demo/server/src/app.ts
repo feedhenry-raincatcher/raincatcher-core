@@ -3,7 +3,6 @@
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
-import * as expressHbs from 'express-handlebars';
 import * as logger from 'morgan';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
@@ -29,12 +28,6 @@ app.use((req: express.Request, res: express.Response, next) => {
   err.status = 404;
   next(err);
 });
-
-function setupCustomLoginPageRender() {
-  app.engine('hbs', expressHbs());
-  app.set('view engine', 'hbs');
-}
-setupCustomLoginPageRender();
 
 let errHandler: express.ErrorRequestHandler;
 
