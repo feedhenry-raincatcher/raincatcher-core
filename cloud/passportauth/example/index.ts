@@ -1,11 +1,13 @@
+import {BunyanLogger, Logger} from '@raincatcher/logger';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as path from 'path';
-import passport, {PassportAuth, PassportSetup, UserSecService} from '../src/index';
-import UserApi from './UserApi';
+import passport, {PassportAuth, UserDataRepo, UserSec, UserSecService} from '../src/index';
 import UserDataRepository from './UserDataRepository';
 import userSeedData from './UserSeedData';
+
+const log: Logger = new BunyanLogger({name: 'Passport-Auth-Example', level: 'info'});
 
 // Configuration for express session options
 const sessionOpts = {
@@ -20,11 +22,9 @@ const sessionOpts = {
 };
 
 // Initialize user data repository and passport
-const userRepo = new UserDataRepository(userSeedData);
-const userApi = new UserApi(userRepo);
-const userSec = new UserSecService(userApi);
-const passportSetup = new PassportSetup(userSec);
-const authService = new PassportAuth(userSec);
+const userRepo: UserDataRepo = new UserDataRepository(userSeedData);
+const userSec: UserSec = new UserSecService(userRepo);
+const authService: PassportAuth = new PassportAuth(userSec);
 const app = express();
 
 app.use(bodyParser.json());
@@ -32,7 +32,8 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(cors());
-passportSetup.init(app, sessionOpts);
+authService.init(app, sessionOpts);
+authService.setup();
 
 app.get('/testAdminEndpoint', authService.protect('admin'), (req: express.Request, res: express.Response) => {
   res.json({routeName: '/testAdminEndpoint', msg: 'authorized to access admin endpoint'});
@@ -40,6 +41,10 @@ app.get('/testAdminEndpoint', authService.protect('admin'), (req: express.Reques
 
 app.get('/testUserEndpoint', authService.protect('user'), (req: express.Request, res: express.Response) => {
   res.json({routeName: '/testUserEndpoint', msg: 'authorized to access user route'});
+});
+
+app.get('/testEndpoint', authService.protect(), (req: express.Request, res: express.Response) => {
+  res.json({routeName: '/testEndpoint', msg: 'user is authenticated, no role required for this resource'});
 });
 
 app.get('/login', (req: express.Request, res: express.Response) => {
@@ -50,5 +55,5 @@ app.post('/login',  passport.authenticate('local', { failureRedirect: '/login',
   successReturnToOrRedirect: '/testUserEndpoint'}));
 
 app.listen(3000, function() {
-  console.log('Example auth app listening on port 3000');
+  log.info('Example auth app listening on port 3000');
 });

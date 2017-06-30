@@ -10,7 +10,8 @@
     "clean": "del src/*.js src/**/*.js src/*.map src/**/*.map test/*.js test/**/*.js test/*.map test/**/*.map",
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "test": "npm run clean && nyc mocha"
+    "test": "npm run clean && nyc mocha",
+    "example": "ts-node ./example/index.ts"
   },
   "nyc": {
     "include": [
@@ -28,6 +29,7 @@
     "branches": 80
   },
   "devDependencies": {
+    "@raincatcher/logger": "0.0.1",
     "@types/bluebird": "^3.5.5",
     "@types/body-parser": "^1.16.3",
     "@types/cors": "^2.8.1",

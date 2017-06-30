@@ -1,8 +1,9 @@
 import * as passport from 'passport';
 
-export * from './user/BaseUser';
+export * from './constants';
+export * from './user/User';
+export * from './user/UserDataRepo';
 export * from './user/UserSec';
-export * from './auth/PassportSetup';
 export * from './auth/PassportAuth';
 
 export default passport;

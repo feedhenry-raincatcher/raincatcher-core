@@ -1,51 +1,56 @@
-import BaseUser from './BaseUser';
+import * as Promise from 'bluebird';
+import User from './User';
+import UserDataRepo from './UserDataRepo';
 
 export interface UserSec {
-  getUserId(loginId: string): Promise<string|null>;
-  comparePassword(password: string): Promise<boolean>;
-  hasResourceRole(role: string): Promise<boolean>;
-}
-
-export class UserSecService implements UserSec {
-  protected userApi: BaseUser;
-
-  constructor(protected readonly UserApi: BaseUser) {
-    this.userApi = UserApi;
-  }
-
   /**
-   * Retrieves the user's id using the user's login id.
+   * Retrieves user by login.
    *
-   * @param loginId {string} - A unique login id
-   * @returns {Promise<string>} - Returns the user's id if found
+   * @param loginId {string} - A unique id used by a user for login (i.e. username, email)
+   * @returns {Promise<User>}
    */
-  public getUserId(loginId: string) {
-    return this.userApi.getId(loginId);
-  }
+  getUserByLogin(loginId: string): Promise<User>;
 
   /**
-   * Compares the user's password with the user's password in the data source.
+   * Validates the user's password given on login against the user's
+   * password from the data source
    *
    * @param password {string} - Password given by the user upon login
-   * @returns {Promise<boolean>} - Returns true/false if the password given matches with the password
+   * @returns {boolean} - Returns true/false if the password given matches with the password
    * from the data source
    */
-  public comparePassword(password: string) {
-    return this.userApi.getPasswordHash().then((passwordHash: string) => {
-      return (password === passwordHash); // TODO: replace with bcrypt [RAINCATCH-872]
-    });
-  }
+  comparePassword(password: string): boolean;
 
   /**
    * Checks if the user has the role specified
    *
    * @param role {string} - Role to be checked if assigned to the given user
-   * @returns {Promise<boolean>} - Returns true/false if the user has the role specified
+   * @returns {boolean} - Returns true/false if the user has the role specified
    */
-  public hasResourceRole(role: string) {
-    return this.userApi.getRoles().then((roles: string[]) => {
-      return (roles.indexOf(role) > -1);
+  hasResourceRole(role: string|undefined): boolean;
+}
+
+export class UserSecService implements UserSec {
+  protected user: User;
+
+  constructor(protected readonly userRepo: UserDataRepo) {
+  }
+
+  public getUserByLogin(loginId: string) {
+    return this.userRepo.getUserByLogin(loginId).then((user) => {
+      this.user = user;
+      return this.user;
     });
+  }
+
+  public comparePassword(password: string) {
+    const passwordHash = this.user.getPasswordHash();
+    return (password === passwordHash); // TODO: replace with bcrypt [RAINCATCH-872]
+  }
+
+  public hasResourceRole(role: string|undefined) {
+    const userRoles = this.user.getRoles();
+    return role ? (userRoles.indexOf(role) > -1) : true;
   }
 }
 

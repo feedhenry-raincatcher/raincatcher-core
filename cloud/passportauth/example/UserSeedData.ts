@@ -1,11 +1,17 @@
-export interface User {
+/**
+ * Sample user data interface
+ */
+export interface UserData {
   id: string;
   username: string;
   password: string;
   roles: string[];
 }
 
-const userSeedData: User[] = [
+/**
+ * Sample user data
+ */
+const userSeedData: UserData[] = [
   {
     id: '001',
     username: 'test-admin',
