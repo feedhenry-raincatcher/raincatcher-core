@@ -1,0 +1,61 @@
+{
+  "name": "@raincatcher/auth-passport",
+  "version": "1.0.0",
+  "description": "NPM package for passport authentication",
+  "types": "src/index.ts",
+  "author": "feedhenry-raincatcher@redhat.com",
+  "license": "Apache-2.0",
+  "main": "src/",
+  "scripts": {
+    "clean": "del src/*.js src/**/*.js src/*.map src/**/*.map test/*.js test/**/*.js test/*.map test/**/*.map",
+    "build": "tsc",
+    "start": "ts-node src/index.ts",
+    "test": "npm run clean && nyc mocha",
+    "example": "ts-node ./example/index.ts"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "check-coverage": true,
+    "lines": 75,
+    "functions": 90,
+    "branches": 80
+  },
+  "devDependencies": {
+    "@raincatcher/logger": "0.0.1",
+    "@types/bluebird": "^3.5.5",
+    "@types/body-parser": "^1.16.3",
+    "@types/cors": "^2.8.1",
+    "@types/express": "^4.0.35",
+    "@types/express-session": "^1.15.0",
+    "@types/lodash": "^4.14.66",
+    "@types/mocha": "^2.2.41",
+    "@types/passport": "^0.3.2",
+    "@types/passport-local": "^1.0.0",
+    "@types/sinon": "^2.3.1",
+    "del-cli": "^1.0.0",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.1",
+    "sinon": "^2.3.5",
+    "source-map-support": "^0.4.15",
+    "ts-node": "^3.0.4",
+    "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "1.17.2",
+    "cors": "2.8.3",
+    "express": "^4.15.3",
+    "express-session": "^1.15.0",
+    "lodash": "^4.17.4",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  }
+}

@@ -7,7 +7,7 @@
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
   "scripts": {
-    "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
+    "clean": "del src/*.js src/**/*.js src/*.map src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
     "start": "ts-node src/index.ts",
     "test": "nyc mocha"
