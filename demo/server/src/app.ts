@@ -7,6 +7,7 @@ import * as logger from 'morgan';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
 import index from './routes/index';
+import security from './routes/security';
 import EnvironmentConfig, { CloudAppConfig, Config } from './util/config';
 
 const app: express.Express = express();
@@ -17,10 +18,10 @@ app.use(logger(config.morganOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 
-app.use('/', index);
+app.use('/', index, security);
 
 app.use((req: express.Request, res: express.Response, next) => {
   const err: any = new Error('Not Found');
