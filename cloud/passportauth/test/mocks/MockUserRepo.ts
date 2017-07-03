@@ -1,5 +1,5 @@
 import * as Promise from 'bluebird';
-import {User, UserDataRepo} from '../../src/index';
+import {User, UserRepository} from '../../src/index';
 
 const mockBaseUser: User = {
   getLoginId() {
@@ -13,7 +13,7 @@ const mockBaseUser: User = {
   }
 };
 
-const MockUserRepo: UserDataRepo = {
+const MockUserRepo: UserRepository = {
   getUserByLogin(loginId: string) {
     if (loginId === 'testError') {
       return Promise.reject(new Error('[TEST] Error retrieving user'));

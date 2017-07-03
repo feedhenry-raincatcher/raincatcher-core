@@ -2,8 +2,7 @@ import * as express from 'express';
 import {SessionOptions} from 'express-session';
 import * as sinon from 'sinon';
 import PassportAuth from '../src/auth/PassportAuth';
-import passport from '../src/index';
-import UserSecService from '../src/user/UserSec';
+import UserSecService from '../src/user/UserSecurityService';
 import MockUserRepo from './mocks/MockUserRepo';
 
 describe('Test Passport Auth', function() {
@@ -38,7 +37,6 @@ describe('Test Passport Auth', function() {
 
   it('should initialize passport', function() {
     testSubject.init(app, mockSessionOpts);
-    testSubject.setup();
   });
 
   it('should return an error if an error occurred when retrieving the user id', function(done) {
@@ -51,14 +49,14 @@ describe('Test Passport Auth', function() {
       user: null
     };
 
-    passport.authenticate('local')(mockReq as express.Request, mockRes as express.Response,
+    testSubject.authenticate('/')(mockReq as express.Request, mockRes as express.Response,
       mockNext as express.NextFunction);
 
     setTimeout(() => {
       sinon.assert.notCalled(mockReq.logIn);
 
       done();
-    }, 500);
+    }, 0);
   });
 
   it('should not authenticate the user if the credentials provided are not valid', function(done) {
@@ -71,14 +69,14 @@ describe('Test Passport Auth', function() {
       user: null
     };
 
-    passport.authenticate('local')(mockReq as express.Request, mockRes as express.Response,
+    testSubject.authenticate('/')(mockReq as express.Request, mockRes as express.Response,
       mockNext as express.NextFunction);
 
     setTimeout(() => {
       sinon.assert.notCalled(mockReq.logIn);
 
       done();
-    }, 500);
+    }, 0);
   });
 
   it('should authenticate the user if the credentials provided are valid', function(done) {
@@ -91,14 +89,14 @@ describe('Test Passport Auth', function() {
       user: null
     };
 
-    passport.authenticate('local')(mockReq as express.Request, mockRes as express.Response,
+    testSubject.authenticate('/')(mockReq as express.Request, mockRes as express.Response,
       mockNext as express.NextFunction);
 
     setTimeout(() => {
       sinon.assert.calledOnce(mockReq.logIn);
 
       done();
-    }, 500);
+    }, 0);
   });
 
   it('should redirect to the login route if user was not authenticated', function() {
@@ -152,7 +150,7 @@ describe('Test Passport Auth', function() {
       sinon.assert.calledWith(mockRes.status, 401);
 
       done();
-    }, 500);
+    }, 0);
   });
 
   it('should call next if the authenticated user has the required role', function(done) {
