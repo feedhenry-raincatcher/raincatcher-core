@@ -10,7 +10,7 @@ import { DefaultLocalStrategy } from './DefaultStrategy';
 import { DefaultDeserializeUser, DefaultSerializeUser } from './UserSerializer';
 
 /**
- * Security interface for Raincatcher.
+ * Security interface for Raincatcher authentication middleware
  * Contains all methods that should be used to protect express routes.
  */
 export interface Auth {
@@ -42,7 +42,7 @@ export interface Auth {
 }
 
 /**
- * Default implementation for
+ * Default implementation for passport authentication
  */
 export class PassportAuth implements Auth {
   protected loginRoute: string;
@@ -66,6 +66,13 @@ export class PassportAuth implements Auth {
     this.setup(passport);
   }
 
+  /**
+   * Function which checks if the user requesting access to the resource is authenticated and authorized to
+   * access the resource. Redirects to the login page if user is not authenticated or returns a status of 401
+   * if the user does not have the required role.
+   *
+   * @param role {string} - Role which the user needs in order to access this resource
+   */
   public protect(role?: string) {
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
       if (!req.isAuthenticated()) {
