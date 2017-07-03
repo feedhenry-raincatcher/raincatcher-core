@@ -13,8 +13,8 @@ This module allows the:
 import {PassportAuth, UserDataRepo, UserSecService} from '@raincatcher/auth-passport'
 
 // Initialize user data repository and passport
-const userRepo: UserDataRepo = new UserDataRepository(userSeedData);
-const userSec: UserSec = new UserSecService(userRepo)
+const userRepo: UserDataRepository = new YourUserDataRepository(userSeedData);
+const userSec: UserSecurityService = new UserSecurityService(userRepo)
 const authService: PassportAuth = new PassportAuth(userSec);
 ...
 authService.init(app, sessionOptions); // Initializes express app to use passport and express-session
