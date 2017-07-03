@@ -2,9 +2,9 @@
 
 Reference/demo implementation of the cloud application of a RainCatcher project.
 
-## Running 
+## Running
 
-Cloud application can be launched using 
+Cloud application can be launched using
 
     npm run start
 

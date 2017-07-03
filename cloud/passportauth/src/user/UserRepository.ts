@@ -1,7 +1,11 @@
 import * as Promise from 'bluebird';
 import User from './User';
 
-export interface UserDataRepo {
+/**
+ * Interface for retrieving user related data.
+ * Implementations can retrieve users from different databases etc.
+ */
+export interface UserRepository {
   /**
    * Retrieves a user object from a data source by login id (i.e. username, email)
    *
@@ -11,4 +15,4 @@ export interface UserDataRepo {
   getUserByLogin(loginId: string): Promise<User>;
 }
 
-export default UserDataRepo;
+export default UserRepository;

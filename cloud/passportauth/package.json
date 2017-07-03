@@ -1,7 +1,7 @@
 {
   "name": "@raincatcher/auth-passport",
   "version": "1.0.0",
-  "description": "NPM package for passport authentication",
+  "description": "Passport authentication module",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
@@ -29,7 +29,7 @@
     "branches": 80
   },
   "devDependencies": {
-    "@raincatcher/logger": "0.0.1",
+    "@raincatcher/logger": "1.0.0",
     "@types/bluebird": "^3.5.5",
     "@types/body-parser": "^1.16.3",
     "@types/cors": "^2.8.1",

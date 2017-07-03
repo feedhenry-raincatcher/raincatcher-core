@@ -1,15 +1,29 @@
 import * as Promise from 'bluebird';
 import User from './User';
-import UserDataRepo from './UserDataRepo';
+import UserDataRepo from './UserRepository';
 
-export interface UserSec {
+/**
+ * Service for all user related security operations.
+ * Can be overridden to provide custom implementations
+ */
+export class UserSecurityService {
+  protected user: User;
+
+  constructor(protected readonly userRepo: UserDataRepo) {
+  }
+
   /**
    * Retrieves user by login.
    *
    * @param loginId {string} - A unique id used by a user for login (i.e. username, email)
    * @returns {Promise<User>}
    */
-  getUserByLogin(loginId: string): Promise<User>;
+  public getUserByLogin(loginId: string) {
+    return this.userRepo.getUserByLogin(loginId).then((user: User) => {
+      this.user = user;
+      return this.user;
+    });
+  }
 
   /**
    * Validates the user's password given on login against the user's
@@ -19,7 +33,10 @@ export interface UserSec {
    * @returns {boolean} - Returns true/false if the password given matches with the password
    * from the data source
    */
-  comparePassword(password: string): boolean;
+  public comparePassword(password: string) {
+    const passwordHash = this.user.getPasswordHash();
+    return (password === passwordHash); // TODO: replace with bcrypt [RAINCATCH-872]
+  }
 
   /**
    * Checks if the user has the role specified
@@ -27,31 +44,10 @@ export interface UserSec {
    * @param role {string} - Role to be checked if assigned to the given user
    * @returns {boolean} - Returns true/false if the user has the role specified
    */
-  hasResourceRole(role: string|undefined): boolean;
-}
-
-export class UserSecService implements UserSec {
-  protected user: User;
-
-  constructor(protected readonly userRepo: UserDataRepo) {
-  }
-
-  public getUserByLogin(loginId: string) {
-    return this.userRepo.getUserByLogin(loginId).then((user) => {
-      this.user = user;
-      return this.user;
-    });
-  }
-
-  public comparePassword(password: string) {
-    const passwordHash = this.user.getPasswordHash();
-    return (password === passwordHash); // TODO: replace with bcrypt [RAINCATCH-872]
-  }
-
   public hasResourceRole(role: string|undefined) {
     const userRoles = this.user.getRoles();
     return role ? (userRoles.indexOf(role) > -1) : true;
   }
 }
 
-export default UserSecService;
+export default UserSecurityService;
