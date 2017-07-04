@@ -2,6 +2,7 @@ import { BunyanLogger, Logger } from '@raincatcher/logger';
 import { UserSecurityService } from '../user/UserSecurityService';
 
 const log: Logger = new BunyanLogger({ name: 'Passport-Auth', level: 'error' });
+import { User } from '../user/User';
 
 /**
  * Default strategy to be used by Passport's local strategy. If user credentials are valid, proceed to login,
@@ -12,12 +13,12 @@ const log: Logger = new BunyanLogger({ name: 'Passport-Auth', level: 'error' });
  */
 export const DefaultLocalStrategy = (userSec: UserSecurityService) => {
   return (loginId: string, password: string, done: (error: Error | null, user: any) => any) => {
-    userSec.getUserByLogin(loginId).then((user: any) => {
+    userSec.getUserByLogin(loginId).then((user: User) => {
       if (!user) {
         return done(null, false);
       } else {
-        if (userSec.comparePassword(password)) {
-          return done(null, loginId);
+        if (userSec.comparePassword(user, password)) {
+          return done(null, user);
         }
         return done(null, false);
       }

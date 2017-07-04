@@ -20,8 +20,7 @@ export class UserSecurityService {
    */
   public getUserByLogin(loginId: string) {
     return this.userRepo.getUserByLogin(loginId).then((user: User) => {
-      this.user = user;
-      return this.user;
+      return user;
     });
   }
 
@@ -29,23 +28,25 @@ export class UserSecurityService {
    * Validates the user's password given on login against the user's
    * password from the data source
    *
+   * @param user - user object
    * @param password {string} - Password given by the user upon login
    * @returns {boolean} - Returns true/false if the password given matches with the password
    * from the data source
    */
-  public comparePassword(password: string) {
-    const passwordHash = this.user.getPasswordHash();
+  public comparePassword(user: User, password: string) {
+    const passwordHash = user.getPasswordHash();
     return (password === passwordHash); // TODO: replace with bcrypt [RAINCATCH-872]
   }
 
   /**
    * Checks if the user has the role specified
    *
+   * @param user - user object
    * @param role {string} - Role to be checked if assigned to the given user
    * @returns {boolean} - Returns true/false if the user has the role specified
    */
-  public hasResourceRole(role: string|undefined) {
-    const userRoles = this.user.getRoles();
+  public hasResourceRole(user: User, role: string|undefined) {
+    const userRoles = user.getRoles();
     return role ? (userRoles.indexOf(role) > -1) : true;
   }
 }

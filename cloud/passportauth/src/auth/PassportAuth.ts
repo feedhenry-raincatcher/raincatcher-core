@@ -82,7 +82,8 @@ export class PassportAuth implements Auth {
         }
         return res.redirect(this.loginRoute);
       }
-      return this.userSec.hasResourceRole(role) ? next() : res.status(403).send();
+      const roleMatch = true; // TODO this.userSec.hasResourceRole(req.user, role);
+      return roleMatch ? next() : res.status(403).send();
     };
   }
 
@@ -90,12 +91,13 @@ export class PassportAuth implements Auth {
    * Create middleware for authentication purposes
    * This method wraps `passport.authenticate` to provide middleware for authenticating users.
    *
-   * @param redirect - location to redirect after successful authentication
+   * @param defaultRedirect - location to redirect after successful authentication
+   *                          when login page was loaded directly (without redirect)
    */
-  public authenticate(redirect: string) {
+  public authenticate(defaultRedirect: string) {
     return passport.authenticate('local', {
       failureRedirect: this.loginRoute,
-      successReturnToOrRedirect: redirect
+      successReturnToOrRedirect: defaultRedirect
     });
   }
 
@@ -107,7 +109,7 @@ export class PassportAuth implements Auth {
   protected setup(passport: passport.Passport) {
     passport.use(new Strategy(DefaultLocalStrategy(this.userSec)));
     passport.serializeUser(DefaultSerializeUser);
-    passport.deserializeUser(DefaultDeserializeUser);
+    passport.deserializeUser(DefaultDeserializeUser  );
   }
 }
 
