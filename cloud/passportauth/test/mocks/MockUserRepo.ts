@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird';
 import {User, UserRepository} from '../../src/index';
 
-const mockBaseUser: User = {
+export const mockBaseUser: User = {
   getLoginId() {
     return 'testloginId';
   },

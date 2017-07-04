@@ -19,4 +19,3 @@ export const DefaultSerializeUser = (user: User, done: (error: Error | null, use
 export const DefaultDeserializeUser = (user: any, done: (error: Error | null, user: any) => any) => {
   return done(null, user);
 };
-

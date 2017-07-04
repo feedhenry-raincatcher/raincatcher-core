@@ -19,9 +19,7 @@ export class UserSecurityService {
    * @returns {Promise<User>}
    */
   public getUserByLogin(loginId: string) {
-    return this.userRepo.getUserByLogin(loginId).then((user: User) => {
-      return user;
-    });
+    return this.userRepo.getUserByLogin(loginId);
   }
 
   /**
