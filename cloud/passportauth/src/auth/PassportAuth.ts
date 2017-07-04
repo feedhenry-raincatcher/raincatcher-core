@@ -68,7 +68,7 @@ export class PassportAuth implements Auth {
 
   /**
    * Function which checks if the user requesting access to the resource is authenticated and authorized to
-   * access the resource. Redirects to the login page if user is not authenticated or returns a status of 401
+   * access the resource. Redirects to the login page if user is not authenticated or returns a status of 403
    * if the user does not have the required role.
    *
    * @param role {string} - Role which the user needs in order to access this resource
