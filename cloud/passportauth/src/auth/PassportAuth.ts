@@ -109,7 +109,7 @@ export class PassportAuth implements Auth {
   protected setup(passport: passport.Passport) {
     passport.use(new Strategy(DefaultLocalStrategy(this.userSec)));
     passport.serializeUser(DefaultSerializeUser);
-    passport.deserializeUser(DefaultDeserializeUser  );
+    passport.deserializeUser(DefaultDeserializeUser);
   }
 }
 

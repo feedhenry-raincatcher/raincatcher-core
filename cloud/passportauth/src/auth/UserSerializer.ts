@@ -7,7 +7,7 @@ import { User } from '../user/User';
  * @param done {Function}
  */
 export const DefaultSerializeUser = (user: User, done: (error: Error | null, user: any) => any) => {
-  return done(null, user.getLoginId());
+  return done(null, user);
 };
 
 /**
@@ -16,8 +16,7 @@ export const DefaultSerializeUser = (user: User, done: (error: Error | null, use
  *
  * @returns {Function} - Returns the default deserialize user function
  */
-export const DefaultDeserializeUser = () => {
-  return (userId: string, done: (error: Error | null, user: any) => any) => {
-    return done(null, userId);
-  };
+export const DefaultDeserializeUser = (user: any, done: (error: Error | null, user: any) => any) => {
+  return done(null, user);
 };
+
