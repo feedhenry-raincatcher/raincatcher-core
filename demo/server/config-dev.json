@@ -1,4 +1,4 @@
 {
-    "morganOptions": "dev",
+    "morganOptions": null,
     "logStackTraces": true
 }

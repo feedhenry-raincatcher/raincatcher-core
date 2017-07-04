@@ -78,7 +78,7 @@ export class PassportAuth implements Auth {
       if (!req.isAuthenticated()) {
         if (req.session) {
           // Used for redirecting to after a successful login when option successReturnToOrRedirect is defined.
-          req.session.returnTo = req.url;
+          req.session.returnTo = req.originalUrl;
         }
         return res.redirect(this.loginRoute);
       }
