@@ -1,7 +1,7 @@
-import {BunyanLogger, Logger} from '@raincatcher/logger';
-import {UserSecurityService} from '../user/UserSecurityService';
+import { BunyanLogger, Logger } from '@raincatcher/logger';
+import { UserSecurityService } from '../user/UserSecurityService';
 
-const log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
+const log: Logger = new BunyanLogger({ name: 'Passport-Auth', level: 'error' });
 
 /**
  * Default strategy to be used by Passport's local strategy. If user credentials are valid, proceed to login,
@@ -11,17 +11,20 @@ const log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
  * @returns {Function} - Returns the default strategy function to be used by passport
  */
 export const DefaultLocalStrategy = (userSec: UserSecurityService) => {
-    return (loginId: string, password: string, done: (error: Error|null, user: any) => any) => {
-        userSec.getUserByLogin(loginId).then((user: any) => {
-            if (!user) {
-                return done(null, false);
-            } else {
-                return userSec.comparePassword(password) ? done(null, loginId) : done(null, false);
-            }
-        })
-        .catch((err: Error) => {
-            log.error('An error occurred when retrieving user: ', err);
-            return done(err, null);
-        });
-    };
+  return (loginId: string, password: string, done: (error: Error | null, user: any) => any) => {
+    userSec.getUserByLogin(loginId).then((user: any) => {
+      if (!user) {
+        return done(null, false);
+      } else {
+        if (userSec.comparePassword(password)) {
+          return done(null, loginId);
+        }
+        return done(null, false);
+      }
+    })
+      .catch((err: Error) => {
+        log.error('An error occurred when retrieving user: ', err);
+        return done(err, null);
+      });
+  };
 };

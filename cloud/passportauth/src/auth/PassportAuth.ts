@@ -82,8 +82,7 @@ export class PassportAuth implements Auth {
         }
         return res.redirect(this.loginRoute);
       }
-
-      return this.userSec.hasResourceRole(role) ? next() : res.status(401).send(new Error('Unauthorized'));
+      return this.userSec.hasResourceRole(role) ? next() : res.status(403).send();
     };
   }
 
@@ -106,9 +105,9 @@ export class PassportAuth implements Auth {
    * @param passport - passport.js instance
    */
   protected setup(passport: passport.Passport) {
+    passport.use(new Strategy(DefaultLocalStrategy(this.userSec)));
     passport.serializeUser(DefaultSerializeUser);
     passport.deserializeUser(DefaultDeserializeUser);
-    passport.use(new Strategy(DefaultLocalStrategy(this.userSec)));
   }
 }
 

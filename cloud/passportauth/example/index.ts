@@ -23,8 +23,7 @@ const sessionOpts = {
 };
 
 // Initialize user data repository and map current user
-const userRepo: UserRepository = new ExampleUserDataRepository();
-
+const userRepo = new ExampleUserDataRepository();
 // Create default security service (or extend it)
 const userSec = new UserSecurityService(userRepo);
 const authService: PassportAuth = new PassportAuth(userSec);
@@ -56,8 +55,6 @@ app.get('/login', (req: express.Request, res: express.Response) => {
 
 app.post('/login', authService.authenticate('/testUserEndpoint'));
 
-app.post('/login',  passport.authenticate('local', { failureRedirect: '/login',
-  successReturnToOrRedirect: '/testUserEndpoint'}));
 app.listen(3000, function() {
   log.info('Example auth app listening on port 3000');
 });

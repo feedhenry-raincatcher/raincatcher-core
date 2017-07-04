@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
-import {UserRepository} from '../src/index';
-import {User} from '../src/index';
+import { UserRepository } from '../src/index';
+import { User } from '../src/index';
 
 /**
  * Fixed user data for demo purposes.
