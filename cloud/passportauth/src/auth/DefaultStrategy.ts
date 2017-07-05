@@ -8,10 +8,10 @@ import { User } from '../user/User';
  * Default strategy to be used by Passport's local strategy. If user credentials are valid, proceed to login,
  * otherwise, reject it. Calls serialize user with user login id.
  *
- * @param userSec {UserSec}
+ * @param userSec - security service
  * @returns {Function} - Returns the default strategy function to be used by passport
  */
-export const DefaultLocalStrategy = (userSec: UserSecurityService) => {
+export const defaultStrategy = (userSec: UserSecurityService) => {
   return (loginId: string, password: string, done: (error: Error | null, user: any) => any) => {
     userSec.getUserByLogin(loginId).then((user: User) => {
       if (!user) {

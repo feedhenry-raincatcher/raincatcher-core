@@ -61,8 +61,7 @@ app.get('/login', (req: express.Request, res: express.Response) => {
 app.post('/login', authService.authenticate('/'));
 
 app.use(function(err: any, req: express.Request, res: express.Response, next: any) {
-  // tslint:disable-next-line:no-console
-  console.log(err);
+  log.error(err);
   res.status(500).send(err);
 });
 

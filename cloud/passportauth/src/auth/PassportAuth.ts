@@ -6,8 +6,8 @@ import * as passport from 'passport';
 import { Strategy } from 'passport-local';
 import { UserSecurityService } from '../user/UserSecurityService';
 
-import { DefaultLocalStrategy } from './DefaultStrategy';
-import { DefaultDeserializeUser, DefaultSerializeUser } from './UserSerializer';
+import { defaultStrategy } from './DefaultStrategy';
+import { defaultDeserializeUser, defaultSerializeUser } from './UserSerializer';
 
 /**
  * Security interface for Raincatcher authentication middleware
@@ -18,19 +18,19 @@ export interface Auth {
   /**
    * Initializes an Express application to use passport and express-session
    *
-   * @param app {express.Express} - An express application
-   * @param sessionOpts {SessionOptions} - Session options to be used by express-session
+   * @param app - An express application
+   * @param sessionOpts  - Session options to be used by express-session
    */
   init(app: express.Express, sessionOpts: SessionOptions): void;
 
   /**
    * Function which checks if the user requesting access to the resource is authenticated and authorized to
-   * access the resource. Redirects to the login page if user is not authenticated or returns a status of 401
+   * access the resource. Redirects to the login page if user is not authenticated or returns a status of 403
    * if the user does not have the required role.
    *
-   * @param role {string} - Role which the user needs in order to access this resource
+   * @param role - Role which the user needs in order to access this resource
    */
-  protect(role?: string): void;
+  protect(role?: string): express.Handler;
 
   /**
    * Create middleware for authentication purposes
@@ -55,8 +55,8 @@ export class PassportAuth implements Auth {
   /**
    * Initializes an Express application to use passport and express-session
    *
-   * @param app {express.Express} - An express application
-   * @param sessionOpts {SessionOptions} - Session options to be used by express-session
+   * @param app - An express application
+   * @param sessionOpts - Session options to be used by express-session
    */
   public init(app: express.Express, sessionOpts: SessionOptions) {
     this.log.info('Initializing express app to use express session and passport');
@@ -71,7 +71,7 @@ export class PassportAuth implements Auth {
    * access the resource. Redirects to the login page if user is not authenticated or returns a status of 403
    * if the user does not have the required role.
    *
-   * @param role {string} - Role which the user needs in order to access this resource
+   * @param role - Role which the user needs in order to access this resource
    */
   public protect(role?: string) {
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -104,12 +104,13 @@ export class PassportAuth implements Auth {
   /**
    * Initialized passport configuration.
    * Method can be overriden to provide custom passport setup
+   *
    * @param passport - passport.js instance
    */
   protected setup(passport: passport.Passport) {
-    passport.use(new Strategy(DefaultLocalStrategy(this.userSec)));
-    passport.serializeUser(DefaultSerializeUser);
-    passport.deserializeUser(DefaultDeserializeUser);
+    passport.use(new Strategy(defaultStrategy(this.userSec)));
+    passport.serializeUser(defaultSerializeUser);
+    passport.deserializeUser(defaultDeserializeUser);
   }
 }
 

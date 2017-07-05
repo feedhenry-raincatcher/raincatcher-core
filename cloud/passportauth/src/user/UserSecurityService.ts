@@ -27,7 +27,7 @@ export class UserSecurityService {
    * password from the data source
    *
    * @param user - user object
-   * @param password {string} - Password given by the user upon login
+   * @param password  - Password given by the user upon login
    * @returns {boolean} - Returns true/false if the password given matches with the password
    * from the data source
    */
@@ -40,8 +40,8 @@ export class UserSecurityService {
    * Checks if the user has the role specified
    *
    * @param user - user object
-   * @param role {string} - Role to be checked if assigned to the given user
-   * @returns {boolean} - Returns true/false if the user has the role specified
+   * @param role  - Role to be checked if assigned to the given user
+   * @returns - returns true/false if the user has the role specified
    */
   public hasResourceRole(user: User, role: string|undefined) {
     const userRoles = user.getRoles();

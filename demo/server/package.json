@@ -24,8 +24,8 @@
     ],
     "check-coverage": true,
     "lines": 75,
-    "functions": 100,
-    "branches": 80
+    "functions": 60,
+    "branches": 70
   },
   "devDependencies": {
     "@raincatcher/logger": "1.0.0",
