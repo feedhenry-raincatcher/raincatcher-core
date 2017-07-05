@@ -2,7 +2,6 @@
 /**
  * Module dependencies.
  */
-import * as expressHbs from 'express-handlebars';
 import * as http from 'http';
 import app from './app';
 
@@ -11,12 +10,6 @@ import app from './app';
  */
 const port = process.env.PORT || 3000;
 app.set('port', port);
-
-/**
- * Set template engine
- */
-app.engine('hbs', expressHbs());
-app.set('view engine', 'hbs');
 
 /**
  * Create HTTP server.
