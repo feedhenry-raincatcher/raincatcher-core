@@ -51,4 +51,8 @@ export class ExecutorImpl implements Executor {
         .run();
     });
   }
+
+  protected movePrevious() {
+
+  }
 }
