@@ -9,7 +9,8 @@
   "scripts": {
     "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "test": "nyc mocha"
   },
   "nyc": {
     "include": [
