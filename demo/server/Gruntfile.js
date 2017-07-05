@@ -13,7 +13,7 @@ module.exports = function (grunt) {
             },
         },
         exec: {
-            'run': 'npm run start',
+            'run': 'ts-node src/index.ts',
             'test': 'npm run test'
         },
         env: {
