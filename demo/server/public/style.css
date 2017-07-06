@@ -96,7 +96,7 @@ input[type=submit] {
   color: white;
   text-transform: uppercase;
   padding: 20px;
-  margin-top: 3em;
+  /*margin-top: 3em;*/
   width: 95%;
 }
 
@@ -139,7 +139,7 @@ div.feedback-error {
   width: 94%;
   text-align: center;
   padding: 4px;
-  margin-top: 3em;
+  color: #ff3224
 }
 
 div#header-wrapper {
