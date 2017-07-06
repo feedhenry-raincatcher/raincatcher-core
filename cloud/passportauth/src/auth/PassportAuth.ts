@@ -103,20 +103,16 @@ export class PassportAuth implements Auth {
     });
   }
 
-  /*public authenticate(defaultRedirect?: any, ...params: any[]) {
-   return passport.authenticate(defaultRedirect);
-   }*/
-
   /**
    * Initialized passport configuration.
    * Method can be overriden to provide custom passport setup
    *
    * @param passport - passport.js instance
    */
-  protected setup(passport: passport.Passport) {
-    passport.use(new Strategy(defaultStrategy(this.userSec)));
-    passport.serializeUser(defaultSerializeUser);
-    passport.deserializeUser(defaultDeserializeUser);
+  protected setup(passportApi: passport.Passport) {
+    passportApi.use(new Strategy(defaultStrategy(this.userSec)));
+    passportApi.serializeUser(defaultSerializeUser);
+    passportApi.deserializeUser(defaultDeserializeUser);
   }
 }
 
