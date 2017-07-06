@@ -136,7 +136,10 @@ div.feedback-warning {
 }
 
 div.feedback-error {
-  background-color: rgba(255,0,0,0.1);
+  width: 94%;
+  text-align: center;
+  padding: 4px;
+  margin-top: 3em;
 }
 
 div#header-wrapper {
