@@ -3,10 +3,17 @@ import {ProcessInstance} from '../process-instance/ProcessInstance';
 import {Process} from '../process/Process';
 import {Task} from '../task/Task';
 
-export interface TaskMoveResponse {
+/**
+ * Data representing the current status of the Executor
+ */
+export interface Summary {
+  /** The {@link Process} that this execution is based on */
   process: Process;
+  /** The {@link ProcessInstance} being executed */
   ProcessInstance: ProcessInstance;
+  /** The index of the current active {@link Task} */
   index: number;
+  /** The current active {@link Task} */
   task: Task;
 }
 
@@ -31,7 +38,9 @@ export interface Executor {
   start(): void;
 
   /**
-   * Alters the ProcessInstance, putting the current Task on hold
+   * Alters the ProcessInstance, putting the current Task on hold and moving execution to the previous one
    */
-  movePrevious(): Promise<TaskMoveResponse>;
+  movePrevious(): Promise<Summary>;
+
+  getSummary(): Promise<Summary>;
 }
