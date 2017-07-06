@@ -46,10 +46,13 @@ export interface Auth {
  */
 export class PassportAuth implements Auth {
   protected loginRoute: string;
-  private log: Logger = new BunyanLogger({ name: 'Passport-Auth', level: 'error' });
+  protected loginErrorRoute: string;
+  private log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
 
-  constructor(protected readonly userSec: UserSecurityService, loginRoute?: string) {
+  constructor(protected readonly userSec: UserSecurityService, loginRoute?: string, loginErrorRoute?: string) {
+
     this.loginRoute = loginRoute || '/login';
+    this.loginErrorRoute = loginErrorRoute || '/loginError';
   }
 
   /**
@@ -96,7 +99,9 @@ export class PassportAuth implements Auth {
    */
   public authenticate(defaultRedirect: string) {
     return passport.authenticate('local', {
-      failureRedirect: this.loginRoute,
+
+      failureRedirect: this.loginErrorRoute,
+
       successReturnToOrRedirect: defaultRedirect
     });
   }
