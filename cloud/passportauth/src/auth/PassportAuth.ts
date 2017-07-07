@@ -38,7 +38,7 @@ export interface Auth {
    *
    * @param redirect - location to redirect after successful authentication
    */
-  authenticate(redirect: string): express.Handler;
+  authenticate(redirect: string, loginError: string): express.Handler;
 }
 
 /**
@@ -46,7 +46,7 @@ export interface Auth {
  */
 export class PassportAuth implements Auth {
   protected loginRoute: string;
-  private log: Logger = new BunyanLogger({ name: 'Passport-Auth', level: 'error' });
+  private log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
 
   constructor(protected readonly userSec: UserSecurityService, loginRoute?: string) {
     this.loginRoute = loginRoute || '/login';
@@ -93,10 +93,11 @@ export class PassportAuth implements Auth {
    *
    * @param defaultRedirect - location to redirect after successful authentication
    *                          when login page was loaded directly (without redirect)
+   * @param errorRedirect - location to redirect after unsuccessful authentication
    */
-  public authenticate(defaultRedirect: string) {
+  public authenticate(defaultRedirect: string, errorRedirect?: string) {
     return passport.authenticate('local', {
-      failureRedirect: this.loginRoute,
+      failureRedirect: errorRedirect,
       successReturnToOrRedirect: defaultRedirect
     });
   }
@@ -107,10 +108,10 @@ export class PassportAuth implements Auth {
    *
    * @param passport - passport.js instance
    */
-  protected setup(passport: passport.Passport) {
-    passport.use(new Strategy(defaultStrategy(this.userSec)));
-    passport.serializeUser(defaultSerializeUser);
-    passport.deserializeUser(defaultDeserializeUser);
+  protected setup(passportApi: passport.Passport) {
+    passportApi.use(new Strategy(defaultStrategy(this.userSec)));
+    passportApi.serializeUser(defaultSerializeUser);
+    passportApi.deserializeUser(defaultDeserializeUser);
   }
 }
 

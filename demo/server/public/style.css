@@ -96,7 +96,6 @@ input[type=submit] {
   color: white;
   text-transform: uppercase;
   padding: 20px;
-  margin-top: 3em;
   width: 95%;
 }
 
@@ -136,7 +135,10 @@ div.feedback-warning {
 }
 
 div.feedback-error {
-  background-color: rgba(255,0,0,0.1);
+  width: 94%;
+  text-align: center;
+  padding: 4px;
+  color: #ff3224
 }
 
 div#header-wrapper {

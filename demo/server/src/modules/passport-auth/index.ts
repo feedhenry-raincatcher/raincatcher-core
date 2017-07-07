@@ -34,5 +34,12 @@ function createRoutes(router: express.Express, auth: PassportAuth) {
     });
   });
 
-  router.post('/login', auth.authenticate('/'));
+  router.post('/login', auth.authenticate('/', '/loginError'));
+
+  router.get('/loginError', (req: express.Request, res: express.Response) => {
+      return res.render('login', {
+        title: 'Feedhenry Workforce Management',
+        message: 'Invalid credentials'});
+  });
+
 }
