@@ -38,7 +38,7 @@ export interface Auth {
    *
    * @param redirect - location to redirect after successful authentication
    */
-  authenticate(redirect: string): express.Handler;
+  authenticate(redirect: string, loginError: string): express.Handler;
 }
 
 /**
@@ -46,12 +46,10 @@ export interface Auth {
  */
 export class PassportAuth implements Auth {
   protected loginRoute: string;
-  protected loginErrorRoute: string;
   private log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
 
-  constructor(protected readonly userSec: UserSecurityService, loginRoute?: string, loginErrorRoute?: string) {
+  constructor(protected readonly userSec: UserSecurityService, loginRoute?: string) {
     this.loginRoute = loginRoute || '/login';
-    this.loginErrorRoute = loginErrorRoute || '/loginError';
   }
 
   /**
@@ -95,10 +93,11 @@ export class PassportAuth implements Auth {
    *
    * @param defaultRedirect - location to redirect after successful authentication
    *                          when login page was loaded directly (without redirect)
+   * @param loginErrorRoute - location to redirect after unsuccessful authentication
    */
-  public authenticate(defaultRedirect: string) {
+  public authenticate(defaultRedirect: string, loginError: string) {
     return passport.authenticate('local', {
-      failureRedirect: this.loginErrorRoute,
+      failureRedirect: loginError,
       successReturnToOrRedirect: defaultRedirect
     });
   }
