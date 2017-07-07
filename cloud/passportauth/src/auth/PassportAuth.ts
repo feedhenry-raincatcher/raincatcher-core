@@ -93,7 +93,6 @@ export class PassportAuth implements Auth {
    *
    * @param defaultRedirect - location to redirect after successful authentication
    *                          when login page was loaded directly (without redirect)
-   * @param loginErrorRoute - location to redirect after unsuccessful authentication
    */
   public authenticate(defaultRedirect: string, loginError?: string) {
     return passport.authenticate('local', {
