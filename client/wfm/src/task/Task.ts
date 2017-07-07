@@ -1,6 +1,9 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import {EventEmitter} from 'eventemitter3';
 import {JsonSchema} from '../JsonSchema';
 import {Result} from '../result/Result';
+
+const log: Logger = new ConsoleLogger();
 
 export interface TaskEventData<T extends Task> {
   /**

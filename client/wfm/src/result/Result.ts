@@ -1,3 +1,6 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
+
+const log: Logger = new ConsoleLogger();
 /**
  * Represents the output of a {@link Task}
  * Implementations are expected to be accompanied by a front end component to render it

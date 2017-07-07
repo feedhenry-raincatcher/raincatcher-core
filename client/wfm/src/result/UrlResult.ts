@@ -1,7 +1,10 @@
 // NOTE: browserify can provide an implementation for node's url module
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import * as nodeUrl from 'url';
 import {isWebUri} from 'valid-url';
 import {Result} from './Result';
+
+const log: Logger = new ConsoleLogger();
 
 /**
  * Represents a {@link Result} that can be accessed via a URL

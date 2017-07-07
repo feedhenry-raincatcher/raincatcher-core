@@ -1,5 +1,8 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import {ProcessInstance} from '../process-instance/ProcessInstance';
 import {Task} from '../task/Task';
+
+const log: Logger = new ConsoleLogger();
 /**
  * Definition holder for a linear set of {@link Task}s
  * Intended to be instantiated as a {@link ProcessInstance} in order to be executed

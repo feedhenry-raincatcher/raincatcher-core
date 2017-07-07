@@ -1,6 +1,9 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import {ProcessInstanceImpl} from '../process-instance/ProcessInstanceImpl';
 import {Task} from '../task/Task';
 import {Process} from './Process';
+
+const log: Logger = new ConsoleLogger();
 
 export class ProcessImpl implements Process {
   public id: string;
@@ -9,6 +12,7 @@ export class ProcessImpl implements Process {
 
   public createInstance() {
     if (!this.tasks || this.tasks.length === 0) {
+      log.error('Task list must be set before calling createInstance()')
       throw new Error('Task list must be set before calling createInstance()');
     }
     // TODO: Replace this with customizable derivative of ProcessInstanceImpl

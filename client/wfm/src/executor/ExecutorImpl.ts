@@ -1,9 +1,12 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import * as Promise from 'bluebird';
 import {ProcessInstance} from '../process-instance/ProcessInstance';
 import {Process} from '../process/Process';
 import {Task, TaskEventData, TaskStatus} from '../task/Task';
 import {Executor} from './Executor';
 import {ExecutorRepository} from './ExecutorRepository';
+
+const log: Logger = new ConsoleLogger();
 
 /**
  * Default implementation for {@link Executor}

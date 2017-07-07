@@ -1,4 +1,8 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import {ProcessInstance} from './ProcessInstance';
+
+const log: Logger = new ConsoleLogger();
+
 export interface ProcessInstanceRepository {
   // TODO: Methods that return collections/arrays should be paginated
   getAll(): Promise<ProcessInstance[]>;

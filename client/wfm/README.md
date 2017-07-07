@@ -20,7 +20,7 @@ The WFM module consists of a set of TypeScript interfaces and implementations fo
 
 Users can write custom `Task`s that will implement any business logic and link implementation with any UI solution.
 
-THe classes are framework-agnostic, allowing developers to focus on the implementation of Business Process on top of any new or existing solution.
+The classes are framework-agnostic, allowing developers to focus on the implementation of Business Process on top of any new or existing solution.
 
 ## Getting Started
 

@@ -1,6 +1,8 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import {ProcessInstance} from '../process-instance/ProcessInstance';
 import {Process} from '../process/Process';
 
+const log: Logger = new ConsoleLogger();
 /**
  * Executor engine for a {@link Process}
  *

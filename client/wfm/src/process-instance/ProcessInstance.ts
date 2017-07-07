@@ -1,8 +1,11 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import * as Promise from 'bluebird';
 import {EventEmitter} from 'eventemitter3';
 import * as _ from 'lodash';
 import {Process} from '../process/Process';
 import {Task} from '../task/Task';
+
+const log: Logger = new ConsoleLogger();
 
 export interface InstanceTaskEventData<T extends ProcessInstance>  {
   instance: T;

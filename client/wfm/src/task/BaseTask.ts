@@ -1,7 +1,9 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import { EventEmitter } from 'eventemitter3';
 import {Result} from '../result/Result';
 import {Task, TaskEventData, TaskStatus} from './Task';
 
+const log: Logger = new ConsoleLogger();
 /**
  * Base implementation for {@link Task}s
  * Derived classes are expected to implement their run {@link #run} methods
