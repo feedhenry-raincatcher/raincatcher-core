@@ -1,3 +1,4 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import * as Promise from 'bluebird';
 import {
   BaseTask,
@@ -12,6 +13,8 @@ import {
   Task,
   TaskStatus
 } from '../src';
+
+const log: Logger = new ConsoleLogger();
 
 // Derive from BaseTask to implement one that deals with custom business logic
 class MyTask extends BaseTask {

@@ -24,7 +24,7 @@ export class BaseTask extends EventEmitter implements Task {
     if (to === this._status) {
       // TODO: replace with logger object
       // tslint:disable-next-line:max-line-length
-      console.warn('BaseTask#status setter: attempted status change to same status as current, no event will be emitted');
+      log.warn('BaseTask#status setter: attempted status change to same status as current, no event will be emitted');
       return;
     }
     const previousStatus = this._status;

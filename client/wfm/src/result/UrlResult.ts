@@ -17,6 +17,7 @@ export class UrlResult implements Result {
   public urlObject: nodeUrl.UrlObject;
   constructor(public url: string) {
     if (!isWebUri(url)) {
+      log.error('Invalid Url');
       throw new Error('Invalid Url');
     }
     this.urlObject = nodeUrl.parse(this.url);

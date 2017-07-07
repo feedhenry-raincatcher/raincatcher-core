@@ -20,6 +20,7 @@ export class ProcessInstanceImpl extends EventEmitter implements ProcessInstance
   constructor(initialTasks: Task[]) {
     super();
     if (!initialTasks || initialTasks.length === 0) {
+      log.error('Task list must have at least one item');
       throw new Error('Task list must have at least one item');
     }
     this.tasks = cloneDeep(initialTasks);
