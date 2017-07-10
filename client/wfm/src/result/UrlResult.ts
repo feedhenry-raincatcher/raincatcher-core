@@ -17,7 +17,7 @@ export class UrlResult implements Result {
   public urlObject: nodeUrl.UrlObject;
   constructor(public url: string) {
     if (!isWebUri(url)) {
-      log.error({tag: 'wfm result', src: 'UrlResult.ts'}, 'Invalid Url');
+      log.error({level: 'ERROR', tag: 'client wfm result', src: 'UrlResult.ts'}, 'Invalid Url');
       throw new Error('Invalid Url');
     }
     this.urlObject = nodeUrl.parse(this.url);

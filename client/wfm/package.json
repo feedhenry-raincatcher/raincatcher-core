@@ -12,7 +12,8 @@
     "start": "ts-node src/index.ts",
     "test": "nyc mocha",
     "debug": "node --inspect-brk ./node_modules/.bin/_mocha",
-    "debug-legacy": "node --debug-brk ./node_modules/.bin/_mocha"
+    "debug-legacy": "node --debug-brk ./node_modules/.bin/_mocha",
+    "example": "ts-node ./example/index.ts"
   },
   "nyc": {
     "include": [

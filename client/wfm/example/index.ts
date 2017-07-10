@@ -20,12 +20,14 @@ const log: Logger = new ConsoleLogger();
 class MyTask extends BaseTask {
   public run() {
     this.updateStatus(TaskStatus.ASSIGNED);
+    log.info({level: 'INFO', tag: 'client wfm example', src: 'index.ts'}, 'TaskStatus ASSIGNED ');
     // Here the implementation would wait for user input or execute automatically
     // moving the status as progress occurs
 
     // BaseTask's implementation takes care of publishing the 'statusChanged' event
     // when a Task reaches the DONE status, the default Executor implementation will move to the next task.
     this.updateStatus(TaskStatus.DONE);
+    log.info({level: 'INFO', tag: 'client wfm example', src: 'index.ts'}, 'TaskStatus DONE ');
   }
 }
 
