@@ -12,7 +12,7 @@ export class ProcessImpl implements Process {
 
   public createInstance() {
     if (!this.tasks || this.tasks.length === 0) {
-      log.error('Task list must be set before calling createInstance()')
+      log.error({tag: 'wfm process', src: 'ProcessImpl.ts'}, 'Task list must be set before calling createInstance()');
       throw new Error('Task list must be set before calling createInstance()');
     }
     // TODO: Replace this with customizable derivative of ProcessInstanceImpl
