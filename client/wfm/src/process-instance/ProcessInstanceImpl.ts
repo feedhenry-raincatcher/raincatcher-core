@@ -1,8 +1,11 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import * as Promise from 'bluebird';
 import {EventEmitter} from 'eventemitter3';
 import {cloneDeep, every} from 'lodash';
 import {Task, TaskStatus} from '../task/Task';
 import {InstanceEventData, InstanceTaskEventData, ProcessInstance} from './ProcessInstance';
+
+const log: Logger = new ConsoleLogger();
 
 export class ProcessInstanceImpl extends EventEmitter implements ProcessInstance {
   public id: string;
@@ -17,6 +20,8 @@ export class ProcessInstanceImpl extends EventEmitter implements ProcessInstance
   constructor(initialTasks: Task[]) {
     super();
     if (!initialTasks || initialTasks.length === 0) {
+      log.error({level: 'ERROR', tag: 'client wfm process-instance', src: 'ProcessInstanceImpl.ts'},
+        'Task list must have at least one item');
       throw new Error('Task list must have at least one item');
     }
     this.tasks = cloneDeep(initialTasks);
@@ -35,6 +40,7 @@ export class ProcessInstanceImpl extends EventEmitter implements ProcessInstance
       task: this.currentTask
     };
     this.emit('taskChange', e);
+    log.info({level: 'INFO', tag: 'client wfm process-instance', src: 'ProcessInstanceImpl.ts'}, 'taskChange', e);
     return Promise.resolve(this.currentTask);
   }
 
@@ -52,6 +58,7 @@ export class ProcessInstanceImpl extends EventEmitter implements ProcessInstance
         instance: this
       };
       this.emit('done', e);
+      log.info({level: 'INFO', tag: 'client wfm process-instance', src: 'ProcessInstanceImpl.ts'}, 'done', e);
     }
   }
 }

@@ -1,7 +1,9 @@
+import { ConsoleLogger, Logger } from '@raincatcher/logger';
 import { EventEmitter } from 'eventemitter3';
 import {Result} from '../result/Result';
 import {Task, TaskEventData, TaskStatus} from './Task';
 
+const log: Logger = new ConsoleLogger();
 /**
  * Base implementation for {@link Task}s
  * Derived classes are expected to implement their run {@link #run} methods
@@ -21,8 +23,8 @@ export class BaseTask extends EventEmitter implements Task {
   public updateStatus(to: TaskStatus | number) {
     if (to === this._status) {
       // TODO: replace with logger object
-      // tslint:disable-next-line:max-line-length
-      console.warn('BaseTask#status setter: attempted status change to same status as current, no event will be emitted');
+      log.warn({level: 'WARN', tag: 'client wfm task', src: 'BaseTask.ts'},
+        'BaseTask#status setter: attempted status change to same status as current, no event will be emitted');
       return;
     }
     const previousStatus = this._status;
@@ -36,6 +38,7 @@ export class BaseTask extends EventEmitter implements Task {
       task: this
     };
     this.emit('statusChange', e);
+    log.info({level: 'INFO', tag: 'client wfm task', src: 'BaseTask.ts'}, 'statusChange', e);
   }
 
   public getStatus() {

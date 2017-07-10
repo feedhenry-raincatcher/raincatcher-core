@@ -12,7 +12,8 @@
     "start": "ts-node src/index.ts",
     "test": "nyc mocha",
     "debug": "node --inspect-brk ./node_modules/.bin/_mocha",
-    "debug-legacy": "node --debug-brk ./node_modules/.bin/_mocha"
+    "debug-legacy": "node --debug-brk ./node_modules/.bin/_mocha",
+    "example": "ts-node ./example/index.ts"
   },
   "nyc": {
     "include": [
@@ -32,6 +33,7 @@
     "branches": 80
   },
   "devDependencies": {
+    "@raincatcher/logger": "1.0.0",
     "@types/bluebird": "^3.5.5",
     "@types/lodash": "^4.14.65",
     "@types/mocha": "^2.2.41",
