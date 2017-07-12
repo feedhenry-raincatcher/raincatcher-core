@@ -1,6 +1,5 @@
+import { MongoClient } from '@types/mongodb';
 import * as sync from 'fh-sync';
-import DataSetHandler from './crud-handlers/DataSetHandler';
-import {setupGlobalHandlers, setupHandlers} from './crud-handlers/HandlerMapper';
 import SyncDataSetOptions from './options/SyncDatasetOptions';
 import SyncOptions from './options/SyncGlobalOptions';
 import SyncApi from './SyncApi';
@@ -15,7 +14,7 @@ export const SyncServer: SyncApi = {
    *
    * @param options global options for sync cloud service
    */
-    connect(options: SyncOptions, callback: (err: any) => void) {
+  connect(options: SyncOptions, callback: (err: any, mongoDbClient?: MongoClient, redisClient?: any) => void) {
     if (options.globalSyncOptions) {
       sync.setConfig(options.globalSyncOptions);
     }
@@ -25,19 +24,14 @@ export const SyncServer: SyncApi = {
     });
   },
 
-  setGlobalDataHandlers(dataHandler: DataSetHandler) {
-    setupGlobalHandlers(dataHandler);
-  },
-
   /**
    * Register dataset (implicitly) to be supported by server.
    * Note: datasets needs to be registered only if you wish to override values provided by server.
-   * For example if you want to use custom CRUD handlers
    *
    * @param datasetId
    * @param options
    */
-    registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions, dataHandler?: DataSetHandler) {
+  registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions) {
     sync.init(datasetId, options, function(err: any) {
       if (err) {
         throw new Error(err);
@@ -50,9 +44,6 @@ export const SyncServer: SyncApi = {
         // Set optional custom hash function to deal with detecting model changes.
         if (options && options.hashFunction) {
           sync.setRecordHashFn(datasetId, options.hashFunction);
-        }
-        if (dataHandler) {
-          setupHandlers(datasetId, dataHandler);
         }
       }
     });

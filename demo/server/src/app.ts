@@ -8,9 +8,12 @@ import * as expressHbs from 'express-handlebars';
 import * as logger from 'morgan';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
+import { router as syncRouter} from './modules/datasync/Router';
 import { init as authInit } from './modules/passport-auth';
 import index from './routes/index';
 import EnvironmentConfig, { CloudAppConfig, Config } from './util/config';
+
+import {setup} from './modules';
 
 const app: express.Express = express();
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
@@ -28,7 +31,7 @@ app.engine('hbs', expressHbs());
 app.set('view engine', 'hbs');
 
 const sec = authInit(app);
-app.use('/', index);
+app.use('/', index, syncRouter);
 app.use('/test', sec.protect(), index);
 app.use('/testAdmin', sec.protect('admin'), index);
 app.use('/testUser', sec.protect('user'), index);
