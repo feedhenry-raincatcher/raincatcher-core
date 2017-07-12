@@ -2,6 +2,7 @@ import * as Promise from 'bluebird';
 import User from './User';
 import UserDataRepo from './UserRepository';
 
+// TODO: Delete file
 /**
  * Service for all user related security operations.
  * Can be overridden to provide custom implementations
@@ -33,7 +34,7 @@ export class UserSecurityService {
    */
   public comparePassword(user: User, password: string) {
     const passwordHash = user.getPasswordHash();
-    return (password === passwordHash); // TODO: replace with bcrypt [RAINCATCH-872]
+    return (password === passwordHash);
   }
 
   /**

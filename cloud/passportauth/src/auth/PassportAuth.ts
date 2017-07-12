@@ -4,7 +4,8 @@ import * as session from 'express-session';
 import { SessionOptions } from 'express-session';
 import * as passport from 'passport';
 import { Strategy } from 'passport-local';
-import { UserSecurityService } from '../user/UserSecurityService';
+import { User } from '../user/User';
+import { UserRepository } from '../user/UserRepository';
 
 import { defaultStrategy } from './DefaultStrategy';
 import { defaultDeserializeUser, defaultSerializeUser } from './UserSerializer';
@@ -48,7 +49,7 @@ export class PassportAuth implements Auth {
   protected loginRoute: string;
   private log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
 
-  constructor(protected readonly userSec: UserSecurityService, loginRoute?: string) {
+  constructor(protected readonly userRepo: UserRepository, loginRoute?: string) {
     this.loginRoute = loginRoute || '/login';
   }
 
@@ -82,7 +83,7 @@ export class PassportAuth implements Auth {
         }
         return res.redirect(this.loginRoute);
       }
-      const roleMatch = true; // TODO this.userSec.hasResourceRole(req.user, role);
+      const roleMatch = true; // TODO: implement role check
       return roleMatch ? next() : res.status(403).send();
     };
   }
@@ -106,10 +107,10 @@ export class PassportAuth implements Auth {
    * Initialized passport configuration.
    * Method can be overriden to provide custom passport setup
    *
-   * @param passport - passport.js instance
+   * @param passportApi - passport.js instance
    */
   protected setup(passportApi: passport.Passport) {
-    passportApi.use(new Strategy(defaultStrategy(this.userSec)));
+    passportApi.use(new Strategy(defaultStrategy(this.userRepo)));
     passportApi.serializeUser(defaultSerializeUser);
     passportApi.deserializeUser(defaultDeserializeUser);
   }
