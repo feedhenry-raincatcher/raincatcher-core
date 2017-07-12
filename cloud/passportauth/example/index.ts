@@ -26,7 +26,7 @@ const sessionOpts = {
 const userRepo = new ExampleUserDataRepository();
 // Create default security service (or extend it)
 const userSec = new UserSecurityService(userRepo);
-const authService: PassportAuth = new PassportAuth(userSec);
+const authService: PassportAuth = new PassportAuth(userSec, log);
 
 const app = express();
 
