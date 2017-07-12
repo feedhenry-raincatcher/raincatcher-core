@@ -17,3 +17,28 @@ export interface TaskHandler {
    */
   previous(task: Task, processInstance: ProcessInstance): Result;
 }
+
+import { BooleanResult } from '../result/BooleanResult';
+/**
+ * Throwaway draft of a custom TaskHandler
+ */
+class VehicleInspectionTaskHandler implements TaskHandler {
+  public id: 'vehicle-inspection';
+  public displayName: 'Vehicle Inspection';
+  public portalDirective = 'vehicleInspection';
+  public mobileDirective = 'vehicleInspectionForm';
+  public execute(task: Task, processInstance: ProcessInstance): void {
+    // render mobileDirective to proper container
+  }
+  public next(task: Task, processInstance: ProcessInstance): Result {
+    // should get called from angular controller,
+    // controller.next = () => {registry.get('vehicle-inspection').next(...);}
+    // TODO: update results to match needs of current UI
+    return new BooleanResult(true);
+  }
+  public previous(task: Task, processInstance: ProcessInstance): Result {
+    // should get called from angular controller,
+    // controller.back = () => {registry.get('vehicle-inspection').previous(...);}
+    return new BooleanResult(true);
+  }
+}
