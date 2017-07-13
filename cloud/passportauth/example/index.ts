@@ -1,14 +1,17 @@
-import { BunyanLogger, Logger } from '@raincatcher/logger';
+import { logger } from '@raincatcher/logger';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as path from 'path';
 import passport, { PassportAuth, UserRepository, UserSecurityService } from '../src/index';
 
-const log: Logger = new BunyanLogger({ name: 'Passport-Auth-Example', level: 'info' });
-
 // Implementation for fetching and mapping user data
 import ExampleUserDataRepository from './UserRepository';
+
+// Get and set Global logger
+/*const log: Logger.Logger = new Logger.BunyanLogger({ name: 'Passport-Auth-Example', level: 'info' });
+Logger.setGlobalLogger(log);
+const logger: Logger.Logger = Logger.getGlobalLogger();*/
 
 // Configuration for express session options
 const sessionOpts = {
@@ -26,7 +29,7 @@ const sessionOpts = {
 const userRepo = new ExampleUserDataRepository();
 // Create default security service (or extend it)
 const userSec = new UserSecurityService(userRepo);
-const authService: PassportAuth = new PassportAuth(userSec, log);
+const authService: PassportAuth = new PassportAuth(userSec);
 
 const app = express();
 
@@ -61,10 +64,10 @@ app.get('/login', (req: express.Request, res: express.Response) => {
 app.post('/login', authService.authenticate('/'));
 
 app.use(function(err: any, req: express.Request, res: express.Response, next: any) {
-  log.error(err);
+  logger.error(err);
   res.status(500).send(err);
 });
 
 app.listen(3000, function() {
-  log.info('Example auth app listening on port 3000');
+  logger.info('Example auth app listening on port 3000');
 });

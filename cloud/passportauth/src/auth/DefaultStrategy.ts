@@ -1,7 +1,8 @@
-import { BunyanLogger, Logger } from '@raincatcher/logger';
+import { logger } from '@raincatcher/logger';
 import { UserSecurityService } from '../user/UserSecurityService';
 
-const log: Logger = new BunyanLogger({ name: 'Passport-Auth', level: 'error' });
+// const log: Logger = new BunyanLogger({ name: 'Passport-Auth', level: 'error' });
+
 import { User } from '../user/User';
 
 /**
@@ -12,6 +13,7 @@ import { User } from '../user/User';
  * @returns {Function} - Returns the default strategy function to be used by passport
  */
 export const defaultStrategy = (userSec: UserSecurityService) => {
+  logger.error('test ', {level: 'Test', tag: 'cloud:passportauth:src:auth', src: 'DefaultStrategy.ts'});
   return (loginId: string, password: string, done: (error: Error | null, user: any) => any) => {
     userSec.getUserByLogin(loginId).then((user: User) => {
       if (!user) {
@@ -24,7 +26,8 @@ export const defaultStrategy = (userSec: UserSecurityService) => {
       }
     })
       .catch((err: Error) => {
-        log.error('An error occurred when retrieving user: ', err);
+        logger.error('An error occurred when retrieving user: ', err,
+          {level: 'ERROR', tag: 'cloud:passportauth:src:auth', src: 'DefaultStrategy.ts'});
         return done(err, null);
       });
   };

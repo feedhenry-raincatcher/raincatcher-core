@@ -1,4 +1,4 @@
-import { BunyanLogger, Logger } from '@raincatcher/logger';
+import { logger } from '@raincatcher/logger';
 import * as express from 'express';
 import * as session from 'express-session';
 import { SessionOptions } from 'express-session';
@@ -48,7 +48,7 @@ export class PassportAuth implements Auth {
   protected loginRoute: string;
   // private log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
 
-  constructor(protected readonly userSec: UserSecurityService, private log: Logger, loginRoute?: string) {
+  constructor(protected readonly userSec: UserSecurityService, loginRoute?: string) {
     this.loginRoute = loginRoute || '/login';
   }
 
@@ -59,7 +59,8 @@ export class PassportAuth implements Auth {
    * @param sessionOpts - Session options to be used by express-session
    */
   public init(app: express.Express, sessionOpts: SessionOptions) {
-    this.log.info('Initializing express app to use express session and passport');
+    logger.info('Initializing express app to use express session and passport',
+      {level: 'INFO', tag: 'cloud:passportauth:src:auth', src: 'PassportAuth.ts'});
     app.use(session(sessionOpts));
     app.use(passport.initialize());
     app.use(passport.session());
