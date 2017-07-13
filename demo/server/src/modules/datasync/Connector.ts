@@ -4,6 +4,9 @@ import { GlobalMongoDataHandler } from './MongoDataHandler';
 
 const sync = SyncServer;
 
+// Enable sync debug logs
+process.env.DEBUG = 'fh-mbaas-api:sync';
+
 // Sync connection options
 const connectOptions: SyncOptions = {
   datasetConfiguration: {
@@ -24,6 +27,9 @@ export function connect() {
     sync.connect(connectOptions, function(err, mongo, redis) {
       if (err) {
         return reject(err);
+      }
+      if (!mongo) {
+        return reject('Missing mongo client');
       }
       const handler = new GlobalMongoDataHandler(mongo);
       handler.initGlobalHandlers();

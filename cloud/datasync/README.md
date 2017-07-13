@@ -55,7 +55,7 @@ See [integration](./integration) for complete runnable example.
 ## Accessing underlying sync library
 
 For advanced use cases developers can access sync library using `sync` namespace.
-Library is shipped with their own typings. You can import this directly into your application as bellow:
+Library is shipped with their own typings. You can import this directly into your application as below:
 
 ```typescript
 import { sync } from '../src/index'

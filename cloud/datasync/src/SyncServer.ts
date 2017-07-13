@@ -1,5 +1,5 @@
-import { MongoClient } from '@types/mongodb';
 import * as sync from 'fh-sync';
+import { Db } from 'mongodb';
 import SyncDataSetOptions from './options/SyncDatasetOptions';
 import SyncOptions from './options/SyncGlobalOptions';
 import SyncApi from './SyncApi';
@@ -14,13 +14,14 @@ export const SyncServer: SyncApi = {
    *
    * @param options global options for sync cloud service
    */
-  connect(options: SyncOptions, callback: (err: any, mongoDbClient?: MongoClient, redisClient?: any) => void) {
+  connect(options: SyncOptions, callback: (err: any, mongoDbClient?: Db, redisClient?: any) => void) {
     if (options.globalSyncOptions) {
       sync.setConfig(options.globalSyncOptions);
     }
     const sdo = options.datasetConfiguration;
-    sync.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function(err: any) {
-      callback(err);
+    // tslint:disable-next-line:max-line-length
+    sync.connect(sdo.mongoDbConnectionUrl, sdo.mongoDbOptions, sdo.redisConnectionUrl, function(err, mongoDbClient, redisClient) {
+      callback(err, mongoDbClient, redisClient);
     });
   },
 
