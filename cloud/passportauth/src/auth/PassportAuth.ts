@@ -13,7 +13,7 @@ import { defaultDeserializeUser, defaultSerializeUser } from './UserSerializer';
  * Security interface for Raincatcher authentication middleware
  * Contains all methods that should be used to protect express routes.
  */
-export interface Auth {
+export interface EndpointSecurity {
 
   /**
    * Initializes an Express application to use passport and express-session
