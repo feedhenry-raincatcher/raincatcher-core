@@ -1,4 +1,4 @@
-import { BunyanLogger, Logger } from '@raincatcher/logger';
+
 import * as express from 'express';
 import { SessionOptions } from 'express-session';
 import * as sinon from 'sinon';
@@ -8,7 +8,6 @@ import MockUserRepo from './mocks/MockUserRepo';
 
 describe('Test Passport Auth', function() {
   const userSec = new UserSecService(MockUserRepo);
-  const log: Logger = new BunyanLogger({name: 'PassportAuthTest', level: 'error'});
   const loginRoute = '/login';
   let app: express.Express;
   let mockSessionOpts: SessionOptions;
@@ -18,7 +17,7 @@ describe('Test Passport Auth', function() {
   let mockNext: any;
 
   beforeEach(function() {
-    testSubject = new PassportAuth(userSec, log);
+    testSubject = new PassportAuth(userSec);
     app = express();
     mockSessionOpts = {
       secret: 'test',
