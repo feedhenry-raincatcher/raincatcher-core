@@ -46,7 +46,6 @@ export interface Auth {
  */
 export class PassportAuth implements Auth {
   protected loginRoute: string;
-  // private log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
 
   constructor(protected readonly userSec: UserSecurityService, loginRoute?: string) {
     this.loginRoute = loginRoute || '/login';
