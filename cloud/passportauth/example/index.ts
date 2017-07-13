@@ -8,11 +8,6 @@ import passport, { PassportAuth, UserRepository, UserSecurityService } from '../
 // Implementation for fetching and mapping user data
 import ExampleUserDataRepository from './UserRepository';
 
-// Get and set Global logger
-/*const log: Logger.Logger = new Logger.BunyanLogger({ name: 'Passport-Auth-Example', level: 'info' });
-Logger.setGlobalLogger(log);
-const logger: Logger.Logger = Logger.getGlobalLogger();*/
-
 // Configuration for express session options
 const sessionOpts = {
   secret: process.env.SESSION_SECRET || 'raincatcher',
