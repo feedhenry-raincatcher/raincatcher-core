@@ -11,7 +11,7 @@ export interface User {
    *
    * @returns {string} - A unique id used by the user for login (i.e. username, email)
    */
-  getLoginId(): string;
+  getLoginId(user: any): string;
 
   /**
    * Retrieves the user's hashed password.
@@ -19,14 +19,14 @@ export interface User {
    *
    * @returns {string} - User's hashed password
    */
-  getPasswordHash(): string;
+  getPassword(user: any): string;
 
   /**
    * Retrieves the user's roles
    *
    * @returns {string[]} - An array containing roles assigned to the user
    */
-  getRoles(): string[];
+  getRoles(user: any): string[];
 }
 
 export default User;

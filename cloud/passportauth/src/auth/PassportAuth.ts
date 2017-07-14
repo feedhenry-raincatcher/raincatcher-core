@@ -12,9 +12,9 @@ import { defaultDeserializeUser, defaultSerializeUser } from './UserSerializer';
 
 /**
  * Security interface for Raincatcher authentication middleware
- * Contains all methods that should be used to protect express routes.
+ * Contains all the methods that should be used to protect express routes.
  */
-export interface Auth {
+export interface EndpointSecurity {
 
   /**
    * Initializes an Express application to use passport and express-session
@@ -45,11 +45,11 @@ export interface Auth {
 /**
  * Default implementation for passport authentication
  */
-export class PassportAuth implements Auth {
+export class PassportAuth implements EndpointSecurity {
   protected loginRoute: string;
   private log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
 
-  constructor(protected readonly userRepo: UserRepository, loginRoute?: string) {
+  constructor(protected readonly userRepo: UserRepository, protected readonly userService: User, loginRoute?: string) {
     this.loginRoute = loginRoute || '/login';
   }
 
@@ -83,8 +83,9 @@ export class PassportAuth implements Auth {
         }
         return res.redirect(this.loginRoute);
       }
-      const roleMatch = true; // TODO: implement role check
-      return roleMatch ? next() : res.status(403).send();
+
+      const hasRole = this.hasResourceRole(req.user, role);
+      return hasRole ? next() : res.status(403).send();
     };
   }
 
@@ -104,13 +105,30 @@ export class PassportAuth implements Auth {
   }
 
   /**
+   * Checks if the current user has the role required to access a resource
+   *
+   * @param user - user data
+   * @param role - The required role to access a resource
+   * @returns Returns true/false if the user is authorized to access a resource
+   */
+  public hasResourceRole(user: any, role?: string) {
+    const userRoles = this.userService.getRoles(user);
+
+    if (role) {
+      return userRoles ? userRoles.indexOf(role) > -1 : false;
+    } else {
+      return true;
+    }
+  }
+
+  /**
    * Initialized passport configuration.
-   * Method can be overriden to provide custom passport setup
+   * Method can be overridden to provide custom passport setup
    *
    * @param passportApi - passport.js instance
    */
   protected setup(passportApi: passport.Passport) {
-    passportApi.use(new Strategy(defaultStrategy(this.userRepo)));
+    passportApi.use(new Strategy(defaultStrategy(this.userRepo, this.userService)));
     passportApi.serializeUser(defaultSerializeUser);
     passportApi.deserializeUser(defaultDeserializeUser);
   }

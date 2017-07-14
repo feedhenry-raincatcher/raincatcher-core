@@ -22,23 +22,20 @@ const userSeedData = [
 ];
 
 /**
- * A sample user implementation
+ * A sample user service implementation
  */
-export class BaseUser implements User {
-  // Wrap user object
-  constructor(readonly user: any) {
+export class UserService implements User {
+  // Map user object
+  public getLoginId(user: any) {
+    return user.username;
   }
 
-  public getLoginId() {
-    return this.user ? this.user.username : undefined;
+  public getPassword(user: any) {
+    return user.password;
   }
 
-  public getPasswordHash() {
-    return this.user ? this.user.password : undefined;
-  }
-
-  public getRoles() {
-    return this.user ? this.user.roles : [];
+  public getRoles(user: any) {
+    return user.roles;
   }
 }
 
@@ -49,7 +46,7 @@ export class SampleUserRepository implements UserRepository {
   /**
    * A sample get user using a login id from a data source
    *
-   * @param loginId {string} - A unique login id used to identify the user (i.e. username)
+   * @param loginId - A unique login id used to identify the user (i.e. username)
    * @returns {Promise} - Returns a user object if user was found
    */
   public getUserByLogin(loginId: string) {
@@ -58,7 +55,7 @@ export class SampleUserRepository implements UserRepository {
         return user;
       }
     });
-    return Promise.resolve(new BaseUser(userObj));
+    return Promise.resolve(userObj);
   }
 }
 

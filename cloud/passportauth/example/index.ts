@@ -3,12 +3,12 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as path from 'path';
-import passport, { PassportAuth, UserRepository } from '../src/index';
+import { PassportAuth, User, UserRepository } from '../src/index';
 
 const log: Logger = new BunyanLogger({ name: 'Passport-Auth-Example', level: 'info' });
 
 // Implementation for fetching and mapping user data
-import ExampleUserDataRepository from './UserRepository';
+import ExampleUserDataRepository, { UserService } from './UserRepository';
 
 // Configuration for express session options
 const sessionOpts = {
@@ -23,8 +23,9 @@ const sessionOpts = {
 };
 
 // Initialize user data repository and map current user
-const userRepo = new ExampleUserDataRepository();
-const authService: PassportAuth = new PassportAuth(userRepo);
+const userRepo: UserRepository = new ExampleUserDataRepository();
+const userService: User = new UserService();
+const authService: PassportAuth = new PassportAuth(userRepo, userService);
 
 const app = express();
 
@@ -44,7 +45,7 @@ app.get('/testUserEndpoint', authService.protect('user'), (req: express.Request,
 });
 
 app.get('/', (req: express.Request, res: express.Response) => {
-  const payload = { msg: 'default route' };
+  const payload = { msg: 'default route', user: req.user, session: req.session};
   res.json(payload);
 });
 
@@ -57,6 +58,11 @@ app.get('/login', (req: express.Request, res: express.Response) => {
 });
 
 app.post('/login', authService.authenticate('/'));
+
+app.get('/logout', (req: express.Request, res: express.Response) => {
+  req.logout();
+  res.redirect('/');
+});
 
 app.use(function(err: any, req: express.Request, res: express.Response, next: any) {
   log.error(err);
