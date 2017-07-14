@@ -4,8 +4,8 @@ import * as session from 'express-session';
 import { SessionOptions } from 'express-session';
 import * as passport from 'passport';
 import { Strategy } from 'passport-local';
-import { User } from '../user/User';
 import { UserRepository } from '../user/UserRepository';
+import { UserService } from '../user/UserService';
 
 import { defaultStrategy } from './DefaultStrategy';
 import { defaultDeserializeUser, defaultSerializeUser } from './UserSerializer';
@@ -20,7 +20,7 @@ export interface EndpointSecurity {
    * Initializes an Express application to use passport and express-session
    *
    * @param app - An express application
-   * @param sessionOpts  - Session options to be used by express-session
+   * @param sessionOpts - Session options to be used by express-session
    */
   init(app: express.Express, sessionOpts: SessionOptions): void;
 
@@ -49,7 +49,8 @@ export class PassportAuth implements EndpointSecurity {
   protected loginRoute: string;
   private log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
 
-  constructor(protected readonly userRepo: UserRepository, protected readonly userService: User, loginRoute?: string) {
+  // tslint:disable-next-line:max-line-length
+  constructor(protected readonly userRepo: UserRepository, protected readonly userService: UserService, loginRoute?: string) {
     this.loginRoute = loginRoute || '/login';
   }
 
@@ -112,13 +113,12 @@ export class PassportAuth implements EndpointSecurity {
    * @returns Returns true/false if the user is authorized to access a resource
    */
   public hasResourceRole(user: any, role?: string) {
-    const userRoles = this.userService.getRoles(user);
-
-    if (role) {
-      return userRoles ? userRoles.indexOf(role) > -1 : false;
-    } else {
+    if (!role) {
       return true;
     }
+
+    const userRoles = this.userService.getRoles(user);
+    return userRoles ? userRoles.indexOf(role) > -1 : false;
   }
 
   /**

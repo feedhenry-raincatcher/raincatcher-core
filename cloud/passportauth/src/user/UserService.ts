@@ -1,11 +1,11 @@
 
 /**
- * User interface that defines set of requirements (methods) for user objects returned from repository.
- * Interface is used to map particular fields.
+ * User service interface that defines a set of requirements (methods) for mapping particular fields from the
+ * user object returned from the repository.
  *
  * @see UserRepository
  */
-export interface User {
+export interface UserService {
   /**
    * Retrieves unique login id
    *
@@ -14,10 +14,10 @@ export interface User {
   getLoginId(user: any): string;
 
   /**
-   * Retrieves the user's hashed password.
-   * This field will be used to verify user password
+   * Retrieves the user's password.
+   * This field will be used to verify the user password
    *
-   * @returns {string} - User's hashed password
+   * @returns {string} - User's password
    */
   getPassword(user: any): string;
 
@@ -29,4 +29,4 @@ export interface User {
   getRoles(user: any): string[];
 }
 
-export default User;
+export default UserService;

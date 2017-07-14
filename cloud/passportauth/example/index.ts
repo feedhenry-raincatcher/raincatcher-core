@@ -3,12 +3,12 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as path from 'path';
-import { PassportAuth, User, UserRepository } from '../src/index';
+import { PassportAuth, UserRepository, UserService } from '../src/index';
 
 const log: Logger = new BunyanLogger({ name: 'Passport-Auth-Example', level: 'info' });
 
 // Implementation for fetching and mapping user data
-import ExampleUserDataRepository, { UserService } from './UserRepository';
+import ExampleUserDataRepository, { SampleUserService } from './UserRepository';
 
 // Configuration for express session options
 const sessionOpts = {
@@ -24,7 +24,7 @@ const sessionOpts = {
 
 // Initialize user data repository and map current user
 const userRepo: UserRepository = new ExampleUserDataRepository();
-const userService: User = new UserService();
+const userService: UserService = new SampleUserService();
 const authService: PassportAuth = new PassportAuth(userRepo, userService);
 
 const app = express();

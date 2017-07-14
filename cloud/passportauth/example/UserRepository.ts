@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import { UserRepository } from '../src/index';
-import { User } from '../src/index';
+import { UserService } from '../src/index';
 
 /**
  * Fixed user data for demo purposes.
@@ -24,7 +24,7 @@ const userSeedData = [
 /**
  * A sample user service implementation
  */
-export class UserService implements User {
+export class SampleUserService implements UserService {
   // Map user object
   public getLoginId(user: any) {
     return user.username;

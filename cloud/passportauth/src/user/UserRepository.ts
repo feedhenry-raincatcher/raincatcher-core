@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird';
 
 /**
- * Interface for retrieving user related data.
+ * User repository interface for retrieving user related data.
  * Implementations can retrieve users from different databases etc.
  */
 export interface UserRepository {
