@@ -59,7 +59,7 @@ app.get('/login', (req: express.Request, res: express.Response) => {
 app.post('/login', authService.authenticate('/'));
 
 app.use(function(err: any, req: express.Request, res: express.Response, next: any) {
-  logger.error(err);
+  logger.error(err, {level: 'ERROR', tag: 'cloud:passportauth:example', src: 'index.ts'});
   res.status(500).send(err);
 });
 
