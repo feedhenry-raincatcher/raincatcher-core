@@ -1,19 +1,26 @@
 import * as Promise from 'bluebird';
 import {User, UserRepository} from '../../src/index';
 
-export const mockBaseUser: User = {
-  getLoginId() {
-    return 'testloginId';
+export const mockUserService: User = {
+  getLoginId(user: any) {
+    return user.id;
   },
-  getPasswordHash() {
-    return 'testPasswordHash';
+  getPassword(user: any) {
+    return user.password;
   },
-  getRoles() {
-    return ['testReqRole'];
+  getRoles(user: any) {
+    return user.roles;
   }
 };
 
-const MockUserRepo: UserRepository = {
+export const mockUserObj = {
+  id: 'testId',
+  username: 'testloginId',
+  password: 'testPassword',
+  roles: ['testRole']
+};
+
+export const MockUserRepo: UserRepository = {
   getUserByLogin(loginId: string) {
     if (loginId === 'testError') {
       return Promise.reject(new Error('[TEST] Error retrieving user'));
@@ -23,7 +30,7 @@ const MockUserRepo: UserRepository = {
       return Promise.resolve(undefined);
     }
 
-    return Promise.resolve(mockBaseUser);
+    return Promise.resolve(mockUserObj);
   }
 };
 
