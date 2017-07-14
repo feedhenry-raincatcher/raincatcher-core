@@ -30,6 +30,8 @@ app.set('view engine', 'hbs');
 const sec = authInit(app);
 app.use('/', index);
 app.use('/test', sec.protect(), index);
+app.use('/testAdmin', sec.protect('admin'), index);
+app.use('/testUser', sec.protect('user'), index);
 
 app.use((req: express.Request, res: express.Response, next) => {
   const err: any = new Error('Not Found');

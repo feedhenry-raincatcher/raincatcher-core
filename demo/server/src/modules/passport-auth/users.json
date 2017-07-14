@@ -9,7 +9,8 @@
     "notes" : "Trever doesn't work during the weekends.",
     "avatar" : "https://s3.amazonaws.com/uifaces/faces/twitter/kolage/128.jpg",
     "banner" : "http://web18.streamhoster.com/pentonmedia/beefmagazine.com/TreverStockyards_38371.jpg",
-    "password": "123"
+    "password": "123",
+    "roles": ["user"]
   },
   {
     "id" : "rJeXyfdrH",
@@ -20,7 +21,8 @@
     "email" : "daisy@wfm.com",
     "avatar" : "https://s3.amazonaws.com/uifaces/faces/twitter/madysondesigns/128.jpg",
     "banner" : "https://s3-eu-west-1.amazonaws.com/raincatcher-files/Screen+Shot+2017-03-27+at+11.04.27.png",
-    "password": "123"
+    "password": "123",
+    "roles": ["admin", "user"]
   },
   {
     "id" : "H1ZmkzOrr",
@@ -31,7 +33,8 @@
     "email" : "max@wfm.com",
     "avatar" : "https://s3.amazonaws.com/uifaces/faces/twitter/davidburlton/128.jpg",
     "banner" : "https://s3-eu-west-1.amazonaws.com/raincatcher-files/Screen+Shot+2017-03-27+at+11.04.27.png",
-    "password": "123"
+    "password": "123",
+    "roles": ["admin", "user"]
   },
   {
     "id" : "ByzQyz_BS",
@@ -42,7 +45,8 @@
     "email" : "phylis@wfm.com",
     "avatar" : "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
     "banner" : "https://s3-eu-west-1.amazonaws.com/raincatcher-files/Screen+Shot+2017-03-27+at+11.04.27.png",
-    "password": "123"
+    "password": "123",
+    "roles": ["admin", "user"]
   },
   {
     "id" : "BJQm1G_BS",
@@ -53,7 +57,8 @@
     "email" : "johnf@wfm.com",
     "avatar" : "https://s3.amazonaws.com/uifaces/faces/twitter/jfkingsley/128.jpg",
     "banner" : "https://s3-eu-west-1.amazonaws.com/raincatcher-files/Screen+Shot+2017-03-27+at+11.04.27.png",
-    "password": "123"
+    "password": "123",
+    "roles": ["user"]
   },
   {
     "id" : "SyVXyMuSr",
@@ -64,7 +69,8 @@
     "email" : "billb@wfm.com",
     "avatar" : "https://s3.amazonaws.com/uifaces/faces/twitter/peterme/128.jpg",
     "banner" : "https://s3-eu-west-1.amazonaws.com/raincatcher-files/Screen+Shot+2017-03-27+at+11.04.27.png",
-    "password": "123"
+    "password": "123",
+    "roles": ["user"]
   },
   {
     "id" : "B1r71fOBr",
@@ -75,7 +81,8 @@
     "email" : "sallys@wfm.com",
     "avatar" : "https://s3.amazonaws.com/uifaces/faces/twitter/kfriedson/128.jpg",
     "banner" : "https://s3-eu-west-1.amazonaws.com/raincatcher-files/Screen+Shot+2017-03-27+at+11.04.27.png",
-    "password": "123"
+    "password": "123",
+    "roles": ["user"]
   },
   {
     "id" : "HJ8QkzOSH",
@@ -86,6 +93,7 @@
     "email" : "dannyd@wfm.com",
     "avatar" : "https://s3.amazonaws.com/uifaces/faces/twitter/danbenoni/128.jpg",
     "banner" : "https://s3-eu-west-1.amazonaws.com/raincatcher-files/Screen+Shot+2017-03-27+at+11.04.27.png",
-    "password": "123"
+    "password": "123",
+    "roles": ["user"]
   }
 ]

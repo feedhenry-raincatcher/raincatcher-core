@@ -1,5 +1,4 @@
-
-import { User, UserRepository } from '@raincatcher/auth-passport';
+import { UserRepository, UserService } from '@raincatcher/auth-passport';
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 
@@ -9,21 +8,18 @@ const users: any = require('./users.json');
 /**
  * A sample user implementation
  */
-export class BaseUser implements User {
-  // Wrap user object
-  constructor(readonly user: any) {
+export class SampleUserService implements UserService {
+  // Map user object
+  public getLoginId(user: any) {
+    return user.username;
   }
 
-  public getLoginId() {
-    return this.user ? this.user.username : undefined;
+  public getPassword(user: any) {
+    return user.password;
   }
 
-  public getPasswordHash() {
-    return this.user ? this.user.password : undefined;
-  }
-
-  public getRoles() {
-    return this.user ? this.user.roles : [];
+  public getRoles(user: any) {
+    return user.roles;
   }
 }
 
@@ -44,7 +40,7 @@ export class SampleUserRepository implements UserRepository {
         return user;
       }
     });
-    return Promise.resolve(new BaseUser(userObj));
+    return Promise.resolve(userObj);
   }
 }
 

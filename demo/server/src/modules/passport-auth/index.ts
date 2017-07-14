@@ -1,8 +1,8 @@
-import passport, { PassportAuth, UserRepository, UserSecurityService } from '@raincatcher/auth-passport';
+import { PassportAuth, UserRepository, UserService } from '@raincatcher/auth-passport';
 import * as express from 'express';
 
 // Implementation for fetching and mapping user data
-import DemoUserRepository from './DemoUserRepository';
+import DemoUserRepository, { SampleUserService } from './DemoUserRepository';
 
 // Configuration for express session options
 const sessionOpts = {
@@ -18,10 +18,9 @@ const sessionOpts = {
 
 export function init(app: express.Express) {
   // Initialize user data repository and map current user
-  const userRepo = new DemoUserRepository();
-  // Create default security service (or extend it)
-  const userSec = new UserSecurityService(userRepo);
-  const authService: PassportAuth = new PassportAuth(userSec);
+  const userRepo: UserRepository = new DemoUserRepository();
+  const userService: UserService = new SampleUserService();
+  const authService: PassportAuth = new PassportAuth(userRepo, userService);
   authService.init(app, sessionOpts);
   createRoutes(app, authService);
   return authService;
