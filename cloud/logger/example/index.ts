@@ -12,9 +12,9 @@ log.warn('This should not render', { orthis: 'will not return' });
 // you can instantiate the default logger with any Logger implementation to change the global logger
 
 log = new ConsoleLogger();
-const getset = new GetSetLogger();
-getset.setLogger(log);
-log = getset.getLogger();
+const getSetLogger = new GetSetLogger();
+getSetLogger.setLogger(log);
+log = getSetLogger.getLogger();
 
 log.info('This log will render with ConsoleLogger');
 
