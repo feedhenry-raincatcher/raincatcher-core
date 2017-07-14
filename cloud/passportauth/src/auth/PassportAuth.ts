@@ -1,4 +1,4 @@
-import { logger } from '@raincatcher/logger';
+import { LoggerManager } from '@raincatcher/logger';
 import * as express from 'express';
 import * as session from 'express-session';
 import { SessionOptions } from 'express-session';
@@ -8,6 +8,8 @@ import { UserSecurityService } from '../user/UserSecurityService';
 
 import { defaultStrategy } from './DefaultStrategy';
 import { defaultDeserializeUser, defaultSerializeUser } from './UserSerializer';
+
+const log = new LoggerManager();
 
 /**
  * Security interface for Raincatcher authentication middleware
@@ -58,7 +60,7 @@ export class PassportAuth implements Auth {
    * @param sessionOpts - Session options to be used by express-session
    */
   public init(app: express.Express, sessionOpts: SessionOptions) {
-    logger.info('Initializing express app to use express session and passport',
+    log.logger.info('Initializing express app to use express session and passport',
       {level: 'INFO', tag: 'cloud:passportauth:src:auth', src: 'PassportAuth.ts'});
     app.use(session(sessionOpts));
     app.use(passport.initialize());

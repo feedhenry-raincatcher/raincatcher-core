@@ -1,22 +1,20 @@
 
-import { BunyanLogger, ConsoleLogger, GetSetLogger, logger, Logger } from '../src/index';
+import { BunyanLogger, ConsoleLogger, Logger, LoggerManager } from '../src/index';
 
-let log: Logger = logger;
+const logger = new LoggerManager();
 
 // by default logger is turned off
-log.info('This should not render', { orthis: 'will not return' });
-log.error('This should not render', { orthis: 'will not return' });
-log.debug('This should not render', { orthis: 'will not return' });
-log.warn('This should not render', { orthis: 'will not return' });
+logger.logger.info('This should not render', { orthis: 'will not return' });
+logger.logger.error('This should not render', { orthis: 'will not return' });
+logger.logger.debug('This should not render', { orthis: 'will not return' });
+logger.logger.warn('This should not render', { orthis: 'will not return' });
 
 // you can instantiate the default logger with any Logger implementation to change the global logger
 
-log = new ConsoleLogger();
-const getSetLogger = new GetSetLogger();
-getSetLogger.setLogger(log);
-log = getSetLogger.getLogger();
+let log = new ConsoleLogger();
 
-log.info('This log will render with ConsoleLogger');
+logger.setLogger(log);
+logger.logger.info('This log will render with ConsoleLogger');
 
 // constructor accept bunyan options. Please refer to https://www.npmjs.com/package/bunyan
 log = new BunyanLogger({name: 'index', level: 'trace'});

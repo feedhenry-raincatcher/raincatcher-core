@@ -1,7 +1,9 @@
-import { logger } from '@raincatcher/logger';
+import { LoggerManager } from '@raincatcher/logger';
 import { UserSecurityService } from '../user/UserSecurityService';
 
 import { User } from '../user/User';
+
+const log = new LoggerManager();
 
 /**
  * Default strategy to be used by Passport's local strategy. If user credentials are valid, proceed to login,
@@ -23,7 +25,7 @@ export const defaultStrategy = (userSec: UserSecurityService) => {
       }
     })
       .catch((err: Error) => {
-        logger.error('An error occurred when retrieving user: ', err,
+        log.logger.error('An error occurred when retrieving user: ', err,
           {level: 'ERROR', tag: 'cloud:passportauth:src:auth', src: 'DefaultStrategy.ts'});
         return done(err, null);
       });
