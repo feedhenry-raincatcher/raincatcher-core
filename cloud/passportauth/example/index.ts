@@ -22,7 +22,7 @@ const sessionOpts = {
   }
 };
 
-// Initialize user data repository and map current user
+// Initialize user data repository and user service
 const userRepo: UserRepository = new ExampleUserDataRepository();
 const userService: UserService = new SampleUserService();
 const authService: PassportAuth = new PassportAuth(userRepo, userService);

@@ -1,7 +1,7 @@
 import * as Promise from 'bluebird';
-import {User, UserRepository} from '../../src/index';
+import { UserRepository, UserService } from '../../src/index';
 
-export const mockUserService: User = {
+export const mockUserService: UserService = {
   getLoginId(user: any) {
     return user.id;
   },
