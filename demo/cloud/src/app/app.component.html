@@ -1,12 +1,17 @@
 <md-sidenav-container class="container">
   <md-sidenav #sidenav mode="side" opened="true">
-    <ul>
-      <li>Users</li>
-      <li>Processes</li>
-      <li>Orders</li>
-    </ul>
+    <nav>
+      <ul>
+        <li><a href="#">Users</a></li>
+        <li><a href="#">Processes</a></li>
+        <li><a href="#">Orders</a></li>
+        <li><a href="#">Available Tasks</a></li>
+      </ul>
+    </nav>
   </md-sidenav>
   <div>
-    Hello
+    <md-toolbar>
+      <h1>{{title}}</h1>
+    </md-toolbar>
   </div>
 </md-sidenav-container>
