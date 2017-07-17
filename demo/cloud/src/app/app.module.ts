@@ -9,7 +9,8 @@ import { ButtonsModule } from 'ngx-bootstrap';
 import { AppComponent } from './app.component';
 import { ProcessInstanceComponent } from './process-instance/process-instance.component';
 import { TasksComponent } from './tasks/tasks.component';
-
+import { NavigationComponent } from './navigation/navigation.component';
+import { NavLinkComponent } from './nav-link/nav-link.component';
 // Router and routes setup
 const routes: Routes = [
   { path: 'process-instances', component: ProcessInstanceComponent },
@@ -21,7 +22,9 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     ProcessInstanceComponent,
-    TasksComponent
+    TasksComponent,
+    NavigationComponent,
+    NavLinkComponent
   ],
   imports: [
     BrowserModule,
