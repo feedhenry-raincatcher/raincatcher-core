@@ -10,12 +10,12 @@ This module allows the:
 #### Setup
 ```typescript
 ...
-import {PassportAuth, UserDataRepo, UserSecService} from '@raincatcher/auth-passport'
+import { PassportAuth, UserRepository, UserService }  from '@raincatcher/auth-passport'
 
-// Initialize user data repository and passport
-const userRepo: UserDataRepository = new YourUserDataRepository(userSeedData);
-const userSec: UserSecurityService = new UserSecurityService(userRepo)
-const authService: PassportAuth = new PassportAuth(userSec);
+// Initialize user data repository, user service and passport
+const userRepo: UserRepository = new YourUserRepository();
+const userService: UserService = new YourUserService();
+const authService: PassportAuth = new PassportAuth(userRepo, userService);
 ...
 authService.init(app, sessionOptions); // Initializes express app to use passport and express-session
 ...

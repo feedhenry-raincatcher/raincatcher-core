@@ -4,22 +4,23 @@ import * as session from 'express-session';
 import { SessionOptions } from 'express-session';
 import * as passport from 'passport';
 import { Strategy } from 'passport-local';
-import { UserSecurityService } from '../user/UserSecurityService';
+import { UserRepository } from '../user/UserRepository';
+import { UserService } from '../user/UserService';
 
 import { defaultStrategy } from './DefaultStrategy';
 import { defaultDeserializeUser, defaultSerializeUser } from './UserSerializer';
 
 /**
  * Security interface for Raincatcher authentication middleware
- * Contains all methods that should be used to protect express routes.
+ * Contains all the methods that should be used to protect express routes.
  */
-export interface Auth {
+export interface EndpointSecurity {
 
   /**
    * Initializes an Express application to use passport and express-session
    *
    * @param app - An express application
-   * @param sessionOpts  - Session options to be used by express-session
+   * @param sessionOpts - Session options to be used by express-session
    */
   init(app: express.Express, sessionOpts: SessionOptions): void;
 
@@ -37,6 +38,7 @@ export interface Auth {
    * This method wraps `passport.authenticate` to provide middleware for authenticating users.
    *
    * @param redirect - location to redirect after successful authentication
+   * @param loginError - location to redirect after failed authentication
    */
   authenticate(redirect: string, loginError: string): express.Handler;
 }
@@ -44,11 +46,12 @@ export interface Auth {
 /**
  * Default implementation for passport authentication
  */
-export class PassportAuth implements Auth {
+export class PassportAuth implements EndpointSecurity {
   protected loginRoute: string;
   private log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
 
-  constructor(protected readonly userSec: UserSecurityService, loginRoute?: string) {
+  // tslint:disable-next-line:max-line-length
+  constructor(protected readonly userRepo: UserRepository, protected readonly userService: UserService, loginRoute?: string) {
     this.loginRoute = loginRoute || '/login';
   }
 
@@ -82,8 +85,9 @@ export class PassportAuth implements Auth {
         }
         return res.redirect(this.loginRoute);
       }
-      const roleMatch = true; // TODO this.userSec.hasResourceRole(req.user, role);
-      return roleMatch ? next() : res.status(403).send();
+
+      const hasRole = role ? this.userService.hasResourceRole(req.user, role) : true;
+      return hasRole ? next() : res.status(403).send();
     };
   }
 
@@ -104,12 +108,12 @@ export class PassportAuth implements Auth {
 
   /**
    * Initialized passport configuration.
-   * Method can be overriden to provide custom passport setup
+   * Method can be overridden to provide custom passport setup
    *
-   * @param passport - passport.js instance
+   * @param passportApi - passport.js instance
    */
   protected setup(passportApi: passport.Passport) {
-    passportApi.use(new Strategy(defaultStrategy(this.userSec)));
+    passportApi.use(new Strategy(defaultStrategy(this.userRepo, this.userService)));
     passportApi.serializeUser(defaultSerializeUser);
     passportApi.deserializeUser(defaultDeserializeUser);
   }
