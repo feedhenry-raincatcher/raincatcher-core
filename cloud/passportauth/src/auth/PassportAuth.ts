@@ -38,6 +38,7 @@ export interface EndpointSecurity {
    * This method wraps `passport.authenticate` to provide middleware for authenticating users.
    *
    * @param redirect - location to redirect after successful authentication
+   * @param loginError - location to redirect after failed authentication
    */
   authenticate(redirect: string, loginError: string): express.Handler;
 }
@@ -85,7 +86,7 @@ export class PassportAuth implements EndpointSecurity {
         return res.redirect(this.loginRoute);
       }
 
-      const hasRole = this.hasResourceRole(req.user, role);
+      const hasRole = role ? this.userService.hasResourceRole(req.user, role) : true;
       return hasRole ? next() : res.status(403).send();
     };
   }
@@ -103,22 +104,6 @@ export class PassportAuth implements EndpointSecurity {
       failureRedirect: errorRedirect,
       successReturnToOrRedirect: defaultRedirect
     });
-  }
-
-  /**
-   * Checks if the current user has the role required to access a resource
-   *
-   * @param user - user data
-   * @param role - The required role to access a resource
-   * @returns Returns true/false if the user is authorized to access a resource
-   */
-  public hasResourceRole(user: any, role?: string) {
-    if (!role) {
-      return true;
-    }
-
-    const userRoles = this.userService.getRoles(user);
-    return userRoles ? userRoles.indexOf(role) > -1 : false;
   }
 
   /**

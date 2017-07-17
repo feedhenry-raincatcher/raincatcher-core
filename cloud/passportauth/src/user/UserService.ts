@@ -7,26 +7,23 @@
  */
 export interface UserService {
   /**
-   * Retrieves unique login id
+   * Checks if the password given by the user upon login matches
+   * the password assigned to that user from the data source
    *
-   * @returns {string} - A unique id used by the user for login (i.e. username, email)
+   * @param user - User data
+   * @param password - Plain text password given by the user upon login
+   * @returns {boolean} - Returns true/false if the password is valid
    */
-  getLoginId(user: any): string;
+  validatePassword(user: any, password: string): boolean;
 
   /**
-   * Retrieves the user's password.
-   * This field will be used to verify the user password
+   * Checks if the current user has the role required to access a resource
    *
-   * @returns {string} - User's password
+   * @param user - User data
+   * @param role - The role required to access a resource
+   * @returns {boolean} - Returns true/false if the user is authorized to access a resource
    */
-  getPassword(user: any): string;
-
-  /**
-   * Retrieves the user's roles
-   *
-   * @returns {string[]} - An array containing roles assigned to the user
-   */
-  getRoles(user: any): string[];
+  hasResourceRole(user: any, role: string): boolean;
 }
 
 export default UserService;

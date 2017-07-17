@@ -14,16 +14,14 @@ const log: Logger = new BunyanLogger({ name: 'Passport-Auth', level: 'error' });
  */
 export const defaultStrategy = (userRepo: UserRepository, userService: UserService) => {
   return (loginId: string, password: string, done: (error: Error | null, user: any) => any) => {
-    userRepo.getUserByLogin(loginId).then((user: any) => {
-      if (user && userService.getPassword(user) === password) {
+    const callback = (err?: Error, user?: any) => {
+      if (user && userService.validatePassword(user, password)) {
         return done(null, user);
-      } else {
-        return done(null, false);
       }
-    })
-    .catch((err: Error) => {
-      log.error('An error occurred when retrieving user: ', err);
-      return done(err, null);
-    });
+
+      return err ? done(err, false) : done(null, false);
+    };
+
+    userRepo.getUserByLogin(loginId, callback);
   };
 };

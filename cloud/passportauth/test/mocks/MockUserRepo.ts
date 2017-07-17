@@ -1,15 +1,11 @@
-import * as Promise from 'bluebird';
 import { UserRepository, UserService } from '../../src/index';
 
 export const mockUserService: UserService = {
-  getLoginId(user: any) {
-    return user.id;
+  validatePassword(user: any, password: string) {
+    return user.password === password;
   },
-  getPassword(user: any) {
-    return user.password;
-  },
-  getRoles(user: any) {
-    return user.roles;
+  hasResourceRole(user: any, roleRequired: string) {
+    return user.roles.indexOf(roleRequired) > -1;
   }
 };
 
@@ -21,16 +17,16 @@ export const mockUserObj = {
 };
 
 export const MockUserRepo: UserRepository = {
-  getUserByLogin(loginId: string) {
+  getUserByLogin(loginId: string, callback: (err?: Error, user?: any) => any) {
     if (loginId === 'testError') {
-      return Promise.reject(new Error('[TEST] Error retrieving user'));
+      return callback(new Error('[TEST] Error retrieving user'));
     }
 
     if (loginId === 'invalidUsername') {
-      return Promise.resolve(undefined);
+      return callback(undefined, undefined);
     }
 
-    return Promise.resolve(mockUserObj);
+    return callback(undefined, mockUserObj);
   }
 };
 

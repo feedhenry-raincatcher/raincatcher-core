@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import { UserRepository } from '../src/index';
 import { UserService } from '../src/index';
@@ -25,17 +24,12 @@ const userSeedData = [
  * A sample user service implementation
  */
 export class SampleUserService implements UserService {
-  // Map user object
-  public getLoginId(user: any) {
-    return user.username;
+  public validatePassword(user: any, password: string) {
+    return user.password === password;
   }
 
-  public getPassword(user: any) {
-    return user.password;
-  }
-
-  public getRoles(user: any) {
-    return user.roles;
+  public hasResourceRole(user: any, role: string) {
+    return user.roles.indexOf(role) > -1;
   }
 }
 
@@ -45,17 +39,15 @@ export class SampleUserService implements UserService {
 export class SampleUserRepository implements UserRepository {
   /**
    * A sample get user using a login id from a data source
-   *
-   * @param loginId - A unique login id used to identify the user (i.e. username)
-   * @returns {Promise} - Returns a user object if user was found
    */
-  public getUserByLogin(loginId: string) {
-    const userObj = _.find(userSeedData, function(user) {
+  public getUserByLogin(loginId: string, callback: (err?: Error, user?: any) => any) {
+    const userFound = _.find(userSeedData, function(user) {
       if (user.username === loginId) {
         return user;
       }
     });
-    return Promise.resolve(userObj);
+
+    callback(undefined, userFound);
   }
 }
 
