@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "@raincatcher/cloud"
+    "name": "@raincatcher/demo-portal"
   },
   "apps": [
     {
