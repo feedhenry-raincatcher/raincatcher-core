@@ -27,6 +27,7 @@
     "branches": 50
   },
   "devDependencies": {
+    "@raincatcher/logger": "1.0.0",
     "@types/body-parser": "^1.16.3",
     "@types/cors": "^2.8.1",
     "@types/express": "4.0.35",

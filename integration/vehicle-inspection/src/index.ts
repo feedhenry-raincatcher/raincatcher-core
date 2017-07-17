@@ -1,4 +1,4 @@
-import {ConsoleLogger} from '@raincatcher/logger';
+import { ConsoleLogger, LoggerManager } from '@raincatcher/logger';
 import {HttpServer} from './http-server';
 import {
   InMemoryProcessInstanceRepository,
@@ -6,10 +6,12 @@ import {
   InMemoryTaskRepository
 } from './repositories';
 
+this.log.logger = new ConsoleLogger();
+
 const server = new HttpServer(
   new InMemoryProcessRepository([], new InMemoryTaskRepository()),
   new InMemoryProcessInstanceRepository([]),
-  new ConsoleLogger()
+  this.log.setLogger(this.log.logger)// new ConsoleLogger()
 );
 
-server.listen(() => console.info('setup from index.ts finished'));
+server.listen(() => this.log.logger.info('setup from index.ts finished'));

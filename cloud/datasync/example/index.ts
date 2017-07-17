@@ -1,6 +1,8 @@
+import { LoggerManager } from '@raincatcher/logger';
 import SyncServer, { SyncApi, SyncExpressMiddleWare, SyncOptions } from '../src/index';
 
 const sync: SyncApi = SyncServer;
+const log = new LoggerManager();
 
 // Connect sync
 const connectOptions: SyncOptions = {
@@ -14,8 +16,7 @@ const connectOptions: SyncOptions = {
 
 sync.connect(connectOptions, function(err) {
   if (err) {
-    // tslint:disable-next-line:no-console
-    console.log(err);
+    log.logger.error(err);
   }
 });
 
@@ -39,7 +40,7 @@ import { NativeSync } from '../src/index';
 
 app.listen(3000, function() {
   // tslint:disable-next-line:no-console
-  console.log('Example app listening on port 3000!');
+  log.logger.info('Example app listening on port 3000!');
 });
 // If you wish to see logs;
 process.env.DEBUG = 'fh-mbaas-api:sync';

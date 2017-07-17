@@ -28,6 +28,7 @@
     "branches": 80
   },
   "devDependencies": {
+    "@raincatcher/logger": "1.0.0",
     "@types/proxyquire": "^1.3.27",
     "@types/mocha": "^2.2.41",
     "proxyquire": "^1.8.0",

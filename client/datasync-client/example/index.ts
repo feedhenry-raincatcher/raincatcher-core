@@ -1,8 +1,10 @@
+import { LoggerManager } from '@raincatcher/logger';
 import * as sync from 'fh-sync-js';
 
 // Provide backwards compatibility with documentation and examples
 const $fh = { sync };
 const datasetId = 'UserTasks';
+const log = new LoggerManager();
 
 const options: sync.SyncOptions = {
   cloudUrl: 'http://localhost:3000',
@@ -22,18 +24,14 @@ const task: any = {
 
 $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
   $fh.sync.doCreate(datasetId, task, function(data) {
-    // tslint:disable-next-line:no-console
-    console.log('Data Saved', data);
+    log.logger.info('Data Saved', data);
     $fh.sync.doUpdate(datasetId, data.localId, function(result: any) {
-       // tslint:disable-next-line:no-console
-      console.log('Data updated', result);
+      log.logger.info('Data updated', result);
     }, function(err) {
-       // tslint:disable-next-line:no-console
-      console.log('Error when Saving Data', err);
+      log.logger.error('Error when Saving Data', err);
     });
   }, function(err, data) {
-    // tslint:disable-next-line:no-console
-    console.log('Error when Saving Data', err);
+    log.logger.error('Error when Saving Data', err);
   });
 });
 
@@ -42,12 +40,10 @@ $fh.sync.notify(datasetId, function(notification) {
   if ('sync_complete' === code) {
     $fh.sync.doList(datasetId,
       function(res) {
-        // tslint:disable-next-line:no-console
-        console.log('Successful result from list:', JSON.stringify(res));
+        log.logger.info('Successful result from list:', JSON.stringify(res));
       },
       function(err) {
-        // tslint:disable-next-line:no-console
-        console.log('Error result from list:', JSON.stringify(err));
+        log.logger.error('Error result from list:', JSON.stringify(err));
       });
   }
 });
