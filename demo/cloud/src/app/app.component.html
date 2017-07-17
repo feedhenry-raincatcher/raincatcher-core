@@ -1,71 +1,66 @@
-<nav class="navbar navbar-default navbar-pf" role="navigation">
+<nav class="navbar navbar-pf-vertical">
   <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-1">
+    <button type="button" class="navbar-toggle">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="/">
-      {{title}}
+    <a href="/" class="navbar-brand">
+      <img height="35px" class="navbar-brand-icon" src="/assets/raincatcher-logo.svg" alt="RainCatcher logo"/>
+      <span class="navbar-brand-name">{{title}}</span>
     </a>
   </div>
-  <div class="collapse navbar-collapse navbar-collapse-1">
-    <ul class="nav navbar-nav navbar-utility">
-      <li>
-        <a href="#">Status</a>
-      </li>
+  <nav class="collapse navbar-collapse">
+    <ul class="nav navbar-nav navbar-right navbar-iconic">
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          <span class="pficon pficon-user"></span>
-          Trever Smith <b class="caret"></b>
+        <a class="dropdown-toggle nav-item-iconic" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <span class="fa pficon-user"></span>
+          <span class="caret"></span>
         </a>
-        <ul class="dropdown-menu">
-          <li>
-            <a href="#">Link</a>
-          </li>
-          <li>
-            <a href="#">Another link</a>
-          </li>
-          <li>
-            <a href="#">Something else here</a>
-          </li>
-          <li class="divider"></li>
-          <li class="dropdown-submenu">
-            <a tabindex="-1" href="#">More options</a>
-            <ul class="dropdown-menu">
-              <li>
-                <a href="#">Link</a>
-              </li>
-              <li>
-                <a href="#">Another link</a>
-              </li>
-              <li>
-                <a href="#">Something else here</a>
-              </li>
-              <li class="divider"></li>
-              <li class="dropdown-header">Nav header</li>
-              <li>
-                <a href="#">Separated link</a>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <a href="#">One more separated link</a>
-              </li>
-            </ul>
-          </li>
-          <li class="divider"></li>
-          <li>
-            <a href="#">One more separated link</a>
-          </li>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <li><a href="#">Trever Smith</a></li>
+          <li><a href="#">Logout</a></li>
         </ul>
       </li>
     </ul>
-    <ul class="nav navbar-nav navbar-primary">
-      <li><a href="#">Users</a></li>
-        <li><a href="#">Processes</a></li>
-        <li><a href="#">Orders</a></li>
-        <li><a href="#">Available Tasks</a></li>
-    </ul>
-  </div>
+  </nav>
 </nav>
+
+<div class="nav-pf-vertical nav-pf-vertical-with-sub-menus">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <a>
+        <span class="fa fa-dashboard"></span>
+        <span class="list-group-item-value">Dashboard</span>
+      </a>
+    </li>
+    <li class="list-group-item">
+      <a>
+        <span class="fa fa-user"></span>
+        <span class="list-group-item-value">Users</span>
+        
+      </a>
+    </li>
+    <li class="list-group-item">
+      <a>
+        <span class="fa fa-book"></span>
+        <span class="list-group-item-value">Processes</span>
+      </a>
+      
+    </li>
+    <li class="list-group-item ">
+      <a>
+        <span class="fa fa-tags"></span>
+        <span class="list-group-item-value">Orders</span>
+      </a>
+      
+    </li>
+    <li class="list-group-item">
+      <a>
+        <span class="fa fa-pencil"></span>
+        <span class="list-group-item-value">Available Tasks</span>
+      </a>
+    </li>
+  </ul>
+</div>
