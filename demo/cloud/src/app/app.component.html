@@ -49,18 +49,20 @@
       </a>
       
     </li>
-    <li class="list-group-item ">
-      <a>
+    <li class="list-group-item" routerLinkActive="active">
+      <a routerLink="/process-instances" >
         <span class="fa fa-tags"></span>
         <span class="list-group-item-value">Orders</span>
       </a>
-      
     </li>
-    <li class="list-group-item">
-      <a>
+    <li class="list-group-item" routerLinkActive="active">
+      <a routerLink="tasks">
         <span class="fa fa-pencil"></span>
         <span class="list-group-item-value">Available Tasks</span>
       </a>
     </li>
   </ul>
+</div>
+<div class="container-fluid container-cards-pf container-pf-nav-pf-vertical nav-pf-persistent-secondary">
+  <router-outlet></router-outlet>
 </div>
