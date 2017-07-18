@@ -4,7 +4,6 @@ import * as sync from 'fh-sync-js';
 // Provide backwards compatibility with documentation and examples
 const $fh = { sync };
 const datasetId = 'UserTasks';
-const log = new LoggerManager();
 
 const options: sync.SyncOptions = {
   cloudUrl: 'http://localhost:3000',
@@ -24,7 +23,7 @@ const task: any = {
 
 $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
   $fh.sync.doCreate(datasetId, task, function(data) {
-    log.logger.info('Data Saved', data);
+    logger.info('Data Saved', data, {level: 'INFO', tag: 'client:datasync-client:example', src: 'index.ts'});
     $fh.sync.doUpdate(datasetId, data.localId, function(result: any) {
       logger.info('Data updated', result,
         {level: 'INFO', tag: 'client:datasync-client:example', src: 'index.ts'});
