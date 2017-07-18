@@ -15,6 +15,7 @@ import { ProcessComponent } from './process/process.component';
 // Router and routes setup
 const routes: Routes = [
   { path: 'process-instances', component: ProcessInstanceComponent },
+  { path: 'processes', component: ProcessComponent },
   { path: 'tasks', component: TaskComponent },
   { path: '', redirectTo: '/process-instances', pathMatch: 'full' }
 ]
