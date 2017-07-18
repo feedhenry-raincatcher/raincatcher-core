@@ -52,36 +52,14 @@ app.use('/', router);
 
 See [integration](./integration) for complete runnable example.
 
-## Custom data handlers
-
-By default sync will use the same mongodb connection for retrieving and storing any client data. Sync allows to modify this behavior by providing custom `DataSetHandler`
-
-1. Create `DataSetHandler`
-
-```typescript
-class MySQLDataSetHandler implements DataSetHandler {
-  // We can implement any method we wish
-  onList(datasetId: string, query: any, metaData: any, callback: (err: Error | string | undefined, res: any | undefined) => void) {
-    let taskList = mysqlTaskRepository.getTasks(query);
-    callback(undefined, taskList);
-  }
-}
-```
-
-2. Add handler
-
-```typescript
-sync.registerDatasetDataHandler("task", options, new MySQLDataSetHandler());
-```
-
 ## Accessing underlying sync library
 
-For advanced use cases developers can access sync library using `NativeSync` namespace.
-Library is shipped with their own typings. You can import this directly into your application as bellow:
+For advanced use cases developers can access sync library using `sync` namespace.
+Library is shipped with their own typings. You can import this directly into your application as below:
 
 ```typescript
-import { NativeSync } from '../src/index'
-NativeSync.api.anyapicall ;
+import { sync } from '../src/index'
+sync.anyapicall(...) ;
 ```
 
 Where `anyapicall` is one of the types defined in:

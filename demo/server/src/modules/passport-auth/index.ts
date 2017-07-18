@@ -40,5 +40,4 @@ function createRoutes(router: express.Express, auth: PassportAuth) {
         title: 'Feedhenry Workforce Management',
         message: 'Invalid credentials'});
   });
-
 }
