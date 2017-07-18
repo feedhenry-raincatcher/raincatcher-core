@@ -1,4 +1,4 @@
-import { LoggerManager } from '@raincatcher/logger';
+import { logger } from '@raincatcher/logger';
 import * as sync from 'fh-sync-js';
 
 // Provide backwards compatibility with documentation and examples
@@ -26,12 +26,14 @@ $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
   $fh.sync.doCreate(datasetId, task, function(data) {
     log.logger.info('Data Saved', data);
     $fh.sync.doUpdate(datasetId, data.localId, function(result: any) {
-      log.logger.info('Data updated', result);
+      logger.info('Data updated', result,
+        {level: 'INFO', tag: 'client:datasync-client:example', src: 'index.ts'});
     }, function(err) {
-      log.logger.error('Error when Saving Data', err);
+      logger.error('Error when Saving Data', err,
+        {level: 'ERROR', tag: 'client:datasync-client:example', src: 'index.ts'});
     });
   }, function(err, data) {
-    log.logger.error('Error when Saving Data', err,
+    logger.error('Error when Saving Data', err,
       {level: 'ERROR', tag: 'client:datasync-client:example', src: 'index.ts'});
   });
 });
@@ -41,11 +43,11 @@ $fh.sync.notify(datasetId, function(notification) {
   if ('sync_complete' === code) {
     $fh.sync.doList(datasetId,
       function(res) {
-        log.logger.info('Successful result from list:', JSON.stringify(res),
+        logger.info('Successful result from list:', JSON.stringify(res),
           {level: 'INFO', tag: 'client:datasync-client:example', src: 'index.ts'});
       },
       function(err) {
-        log.logger.error('Error result from list:', JSON.stringify(err),
+        logger.error('Error result from list:', JSON.stringify(err),
           {level: 'ERROR', tag: 'client:datasync-client:example', src: 'index.ts'});
       });
   }

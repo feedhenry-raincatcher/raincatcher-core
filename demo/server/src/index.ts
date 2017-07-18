@@ -2,13 +2,12 @@
 /**
  * Module dependencies.
  */
-import { LoggerManager, ConsoleLogger } from '@raincatcher/logger';
+import { ConsoleLogger, logger, setLogger } from '@raincatcher/logger';
 import * as http from 'http';
 import app from './app';
 
-const log = new LoggerManager();
-log.logger = new ConsoleLogger();
-log.setLogger(log.logger);
+const log = new ConsoleLogger();
+setLogger(log);
 
 /**
  * Get port from environment and store in Express.
@@ -35,7 +34,7 @@ function onError(error: any) {
     throw error;
   }
   if (error.code === 'EADDRINUSE') {
-    log.logger.error(error.port + ' port number is already in use',
+    logger.error(error.port + ' port number is already in use',
       {level: 'ERROR', tag: 'demo:server:src', src: 'index.ts'});
     return process.exit(1);
   }
@@ -47,6 +46,5 @@ function onError(error: any) {
  */
 function onListening() {
   const addr = server.address();
-  // tslint:disable-next-line:no-console
-  log.logger.info('Listening on ' + addr.port, {level: 'INFO', tag: 'demo:server:src', src: 'index.ts'});
+  logger.info('Listening on ' + addr.port, {level: 'INFO', tag: 'demo:server:src', src: 'index.ts'});
 }

@@ -12,20 +12,17 @@ implementations.
 
 Import the your logger implementation and the Logger interface to be used.
 ```typescript
-  import {BunyanLogger, Logger, logger} from '@raincatcher/logger';
+  import {BunyanLogger, ConsoleLogger Logger, logger} from '@raincatcher/logger';
 
   // default logger renders nothing needs to be instantiated
-  let log: Logger = logger;
-
   // you can instantiate the default logger with any Logger implementation to change the global logger
 
   log = new ConsoleLogger();
   setLogger(log);
-  log = getLogger();
 
-  log.info('This log will render with ConsoleLogger');
+  logger.info('This log will render with ConsoleLogger');
 
-  // constructor needs at least name
+  // you can use a specific instance of logger locally
   log = new BunyanLogger({name: 'index'});
 
   log.info('info logger message', {test: 'info object'});

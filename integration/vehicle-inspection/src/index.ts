@@ -1,4 +1,4 @@
-import { ConsoleLogger, LoggerManager } from '@raincatcher/logger';
+import { ConsoleLogger, logger } from '@raincatcher/logger';
 import {HttpServer} from './http-server';
 import {
   InMemoryProcessInstanceRepository,
@@ -6,13 +6,11 @@ import {
   InMemoryTaskRepository
 } from './repositories';
 
-const logger = new ConsoleLogger();
-
 const server = new HttpServer(
   new InMemoryProcessRepository([], new InMemoryTaskRepository()),
   new InMemoryProcessInstanceRepository([]),
-  this.log.setLogger(logger)
+  new ConsoleLogger()
 );
 
-server.listen(() => this.log.logger.info('setup from index.ts finished',
+server.listen(() => logger.info('setup from index.ts finished',
   {level: 'INFO', tag: 'integration:vehicle-inspection:src', src: 'index.ts'}));

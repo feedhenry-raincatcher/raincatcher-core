@@ -1,8 +1,7 @@
-import { LoggerManager } from '@raincatcher/logger';
+import { logger } from '@raincatcher/logger';
 import SyncServer, { SyncApi, SyncExpressMiddleWare, SyncOptions } from '../src/index';
 
 const sync: SyncApi = SyncServer;
-const log = new LoggerManager();
 
 // Connect sync
 const connectOptions: SyncOptions = {
@@ -39,8 +38,7 @@ import { NativeSync } from '../src/index';
 // NativeSync.api.globalHandleList;
 
 app.listen(3000, function() {
-  // tslint:disable-next-line:no-console
-  log.logger.info('Example app listening on port 3000!',
+  logger.info('Example app listening on port 3000!',
     {level: 'INFO', tag: 'cloud:datasync:example', src: 'index.ts'});
 });
 // If you wish to see logs;

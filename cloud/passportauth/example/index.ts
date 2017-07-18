@@ -1,4 +1,4 @@
-import { LoggerManager } from '@raincatcher/logger';
+import { logger } from '@raincatcher/logger';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
@@ -7,8 +7,6 @@ import { PassportAuth, UserRepository, UserService } from '../src/index';
 
 // Implementation for fetching and mapping user data
 import ExampleUserDataRepository, { SampleUserService } from './UserRepository';
-
-const log = new LoggerManager();
 
 // Configuration for express session options
 const sessionOpts = {
@@ -65,10 +63,10 @@ app.get('/logout', (req: express.Request, res: express.Response) => {
 });
 
 app.use(function(err: any, req: express.Request, res: express.Response, next: any) {
-  log.logger.error(err, {level: 'ERROR', tag: 'cloud:passportauth:example', src: 'index.ts'});
+  logger.error(err, {level: 'ERROR', tag: 'cloud:passportauth:example', src: 'index.ts'});
   res.status(500).send(err);
 });
 
 app.listen(3000, function() {
-  log.logger.info('Example auth app listening on port 3000');
+  logger.info('Example auth app listening on port 3000');
 });
