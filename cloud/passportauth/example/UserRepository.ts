@@ -1,7 +1,6 @@
-import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import { UserRepository } from '../src/index';
-import { User } from '../src/index';
+import { UserService } from '../src/index';
 
 /**
  * Fixed user data for demo purposes.
@@ -22,23 +21,15 @@ const userSeedData = [
 ];
 
 /**
- * A sample user implementation
+ * A sample user service implementation
  */
-export class BaseUser implements User {
-  // Wrap user object
-  constructor(readonly user: any) {
+export class SampleUserService implements UserService {
+  public validatePassword(user: any, password: string) {
+    return user.password === password;
   }
 
-  public getLoginId() {
-    return this.user ? this.user.username : undefined;
-  }
-
-  public getPasswordHash() {
-    return this.user ? this.user.password : undefined;
-  }
-
-  public getRoles() {
-    return this.user ? this.user.roles : [];
+  public hasResourceRole(user: any, role: string) {
+    return user.roles.indexOf(role) > -1;
   }
 }
 
@@ -48,17 +39,15 @@ export class BaseUser implements User {
 export class SampleUserRepository implements UserRepository {
   /**
    * A sample get user using a login id from a data source
-   *
-   * @param loginId {string} - A unique login id used to identify the user (i.e. username)
-   * @returns {Promise} - Returns a user object if user was found
    */
-  public getUserByLogin(loginId: string) {
-    const userObj = _.find(userSeedData, function(user) {
+  public getUserByLogin(loginId: string, callback: (err?: Error, user?: any) => any) {
+    const userFound = _.find(userSeedData, function(user) {
       if (user.username === loginId) {
         return user;
       }
     });
-    return Promise.resolve(new BaseUser(userObj));
+
+    callback(undefined, userFound);
   }
 }
 

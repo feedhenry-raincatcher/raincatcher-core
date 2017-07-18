@@ -3,11 +3,9 @@ import * as express from 'express';
 import { SessionOptions } from 'express-session';
 import * as sinon from 'sinon';
 import PassportAuth from '../src/auth/PassportAuth';
-import UserSecService from '../src/user/UserSecurityService';
-import MockUserRepo from './mocks/MockUserRepo';
+import MockUserRepo, { mockUserObj, mockUserService } from './mocks/MockUserRepo';
 
 describe('Test Passport Auth', function() {
-  const userSec = new UserSecService(MockUserRepo);
   const loginRoute = '/login';
   let app: express.Express;
   let mockSessionOpts: SessionOptions;
@@ -17,7 +15,7 @@ describe('Test Passport Auth', function() {
   let mockNext: any;
 
   beforeEach(function() {
-    testSubject = new PassportAuth(userSec);
+    testSubject = new PassportAuth(MockUserRepo, mockUserService);
     app = express();
     mockSessionOpts = {
       secret: 'test',
@@ -40,7 +38,7 @@ describe('Test Passport Auth', function() {
     testSubject.init(app, mockSessionOpts);
   });
 
-  it('should return an error if an error occurred when retrieving the user id', function(done) {
+  it('should return an error if an error occurred when retrieving the user', function(done) {
     mockReq = {
       body: {
         username: 'testError',
@@ -84,7 +82,7 @@ describe('Test Passport Auth', function() {
     mockReq = {
       body: {
         username: 'testloginId',
-        password: 'testPasswordHash'
+        password: 'testPassword'
       },
       logIn: sinon.spy(),
       user: null
@@ -130,7 +128,8 @@ describe('Test Passport Auth', function() {
 
   it('should call next if the user was authenticated and the route was not protected by a role', function() {
     mockReq = {
-      isAuthenticated: sinon.stub().returns(true)
+      isAuthenticated: sinon.stub().returns(true),
+      user: mockUserObj
     };
     testSubject.protect()(mockReq as express.Request, mockRes as express.Response, mockNext);
 
@@ -141,15 +140,15 @@ describe('Test Passport Auth', function() {
 
   it('should return a 403 if the authenticated user does not have the required role', function(done) {
     mockReq = {
-      isAuthenticated: sinon.stub().returns(true)
+      isAuthenticated: sinon.stub().returns(true),
+      user: mockUserObj
     };
     testSubject.protect('testNoReqRole')(mockReq as express.Request, mockRes as express.Response, mockNext);
 
     setImmediate(() => {
-      // Enable after implementing roles
-      // sinon.assert.notCalled(mockNext);
-      // sinon.assert.calledOnce(mockRes.status);
-      // sinon.assert.calledWith(mockRes.status, 403);
+      sinon.assert.notCalled(mockNext);
+      sinon.assert.calledOnce(mockRes.status);
+      sinon.assert.calledWith(mockRes.status, 403);
 
       done();
     });
@@ -157,10 +156,11 @@ describe('Test Passport Auth', function() {
 
   it('should call next if the authenticated user has the required role', function(done) {
     mockReq = {
-      isAuthenticated: sinon.stub().returns(true)
+      isAuthenticated: sinon.stub().returns(true),
+      user: mockUserObj
     };
 
-    testSubject.protect('testReqRole')(mockReq as express.Request, mockRes as express.Response, mockNext);
+    testSubject.protect('testRole')(mockReq as express.Request, mockRes as express.Response, mockNext);
 
     setImmediate(() => {
       sinon.assert.calledOnce(mockNext);
