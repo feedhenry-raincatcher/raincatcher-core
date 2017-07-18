@@ -12,6 +12,7 @@ import { TaskComponent } from './task/task.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { NavLinkComponent } from './nav-link/nav-link.component';
 import { ProcessComponent } from './process/process.component';
+import { FooterComponent } from './footer/footer.component';
 // Router and routes setup
 const routes: Routes = [
   { path: 'process-instances', component: ProcessInstanceComponent },
@@ -27,7 +28,8 @@ const routes: Routes = [
     TaskComponent,
     NavigationComponent,
     NavLinkComponent,
-    ProcessComponent
+    ProcessComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
