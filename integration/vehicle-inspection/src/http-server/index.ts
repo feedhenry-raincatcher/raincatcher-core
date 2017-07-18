@@ -21,8 +21,7 @@ export class HttpServer {
 
   constructor(
     protected processRepo: ProcessRepository,
-    protected processInstanceRepo: ProcessInstanceRepository,
-    protected log: Logger
+    protected processInstanceRepo: ProcessInstanceRepository
   ) {
     this.setupExpressMiddleware();
     this.setupExpressRoutes();

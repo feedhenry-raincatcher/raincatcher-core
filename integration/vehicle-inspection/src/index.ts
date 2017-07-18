@@ -8,8 +8,7 @@ import {
 
 const server = new HttpServer(
   new InMemoryProcessRepository([], new InMemoryTaskRepository()),
-  new InMemoryProcessInstanceRepository([]),
-  new ConsoleLogger()
+  new InMemoryProcessInstanceRepository([])
 );
 
 server.listen(() => logger.info('setup from index.ts finished',
