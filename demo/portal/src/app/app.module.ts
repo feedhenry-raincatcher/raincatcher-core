@@ -8,13 +8,14 @@ import { ButtonsModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ProcessInstanceComponent } from './process-instance/process-instance.component';
-import { TasksComponent } from './tasks/tasks.component';
+import { TaskComponent } from './task/task.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { NavLinkComponent } from './nav-link/nav-link.component';
+import { ProcessComponent } from './process/process.component';
 // Router and routes setup
 const routes: Routes = [
   { path: 'process-instances', component: ProcessInstanceComponent },
-  { path: 'tasks', component: TasksComponent },
+  { path: 'tasks', component: TaskComponent },
   { path: '', redirectTo: '/process-instances', pathMatch: 'full' }
 ]
 
@@ -22,9 +23,10 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     ProcessInstanceComponent,
-    TasksComponent,
+    TaskComponent,
     NavigationComponent,
-    NavLinkComponent
+    NavLinkComponent,
+    ProcessComponent
   ],
   imports: [
     BrowserModule,
