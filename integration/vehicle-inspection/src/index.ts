@@ -6,12 +6,12 @@ import {
   InMemoryTaskRepository
 } from './repositories';
 
-this.log.logger = new ConsoleLogger();
+const logger = new ConsoleLogger();
 
 const server = new HttpServer(
   new InMemoryProcessRepository([], new InMemoryTaskRepository()),
   new InMemoryProcessInstanceRepository([]),
-  this.log.setLogger(this.log.logger)// new ConsoleLogger()
+  this.log.setLogger(logger)
 );
 
 server.listen(() => this.log.logger.info('setup from index.ts finished'));
