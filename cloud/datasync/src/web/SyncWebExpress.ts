@@ -46,8 +46,9 @@ export class SyncExpressMiddleWare {
     const params = req.body;
     sync.invoke(datasetId, params, function(err: any, result: any) {
       if (err) {
-        res.status(500).json(err);
-        return;
+        // tslint:disable-next-line:no-console
+        console.log('Error when processing sync request', err);
+        return res.status(500).json(err);
       }
       return res.json(result);
     });

@@ -28,6 +28,7 @@
     "branches": 70
   },
   "devDependencies": {
+    "@types/mongodb": "^2.2.7",
     "@raincatcher/logger": "1.0.0",
     "@types/bluebird": "^3.5.5",
     "@types/lodash": "^4.14.66",
@@ -53,6 +54,7 @@
   },
   "dependencies": {
     "@raincatcher/auth-passport": "1.0.0",
+    "@raincatcher/datasync-cloud": "1.0.0",
     "@raincatcher/logger": "1.0.0",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
