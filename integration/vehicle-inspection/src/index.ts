@@ -14,4 +14,5 @@ const server = new HttpServer(
   this.log.setLogger(logger)
 );
 
-server.listen(() => this.log.logger.info('setup from index.ts finished'));
+server.listen(() => this.log.logger.info('setup from index.ts finished',
+  {level: 'INFO', tag: 'integration:vehicle-inspection:src', src: 'index.ts'}));

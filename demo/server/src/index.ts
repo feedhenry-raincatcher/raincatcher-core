@@ -35,7 +35,8 @@ function onError(error: any) {
     throw error;
   }
   if (error.code === 'EADDRINUSE') {
-    log.logger.error(error.port + ' port number is already in use');
+    log.logger.error(error.port + ' port number is already in use',
+      {level: 'ERROR', tag: 'demo:server:src', src: 'index.ts'});
     return process.exit(1);
   }
   throw error;
@@ -47,5 +48,5 @@ function onError(error: any) {
 function onListening() {
   const addr = server.address();
   // tslint:disable-next-line:no-console
-  log.logger.info('Listening on ' + addr.port);
+  log.logger.info('Listening on ' + addr.port, {level: 'INFO', tag: 'demo:server:src', src: 'index.ts'});
 }

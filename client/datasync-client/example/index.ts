@@ -31,7 +31,8 @@ $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
       log.logger.error('Error when Saving Data', err);
     });
   }, function(err, data) {
-    log.logger.error('Error when Saving Data', err);
+    log.logger.error('Error when Saving Data', err,
+      {level: 'ERROR', tag: 'client:datasync-client:example', src: 'index.ts'});
   });
 });
 
@@ -40,10 +41,12 @@ $fh.sync.notify(datasetId, function(notification) {
   if ('sync_complete' === code) {
     $fh.sync.doList(datasetId,
       function(res) {
-        log.logger.info('Successful result from list:', JSON.stringify(res));
+        log.logger.info('Successful result from list:', JSON.stringify(res),
+          {level: 'INFO', tag: 'client:datasync-client:example', src: 'index.ts'});
       },
       function(err) {
-        log.logger.error('Error result from list:', JSON.stringify(err));
+        log.logger.error('Error result from list:', JSON.stringify(err),
+          {level: 'ERROR', tag: 'client:datasync-client:example', src: 'index.ts'});
       });
   }
 });

@@ -40,7 +40,8 @@ import { NativeSync } from '../src/index';
 
 app.listen(3000, function() {
   // tslint:disable-next-line:no-console
-  log.logger.info('Example app listening on port 3000!');
+  log.logger.info('Example app listening on port 3000!',
+    {level: 'INFO', tag: 'cloud:datasync:example', src: 'index.ts'});
 });
 // If you wish to see logs;
 process.env.DEBUG = 'fh-mbaas-api:sync';
