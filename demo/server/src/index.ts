@@ -2,12 +2,9 @@
 /**
  * Module dependencies.
  */
-import { ConsoleLogger, logger, setLogger } from '@raincatcher/logger';
+import { logger, setLogger } from '@raincatcher/logger';
 import * as http from 'http';
 import app from './app';
-
-const log = new ConsoleLogger();
-setLogger(log);
 
 /**
  * Get port from environment and store in Express.
