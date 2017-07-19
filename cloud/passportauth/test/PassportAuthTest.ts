@@ -1,4 +1,3 @@
-
 import * as express from 'express';
 import { SessionOptions } from 'express-session';
 import * as sinon from 'sinon';

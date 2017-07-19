@@ -42,11 +42,11 @@ $fh.sync.notify(datasetId, function(notification) {
   if ('sync_complete' === code) {
     $fh.sync.doList(datasetId,
       function(res) {
-        logger.info('Successful result from list:', JSON.stringify(res),
+        logger.info('Successful result from list:', res,
           {tag: 'client:datasync-client:example'});
       },
       function(err) {
-        logger.error('Error result from list:', JSON.stringify(err),
+        logger.error('Error result from list:', err,
           {tag: 'client:datasync-client:example'});
       });
   }
