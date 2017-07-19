@@ -15,7 +15,7 @@ const connectOptions: SyncOptions = {
 
 sync.connect(connectOptions, function(err) {
   if (err) {
-    log.logger.error(err);
+    logger.error(err, { tag: 'cloud:datasync:example'});
   }
 });
 
@@ -36,7 +36,7 @@ app.use('/', router);
 
 app.listen(3000, function() {
   logger.info('Example app listening on port 3000!',
-    {level: 'INFO', tag: 'cloud:datasync:example', src: 'index.ts'});
+    { tag: 'cloud:datasync:example'});
 });
 // If you wish to see logs;
 process.env.DEBUG = 'fh-mbaas-api:sync';

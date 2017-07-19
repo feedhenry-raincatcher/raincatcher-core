@@ -63,7 +63,7 @@ app.get('/logout', (req: express.Request, res: express.Response) => {
 });
 
 app.use(function(err: any, req: express.Request, res: express.Response, next: any) {
-  logger.error(err, {level: 'ERROR', tag: 'cloud:passportauth:example', src: 'index.ts'});
+  logger.error(err, { tag: 'cloud:passportauth:example'});
   res.status(500).send(err);
 });
 

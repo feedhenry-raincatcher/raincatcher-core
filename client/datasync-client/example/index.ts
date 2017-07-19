@@ -23,17 +23,17 @@ const task: any = {
 
 $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
   $fh.sync.doCreate(datasetId, task, function(data) {
-    logger.info('Data Saved', data, {level: 'INFO', tag: 'client:datasync-client:example', src: 'index.ts'});
+    logger.info('Data Saved', data, { tag: 'client:datasync-client:example'});
     $fh.sync.doUpdate(datasetId, data.localId, function(result: any) {
       logger.info('Data updated', result,
-        {level: 'INFO', tag: 'client:datasync-client:example', src: 'index.ts'});
+        { tag: 'client:datasync-client:example'});
     }, function(err) {
       logger.error('Error when Saving Data', err,
-        {level: 'ERROR', tag: 'client:datasync-client:example', src: 'index.ts'});
+        {tag: 'client:datasync-client:example'});
     });
   }, function(err, data) {
     logger.error('Error when Saving Data', err,
-      {level: 'ERROR', tag: 'client:datasync-client:example', src: 'index.ts'});
+      {tag: 'client:datasync-client:example'});
   });
 });
 
@@ -43,11 +43,11 @@ $fh.sync.notify(datasetId, function(notification) {
     $fh.sync.doList(datasetId,
       function(res) {
         logger.info('Successful result from list:', JSON.stringify(res),
-          {level: 'INFO', tag: 'client:datasync-client:example', src: 'index.ts'});
+          {tag: 'client:datasync-client:example'});
       },
       function(err) {
         logger.error('Error result from list:', JSON.stringify(err),
-          {level: 'ERROR', tag: 'client:datasync-client:example', src: 'index.ts'});
+          {tag: 'client:datasync-client:example'});
       });
   }
 });

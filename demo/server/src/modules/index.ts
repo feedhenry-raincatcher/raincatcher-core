@@ -32,8 +32,8 @@ function syncSetup(app: express.Express) {
   app.use('/sync', syncRouter);
   // Connect sync
   syncConnector().then(function() {
-    logger.info('Connected');
+    logger.info('Connected', {tag: 'demo:server:src:modules'});
   }).catch(function(err: any) {
-    logger.error('Failed to initialize sync', err);
+    logger.error('Failed to initialize sync', err, {tag: 'demo:server:src:modules'});
   });
 }

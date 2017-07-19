@@ -1,3 +1,4 @@
+import { logger } from '@raincatcher/logger';
 import * as Express from 'express';
 import * as sync from 'fh-sync';
 import * as path from 'path';
@@ -47,7 +48,7 @@ export class SyncExpressMiddleWare {
     sync.invoke(datasetId, params, function(err: any, result: any) {
       if (err) {
         // tslint:disable-next-line:no-console
-        console.log('Error when processing sync request', err);
+        logger.error('Error when processing sync request', err, { tag: 'cloud:datasync:src:web'});
         return res.status(500).json(err);
       }
       return res.json(result);

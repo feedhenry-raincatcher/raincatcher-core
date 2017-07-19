@@ -1,8 +1,6 @@
-import { LoggerManager } from '@raincatcher/logger';
+
 import { UserRepository } from '../user/UserRepository';
 import { UserService } from '../user/UserService';
-
-const log = new LoggerManager();
 
 /**
  * Default strategy to be used by Passport's local strategy. If user credentials are valid, proceed to login,

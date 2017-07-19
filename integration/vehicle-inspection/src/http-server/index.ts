@@ -30,7 +30,7 @@ export class HttpServer {
   public listen(cb?: () => any) {
     return this.app.listen(this.port, () => {
       logger.info(`Server listening at port ${this.port}`,
-        {level: 'INFO', tag: 'intergration:vehicle-inspection:src:http-server', src: 'index.ts'});
+        {tag: 'intergration:vehicle-inspection:src:http-server'});
       if (isFunction(cb)) {
         cb();
       }
