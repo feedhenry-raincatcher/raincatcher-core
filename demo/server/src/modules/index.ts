@@ -3,8 +3,8 @@ import { BunyanLogger, Logger } from '@raincatcher/logger';
 import * as express from 'express';
 import { connect as syncConnector } from './datasync/Connector';
 import { router as syncRouter } from './datasync/Router';
-import { init as authInit } from './passport-auth';
 import { init as initKeycloak } from './keycloak';
+import { init as authInit } from './passport-auth';
 
 export let securityMiddleware: EndpointSecurity;
 export let logger: Logger;
@@ -29,8 +29,7 @@ function securitySetup(app: express.Express) {
   } else if (process.env.NODE_ENV === 'production') {
     // error out - don't allow the demo auth to run in production
     // TODO
-  }
-  else {
+  } else {
     // resort to passport authentication
     setupPassportSecurity(app);
   }

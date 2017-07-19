@@ -1,4 +1,4 @@
-declare var KeycloakConnect:any;
-declare module "keycloak-connect" {
+declare const KeycloakConnect: any;
+declare module 'keycloak-connect' {
     export = KeycloakConnect;
 }
