@@ -28,7 +28,7 @@ $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
       logger.info('Data updated', result,
         { tag: 'client:datasync-client:example'});
     }, function(err) {
-      logger.error('Error when Updateing Data', err,
+      logger.error('Error when Updating Data', err,
         {tag: 'client:datasync-client:example'});
     });
   }, function(err, data) {
