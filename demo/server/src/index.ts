@@ -2,7 +2,8 @@
 /**
  * Module dependencies.
  */
-import { logger } from '@raincatcher/logger';
+import {  BunyanLogger, logger, setLogger} from '@raincatcher/logger';
+setLogger(new BunyanLogger({name: 'Demo application', level: 'info'}));
 import * as http from 'http';
 import app from './app';
 
