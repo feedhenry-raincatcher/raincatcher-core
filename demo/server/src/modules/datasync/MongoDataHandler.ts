@@ -1,6 +1,5 @@
 import { sync } from '@raincatcher/datasync-cloud';
-import { Db } from 'mongodb';
-
+import { Db, ObjectID } from 'mongodb';
 /**
  * Initializes global mongodb data handlers for feedhenry sync
  * This class override default data handlers in sync to provide more flexible way of handling data.
@@ -62,7 +61,7 @@ export class GlobalMongoDataHandler {
   public setupHandleRead() {
     const self = this;
     sync.globalHandleRead(function(datasetId, uid, metadata, cb) {
-      self.db.collection(datasetId).findOne({ id: uid })
+      self.db.collection(datasetId).findOne({ '_id': self.convertToObjectId(datasetId, uid) })
         .then(function(result: any) {
           if (!result) {
             return cb(new Error('Missing result'));
@@ -76,7 +75,8 @@ export class GlobalMongoDataHandler {
   public setupHandleDelete() {
     const self = this;
     sync.globalHandleDelete(function(datasetId, uid, metadata, cb) {
-      self.db.collection(datasetId).deleteOne({ id: uid }).then(function(object: any) {
+      const id = self.convertToObjectId(datasetId, uid);
+      self.db.collection(datasetId).deleteOne({ '_id': id }).then(function(object: any) {
         return cb(undefined, object);
       }).catch(cb);
     });
@@ -106,5 +106,13 @@ export class GlobalMongoDataHandler {
     };
     delete res._id;
     return data;
+  }
+
+  private convertToObjectId(datasetId, originalId) {
+    const newObjectId = originalId;
+    if (ObjectID.isValid(originalId)) {
+      return new ObjectID(originalId);
+    }
+    return newObjectId;
   }
 }

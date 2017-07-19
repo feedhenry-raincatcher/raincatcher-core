@@ -16,7 +16,9 @@ const app: express.Express = express();
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
 const config = appConfig.getConfig();
 
-app.use(logger(config.morganOptions));
+if (config.morganOptions) {
+  app.use(logger(config.morganOptions));
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
