@@ -68,5 +68,5 @@ app.use(function(err: any, req: express.Request, res: express.Response, next: an
 });
 
 app.listen(3000, function() {
-  logger.info('Example auth app listening on port 3000');
+  logger.info('Example auth app listening on port 3000', { tag: 'cloud:passportauth:example'});
 });
