@@ -32,7 +32,7 @@ $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
         {tag: 'client:datasync-client:example'});
     });
   }, function(err, data) {
-    logger.error('Error when Updateing Data', err,
+    logger.error('Error when Saving Data', err,
       {tag: 'client:datasync-client:example'});
   });
 });
