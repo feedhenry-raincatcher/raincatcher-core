@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import * as proxyquire from 'proxyquire';
-import {DataSetHandler, SyncApi, SyncDataSetOptions, SyncOptions} from '../src/index';
+import { SyncApi, SyncDataSetOptions, SyncOptions } from '../src/index';
 // Import original and provide mocked version of the api
 
 const connectOptions: SyncOptions = {
@@ -9,7 +9,7 @@ const connectOptions: SyncOptions = {
     mongoDbOptions: {},
     redisConnectionUrl: process.env.REDIS_CONNECTION_URL || 'redis://127.0.0.1:6379'
   },
-  globalSyncOptions: {useCache: false}
+  globalSyncOptions: { useCache: false }
 };
 
 const SyncServerMock = proxyquire.noCallThru().load('../src/SyncServer', {
@@ -35,13 +35,6 @@ const SyncServerMock = proxyquire.noCallThru().load('../src/SyncServer', {
   }
 });
 
-// Custom dataset handler
-class MyTestDataSetHandler implements DataSetHandler {
-  public onList(datasetId: string, params: any, metaData: any, callback: any) {
-    callback(undefined, [{test: 'test'}]);
-  }
-}
-
 describe('FeedHenry Sync Tests', function() {
   let testSubject: SyncApi;
   beforeEach(function() {
@@ -53,24 +46,10 @@ describe('FeedHenry Sync Tests', function() {
         assert.ok(!err, 'No error happened');
       });
     });
-
-    it('setGlobalHandlers can be called', function() {
-      const handler: DataSetHandler = new MyTestDataSetHandler();
-      return testSubject.setGlobalDataHandlers(handler);
-    });
-
-    it('registerDatasetDataHandler can be called', function() {
-      const options: SyncDataSetOptions = {
-        backendListTimeout: 20,
-        // tslint:disable-next-line:no-empty
-        hashFunction() {
-        },
-        // tslint:disable-next-line:no-empty
-        collisionHandler() {
-        }
-      };
-      const handler: DataSetHandler = new MyTestDataSetHandler();
-      return testSubject.registerDatasetDataHandler('test', options, handler);
+  });
+  describe('Test handler', function() {
+    it('connect', function() {
+      return testSubject.registerDataset('test', {});
     });
   });
 });

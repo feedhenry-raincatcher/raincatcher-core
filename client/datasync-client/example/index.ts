@@ -1,8 +1,11 @@
 import * as sync from 'fh-sync-js';
+import { DataManager } from '../src/DataManager';
 
 // Provide backwards compatibility with documentation and examples
 const $fh = { sync };
 const datasetId = 'UserTasks';
+
+const manager = new DataManager(datasetId);
 
 const options: sync.SyncOptions = {
   cloudUrl: 'http://localhost:3000',
@@ -21,22 +24,29 @@ const task: any = {
 };
 
 $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
-  $fh.sync.doCreate(datasetId, task, function(data) {
+  manager.create(task, function(err, data) {
     // tslint:disable-next-line:no-console
     console.log('Data Saved', data);
-    $fh.sync.doUpdate(datasetId, data.localId, function(result: any) {
-       // tslint:disable-next-line:no-console
-      console.log('Data updated', result);
-    }, function(err) {
-       // tslint:disable-next-line:no-console
-      console.log('Error when Saving Data', err);
+    manager.list(function(error, result) {
+      // tslint:disable-next-line:no-console
+      console.log('List of elements', result, error);
     });
-  }, function(err, data) {
-    // tslint:disable-next-line:no-console
-    console.log('Error when Saving Data', err);
+    manager.update(data, function(error, result) {
+      // tslint:disable-next-line:no-console
+      console.log('Data updated', result , error);
+    });
+    manager.read(data.uid, function(error, result) {
+      // tslint:disable-next-line:no-console
+      console.log('Data read', result, error);
+    });
+    manager.delete(data, function(error, result) {
+      // tslint:disable-next-line:no-console
+      console.log('Data deleted', result , error);
+    });
   });
 });
 
+// Using native sync for more advanced use cases.
 $fh.sync.notify(datasetId, function(notification) {
   const code = notification.code;
   if ('sync_complete' === code) {

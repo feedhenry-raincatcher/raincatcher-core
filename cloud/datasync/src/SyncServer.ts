@@ -32,7 +32,7 @@ export const SyncServer: SyncApi = {
    * @param datasetId
    * @param options
    */
-  registerDatasetDataHandler(datasetId: string, options: SyncDataSetOptions) {
+  registerDataset(datasetId: string, options: SyncDataSetOptions) {
     sync.init(datasetId, options, function(err: any) {
       if (err) {
         throw new Error(err);

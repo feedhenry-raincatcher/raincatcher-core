@@ -8,7 +8,7 @@ import * as expressHbs from 'express-handlebars';
 import * as logger from 'morgan';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
-import {securityMiddleware, setupModules} from './modules';
+import { securityMiddleware, setupModules } from './modules';
 import index from './user-routes/index';
 import EnvironmentConfig, { CloudAppConfig, Config } from './util/config';
 
