@@ -14,47 +14,36 @@ import { NavLinkComponent } from './nav-link/nav-link.component';
 import { ProcessComponent } from './process/process.component';
 import { FooterComponent } from './footer/footer.component';
 
-import { InMemoryDataService } from './data/in-memory-data.service';
 
 import { environment } from '../environments/environment';
 import { ConfigService } from './config.service';
+import { RoutingModule } from './routing/routing.module';
 
-// Router and routes setup
-const routes: Routes = [
-  { path: 'process-instances', component: ProcessInstanceComponent },
-  { path: 'processes', component: ProcessComponent },
-  { path: 'tasks', component: TaskComponent },
-  { path: '', redirectTo: '/process-instances', pathMatch: 'full' }
-]
 
 const providers: Provider[] = [
   ConfigService
 ];
-if (!environment.production) {
-  providers.push(InMemoryDataService);
-}
+const imports = [
+  BrowserModule,
+  BrowserAnimationsModule,
+  HttpClientModule,
+  ButtonsModule.forRoot(),
+  RoutingModule
+]
+const declarations = [
+  AppComponent,
+  ProcessInstanceComponent,
+  TaskComponent,
+  NavigationComponent,
+  NavLinkComponent,
+  ProcessComponent,
+  FooterComponent
+]
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ProcessInstanceComponent,
-    TaskComponent,
-    NavigationComponent,
-    NavLinkComponent,
-    ProcessComponent,
-    FooterComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    ButtonsModule.forRoot(),
-    RouterModule.forRoot(
-      routes,
-      { enableTracing: true }
-    )
-  ],
-  providers: providers,
+  declarations,
+  imports,
+  providers,
   bootstrap: [AppComponent]
 })
 export class AppModule { }
