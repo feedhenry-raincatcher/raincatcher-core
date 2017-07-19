@@ -15,7 +15,7 @@ export interface SyncApi {
   /**
    * Register dataset to be monitored by sync with particular data handlers
    */
-  registerDatasetDataHandler(datasetId: string, options: SyncDatasetOptions): void;
+  registerDataset(datasetId: string, options: SyncDatasetOptions): void;
 }
 
 export default SyncApi;

@@ -6,10 +6,7 @@ Example needs to run in browser environment.
 
 Install required packages
 
-    npm install browserify
-    npm install typescript
-    npm install tsify
-    npm install browserify-shim
+    npm install
 
 Build single sync bundle.
 
