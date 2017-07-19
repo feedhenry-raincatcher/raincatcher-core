@@ -31,7 +31,7 @@ setupModules(app);
 app.use('/', index);
 app.use('/test', securityMiddleware.protect(), index);
 app.use('/testAdmin', securityMiddleware.protect('admin'), index);
-app.use('/testUser', securityMiddleware.protect('user'), index);
+app.use('/testUser', securityMiddleware.protect('admin'), index);
 
 app.use((req: express.Request, res: express.Response, next) => {
   const err: any = new Error('Not Found');

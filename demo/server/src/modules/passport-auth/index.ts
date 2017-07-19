@@ -1,20 +1,9 @@
 import { PassportAuth, UserRepository, UserService } from '@raincatcher/auth-passport';
 import * as express from 'express';
+import sessionOpts from '../sessionOpts';
 
 // Implementation for fetching and mapping user data
 import DemoUserRepository, { SampleUserService } from './DemoUserRepository';
-
-// Configuration for express session options
-const sessionOpts = {
-  secret: process.env.SESSION_SECRET || 'raincatcher',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: false,
-    httpOnly: true,
-    path: '/'
-  }
-};
 
 export function init(app: express.Express) {
   // Initialize user data repository and map current user
