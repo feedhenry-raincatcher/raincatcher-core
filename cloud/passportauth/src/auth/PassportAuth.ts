@@ -61,7 +61,7 @@ export class PassportAuth implements EndpointSecurity {
    * @param sessionOpts - Session options to be used by express-session
    */
   public init(app: express.Express, sessionOpts: SessionOptions) {
-    logger.info('Initializing express app to use express session and passport',{tag: 'cloud:passportauth:src:auth'});
+    logger.info('Initializing express app to use express session and passport', {tag: 'cloud:passportauth:src:auth'});
     app.use(session(sessionOpts));
     app.use(passport.initialize());
     app.use(passport.session());

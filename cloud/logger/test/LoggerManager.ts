@@ -21,4 +21,3 @@ describe('Expected results', () => {
     logger.debug('', emptyObject);
   });
 });
-

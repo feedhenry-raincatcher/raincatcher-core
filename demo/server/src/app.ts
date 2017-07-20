@@ -12,8 +12,6 @@ import { securityMiddleware, setupModules } from './modules';
 import index from './user-routes/index';
 import EnvironmentConfig, { CloudAppConfig, Config } from './util/config';
 
-
-
 const app: express.Express = express();
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
 const config = appConfig.getConfig();
