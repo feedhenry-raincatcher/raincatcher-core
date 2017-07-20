@@ -65,42 +65,39 @@ export enum TaskStatus {
  * Each task potentially has it's own, implementation-specific Result, and
  */
 export interface Task {
-  result?: Result;
-  updateStatus(to: TaskStatus | number): void;
   /**
-   * Gets the current status of the task, see {@link TaskStatus}
-   * should default to {@link TaskStatus.PENDING}
+   * Unique identifier for this {@link Task}
    */
-  getStatus(): TaskStatus | number;
+  id: string;
+  status: TaskStatus | number;
   /**
-   * Set of runtime configuration options
-   * This is intended to be rendered as a `<form>` in a front-end application
-   * for instance by utilizing http://schemaform.io/
+   * The name of the type that provides the implementation logic for this Task
    */
-  getOptionsSchema(): JsonSchema;
+  code: string;
   /**
-   * Sets an object that is compatible with the JsonSchema returned by {@link getOptionsSchema}
-   * Implementations are expected to provide validation
+   * A descriptive name for displaying in the UI for this Task
    */
-  setOptions(options: object): void;
+  name: string;
+  /**
+   * Assignee Id, can be left undefined for {@link Task}s that
+   * require no human interaction
+   */
+  assignee?: string;
+  /**
+   * Id of the {@link ProcessInstance} this {@link Task} belongs to
+   */
+  processInstanceId: string;
+  /**
+   * Options for configuring a custom {@link Task}
+   */
+  options?: object;
+}
 
-  /**
-   * Emitted when the task's status changes to a different value
-   */
-  on(event: 'statusChange', handler: TaskEventHandler<this>): this;
-
-  /**
-   * Implementation for the execution of the Task.
-   * Progress and results should be provided via events since they can involve human execution and
-   * other asynchronous out-of-process events
-   */
-  run(): void;
-
-  /**
-   * Returns the current Task's status, rounded down to the nearest TaskStatus
-   * (i.e. ignoring custom intermediate status)
-   */
-  getRoundedStatus(): TaskStatus;
-
-  // Step implementations would carry extra metadata needed for execution and UI
+/**
+ * Returns the current Task's status, rounded down to the nearest TaskStatus
+ * (i.e. ignoring custom intermediate status)
+ */
+export function getRoundedStatus(task: Task): TaskStatus {
+  const roundedDownStatus = task.status - (task.status % 100);
+  return roundedDownStatus || TaskStatus.PENDING;
 }

@@ -4,17 +4,8 @@ export {ProcessInstance} from './process-instance/ProcessInstance';
 export {Process} from './process/Process';
 export {Result} from './result/Result';
 export {Task, TaskStatus, TaskEventData} from './task/Task';
+export {TaskDefinition} from './task-definition/TaskDefinition';
 
 // Implementations
-export {ExecutorImpl} from './executor/ExecutorImpl';
-export {ProcessInstanceImpl} from './process-instance/ProcessInstanceImpl';
-export {ProcessImpl} from './process/ProcessImpl';
 export {BooleanResult} from './result/BooleanResult';
 export {UrlResult} from './result/UrlResult';
-export {BaseTask} from './task/BaseTask';
-
-// Repositories
-export {ExecutorRepository} from './executor/ExecutorRepository';
-export {ProcessRepository} from './process/ProcessRepository';
-export {ProcessInstanceRepository} from './process-instance/ProcessInstanceRepository';
-export {TaskRepository} from './task/TaskRepository';
