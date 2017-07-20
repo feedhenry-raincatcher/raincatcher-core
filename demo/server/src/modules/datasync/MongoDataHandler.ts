@@ -1,5 +1,7 @@
 import { sync } from '@raincatcher/datasync-cloud';
+import { logger } from '@raincatcher/logger';
 import { Db, ObjectID } from 'mongodb';
+
 /**
  * Initializes global mongodb data handlers for feedhenry sync
  * This class override default data handlers in sync to provide more flexible way of handling data.
@@ -27,7 +29,7 @@ export class GlobalMongoDataHandler {
     const self = this;
     sync.globalHandleList(function(datasetId, queryParams, metadata, cb) {
       queryParams = queryParams || {};
-      const resultPromise = this.db.collection(datasetId).find(queryParams);
+      const resultPromise = self.db.collection(datasetId).find(queryParams);
       return resultPromise.toArray().then(function(list: any[]) {
         return cb(undefined, self.toObject(list));
       }).catch(cb);

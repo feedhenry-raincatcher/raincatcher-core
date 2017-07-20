@@ -27,5 +27,8 @@
     "lerna": "^2.0.0-rc.5",
     "tslint": "^5.4.3",
     "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "mongodb": "^2.2.30"
   }
 }
