@@ -2,6 +2,8 @@
 /**
  * Module dependencies.
  */
+import {  BunyanLogger, logger, setLogger} from '@raincatcher/logger';
+setLogger(new BunyanLogger({name: 'Demo application', level: 'info'}));
 import * as http from 'http';
 import app from './app';
 
@@ -30,7 +32,7 @@ function onError(error: any) {
     throw error;
   }
   if (error.code === 'EADDRINUSE') {
-    console.error(error.port + ' port number is already in use');
+    logger.error(error.port + ' port number is already in use', {tag: 'demo:server:src'});
     return process.exit(1);
   }
   throw error;
@@ -41,6 +43,5 @@ function onError(error: any) {
  */
 function onListening() {
   const addr = server.address();
-  // tslint:disable-next-line:no-console
-  console.log('Listening on ' + addr.port);
+  logger.info('Listening on ' + addr.port, {tag: 'demo:server:src'});
 }

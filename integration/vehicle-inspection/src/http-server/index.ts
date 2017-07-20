@@ -1,4 +1,4 @@
-import {Logger} from '@raincatcher/logger';
+import { logger, Logger, setLogger } from '@raincatcher/logger';
 import {
   BaseTask,
   Process,
@@ -21,8 +21,7 @@ export class HttpServer {
 
   constructor(
     protected processRepo: ProcessRepository,
-    protected processInstanceRepo: ProcessInstanceRepository,
-    protected logger: Logger
+    protected processInstanceRepo: ProcessInstanceRepository
   ) {
     this.setupExpressMiddleware();
     this.setupExpressRoutes();
@@ -30,7 +29,8 @@ export class HttpServer {
 
   public listen(cb?: () => any) {
     return this.app.listen(this.port, () => {
-      this.logger.info(`Server listening at port ${this.port}`);
+      logger.info(`Server listening at port ${this.port}`,
+        {tag: 'intergration:vehicle-inspection:src:http-server'});
       if (isFunction(cb)) {
         cb();
       }

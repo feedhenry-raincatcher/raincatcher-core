@@ -1,8 +1,6 @@
-import { BunyanLogger, Logger } from '@raincatcher/logger';
+
 import { UserRepository } from '../user/UserRepository';
 import { UserService } from '../user/UserService';
-
-const log: Logger = new BunyanLogger({ name: 'Passport-Auth', level: 'error' });
 
 /**
  * Default strategy to be used by Passport's local strategy. If user credentials are valid, proceed to login,

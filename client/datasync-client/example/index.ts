@@ -1,3 +1,4 @@
+import { logger } from '@raincatcher/logger';
 import * as sync from 'fh-sync-js';
 import { DataManager } from '../src/DataManager';
 
@@ -25,23 +26,18 @@ const task: any = {
 
 $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
   manager.create(task, function(err, data) {
-    // tslint:disable-next-line:no-console
-    console.log('Data Saved', data);
+    logger.info('Data Saved', data, { tag: 'client:datasync-client:example'});
     manager.list(function(error, result) {
-      // tslint:disable-next-line:no-console
-      console.log('List of elements', result, error);
+      logger.error('List of elements', result, error, { tag: 'client:datasync-client:example'});
     });
     manager.update(data, function(error, result) {
-      // tslint:disable-next-line:no-console
-      console.log('Data updated', result , error);
+      logger.info('Data updated', result , error, { tag: 'client:datasync-client:example'});
     });
     manager.read(data.uid, function(error, result) {
-      // tslint:disable-next-line:no-console
-      console.log('Data read', result, error);
+      logger.info('Data read', result, error, { tag: 'client:datasync-client:example'});
     });
     manager.delete(data, function(error, result) {
-      // tslint:disable-next-line:no-console
-      console.log('Data deleted', result , error);
+      logger.info('Data deleted', result , error, { tag: 'client:datasync-client:example'});
     });
   });
 });
@@ -52,12 +48,12 @@ $fh.sync.notify(datasetId, function(notification) {
   if ('sync_complete' === code) {
     $fh.sync.doList(datasetId,
       function(res) {
-        // tslint:disable-next-line:no-console
-        console.log('Successful result from list:', JSON.stringify(res));
+        logger.info('Successful result from list:', res,
+          {tag: 'client:datasync-client:example'});
       },
       function(err) {
-        // tslint:disable-next-line:no-console
-        console.log('Error result from list:', JSON.stringify(err));
+        logger.error('Error result from list:', err,
+          {tag: 'client:datasync-client:example'});
       });
   }
 });

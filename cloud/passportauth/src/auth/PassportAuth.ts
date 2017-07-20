@@ -1,4 +1,4 @@
-import { BunyanLogger, Logger } from '@raincatcher/logger';
+import { logger } from '@raincatcher/logger';
 import * as express from 'express';
 import * as session from 'express-session';
 import { SessionOptions } from 'express-session';
@@ -48,7 +48,6 @@ export interface EndpointSecurity {
  */
 export class PassportAuth implements EndpointSecurity {
   protected loginRoute: string;
-  private log: Logger = new BunyanLogger({name: 'Passport-Auth', level: 'error'});
 
   // tslint:disable-next-line:max-line-length
   constructor(protected readonly userRepo: UserRepository, protected readonly userService: UserService, loginRoute?: string) {
@@ -62,7 +61,7 @@ export class PassportAuth implements EndpointSecurity {
    * @param sessionOpts - Session options to be used by express-session
    */
   public init(app: express.Express, sessionOpts: SessionOptions) {
-    this.log.info('Initializing express app to use express session and passport');
+    logger.info('Initializing express app to use express session and passport', {tag: 'cloud:passportauth:src:auth'});
     app.use(session(sessionOpts));
     app.use(passport.initialize());
     app.use(passport.session());

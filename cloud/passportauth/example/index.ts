@@ -1,11 +1,9 @@
-import { BunyanLogger, Logger } from '@raincatcher/logger';
+import { logger } from '@raincatcher/logger';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as path from 'path';
 import { PassportAuth, UserRepository, UserService } from '../src/index';
-
-const log: Logger = new BunyanLogger({ name: 'Passport-Auth-Example', level: 'info' });
 
 // Implementation for fetching and mapping user data
 import ExampleUserDataRepository, { SampleUserService } from './UserRepository';
@@ -65,10 +63,10 @@ app.get('/logout', (req: express.Request, res: express.Response) => {
 });
 
 app.use(function(err: any, req: express.Request, res: express.Response, next: any) {
-  log.error(err);
+  logger.error(err, { tag: 'cloud:passportauth:example'});
   res.status(500).send(err);
 });
 
 app.listen(3000, function() {
-  log.info('Example auth app listening on port 3000');
+  logger.info('Example auth app listening on port 3000', { tag: 'cloud:passportauth:example'});
 });

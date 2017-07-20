@@ -1,20 +1,20 @@
+import { BunyanLogger, ConsoleLogger, Logger, logger, setLogger } from '../src/index';
 
-import {BunyanLogger, ConsoleLogger, Logger} from '../src/index';
+// by default logger is turned off
+logger.info('This should not render', { orthis: 'will not return' });
+logger.error('This should not render', { orthis: 'will not return' });
+logger.debug('This should not render', { orthis: 'will not return' });
+logger.warn('This should not render', { orthis: 'will not return' });
+
+// you can instantiate the default logger with any Logger implementation to change the global logger
+const log = new BunyanLogger({name: 'index', level: 'trace'});
+
+setLogger(log);
+logger.info('This log will render with BunyanLogger');
 
 // constructor accept bunyan options. Please refer to https://www.npmjs.com/package/bunyan
-// by default debug logging is turned off to enable debug logging change constructor to
-// const log = new BunyanLogger({name: 'index', level: 'debug'});
-const log: Logger = new BunyanLogger({name: 'index', level: 'trace'});
 
 log.debug('debug logger message\n', {testObject: 'debug'}, {anything: 'anything'});
 log.error('error logger message\n', {testObject: 'error'});
 log.info('info logger message\n', {testObject: 'info'});
 log.warn('warn logger message\n', {testObject: 'warn'});
-
-// constructor for console for use with client
-const con: Logger = new ConsoleLogger();
-
-con.debug('something', {testObject: 300});
-con.error('something', {testObject: 300});
-con.info('something', {testObject: 300});
-con.warn('something', {testObject: 300});
