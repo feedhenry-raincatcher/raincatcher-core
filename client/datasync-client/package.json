@@ -23,9 +23,9 @@
       "ts-node/register"
     ],
     "check-coverage": true,
-    "lines": 75,
-    "functions": 100,
-    "branches": 80
+    "lines": 20,
+    "functions": 0,
+    "branches": 0
   },
   "devDependencies": {
     "@types/lodash": "^4.14.70",
