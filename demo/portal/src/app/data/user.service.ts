@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { User } from './User';
-import { ConfigService } from './config.service';
+import { User } from '../User';
+import { ConfigService } from '../config.service';
 import { HttpClient } from '@angular/common/http';
 
-import { users } from './data/fixtures/users'
+import { users } from './fixtures/users'
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()

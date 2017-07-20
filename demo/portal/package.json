@@ -26,6 +26,7 @@
     "@angular/router": "^4.3.0",
     "@raincatcher/wfm": "1.0.0",
     "angular-in-memory-web-api": "^0.3.2",
+    "angular2-moment": "^1.6.0",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "jquery": "^3.2.1",

@@ -1,0 +1,84 @@
+<h1>Work Order Details</h1>
+<div class="card-pf">
+  <div class="card-pf-heading">
+    <h2 class="card-pf-title">Main Assignee</h2>
+  </div>
+  <div class="card-pf-body">
+    <div class="media">
+      <div class="media-left">
+        <a href="#">
+          <img class="media-object" src="#" alt="User Picture">
+        </a>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">Daisy Dialer</h4>
+        <button class="btn btn-warning pull-right">Reassign</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Tasks</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th><!-- User Picture --></th>
+      <th>Task Assignee</th>
+      <th>Status</th>
+      <th>Task</th>
+      <th>Last Activity</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="fa fa-user"></span></td>
+      <td>Daisy Dialer</td>
+      <td><label class="label label-primary">Done</label></td>
+      <td>Inspect Vehicle</td>
+      <td>{{sampleDate | amSubtract: 42 : 'minutes' | amTimeAgo}}</td>
+      <td><a href="#" class="btn btn-primary">Result</a></td>
+    </tr>
+    <tr>
+      <td><span class="fa fa-user"></span></td>
+      <td>Daisy Dialer</td>
+      <td><label class="label label-info">In Progress</label></td>
+      <td>Collect Signature</td>
+      <td>{{sampleDate | amTimeAgo}}</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>History</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Description</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Collect Signature</td>
+      <td>Status changed to 'In Progress'</td>
+      <td>{{sampleDate | amSubtract: 5 : 'minutes'  | amTimeAgo}}</td>
+    </tr>
+    <tr>
+      <td>Inspect Vehicle</td>
+      <td>Status changed to 'Done'</td>
+      <td>{{sampleDate | amSubtract: 5 : 'hours'  | amTimeAgo}}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Main Assignee changed to 'Daisy Dialer'</td>
+      <td>{{sampleDate | amSubtract: 5 : 'hours'  | amTimeAgo}}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Created</td>
+      <td>{{sampleDate | amSubtract: 5 : 'days'  | amTimeAgo}}</td>
+    </tr>
+  </tbody>
+</table>

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 export class FixtureService<T extends {id: string}> {
   protected data: T[];
   protected delayMs: 1500;
-  getAll() {
+  getAll(): Observable<T[]> {
     return new Observable<T[]>(subscriber => {
       setTimeout(() => {
         subscriber.next(this.data);
@@ -11,7 +11,7 @@ export class FixtureService<T extends {id: string}> {
       }, this.delayMs);
     });
   }
-  getById(id: string) {
+  getById(id: string): Observable<T> {
     return new Observable<T>(subscriber => {
       setTimeout(() => {
         subscriber.next(this.data.find(p => p.id === id));
