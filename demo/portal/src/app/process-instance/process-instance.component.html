@@ -12,17 +12,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>User Picture</td>
-      <td>Trever Smith</td>
+    <tr *ngFor="let instance of processInstances">
+      <td>{{instance.assignee}}</td>
+      <td>{{instance.assignee || 'No Assignee'}}</td>
       <td><span class="label label-primary">In Progress</span></td>
-      <td>Inspect Vehicle</td>
-      <td>5 minutes ago</td>
-    </tr>
-    <tr>
-      <td>User Picture</td>
-      <td>Trever Smith</td>
-      <td><span class="label label-default">Assigned</span></td>
       <td>Inspect Vehicle</td>
       <td>5 minutes ago</td>
     </tr>

@@ -11,17 +11,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Inspect and Sign</td>
-      <td>Inspect a vehicle and collect the customer's signature</td>
-      <td>2 Tasks</td>
+    <tr *ngFor="let process of processes">
+      <td>{{process.title}}</td>
+      <td>{{process.description}}</td>
+      <td>{{process.taskDefinitions.length}}</td>
       <td><a href="#">3 Work Orders</a></td>
-    </tr>
-    <tr>
-      <td>Assess Risk</td>
-      <td>Realize risk evaluation</td>
-      <td>1 Tasks</td>
-      <td><a href="#">0 Work Orders</a></td>
     </tr>
   </tbody>
 </table>

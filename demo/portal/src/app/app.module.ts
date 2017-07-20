@@ -3,7 +3,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, Provider } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-
 import { ButtonsModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -14,6 +13,8 @@ import { NavLinkComponent } from './nav-link/nav-link.component';
 import { ProcessComponent } from './process/process.component';
 import { FooterComponent } from './footer/footer.component';
 
+import { ProcessService } from './data/process.service';
+import { ProcessInstanceService } from './data/process-instance.service';
 
 import { environment } from '../environments/environment';
 import { ConfigService } from './config.service';
@@ -21,7 +22,9 @@ import { RoutingModule } from './routing/routing.module';
 
 
 const providers: Provider[] = [
-  ConfigService
+  ConfigService,
+  ProcessService,
+  ProcessInstanceService
 ];
 const imports = [
   BrowserModule,

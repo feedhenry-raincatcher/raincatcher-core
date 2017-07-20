@@ -33,7 +33,7 @@ export const processes: Process[] = [
   {
     id: 'SyVXyMuSr',
     title: 'Inspect Vehicle',
-    description: 'Execute risk evaluation',
+    description: 'Check vehicle parts for need of maintenance',
     taskDefinitions: [
       {
         code: 'VehicleInspection',
