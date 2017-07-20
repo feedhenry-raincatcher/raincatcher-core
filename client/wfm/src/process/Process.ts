@@ -1,5 +1,6 @@
 import {ProcessInstance} from '../process-instance/ProcessInstance';
-import {Task} from '../task/Task';
+import {TaskDefinition} from '../task-definition/TaskDefinition';
+import {TaskStatus} from '../task/Task';
 /**
  * Definition holder for a linear set of {@link Task}s
  * Intended to be instantiated as a {@link ProcessInstance} in order to be executed
@@ -7,16 +8,16 @@ import {Task} from '../task/Task';
 export interface Process {
   /** Unique identifier for this {@link Process} */
   id: string;
-  /** Description for UI */
-  displayName: string;
+  /** Short description for the User Interface */
+  title: string;
+  /** Description for the User Interface */
+  description: string;
   /**
    * Sequential list of {@link Task}s that compose this {@link Process}
    */
-  tasks: Task[];
+  taskDefinitions: TaskDefinition[];
+}
 
-  // TODO: Maybe move this to Executor
-  /**
-   * Instantiates a {@link ProcessInstance} for execution
-   */
-  createInstance(): ProcessInstance;
+export function getAggregateStatus(process: Process): TaskStatus {
+  return TaskStatus.ASSIGNED;
 }
