@@ -3,7 +3,6 @@ import {ProcessInstance} from '../process-instance/ProcessInstance';
 import {Process} from '../process/Process';
 import {Task, TaskEventData, TaskStatus} from '../task/Task';
 import {Executor} from './Executor';
-import {ExecutorRepository} from './ExecutorRepository';
 
 /**
  * Default implementation for {@link Executor}

@@ -1,0 +1,38 @@
+<nav class="navbar navbar-pf-vertical">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a href="/" class="navbar-brand">
+      <img height="35px" class="navbar-brand-icon" src="/assets/raincatcher-logo.svg" alt="RainCatcher logo"/>
+      <span class="navbar-brand-name">{{title}}</span>
+    </a>
+  </div>
+  <nav class="collapse navbar-collapse">
+    <ul class="nav navbar-nav navbar-right navbar-iconic">
+      <li class="dropdown">
+        <a class="dropdown-toggle nav-item-iconic" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <span class="fa pficon-user"></span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <li><a href="#">Trever Smith</a></li>
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</nav>
+
+<div class="nav-pf-vertical nav-pf-vertical-with-sub-menus">
+  <ul class="list-group">
+    <rc-nav-link route="/dashboard" icon="dashboard" description="Dashboard"></rc-nav-link>
+    <rc-nav-link route="/users" icon="user" description="Users"></rc-nav-link>
+    <rc-nav-link route="/processes" icon="book" description="Processes"></rc-nav-link>
+    <rc-nav-link route="/process-instances" icon="tags" description="Orders"></rc-nav-link>
+    <rc-nav-link route="/tasks" icon="pencil" description="Available Tasks"></rc-nav-link>
+  </ul>
+</div>
