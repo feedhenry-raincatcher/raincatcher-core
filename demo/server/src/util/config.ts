@@ -19,15 +19,14 @@ export interface Config<T> {
  * - config-prod.json
  */
 export default class EnvironmentConfig<T> implements Config<T> {
-  private devEnv: boolean;
   private rawConfig: T;
 
   constructor() {
-    this.devEnv = process.env.NODE_ENV === 'development';
-    if (this.devEnv) {
-      this.rawConfig = require('../../config-dev.json');
-    } else {
+    const prodEnv = process.env.NODE_ENV === 'production';
+    if (prodEnv) {
       this.rawConfig = require('../../config-prod.json');
+    } else {
+      this.rawConfig = require('../../config-dev.json');
     }
   }
 
