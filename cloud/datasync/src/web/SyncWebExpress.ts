@@ -45,10 +45,11 @@ export class SyncExpressMiddleWare {
   private syncHandler(req: Express.Request, res: Express.Response) {
     const datasetId = req.params.datasetId;
     const params = req.body;
+    logger.error('PARAMS ', req.body.dataset_id);
     sync.invoke(datasetId, params, function(err: any, result: any) {
       if (err) {
         // tslint:disable-next-line:no-console
-        logger.error('Error when processing sync request', err, { tag: 'cloud:datasync:src:web'});
+        logger.error('Error when processing sync request', err, { tag: 'cloud:datasync:src:web' });
         return res.status(500).json(err);
       }
       return res.json(result);

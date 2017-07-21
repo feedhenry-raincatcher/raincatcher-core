@@ -32,7 +32,6 @@ export class GlobalMongoDataHandler {
       queryParams = queryParams || {};
       const resultPromise = self.db.collection(datasetId).find(queryParams);
       return resultPromise.toArray().then(function(list: any[]) {
-        logger.debug('GlobalHandleList result', datasetId, queryParams, list);
         return cb(undefined, self.toObject(list));
       }).catch(cb);
     });

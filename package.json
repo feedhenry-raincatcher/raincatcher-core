@@ -29,6 +29,5 @@
     "typescript": "^2.3.4"
   },
   "dependencies": {
-    "mongodb": "^2.2.30"
   }
 }
