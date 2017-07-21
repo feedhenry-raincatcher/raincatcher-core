@@ -1,4 +1,11 @@
 {
     "morganOptions": null,
-    "logStackTraces": false
+    "logStackTraces": false,
+    "keycloakConfig": {
+      "realm": "",
+      "auth-server-url": "",
+      "ssl-required": "external",
+      "resource": "",
+      "public-client": true
+    }
 }

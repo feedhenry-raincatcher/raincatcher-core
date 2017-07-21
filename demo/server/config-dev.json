@@ -1,4 +1,11 @@
 {
     "morganOptions": null,
-    "logStackTraces": true
+    "logStackTraces": true,
+    "keycloakConfig": {
+      "realm": "raincatcher",
+      "auth-server-url": "http://localhost:8080/auth",
+      "ssl-required": "external",
+      "resource": "raincatcher-cloud",
+      "public-client": true
+    }
 }

@@ -39,4 +39,5 @@ export default class EnvironmentConfig<T> implements Config<T> {
 export interface CloudAppConfig {
   morganOptions: string;
   logStackTraces: boolean;
+  keycloakConfig: object;
 }
