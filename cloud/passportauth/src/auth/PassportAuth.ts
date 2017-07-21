@@ -86,7 +86,7 @@ export class PassportAuth implements EndpointSecurity {
       }
 
       const hasRole = role ? this.userService.hasResourceRole(req.user, role) : true;
-      return hasRole ? next() : res.status(403).send();
+      return hasRole ? next() : this.accessDenied(req, res);
     };
   }
 
@@ -103,6 +103,14 @@ export class PassportAuth implements EndpointSecurity {
       failureRedirect: errorRedirect,
       successReturnToOrRedirect: defaultRedirect
     });
+  }
+
+  /**
+   * Handler for access denied responses in the event that a user is not authorized to access
+   * a resource. This method can be overridden to provide a custom access denied handler
+   */
+  public accessDenied(req: express.Request, res: express.Response) {
+    res.status(403).send();
   }
 
   /**
