@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let instance of processInstances">
+    <tr class="routerlink" *ngFor="let instance of processInstances" [routerLink]="['/process-instances', instance.id]">
       <td>{{instance.assignee}}</td>
       <td>{{instance.assignee || 'No Assignee'}}</td>
       <td><span class="label label-primary">In Progress</span></td>
