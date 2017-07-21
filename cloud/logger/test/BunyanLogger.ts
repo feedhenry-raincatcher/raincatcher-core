@@ -14,6 +14,10 @@ describe('Expected results', () => {
    log.error('error logger message', loggerObject);
    log.info('info logger message', loggerObject);
    log.warn('warn logger message', loggerObject);
+   log.debug('DEBUG');
+   log.info('INFO');
+   log.warn('WARN');
+   log.error('ERROR');
   });
 
  it('should log nothing for empty messages', () => {
