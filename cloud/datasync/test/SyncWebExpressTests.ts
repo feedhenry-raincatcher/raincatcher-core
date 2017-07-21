@@ -1,11 +1,11 @@
 import * as assert from 'assert';
-import {SyncExpressMiddleWare} from '../src/index';
+import {SyncExpressMiddleware} from '../src/index';
 
 describe('FeedHenry Sync Express Tests', function() {
-  let testSubject: SyncExpressMiddleWare;
+  let testSubject: SyncExpressMiddleware;
 
   beforeEach(function() {
-    testSubject = new SyncExpressMiddleWare('prefix');
+    testSubject = new SyncExpressMiddleware('prefix');
   });
 
   describe('Test end user api', function() {

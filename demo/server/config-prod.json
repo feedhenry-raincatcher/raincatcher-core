@@ -1,6 +1,10 @@
 {
   "morganOptions": null,
   "logStackTraces": false,
+  "sync": {
+    "customDataHandlers": true,
+    "seedDemoData": true
+  },
   "keycloakConfig": {
     "realm": "",
     "auth-server-url": "",

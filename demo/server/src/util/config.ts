@@ -41,6 +41,10 @@ export interface CloudAppConfig {
   // See bunyan.d.ts/LoggerOptions
   bunyanConfig: any;
   keycloakConfig: any;
+  sync: {
+    customDataHandlers: boolean;
+    seedDemoData: boolean
+  };
 }
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
 
