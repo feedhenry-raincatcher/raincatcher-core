@@ -45,6 +45,26 @@ describe('Data Manager', function() {
       });
     });
 
+
+    it('should error when list all items', function() {
+      // An example of a list API Response From the $fh.sync framework
+      const mock$fh = {
+        doList: sinon.stub().callsArgWith(2, 'Problem')
+      };
+
+      const DataManager = proxyquire.noCallThru().load('../src/DataManager', {
+        'fh-sync-js': mock$fh
+      }).DataManager;
+
+      const dataManager = new DataManager(mockDataSetId);
+
+      return dataManager.list(function(err, dataSetList) {
+        sinon.assert.called(mock$fh.doList);
+
+        assert.ok(err);
+      });
+    });
+
     it('should create a new item', function() {
 
       const mockRecordUid = 'syncRecordUID';
