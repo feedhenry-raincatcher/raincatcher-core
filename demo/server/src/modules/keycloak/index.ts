@@ -1,13 +1,12 @@
-// tslint:disable-next-line:no-reference
-/// <reference path="./keycloak.d.ts" />
-
 import * as express from 'express';
 import * as session from 'express-session';
-import * as Keycloak from 'keycloak-connect';
-import EnvironmentConfig, { CloudAppConfig, Config } from '../../util/config';
+
+import appConfig from '../../util/config';
 import sessionOpts from '../sessionOpts';
 
-const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
+// tslint:disable-next-line:no-var-requires
+const Keycloak = require('keycloak-connect');
+
 const config = appConfig.getConfig();
 
 export function init(app: express.Express) {
