@@ -110,7 +110,7 @@ export class PassportAuth implements EndpointSecurity {
    * a resource. This method can be overridden to provide a custom access denied handler
    */
   public accessDenied(req: express.Request, res: express.Response) {
-    res.status(403).send('Access Denied');
+    res.status(403).send();
   }
 
   /**

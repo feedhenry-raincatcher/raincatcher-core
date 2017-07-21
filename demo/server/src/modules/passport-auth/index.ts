@@ -22,9 +22,6 @@ export function init(app: express.Express) {
   const userService: UserService = new SampleUserService();
   const authService: PassportAuth = new PassportAuth(userRepo, userService);
   authService.init(app, sessionOpts);
-  authService.accessDenied = function(req: express.Request, res: express.Response) {
-    res.redirect('/access-denied');
-  };
   createRoutes(app, authService);
   return authService;
 }
