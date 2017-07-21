@@ -18,7 +18,7 @@ export interface Config<T> {
  * - config-dev.json
  * - config-prod.json
  */
-export default class EnvironmentConfig<T> implements Config<T> {
+export class EnvironmentConfig<T> implements Config<T> {
   private rawConfig: T;
 
   constructor() {
@@ -35,9 +35,13 @@ export default class EnvironmentConfig<T> implements Config<T> {
   }
 }
 
-/** Cloud application configuration */
 export interface CloudAppConfig {
   morganOptions: string;
   logStackTraces: boolean;
-  keycloakConfig: object;
+  // See bunyan.d.ts/LoggerOptions
+  bunyanConfig: any;
+  keycloakConfig: any;
 }
+const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
+
+export default appConfig;

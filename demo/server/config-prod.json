@@ -1,11 +1,15 @@
 {
-    "morganOptions": null,
-    "logStackTraces": false,
-    "keycloakConfig": {
-      "realm": "",
-      "auth-server-url": "",
-      "ssl-required": "external",
-      "resource": "",
-      "public-client": true
-    }
+  "morganOptions": null,
+  "logStackTraces": false,
+  "keycloakConfig": {
+    "realm": "",
+    "auth-server-url": "",
+    "ssl-required": "external",
+    "resource": "",
+    "public-client": true
+  },
+  "bunyanConfig": {
+    "name": "Demo application",
+    "level": "warn"
+  }
 }
