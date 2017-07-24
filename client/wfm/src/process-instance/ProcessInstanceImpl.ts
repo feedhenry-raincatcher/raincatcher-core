@@ -8,6 +8,7 @@ export class ProcessInstanceImpl extends EventEmitter implements ProcessInstance
   public id: string;
   public assigneeId: string;
   public processId: string;
+  public displayName: string;
   public currentTask: Task;
   public tasks: Task[];
 

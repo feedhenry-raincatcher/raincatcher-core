@@ -15,6 +15,10 @@ export interface ProcessInstanceRepository {
    */
   create(process: ProcessInstance): Promise<ProcessInstance>;
   /**
+   * Deletes a single ProcessInstance
+   */
+  delete(process: string | ProcessInstance): Promise<ProcessInstance>;
+  /**
    * Retrieve all ProcessInstances that are not assigned to a User
    */
   getUnassigned(): Promise<ProcessInstance[]>;

@@ -20,6 +20,7 @@ export interface ProcessInstance extends EventEmitter {
   id: string;
   assigneeId: string;
   processId: string;
+  currentTaskIndex: number;
 
   getTasks(): Promise<Task[]>;
   getCurrentTask(): Promise<Task>;

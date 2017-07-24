@@ -10,4 +10,9 @@ export interface ProcessRepository {
    * Persist a given Process
    */
   create(process: Process): Promise<Process>;
+
+  /**
+   * Deletes a single Process
+   */
+  delete(process: string | Process): Promise<Process>;
 }
