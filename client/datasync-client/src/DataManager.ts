@@ -9,7 +9,7 @@ import * as _ from 'lodash';
  */
 export class DataManager {
 
-  private datasetId: string;
+  public datasetId: string;
 
   constructor(datasetId: string) {
     this.datasetId = datasetId;

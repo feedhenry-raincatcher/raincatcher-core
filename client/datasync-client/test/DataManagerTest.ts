@@ -45,7 +45,6 @@ describe('Data Manager', function() {
       });
     });
 
-
     it('should error when list all items', function() {
       // An example of a list API Response From the $fh.sync framework
       const mock$fh = {
