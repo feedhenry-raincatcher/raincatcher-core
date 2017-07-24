@@ -1,5 +1,4 @@
 import {EventEmitter} from 'eventemitter3';
-import {JsonSchema} from '../JsonSchema';
 import {Result} from '../result/Result';
 
 export interface TaskEventData<T extends Task> {
@@ -37,27 +36,27 @@ export enum TaskStatus {
   /**
    * Indicates that the Task has been created and is unassigned
    */
-  'PENDING' = 0,
+  'New' = 0,
   /**
    * Indicates that the Task has been assigned to an executor and is pending initiation
    */
-  'ASSIGNED' = 100,
+  'Unassigned' = 100,
   /**
    * Indicates that the Task has begun being executed
    */
-  'IN_PROGRESS' = 200,
+  'In Progress' = 200,
   /**
    * Indicates that the Task has finished successfully
    */
-  'DONE' = 300,
+  'Complete' = 300,
   /**
    * Indicates that the Task has had its execution paused by a resolvable issue and can be resumed
    */
-  'BLOCKED' = 400,
+  'On Hold' = 400,
   /**
    * Indicates that the Task has finished in an unpredicted and unrecoverable state
    */
-  'ERROR' = 500
+  'Aborted' = 500
 }
 
 /**
@@ -69,6 +68,9 @@ export interface Task {
    * Unique identifier for this {@link Task}
    */
   id: string;
+  /**
+   * Current status, see {@link TaskStatus}
+   */
   status: TaskStatus | number;
   /**
    * The name of the type that provides the implementation logic for this Task
@@ -96,8 +98,16 @@ export interface Task {
 /**
  * Returns the current Task's status, rounded down to the nearest TaskStatus
  * (i.e. ignoring custom intermediate status)
+ *
+ * @param task A {@link Task} or its status
  */
-export function getRoundedStatus(task: Task): TaskStatus {
-  const roundedDownStatus = task.status - (task.status % 100);
-  return roundedDownStatus || TaskStatus.PENDING;
+export function getRoundedStatus(task: Task | number): TaskStatus {
+  let status;
+  if (typeof task === 'number') {
+    status = task;
+  } else {
+    status = task.status;
+  }
+  const roundedDownStatus = status - (status % 100);
+  return roundedDownStatus || TaskStatus.New;
 }

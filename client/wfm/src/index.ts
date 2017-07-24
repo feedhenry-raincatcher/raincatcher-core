@@ -1,5 +1,4 @@
 // Interfaces
-export {Executor} from './executor/Executor';
 export {ProcessInstance} from './process-instance/ProcessInstance';
 export {Process} from './process/Process';
 export {Result} from './result/Result';

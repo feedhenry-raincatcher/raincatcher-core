@@ -14,7 +14,7 @@ describe('BaseTask', function() {
   describe('run', function() {
     it('should set the status to done', function() {
       task.run();
-      assert.strictEqual(task.getStatus(), TaskStatus.DONE);
+      assert.strictEqual(task.getStatus(), TaskStatus.Complete);
     });
   });
 });
