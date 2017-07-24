@@ -1,5 +1,5 @@
-import SyncServer, { SyncApi, SyncExpressMiddleWare, SyncOptions } from '@raincatcher/datasync-cloud';
+import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '@raincatcher/datasync-cloud';
 
 // Mount router at specific location
-const middleware: SyncExpressMiddleWare = new SyncExpressMiddleWare('/:datasetId');
+const middleware: SyncExpressMiddleware = new SyncExpressMiddleware('');
 export const router = middleware.createSyncExpressRouter();

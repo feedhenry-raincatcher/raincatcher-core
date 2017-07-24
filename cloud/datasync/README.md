@@ -18,7 +18,7 @@ Starting sync service  will monitor and process
 mew tasks are sent from sync clients
 
 ```typescript
-import SyncServer, { SyncApi, SyncExpressMiddleWare, SyncOptions } from '@raincatcher/datasync-cloud';
+import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '@raincatcher/datasync-cloud';
 const sync: SyncApi = SyncServer;
 
 // Connect sync
@@ -44,7 +44,7 @@ app.use(cors());
 // Use api path of your wish
 // Same endpoint needs to be configured in js client
 const path = '/sync/:datasetId';
-const middleware: SyncExpressMiddleWare = new SyncExpressMiddleWare();
+const middleware: SyncExpressMiddleware = new SyncExpressMiddleware();
 
 const router = middleware.createSyncExpressRouter();
 app.use('/', router);

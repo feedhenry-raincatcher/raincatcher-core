@@ -1,8 +1,11 @@
-import SyncServer, { SyncApi, SyncExpressMiddleWare, SyncOptions } from '@raincatcher/datasync-cloud';
+import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '@raincatcher/datasync-cloud';
 import * as Promise from 'bluebird';
+import appConfig from '../../util/config';
+import initData from './data';
 import { GlobalMongoDataHandler } from './MongoDataHandler';
 
 const sync = SyncServer;
+const config = appConfig.getConfig();
 
 // Enable sync debug logs
 process.env.DEBUG = 'fh-mbaas-api:sync';
@@ -26,13 +29,19 @@ export function connect() {
   return new Promise(function(resolve, reject) {
     sync.connect(connectOptions, function(err, mongo, redis) {
       if (err) {
+        console.error('Error when trying to connect to mongo and redis', err);
         return reject(err);
       }
       if (!mongo) {
         return reject('Missing mongo client');
       }
-      const handler = new GlobalMongoDataHandler(mongo);
-      handler.initGlobalHandlers();
+      if (config.sync.customDataHandlers) {
+        const handler = new GlobalMongoDataHandler(mongo);
+        handler.initGlobalHandlers();
+      }
+      if (config.sync.seedDemoData) {
+        initData(mongo);
+      }
       return resolve({ mongo, redis });
     });
   });

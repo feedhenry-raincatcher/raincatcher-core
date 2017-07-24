@@ -1,5 +1,5 @@
 import { logger } from '@raincatcher/logger';
-import SyncServer, { SyncApi, SyncExpressMiddleWare, SyncOptions } from '../src/index';
+import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '../src/index';
 
 const sync: SyncApi = SyncServer;
 
@@ -30,7 +30,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const middleware: SyncExpressMiddleWare = new SyncExpressMiddleWare('/sync/:datasetId');
+const middleware: SyncExpressMiddleware = new SyncExpressMiddleware('/sync/:datasetId');
 const router = middleware.createSyncExpressRouter();
 app.use('/', router);
 

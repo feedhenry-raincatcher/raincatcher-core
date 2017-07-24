@@ -6,7 +6,7 @@ import * as path from 'path';
 /**
  * Expose Feedhenry Sync API using express middleware
  */
-export class SyncExpressMiddleWare {
+export class SyncExpressMiddleware {
 
   private router: Express.Router;
   private prefix: string;
@@ -23,7 +23,8 @@ export class SyncExpressMiddleWare {
    * Create express router for sync endpoints
    */
   public createSyncExpressRouter() {
-    const apiURI = path.join(this.prefix + ':datasetId');
+    const apiURI = path.join(this.prefix + '/:datasetId');
+    logger.debug('Creating sync endpoint', apiURI);
     const syncRoute = this.router.route(apiURI);
 
     /**
@@ -48,7 +49,7 @@ export class SyncExpressMiddleWare {
     sync.invoke(datasetId, params, function(err: any, result: any) {
       if (err) {
         // tslint:disable-next-line:no-console
-        logger.error('Error when processing sync request', err, { tag: 'cloud:datasync:src:web'});
+        logger.error('Error when processing sync request', err, { tag: 'cloud:datasync:src:web' });
         return res.status(500).json(err);
       }
       return res.json(result);
@@ -56,4 +57,4 @@ export class SyncExpressMiddleWare {
   }
 }
 
-export default SyncExpressMiddleWare;
+export default SyncExpressMiddleware;

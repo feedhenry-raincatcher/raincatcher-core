@@ -1,5 +1,6 @@
 import { sync } from '@raincatcher/datasync-cloud';
-import { Db } from 'mongodb';
+import { logger } from '@raincatcher/logger';
+import { Db, ObjectID } from 'mongodb';
 
 /**
  * Initializes global mongodb data handlers for feedhenry sync
@@ -27,8 +28,9 @@ export class GlobalMongoDataHandler {
   public setupHandleList() {
     const self = this;
     sync.globalHandleList(function(datasetId, queryParams, metadata, cb) {
+      logger.debug('GlobalHandleList called', datasetId, queryParams);
       queryParams = queryParams || {};
-      const resultPromise = this.db.collection(datasetId).find(queryParams);
+      const resultPromise = self.db.collection(datasetId).find(queryParams);
       return resultPromise.toArray().then(function(list: any[]) {
         return cb(undefined, self.toObject(list));
       }).catch(cb);
@@ -62,7 +64,7 @@ export class GlobalMongoDataHandler {
   public setupHandleRead() {
     const self = this;
     sync.globalHandleRead(function(datasetId, uid, metadata, cb) {
-      self.db.collection(datasetId).findOne({ id: uid })
+      self.db.collection(datasetId).findOne({ '_id': self.convertToObjectId(datasetId, uid) })
         .then(function(result: any) {
           if (!result) {
             return cb(new Error('Missing result'));
@@ -76,7 +78,8 @@ export class GlobalMongoDataHandler {
   public setupHandleDelete() {
     const self = this;
     sync.globalHandleDelete(function(datasetId, uid, metadata, cb) {
-      self.db.collection(datasetId).deleteOne({ id: uid }).then(function(object: any) {
+      const id = self.convertToObjectId(datasetId, uid);
+      self.db.collection(datasetId).deleteOne({ '_id': id }).then(function(object: any) {
         return cb(undefined, object);
       }).catch(cb);
     });
@@ -106,5 +109,13 @@ export class GlobalMongoDataHandler {
     };
     delete res._id;
     return data;
+  }
+
+  private convertToObjectId(datasetId, originalId) {
+    const newObjectId = originalId;
+    if (ObjectID.isValid(originalId)) {
+      return new ObjectID(originalId);
+    }
+    return newObjectId;
   }
 }

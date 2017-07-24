@@ -6,8 +6,6 @@ import { DataManager } from '../src/DataManager';
 const $fh = { sync };
 const datasetId = 'UserTasks';
 
-const manager = new DataManager(datasetId);
-
 const options: sync.SyncOptions = {
   cloudUrl: 'http://localhost:3000',
   sync_frequency: 10,
@@ -25,6 +23,7 @@ const task: any = {
 };
 
 $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
+  const manager = new DataManager(datasetId);
   manager.create(task, function(err, data) {
     logger.info('Data Saved', data, { tag: 'client:datasync-client:example'});
     manager.list(function(error, result) {

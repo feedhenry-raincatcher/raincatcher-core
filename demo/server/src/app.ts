@@ -10,13 +10,14 @@ import * as path from 'path';
 import * as favicon from 'serve-favicon';
 import { securityMiddleware, setupModules } from './modules';
 import index from './user-routes/index';
-import EnvironmentConfig, { CloudAppConfig, Config } from './util/config';
+import appConfig from './util/config';
 
 const app: express.Express = express();
-const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
 const config = appConfig.getConfig();
 
-app.use(logger(config.morganOptions));
+if (config.morganOptions) {
+  app.use(logger(config.morganOptions));
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
