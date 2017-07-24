@@ -37,9 +37,8 @@ export interface ProcessInstance {
 }
 
 export function getAggregateStatus(process: ProcessInstance, getTaskById: (id: string) => Promise<Task>):
-Promise<TaskStatus> {
+Promise<TaskStatus | undefined> {
   return Promise.map(process.tasks, getTaskById)
     .then(tasks => tasks.map(t => t.status))
-    .then(statuses => min(statuses))
-    .then(status => status ? getRoundedStatus(status) : TaskStatus.New);
+    .then(statuses => min(statuses));
 }

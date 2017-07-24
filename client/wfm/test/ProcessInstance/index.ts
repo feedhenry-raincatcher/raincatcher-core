@@ -1,43 +1,53 @@
 import * as assert from 'assert';
-import {InstanceEventData, ProcessInstance} from '../../src/process-instance/ProcessInstance';
-import {ProcessInstanceImpl} from '../../src/process-instance/ProcessInstanceImpl';
-import {BaseTask} from '../../src/task/BaseTask';
+import * as Promise from 'bluebird';
+import { find } from 'lodash';
+import {getAggregateStatus, ProcessInstance} from '../../src/process-instance/ProcessInstance';
 import {Task, TaskStatus} from '../../src/task/Task';
 
-export function suite(instanceFactory: (seedData: Task[]) => ProcessInstance) {
-  describe('implementing ProcessInstance', function() {
-    let instance: ProcessInstance;
+function createSampleTask(id: string, status: TaskStatus) {
+  return {
+    id,
+    status,
+    assignee: 'trever',
+    name: 'Fixture Task',
+    code: 'FixtureTask',
+    processInstanceId: '1'
+  };
+}
+
+describe('ProcessInstance', function() {
+  describe('getAggregateStatus()', function() {
+    let instanceFixture: ProcessInstance;
+    let taskFixtures: Task[];
+    function getTaskFromFixtures(id: string) {
+      return Promise.resolve(find(taskFixtures, t => t.id === id) || taskFixtures[0]);
+    }
+
     beforeEach(function() {
-      instance = instanceFactory([
-        new BaseTask(),
-        new BaseTask(),
-        new BaseTask()
-      ]);
-    });
-    it('should contain a readonly async set of Tasks', function() {
-      return instance.getTasks()
-        .then(tasks => assert(Array.isArray(tasks)) && assert(tasks[0] instanceof BaseTask));
-    });
-
-    it('should keep an assignment to a single User', function() {
-      instance.assigneeId = 'trever';
-    });
-
-    it('nextTask() should fire events related to a change in the active Task', function(done) {
-      instance.on('taskChange', function(e) {
-        assert(e.instance === instance, 'Instance from event should be the same as the test fixture');
-        done();
-      });
-      instance.nextTask();
+      instanceFixture = {
+        id: '1',
+        assignee: 'trever',
+        process: '1',
+        title: 'test ProcessInstance',
+        comment: 'A ProcessInstance for unit testing',
+        tasks: ['1', '2', '3']
+      };
+      taskFixtures = [
+        createSampleTask('1', TaskStatus.New),
+        createSampleTask('2', TaskStatus['In Progress'])
+      ];
     });
 
-    it('should fire an event when all Tasks are done', function(done) {
-      instance.on('done', e => {
-        assert(e.instance === instance, 'Instance from event should be the same as the test fixture');
-        done();
-      });
-      instance.getTasks()
-        .each<Task, any>(task => task.updateStatus(TaskStatus.Complete));
+    it('should get the lowest status in the process\' tasks', function() {
+      return getAggregateStatus(instanceFixture, getTaskFromFixtures)
+        .then(status => assert.equal(status , TaskStatus.New));
+    });
+    it('should report undefined for no Tasks', function() {
+      instanceFixture.tasks = [];
+      taskFixtures = [];
+
+      return getAggregateStatus(instanceFixture, getTaskFromFixtures)
+        .then(status => assert.equal(status , undefined));
     });
   });
-}
+});

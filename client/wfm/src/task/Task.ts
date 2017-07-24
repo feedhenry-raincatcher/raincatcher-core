@@ -1,27 +1,6 @@
 import {EventEmitter} from 'eventemitter3';
 import {Result} from '../result/Result';
 
-export interface TaskEventData<T extends Task> {
-  /**
-   * The {@link Task} that triggered this event
-   */
-  task: T;
-  /**
-   * The previous {@link TaskStatus} of the {@link Task}
-   */
-  previousStatus: TaskStatus;
-  /**
-   * The current {@link TaskStatus} of the {@link Task}
-   */
-  currentStatus: TaskStatus;
-  /**
-   * The time when the status change happened
-   */
-  date: Date;
-}
-
-export type TaskEventHandler<T extends Task> = (e: TaskEventData<T>) => any;
-
 /**
  * Set of high-level status types, intended to have semantic meaning
  * for UI (color-coding, tips) and data (reporting and graphing).
@@ -54,7 +33,7 @@ export enum TaskStatus {
    */
   'On Hold' = 400,
   /**
-   * Indicates that the Task has finished in an unpredicted and unrecoverable state
+   * Indicates that the Task is in an unpredicted and unrecoverable state
    */
   'Aborted' = 500
 }
@@ -109,5 +88,7 @@ export function getRoundedStatus(task: Task | number): TaskStatus {
     status = task.status;
   }
   const roundedDownStatus = status - (status % 100);
-  return roundedDownStatus || TaskStatus.New;
+  // if the value is in the enum, return it, else default to Aborted
+  // see https://www.typescriptlang.org/docs/handbook/enums.html
+  return TaskStatus[roundedDownStatus] ? roundedDownStatus : TaskStatus.Aborted;
 }

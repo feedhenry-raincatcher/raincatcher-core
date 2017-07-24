@@ -2,7 +2,7 @@
 export {ProcessInstance} from './process-instance/ProcessInstance';
 export {Process} from './process/Process';
 export {Result} from './result/Result';
-export {Task, TaskStatus, TaskEventData} from './task/Task';
+export {Task, TaskStatus} from './task/Task';
 export {TaskDefinition} from './task-definition/TaskDefinition';
 
 // Implementations
