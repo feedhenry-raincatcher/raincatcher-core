@@ -1,27 +1,5 @@
 import {EventEmitter} from 'eventemitter3';
-import {JsonSchema} from '../JsonSchema';
 import {Result} from '../result/Result';
-
-export interface TaskEventData<T extends Task> {
-  /**
-   * The {@link Task} that triggered this event
-   */
-  task: T;
-  /**
-   * The previous {@link TaskStatus} of the {@link Task}
-   */
-  previousStatus: TaskStatus;
-  /**
-   * The current {@link TaskStatus} of the {@link Task}
-   */
-  currentStatus: TaskStatus;
-  /**
-   * The time when the status change happened
-   */
-  date: Date;
-}
-
-export type TaskEventHandler<T extends Task> = (e: TaskEventData<T>) => any;
 
 /**
  * Set of high-level status types, intended to have semantic meaning
@@ -37,27 +15,27 @@ export enum TaskStatus {
   /**
    * Indicates that the Task has been created and is unassigned
    */
-  'PENDING' = 0,
+  'New' = 0,
   /**
    * Indicates that the Task has been assigned to an executor and is pending initiation
    */
-  'ASSIGNED' = 100,
+  'Unassigned' = 100,
   /**
    * Indicates that the Task has begun being executed
    */
-  'IN_PROGRESS' = 200,
+  'In Progress' = 200,
   /**
    * Indicates that the Task has finished successfully
    */
-  'DONE' = 300,
+  'Complete' = 300,
   /**
    * Indicates that the Task has had its execution paused by a resolvable issue and can be resumed
    */
-  'BLOCKED' = 400,
+  'On Hold' = 400,
   /**
-   * Indicates that the Task has finished in an unpredicted and unrecoverable state
+   * Indicates that the Task is in an unpredicted and unrecoverable state
    */
-  'ERROR' = 500
+  'Aborted' = 500
 }
 
 /**
@@ -65,42 +43,52 @@ export enum TaskStatus {
  * Each task potentially has it's own, implementation-specific Result, and
  */
 export interface Task {
-  result?: Result;
-  updateStatus(to: TaskStatus | number): void;
   /**
-   * Gets the current status of the task, see {@link TaskStatus}
-   * should default to {@link TaskStatus.PENDING}
+   * Unique identifier for this {@link Task}
    */
-  getStatus(): TaskStatus | number;
+  id: string;
   /**
-   * Set of runtime configuration options
-   * This is intended to be rendered as a `<form>` in a front-end application
-   * for instance by utilizing http://schemaform.io/
+   * Current status, see {@link TaskStatus}
    */
-  getOptionsSchema(): JsonSchema;
+  status: TaskStatus | number;
   /**
-   * Sets an object that is compatible with the JsonSchema returned by {@link getOptionsSchema}
-   * Implementations are expected to provide validation
+   * The name of the type that provides the implementation logic for this Task
    */
-  setOptions(options: object): void;
+  code: string;
+  /**
+   * A descriptive name for displaying in the UI for this Task
+   */
+  name: string;
+  /**
+   * Assignee Id, can be left undefined for {@link Task}s that
+   * require no human interaction
+   */
+  assignee?: string;
+  /**
+   * Id of the {@link ProcessInstance} this {@link Task} belongs to
+   */
+  processInstanceId: string;
+  /**
+   * Options for configuring a custom {@link Task}
+   */
+  options?: object;
+}
 
-  /**
-   * Emitted when the task's status changes to a different value
-   */
-  on(event: 'statusChange', handler: TaskEventHandler<this>): this;
-
-  /**
-   * Implementation for the execution of the Task.
-   * Progress and results should be provided via events since they can involve human execution and
-   * other asynchronous out-of-process events
-   */
-  run(): void;
-
-  /**
-   * Returns the current Task's status, rounded down to the nearest TaskStatus
-   * (i.e. ignoring custom intermediate status)
-   */
-  getRoundedStatus(): TaskStatus;
-
-  // Step implementations would carry extra metadata needed for execution and UI
+/**
+ * Returns the current Task's status, rounded down to the nearest TaskStatus
+ * (i.e. ignoring custom intermediate status)
+ *
+ * @param task A {@link Task} or its status
+ */
+export function getRoundedStatus(task: Task | number): TaskStatus {
+  let status;
+  if (typeof task === 'number') {
+    status = task;
+  } else {
+    status = task.status;
+  }
+  const roundedDownStatus = status - (status % 100);
+  // if the value is in the enum, return it, else default to Aborted
+  // see https://www.typescriptlang.org/docs/handbook/enums.html
+  return TaskStatus[roundedDownStatus] ? roundedDownStatus : TaskStatus.Aborted;
 }

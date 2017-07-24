@@ -1,45 +1,34 @@
 import * as assert from 'assert';
-import {Task, TaskStatus} from '../../src/task/Task';
+import { getRoundedStatus, Task, TaskStatus } from '../../src/task/Task';
 
-export function suite(taskFactory: () => Task) {
-  describe('Task Interface', function() {
-    let task: Task;
-    beforeEach(function(){
-      task = taskFactory();
+describe('Task', function() {
+  describe('getRoundedStatus', function() {
+    let taskFixture: Task;
+    let driverNotFoundStatus: number;
+
+    beforeEach(function() {
+      taskFixture = {
+        id: '1',
+        status: TaskStatus.Unassigned,
+        assignee: 'trever',
+        name: 'Fixture Task',
+        code: 'FixtureTask',
+        processInstanceId: '1'
+      };
+      driverNotFoundStatus = 404; // above TaskStatus['On Hold'] === 400
     });
 
-    describe('#status property', function() {
-      it('should have a default status of PENDING', function() {
-        assert.strictEqual(task.getStatus(), TaskStatus.PENDING);
-      });
-      it('should emit a statusChange event when set', function(done) {
-        task.on('statusChange', e => {
-          assert.strictEqual(e.task.getStatus(), TaskStatus.DONE);
-          assert.strictEqual(e.currentStatus, TaskStatus.DONE);
-          assert.strictEqual(e.previousStatus, TaskStatus.PENDING);
-          done();
-        });
-        task.updateStatus(TaskStatus.DONE);
-      });
-      it('should not emit a statusChange event when set to the same value', function(done) {
-        task.on('statusChange', () => done('expected event not to be emitted'));
-        task.updateStatus(task.getStatus());
-        done();
-      });
+    it('should ignore custom statuses', function() {
+      taskFixture.status = driverNotFoundStatus;
+      assert.equal(getRoundedStatus(taskFixture), TaskStatus['On Hold']);
     });
-    describe('#getStatus', function() {
-      it('should round a custom status number to a value on the TaskStatus enum', function() {
-        const customStatus = TaskStatus.IN_PROGRESS + 1;
-        task.updateStatus(customStatus);
-        assert.strictEqual(task.getRoundedStatus(), TaskStatus.IN_PROGRESS);
-      });
+    it('should accept numbers', function() {
+      assert.equal(getRoundedStatus(driverNotFoundStatus), TaskStatus['On Hold']);
     });
-    describe('#getOptionSchema', function() {
-      it('should return the predefined JsonSchema object');
-    });
-    describe('#setOptions', function() {
-      it('should allow a valid set of options on top of the schema');
-      it('should not allow an invalid set of options on top of the schema');
+    it(`should default to TaskStatus.Aborted when the status isn't known` , function() {
+      const bogusStatus = -123;
+      taskFixture.status = bogusStatus;
+      assert.equal(getRoundedStatus(taskFixture), TaskStatus.Aborted);
     });
   });
-}
+});
