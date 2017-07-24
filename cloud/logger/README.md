@@ -23,6 +23,6 @@ Import the your logger implementation and the Logger interface to be used.
 
 ```
 
-See `./integration/index.ts` for usage
+See `./example/index.ts` for usage
 
 
