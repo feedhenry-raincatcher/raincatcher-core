@@ -92,8 +92,8 @@ export class GlobalMongoDataHandler {
    */
   private toObject(array: any) {
     const data: any = {};
-    array.forEach(function extractUidAndData(value: any) {
-      const uid = value._id.toString();
+    array.forEach(function(value: any) {
+      const uid = value.id;
       delete value._id;
       data[uid] = value;
     });
