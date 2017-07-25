@@ -6,6 +6,8 @@ import { Db, ObjectID } from 'mongodb';
  * Initializes global mongodb data handlers for feedhenry sync
  * This class override default data handlers in sync to provide more flexible way of handling data.
  * @see https://github.com/feedhenry/fh-sync/blob/master/lib/default-dataHandlers.js
+ *
+ * In this datahandler we migrating from ObjectId identifiers to client generated ids.
  */
 export class GlobalMongoDataHandler {
   /**
@@ -64,7 +66,7 @@ export class GlobalMongoDataHandler {
   public setupHandleRead() {
     const self = this;
     sync.globalHandleRead(function(datasetId, uid, metadata, cb) {
-      self.db.collection(datasetId).findOne({ '_id': self.convertToObjectId(datasetId, uid) })
+      self.db.collection(datasetId).findOne({ 'id': uid})
         .then(function(result: any) {
           if (!result) {
             return cb(new Error('Missing result'));
@@ -78,8 +80,7 @@ export class GlobalMongoDataHandler {
   public setupHandleDelete() {
     const self = this;
     sync.globalHandleDelete(function(datasetId, uid, metadata, cb) {
-      const id = self.convertToObjectId(datasetId, uid);
-      self.db.collection(datasetId).deleteOne({ '_id': id }).then(function(object: any) {
+      self.db.collection(datasetId).deleteOne({ 'id': uid }).then(function(object: any) {
         return cb(undefined, object);
       }).catch(cb);
     });
@@ -91,8 +92,8 @@ export class GlobalMongoDataHandler {
    */
   private toObject(array: any) {
     const data: any = {};
-    array.forEach(function extractUidAndData(value: any) {
-      const uid = value._id.toString();
+    array.forEach(function(value: any) {
+      const uid = value.id;
       delete value._id;
       data[uid] = value;
     });
@@ -104,18 +105,10 @@ export class GlobalMongoDataHandler {
    */
   private makeResponse(res: any) {
     const data = {
-      uid: res._id.toString(),
+      uid: res.id,
       data: res
     };
     delete res._id;
     return data;
-  }
-
-  private convertToObjectId(datasetId, originalId) {
-    const newObjectId = originalId;
-    if (ObjectID.isValid(originalId)) {
-      return new ObjectID(originalId);
-    }
-    return newObjectId;
   }
 }

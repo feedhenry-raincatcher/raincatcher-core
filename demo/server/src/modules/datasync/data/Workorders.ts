@@ -51,7 +51,7 @@ const workorders = [
     summary: 'Please remove damaged item'
   }, {
     id: 'SyVXyMuSr',
-    workflowId: 'B1r71fOBr',
+    workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     type: 'Job Order',
     title: 'Road in disrepair',
@@ -62,7 +62,7 @@ const workorders = [
     location: [49.277026, -123.118487],
     summary: 'Please remove damaged item'
   }, {
-    id: 'B1r71fOBr',
+    id: 'SyVXyMuSr',
     workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     type: 'Job Order',
@@ -148,7 +148,7 @@ const workorders = [
   }, {
     id: 'SJEXaso8r',
     workflowId: 'SyVXyMuSr',
-    assignee: 'B1r71fOBr',
+    assignee: 'SyVXyMuSr',
     type: 'Job Order',
     title: 'Window in disrepair',
     status: 'New',
