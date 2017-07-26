@@ -14,6 +14,16 @@ import appConfig from './util/config';
 
 const app: express.Express = express();
 const config = appConfig.getConfig();
+let corsConfig = {};
+if (!config.keycloakConfig) {
+  const dynamicOrigin = function(origin, callback) {
+    callback(null, true);
+  };
+  corsConfig = {
+    origin: dynamicOrigin,
+    credentials: true
+  };
+}
 
 if (config.morganOptions) {
   app.use(logger(config.morganOptions));
@@ -23,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
-app.use(cors());
+app.use(cors(corsConfig));
 
 app.engine('hbs', expressHbs());
 app.set('view engine', 'hbs');

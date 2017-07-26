@@ -80,9 +80,9 @@ export class PassportAuth implements EndpointSecurity {
       if (!req.isAuthenticated()) {
         if (req.session) {
           // Used for redirecting to after a successful login when option successReturnToOrRedirect is defined.
-          req.session.returnTo = req.originalUrl;
+          req.session.returnTo = req.headers.referer;
         }
-        return res.redirect(this.loginRoute);
+        return res.status(401).send();
       }
 
       const hasRole = role ? this.userService.hasResourceRole(req.user, role) : true;
