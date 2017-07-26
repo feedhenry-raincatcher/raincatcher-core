@@ -50,7 +50,7 @@ const workorders = [
     location: [49.280396, -123.125868],
     summary: 'Please remove damaged item'
   }, {
-    id: 'SyVXyMuSr',
+    id: '3ycX4MuSr',
     workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     type: 'Job Order',
@@ -62,7 +62,7 @@ const workorders = [
     location: [49.277026, -123.118487],
     summary: 'Please remove damaged item'
   }, {
-    id: 'SyVXyMuSr',
+    id: '1ycX3guvr',
     workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     type: 'Job Order',
@@ -87,7 +87,7 @@ const workorders = [
     summary: 'Please remove damaged item'
   }, {
     id: 'BJwQJfdrH',
-    workflowId: 'HJ8QkzOSH',
+    workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     type: 'Job Order',
     title: 'Roof in disrepair',
@@ -136,7 +136,7 @@ const workorders = [
   }, {
     id: 'ryMXaos8S',
     workflowId: 'SyVXyMuSr',
-    assignee: 'SyVXyMuSr',
+    assignee: 'BJQm1G_BS',
     type: 'Job Order',
     title: 'Tub in disrepair',
     status: 'New',
@@ -144,18 +144,6 @@ const workorders = [
     finishTimestamp: '',
     address: '555 W 12th Ave, Vancouver, BC V5Z 3X7',
     location: [49.260662, -123.116599],
-    summary: 'Please remove damaged item'
-  }, {
-    id: 'SJEXaso8r',
-    workflowId: 'SyVXyMuSr',
-    assignee: 'SyVXyMuSr',
-    type: 'Job Order',
-    title: 'Window in disrepair',
-    status: 'New',
-    startTimestamp: '',
-    finishTimestamp: '',
-    address: '1502 E Hastings St, Vancouver, BC V5L 1S5',
-    location: [49.281159, -123.073855],
     summary: 'Please remove damaged item'
   }, {
     id: 'H1H76ij8r',
