@@ -76,17 +76,18 @@ export class PassportAuth implements EndpointSecurity {
    * @param role - Role which the user needs in order to access this resource
    */
   public protect(role?: string) {
+    const self = this;
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
       if (!req.isAuthenticated()) {
         if (req.session) {
           // Used for redirecting to after a successful login when option successReturnToOrRedirect is defined.
-          req.session.returnTo = req.originalUrl;
+          req.session.returnTo = self.setReturnToUrl(req);
         }
-        return res.redirect(this.loginRoute);
+        return res.status(401).send();
       }
 
       const hasRole = role ? this.userService.hasResourceRole(req.user, role) : true;
-      return hasRole ? next() : this.accessDenied(req, res);
+      return hasRole ? next() : self.accessDenied(req, res);
     };
   }
 
@@ -109,8 +110,18 @@ export class PassportAuth implements EndpointSecurity {
    * Handler for access denied responses in the event that a user is not authorized to access
    * a resource. This method can be overridden to provide a custom access denied handler
    */
-  public accessDenied(req: express.Request, res: express.Response) {
+  protected accessDenied(req: express.Request, res: express.Response) {
     res.status(403).send();
+  }
+
+  /**
+   * Sets the url to return to after successful login.
+   * This method can be overridden to provide a custom URL to return to
+   *
+   * @param returnToUrl - location to redirect to after a successful login
+   */
+  protected setReturnToUrl(req: express.Request) {
+    return req.headers.referer || req.originalUrl;
   }
 
   /**

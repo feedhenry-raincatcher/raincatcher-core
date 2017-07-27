@@ -15,18 +15,31 @@ export function init(app: express.Express) {
   return authService;
 }
 
-function createRoutes(router: express.Express, auth: PassportAuth) {
+function createRoutes(router: express.Express, authService: PassportAuth) {
   router.get('/login', (req: express.Request, res: express.Response) => {
-    res.render('login', {
+    if (req.session) {
+      req.session.returnTo = req.headers.referer;
+    }
+    return res.render('login', {
       title: 'Feedhenry Workforce Management'
     });
   });
 
-  router.post('/login', auth.authenticate('/', '/loginError'));
+  router.post('/login', authService.authenticate('/', '/loginError'));
 
   router.get('/loginError', (req: express.Request, res: express.Response) => {
       return res.render('login', {
         title: 'Feedhenry Workforce Management',
         message: 'Invalid credentials'});
+  });
+
+  router.get('/profile', authService.protect(), (req: express.Request, res: express.Response) => {
+    res.json(req.user);
+  });
+
+  router.get('/logout', (req: express.Request, res: express.Response) => {
+    req.session.destroy(function(err) {
+      res.status(200).send();
+    });
   });
 }
