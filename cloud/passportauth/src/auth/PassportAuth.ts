@@ -80,7 +80,7 @@ export class PassportAuth implements EndpointSecurity {
       if (!req.isAuthenticated()) {
         if (req.session) {
           // Used for redirecting to after a successful login when option successReturnToOrRedirect is defined.
-          req.session.returnTo = req.headers.referer;
+          req.session.returnTo = this.setReturnToUrl(req);
         }
         return res.status(401).send();
       }
@@ -111,6 +111,16 @@ export class PassportAuth implements EndpointSecurity {
    */
   public accessDenied(req: express.Request, res: express.Response) {
     res.status(403).send();
+  }
+
+  /**
+   * Sets the url to return to after successful login.
+   * This method can be overridden to provide a custom URL to return to
+   *
+   * @param returnToUrl - location to redirect to after a successful login
+   */
+  protected setReturnToUrl(req: express.Request) {
+    return req.headers.referer || req.originalUrl;
   }
 
   /**
