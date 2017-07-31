@@ -5,13 +5,6 @@
     "customDataHandlers": true,
     "seedDemoData": true
   },
-  "keycloakConfig": {
-    "realm": "raincatcher",
-    "auth-server-url": "http://localhost:8080/auth",
-    "ssl-required": "external",
-    "resource": "raincatcher-cloud",
-    "public-client": true
-  },
   "bunyanConfig": {
     "name": "Demo application",
     "level": "debug"
