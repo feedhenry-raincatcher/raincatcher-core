@@ -1,4 +1,5 @@
 import { PassportAuth, UserRepository, UserService } from '@raincatcher/auth-passport';
+import { logger } from '@raincatcher/logger';
 import * as express from 'express';
 import sessionOpts from '../sessionOpts';
 
@@ -38,8 +39,16 @@ function createRoutes(router: express.Express, authService: PassportAuth) {
   });
 
   router.get('/logout', (req: express.Request, res: express.Response) => {
-    req.session.destroy(function(err) {
-      res.status(200).send();
-    });
+    if (req.session) {
+      return req.session.destroy(function(err) {
+        if (err) {
+          logger.error(err);
+          return res.status(500).end();
+        }
+        return res.status(200).end();
+      });
+    }
+    logger.warn('No session found on GET /logout, responding with HTTP status 200');
+    return res.status(200).end();
   });
 }
