@@ -1,10 +1,5 @@
-// Interfaces
-export {ProcessInstance} from './process-instance/ProcessInstance';
-export {Process} from './process/Process';
-export {Result} from './result/Result';
-export {Task, TaskStatus} from './task/Task';
-export {TaskDefinition} from './task-definition/TaskDefinition';
-
-// Implementations
-export {BooleanResult} from './result/BooleanResult';
-export {UrlResult} from './result/UrlResult';
+export {WorkOrder} from './workorder/WorkOrder';
+export {WorkFlow} from './workflow/WorkFlow';
+export {WorkOrderResult} from './result/WorkOrderResult';
+export {StepResult} from './result/StepResult';
+export {Step} from './step/Step';

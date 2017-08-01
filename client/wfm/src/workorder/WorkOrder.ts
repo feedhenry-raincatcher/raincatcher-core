@@ -1,14 +1,19 @@
 import * as Promise from 'bluebird';
 import { min } from 'lodash';
-import { getRoundedStatus, Task, TaskStatus } from '../task/Task';
+
+type LatLng = [number, number];
+
 /**
  * The executable instance of a {@link Process}
  */
-export interface ProcessInstance {
+export interface WorkOrder {
   /**
    * Unique identifier for this ProcessInstance
    */
   id: string;
+
+  type: string;
+
   /**
    * Id for the {@link User} responsible for the execution of this {@link ProcessInstance}
    * Can be empty if the no tasks require human interaction
@@ -18,7 +23,7 @@ export interface ProcessInstance {
   /**
    * Id for the {@link Process} that originated this {@link ProcessInstance}
    */
-  process: string;
+  workflowId: string;
 
   /**
    * Display name for this {@link ProcessInstance}
@@ -28,17 +33,16 @@ export interface ProcessInstance {
   /**
    * Longer description for this {@link ProcessInstance}
    */
-  comment: string;
+  summary: string;
 
-  /**
-   * Ordered list of ids for the {@link Task}s
-   */
-  tasks: string[];
-}
+  status: string;
 
-export function getAggregateStatus(process: ProcessInstance, getTaskById: (id: string) => Promise<Task>):
-Promise<TaskStatus | undefined> {
-  return Promise.map(process.tasks, getTaskById)
-    .then(tasks => tasks.map(t => t.status))
-    .then(statuses => min(statuses));
+  startTimestamp?: Date | string;
+
+  finishTimestamp?: Date | string;
+
+  address?: string;
+
+  location: LatLng;
+
 }
