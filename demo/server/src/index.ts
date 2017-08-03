@@ -34,7 +34,7 @@ function onError(error: any) {
     throw error;
   }
   if (error.code === 'EADDRINUSE') {
-    logger.error(error.port + ' port number is already in use', { tag: 'demo:server:src' });
+    logger.error(error.port + ' port number is already in use');
     return process.exit(1);
   }
   throw error;
@@ -45,5 +45,5 @@ function onError(error: any) {
  */
 function onListening() {
   const addr = server.address();
-  logger.info('Listening on ' + addr.port, { tag: 'demo:server:src' });
+  logger.info('Listening on ' + addr.port);
 }

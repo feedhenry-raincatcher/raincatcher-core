@@ -30,7 +30,6 @@ export class GlobalMongoDataHandler {
   public setupHandleList() {
     const self = this;
     sync.globalHandleList(function(datasetId, queryParams, metadata, cb) {
-      logger.debug('GlobalHandleList called', datasetId, queryParams);
       queryParams = queryParams || {};
       const resultPromise = self.db.collection(datasetId).find(queryParams);
       return resultPromise.toArray().then(function(list: any[]) {

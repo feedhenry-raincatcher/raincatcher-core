@@ -63,10 +63,10 @@ app.get('/logout', (req: express.Request, res: express.Response) => {
 });
 
 app.use(function(err: any, req: express.Request, res: express.Response, next: any) {
-  logger.error(err, { tag: 'cloud:passportauth:example'});
+  logger.error(err);
   res.status(500).send(err);
 });
 
 app.listen(3000, function() {
-  logger.info('Example auth app listening on port 3000', { tag: 'cloud:passportauth:example'});
+  logger.info('Example auth app listening on port 3000');
 });
