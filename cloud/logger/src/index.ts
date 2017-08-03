@@ -1,9 +1,15 @@
 import { BunyanLogger } from './BunyanLogger';
-import { ConsoleLogger } from './ConsoleLogger';
-import { Logger } from './Logger';
-import { logger, setLogger } from './LoggerManager';
+import { ClientLogger } from './ClientLogger';
+import { EmptyLogger, Logger } from './Logger';
 
-export { Logger } from  './Logger';
-export { BunyanLogger } from  './BunyanLogger';
-export { ConsoleLogger } from './ConsoleLogger';
-export { logger, setLogger } from './LoggerManager';
+export { Logger } from './Logger';
+export { BunyanLogger } from './BunyanLogger';
+export { ClientLogger } from './ClientLogger';
+
+let logger: Logger = new EmptyLogger();
+
+function setLogger(userLogger: Logger) {
+  logger = userLogger;
+}
+
+export { logger, setLogger };

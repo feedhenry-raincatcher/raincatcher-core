@@ -1,7 +1,7 @@
 {
   "name": "@raincatcher/logger",
   "version": "1.0.0",
-  "description": "NPM package for logger in RainCatcher project",
+  "description": "Logger facade used by RainCatcher modules",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
