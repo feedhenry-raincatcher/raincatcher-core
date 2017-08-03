@@ -2,7 +2,6 @@
 'use strict';
 
 import * as chai from 'chai';
-import * as sinon from 'sinon';
 import { BunyanLogger } from '../src/BunyanLogger';
 const expect = chai.expect;
 
