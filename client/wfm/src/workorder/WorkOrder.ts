@@ -1,10 +1,11 @@
 import * as Promise from 'bluebird';
 import { min } from 'lodash';
+import { STATUS } from '../status';
 
 type LatLng = [number, number];
 
 /**
- * The executable instance of a {@link Process}
+ * The executable instance of a {@link WorkFlow}
  */
 export interface WorkOrder {
   /**
@@ -12,16 +13,14 @@ export interface WorkOrder {
    */
   id: string;
 
-  type: string;
-
   /**
-   * Id for the {@link User} responsible for the execution of this {@link ProcessInstance}
-   * Can be empty if the no tasks require human interaction
+   * Id for the {@link User} responsible for the execution of this {@link WorkOrder}
+   * Can be empty if there are no {@link Step}s require human interaction
    */
   assignee?: string;
 
   /**
-   * Id for the {@link Process} that originated this {@link ProcessInstance}
+   * Id for the {@link WorkFlow} that originated this {@link WorkOrder}
    */
   workflowId: string;
 
@@ -35,14 +34,16 @@ export interface WorkOrder {
    */
   summary: string;
 
-  status: string;
+  /**
+   * Status of the progression of the {@link WorkOrder}
+   *
+   * @see STATUS
+   */
+  status: STATUS | string;
 
-  startTimestamp?: Date | string;
-
-  finishTimestamp?: Date | string;
-
-  address?: string;
-
-  location: LatLng;
-
+  /**
+   * Container for extra metadata for this {@link WorkOrder}, such as timestamps,
+   * physical location for execution of work, etc.
+   */
+  data: object;
 }
