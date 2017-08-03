@@ -3,7 +3,9 @@ import Logger from './Logger';
 
 /**
  * Default logger implementation for server side code using bunyan.
- * For more inmessageion about logging and setup please refer to bunyan documentation.
+ * For more information about logging methods please refer to bunyan documentation.
+ *
+ * @see Logger
  */
 export class BunyanLogger implements Logger {
   public logger: bunyan;
