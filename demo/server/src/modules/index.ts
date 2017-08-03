@@ -1,5 +1,5 @@
 import { EndpointSecurity } from '@raincatcher/auth-passport';
-import { logger } from '@raincatcher/logger';
+import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
 import appConfig from '../util/config';
 import { connect as syncConnector } from './datasync/Connector';
@@ -42,8 +42,8 @@ function syncSetup(app: express.Express) {
   app.use('/sync', syncRouter);
   // Connect sync
   syncConnector().then(function() {
-    logger.info('Sync started');
+    getLogger().info('Sync started');
   }).catch(function(err: any) {
-    logger.error('Failed to initialize sync', err);
+    getLogger().error('Failed to initialize sync', err);
   });
 }

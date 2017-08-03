@@ -8,8 +8,20 @@ export { ClientLogger } from './ClientLogger';
 
 let logger: Logger = new EmptyLogger();
 
+/**
+ * Set global logger to be used by all RainCatcher modules
+ */
 function setLogger(userLogger: Logger) {
   logger = userLogger;
 }
 
-export { logger, setLogger };
+/**
+ * Get global logger implementation.
+ *
+ * @see setLogger - to setup your logger first
+ */
+function getLogger() {
+  return logger;
+}
+
+export { getLogger, setLogger };

@@ -1,4 +1,5 @@
 import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '@raincatcher/datasync-cloud';
+import { getLogger } from '@raincatcher/logger';
 import * as Promise from 'bluebird';
 import appConfig from '../../util/config';
 import initData from './data';
@@ -29,7 +30,7 @@ export function connect() {
   return new Promise(function(resolve, reject) {
     sync.connect(connectOptions, function(err, mongo, redis) {
       if (err) {
-        console.error('Error when trying to connect to mongo and redis', err);
+        getLogger().error('Error when trying to connect to mongo and redis', { err });
         return reject(err);
       }
       if (!mongo) {

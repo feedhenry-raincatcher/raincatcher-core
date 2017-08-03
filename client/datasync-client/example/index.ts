@@ -1,7 +1,8 @@
-import { logger } from '@raincatcher/logger';
+import { getLogger } from '@raincatcher/logger';
 import * as sync from 'fh-sync-js';
 import { DataManager } from '../src/DataManager';
 
+const logger = getLogger();
 // Provide backwards compatibility with documentation and examples
 const $fh = { sync };
 const datasetId = 'UserTasks';

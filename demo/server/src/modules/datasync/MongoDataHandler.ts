@@ -1,5 +1,4 @@
 import { sync } from '@raincatcher/datasync-cloud';
-import { logger } from '@raincatcher/logger';
 import { Db, ObjectID } from 'mongodb';
 
 /**

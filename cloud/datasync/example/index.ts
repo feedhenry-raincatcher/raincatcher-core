@@ -1,6 +1,7 @@
-import { logger } from '@raincatcher/logger';
+import { getLogger } from '@raincatcher/logger';
 import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '../src/index';
 
+const logger = getLogger();
 const sync: SyncApi = SyncServer;
 
 // Connect sync

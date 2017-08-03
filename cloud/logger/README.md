@@ -19,16 +19,13 @@ Implements [LogLevel](https://github.com/pimterry/loglevel)
 Used for client (web and mobile) logging
 
 ```typescript
-  import {BunyanLogger, logger} from '@raincatcher/logger';
+  // Setup logger in your application
+  import {BunyanLogger, getLogger} from '@raincatcher/logger';
   const log = new BunyanLogger({name: 'index'});;
   setLogger(log);
-  logger.info('This log will render with BunyanLogger');
 
+  // Use logger in other modules
+  getLogger().info('This log will render with BunyanLogger');
 ```
 
 See `./example/index.ts` for more advanced usages
-
-
-
-
-

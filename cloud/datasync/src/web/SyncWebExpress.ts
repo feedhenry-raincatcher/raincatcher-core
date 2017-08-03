@@ -1,8 +1,8 @@
-import { logger } from '@raincatcher/logger';
+import { getLogger } from '@raincatcher/logger';
 import * as Express from 'express';
 import * as sync from 'fh-sync';
 import * as path from 'path';
-
+const logger = getLogger();
 /**
  * Expose Feedhenry Sync API using express middleware
  */
