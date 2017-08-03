@@ -30,11 +30,6 @@ export interface WorkOrder {
   title: string;
 
   /**
-   * Longer description for this {@link ProcessInstance}
-   */
-  summary: string;
-
-  /**
    * Status of the progression of the {@link WorkOrder}
    *
    * @see STATUS
