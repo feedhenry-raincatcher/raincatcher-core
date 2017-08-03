@@ -1,6 +1,7 @@
-import { logger } from '@raincatcher/logger';
+import { getLogger } from '@raincatcher/logger';
 import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '../src/index';
 
+const logger = getLogger();
 const sync: SyncApi = SyncServer;
 
 // Connect sync
@@ -15,7 +16,7 @@ const connectOptions: SyncOptions = {
 
 sync.connect(connectOptions, function(err) {
   if (err) {
-    logger.error(err, { tag: 'cloud:datasync:example'});
+    logger.error(err);
   }
 });
 
@@ -35,8 +36,7 @@ const router = middleware.createSyncExpressRouter();
 app.use('/', router);
 
 app.listen(3000, function() {
-  logger.info('Example app listening on port 3000!',
-    { tag: 'cloud:datasync:example'});
+  logger.info('Example app listening on port 3000!');
 });
 // If you wish to see logs;
 process.env.DEBUG = 'fh-mbaas-api:sync';

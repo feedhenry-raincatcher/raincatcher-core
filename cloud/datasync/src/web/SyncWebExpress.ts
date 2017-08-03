@@ -1,8 +1,8 @@
-import { logger } from '@raincatcher/logger';
+import { getLogger } from '@raincatcher/logger';
 import * as Express from 'express';
 import * as sync from 'fh-sync';
 import * as path from 'path';
-
+const logger = getLogger();
 /**
  * Expose Feedhenry Sync API using express middleware
  */
@@ -49,7 +49,7 @@ export class SyncExpressMiddleware {
     sync.invoke(datasetId, params, function(err: any, result: any) {
       if (err) {
         // tslint:disable-next-line:no-console
-        logger.error('Error when processing sync request', err, { tag: 'cloud:datasync:src:web' });
+        logger.error('Error when processing sync request', { err });
         return res.status(500).json(err);
       }
       return res.json(result);

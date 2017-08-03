@@ -1,5 +1,4 @@
 import { sync } from '@raincatcher/datasync-cloud';
-import { logger } from '@raincatcher/logger';
 import { Db, ObjectID } from 'mongodb';
 
 /**
@@ -30,7 +29,6 @@ export class GlobalMongoDataHandler {
   public setupHandleList() {
     const self = this;
     sync.globalHandleList(function(datasetId, queryParams, metadata, cb) {
-      logger.debug('GlobalHandleList called', datasetId, queryParams);
       queryParams = queryParams || {};
       const resultPromise = self.db.collection(datasetId).find(queryParams);
       return resultPromise.toArray().then(function(list: any[]) {

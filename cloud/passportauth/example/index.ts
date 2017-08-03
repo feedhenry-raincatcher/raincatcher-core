@@ -1,4 +1,4 @@
-import { logger } from '@raincatcher/logger';
+import { getLogger } from '@raincatcher/logger';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
@@ -63,10 +63,10 @@ app.get('/logout', (req: express.Request, res: express.Response) => {
 });
 
 app.use(function(err: any, req: express.Request, res: express.Response, next: any) {
-  logger.error(err, { tag: 'cloud:passportauth:example'});
+  getLogger().error(err);
   res.status(500).send(err);
 });
 
 app.listen(3000, function() {
-  logger.info('Example auth app listening on port 3000', { tag: 'cloud:passportauth:example'});
+  getLogger().info('Example auth app listening on port 3000');
 });

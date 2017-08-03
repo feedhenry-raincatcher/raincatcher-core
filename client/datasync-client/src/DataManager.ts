@@ -1,3 +1,4 @@
+import { getLogger } from '@raincatcher/logger';
 import * as syncApi from 'fh-sync-js';
 import * as _ from 'lodash';
 
@@ -8,10 +9,10 @@ import * as _ from 'lodash';
  * See https://tinyurl.com/yc5q3rj3
  */
 export class DataManager {
-
   public datasetId: string;
 
   constructor(datasetId: string) {
+    getLogger().info('Creating DataManager for dataset: ' + datasetId);
     this.datasetId = datasetId;
   }
 
