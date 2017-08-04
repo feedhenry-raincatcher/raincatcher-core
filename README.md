@@ -1,14 +1,39 @@
-# RainCatcher
+
+![Logo](img/logo-blue.png)
+> Workforce management platform
 
 [![Build Status](https://travis-ci.org/feedhenry-raincatcher/raincatcher-core.svg?branch=master)](https://travis-ci.org/feedhenry-raincatcher/raincatcher-core) [![Coverage Status](https://coveralls.io/repos/github/feedhenry-raincatcher/raincatcher-core/badge.svg?branch=master)](https://coveralls.io/github/feedhenry-raincatcher/raincatcher-core?branch=master)
 
-Feedhenry RainCatcher Core Repository
-
 ## About RainCatcher
 
-## Developing
+RainCatcher is an Workforce Management platform with main focus on delivering set of modules and user interface for mobile developers trying to integrate WFM features into their application.
 
-RainCatcher supports and is tested on Node.JS@4 and should run on latest LTS.
+RainCatcher consist of the multiple layers:
+
+- **Workforce Management framework** that provides mobile and website framework for building
+Workforce management solutions on top of all supported user interfaces.
+- **Set of modules** specific to Workforce management (signatures, scheduler etc.)
+- **WFM specific integrations** to provide authentication, storage, offline capabilities and server side synchronization.
+- **User interface** implemented in AngularJS and Angular
+
+Main targets:
+
+- Hybrid mobile development using TypeScript(cordova/web/angular)
+- Node.js based server
+- Fully object oriented approach (classes and interfaces)
+- Focus on reusability and developer flexibility
+- All modules in single repository, multiple choice for user interfaces as separate repositories
+- Comprehensive documentation
+- Incorporates only open-source technologies
+
+## Getting Started
+
+To run demo application please follow instructions from
+our [Reference User Interface](https://github.com/feedhenry-raincatcher/raincatcher-angularjs) repository.
+
+## Developing core components
+
+RainCatcher supports and is tested on node v 6.x LTS.
 
 Check your Node.JS version running `node -v`
 
@@ -17,9 +42,8 @@ Check your Node.JS version running `node -v`
 ```bash
 git clone https://github.com/feedhenry-raincatcher/raincatcher-core.git
 cd raincatcher-core
-npm install -g lerna
 npm install
-lerna bootstrap
+npm bootstrap
 ```
 
 ## Repository folder structure
