@@ -6,6 +6,9 @@ import { STATUS } from '../status';
 import { Step } from '../step/Step';
 import { WorkFlow } from '../workflow/WorkFlow';
 import { WorkOrder } from '../workorder/WorkOrder';
+import { DataService } from './DataService';
+import { ResultService } from './ResultService';
+import { UserService } from './UserService';
 
 interface CompleteStepParams {
   /** The ID of the workorder to complete the step for */
@@ -18,7 +21,12 @@ interface CompleteStepParams {
 
 export class WfmService {
 
-  constructor(protected workorderService, protected workflowService, protected resultService, protected userService) {
+  constructor(
+    protected workorderService: DataService<WorkOrder>,
+    protected workflowService: DataService<WorkFlow>,
+    protected resultService: ResultService,
+    protected userService: UserService
+  ) {
   }
 
   /**
@@ -53,8 +61,8 @@ export class WfmService {
   }
 
   /**
-   * Getting a summary of the workflow.
-   * This wiil get all of the details related to the workorder, including workflow and result data.
+   * Gets a summary of the workflow.
+   * This will get all of the details related to the workorder, including workflow and result data.
    *
    * @param {string} workorderId - The ID of the workorder to get the summary for.
    * @return {{workflow: Workflow, workorder: Workorder, result: Result}}
@@ -99,7 +107,7 @@ export class WfmService {
       }
 
       // -1 is a special value for 'no next step'
-      result.nextStepIndex = _.max([result.nextStepIndex - 1, -1]);
+      result.nextStepIndex = _.max([result.nextStepIndex - 1, -1]) || -1; // _.max returns `number?`
 
       return self.resultService.update(result).then(function() {
         return {
@@ -129,18 +137,16 @@ export class WfmService {
         if (!workorderResult) {
           // No result exists, The workflow should have been started
           return Promise.reject(new Error('No result exists for workorder ' + workorderId +
-          '. The workflow done topic can only be used for a workflow that has begun'));
+            '. The workflow done topic can only be used for a workflow that has begun'));
         }
 
-        const step = _.find(workflow.steps, function(step) {
-          return step.code === stepCode;
-        });
+        const step = _.find(workflow.steps, s => s.code === stepCode);
 
         // If there is no step, then this step submission is invalid.
         if (!step) {
           // No result exists, The workflow should have been started
           return Promise.reject(new Error('Invalid step to assign completed data for workorder ' + workorderId +
-          ' and step code ' + stepCode));
+            ' and step code ' + stepCode));
         }
 
         // Got the workflow, now we can create the step result.
