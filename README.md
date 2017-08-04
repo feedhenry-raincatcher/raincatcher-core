@@ -6,9 +6,9 @@
 
 ## About RainCatcher
 
-RainCatcher is an Workforce Management platform with main focus on delivering set of modules and user interface for mobile developers trying to integrate WFM features into their application.
+RainCatcher is a Workforce Management platform with the main focus on delivering a set of modules and user interface for mobile developers who would like to integrate WFM features into their application.
 
-RainCatcher consist of the multiple layers:
+RainCatcher consist of the following layers:
 
 - **Workforce Management framework** that provides mobile and website framework for building
 Workforce management solutions on top of all supported user interfaces.
@@ -16,7 +16,7 @@ Workforce management solutions on top of all supported user interfaces.
 - **WFM specific integrations** to provide authentication, storage, offline capabilities and server side synchronization.
 - **User interface** implemented in AngularJS and Angular
 
-Main targets:
+### Main targets:
 
 - Hybrid mobile development using TypeScript(cordova/web/angular)
 - Node.js based server
@@ -43,7 +43,7 @@ Check your Node.JS version running `node -v`
 git clone https://github.com/feedhenry-raincatcher/raincatcher-core.git
 cd raincatcher-core
 npm install
-npm bootstrap
+npm run bootstrap
 ```
 
 ## Repository folder structure
