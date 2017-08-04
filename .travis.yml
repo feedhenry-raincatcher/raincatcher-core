@@ -9,7 +9,7 @@ services:
 script:
 - npm run bootstrap
 - npm run lint
-- npm test
+- npm run test-ci
 cache:
   directories:
     - node_modules

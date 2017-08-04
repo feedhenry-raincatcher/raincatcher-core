@@ -6,6 +6,7 @@
   "author": "feedhenry-raincatcher@redhat.com",
   "license": "Apache-2.0",
   "scripts": {
+    "clean": "del coverage_report",
     "test": "nyc mocha",
     "debug": "node --inspect-brk node_modules/.bin/_mocha",
     "debug-legacy": "mocha --debug-brk"
@@ -14,6 +15,11 @@
     "include": [
       "lib/**/*.js"
     ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "report-dir": "coverage_report",
     "check-coverage": true,
     "lines": 75,
     "functions": 100,
@@ -23,6 +29,7 @@
     "@raincatcher/example-base": "1.0.0"
   },
   "devDependencies": {
+    "del-cli": "^1.0.0",
     "mocha": "^3.4.2",
     "source-map-support": "^0.4.15",
     "nyc": "^11.0.1"
