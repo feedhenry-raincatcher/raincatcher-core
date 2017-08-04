@@ -23,6 +23,11 @@
     "require": [
       "ts-node/register"
     ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "report-dir": "../../coverage_report/client-cloud-logger",
     "check-coverage": true,
     "lines": 75,
     "functions": 100,
