@@ -42,9 +42,12 @@ export class WfmService {
    */
   public beginWorkflow(workorderId) {
     return this.workorderSummary(workorderId).then(summary => {
-      const workorder = summary.workorder;
-      const workflow = summary.workflow;
-      const res = summary.result || this.createNewResult(workorderId, workorder.assignee);
+      if (summary.result) {
+        console.warn(`beginWorkflow() called on already started workflow with id: ${workorderId},`
+        + ` ignoring existing result`);
+      }
+      const { workorder, workflow } = summary;
+      const res = this.createNewResult(workorderId, workorder.assignee);
 
       // When the result has been read/created, then we can move on.
       return Promise.resolve(res).then(result => {
