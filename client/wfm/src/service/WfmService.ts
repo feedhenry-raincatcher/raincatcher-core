@@ -19,6 +19,12 @@ interface CompleteStepParams {
   stepCode: string;
 }
 
+interface Summary {
+  workflow: WorkFlow;
+  workorder: WorkOrder;
+  result: WorkOrderResult;
+}
+
 export class WfmService {
 
   constructor(
@@ -68,23 +74,12 @@ export class WfmService {
    * @return {{workflow: Workflow, workorder: Workorder, result: Result}}
    * An object containing all the major entities related to the workorder
    */
-  public workorderSummary(workorderId) {
-    const self = this;
+  public workorderSummary(workorderId): Promise<Summary> {
     return this.workorderService.read(workorderId)
-      .then(function(workorder) {
-        return Promise.all([
-          self.workflowService.read(workorder.workflowId),
-          self.resultService.readByWorkorder(workorderId)
-        ]).then(function(response) {
-          const workflow = response[0];
-          const result = response[1];
-          return {
-            workflow,
-            workorder,
-            result
-          };
-        });
-      });
+      .then(workorder => Promise.all([
+        this.workflowService.read(workorder.workflowId),
+        this.resultService.readByWorkorder(workorderId)
+      ]).then(([workflow, result]) => ({ workflow, workorder, result })));
   }
 
   /**
@@ -109,15 +104,14 @@ export class WfmService {
       // -1 is a special value for 'no next step'
       result.nextStepIndex = _.max([result.nextStepIndex - 1, -1]) || -1; // _.max returns `number?`
 
-      return self.resultService.update(result).then(function() {
-        return {
+      return self.resultService.update(result)
+        .then(() => ({
           workorder,
           workflow,
           result,
           nextStepIndex: result.nextStepIndex,
           step: result.nextStepIndex > -1 ? workflow.steps[result.nextStepIndex] : null
-        };
-      });
+        }));
     });
   }
 
@@ -128,52 +122,49 @@ export class WfmService {
     const workorderId = parameters.workorderId;
     const stepCode = parameters.stepCode;
     const submission = parameters.submission;
-    return this.userService.readUser().then(profileData => {
-      return this.workorderSummary(workorderId).then(summary => {
-        const workorder = summary.workorder;
-        const workflow = summary.workflow;
-        const workorderResult = summary.result;
+    return Promise.all([
+      this.userService.readUser().then(profileData => profileData.id),
+      this.workorderSummary(workorderId)
+    ]).then(([userId, summary]) => {
+      const { workorder, workflow, result } = summary;
 
-        if (!workorderResult) {
-          // No result exists, The workflow should have been started
-          return Promise.reject(new Error('No result exists for workorder ' + workorderId +
-            '. The workflow done topic can only be used for a workflow that has begun'));
-        }
+      if (!result) {
+        // No result exists, The workflow should have been started
+        return Promise.reject(new Error('No result exists for workorder ' + workorderId +
+          '. The workflow done topic can only be used for a workflow that has begun'));
+      }
 
-        const step = _.find(workflow.steps, s => s.code === stepCode);
+      const step = _.find(workflow.steps, s => s.code === stepCode);
 
-        // If there is no step, then this step submission is invalid.
-        if (!step) {
-          // No result exists, The workflow should have been started
-          return Promise.reject(new Error('Invalid step to assign completed data for workorder ' + workorderId +
-            ' and step code ' + stepCode));
-        }
+      // If there is no step, then this step submission is invalid.
+      if (!step) {
+        // No result exists, The workflow should have been started
+        return Promise.reject(new Error('Invalid step to assign completed data for workorder ' + workorderId +
+          ' and step code ' + stepCode));
+      }
 
-        // Got the workflow, now we can create the step result.
-        const stepResult = {
-          step,
-          submission,
-          status: STATUS.COMPLETE,
-          timestamp: new Date().getTime(),
-          submitter: profileData.id
-        };
+      // Got the workflow, now we can create the step result.
+      const stepResult = {
+        step,
+        submission,
+        status: STATUS.COMPLETE,
+        timestamp: new Date().getTime(),
+        submitter: userId
+      };
 
-        // The result needs to be updated with the latest step results
-        workorderResult.stepResults = workorderResult.stepResults || {};
-        workorderResult.stepResults[step.code] = stepResult;
-        workorderResult.status = this.checkStatus(workorder, workflow, workorderResult);
-        workorderResult.nextStepIndex = this.executeStepReview(workflow.steps, workorderResult).nextStepIndex;
+      // The result needs to be updated with the latest step results
+      result.stepResults = result.stepResults || {};
+      result.stepResults[step.code] = stepResult;
+      result.status = this.checkStatus(workorder, workflow, result);
+      result.nextStepIndex = this.executeStepReview(workflow.steps, result).nextStepIndex;
 
-        return this.resultService.update(workorderResult).then(function() {
-          return {
-            workorder,
-            workflow,
-            result: workorderResult,
-            nextStepIndex: workorderResult.nextStepIndex,
-            step: workorderResult.nextStepIndex > -1 ? workflow.steps[workorderResult.nextStepIndex] : workflow.steps[0]
-          };
-        });
-      });
+      return this.resultService.update(result).then(() => ({
+        workorder,
+        workflow,
+        result,
+        nextStepIndex: result.nextStepIndex,
+        step: result.nextStepIndex > -1 ? workflow.steps[result.nextStepIndex] : workflow.steps[0]
+      }));
     });
   }
 
