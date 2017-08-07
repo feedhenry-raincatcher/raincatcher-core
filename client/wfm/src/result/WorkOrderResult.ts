@@ -16,12 +16,6 @@ export interface WorkOrderResult {
   status: STATUS | string;
 
   /**
-   * Index of the next {@link Step} the {@link WorkOrder} should progress to after completion of the current one.
-   * This allows for skipping or returning to a previous one.
-   */
-  nextStepIndex: number;
-
-  /**
    * Identifier of the related {@link WorkOrder}
    */
   workorderId: string;
