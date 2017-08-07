@@ -6,9 +6,9 @@
 
 ## About RainCatcher
 
-RainCatcher is a Workforce Management platform with the main focus on delivering a set of modules and user interface for mobile developers who would like to integrate WFM features into their application.
+RainCatcher is a Workforce Management platform with the main focus on delivering a set of modules and user interface for mobile developers who want to integrate WFM features into their application.
 
-RainCatcher consist of the following layers:
+RainCatcher can be divided into following areas:
 
 - **Workforce Management framework** that provides mobile and website framework for building
 Workforce management solutions on top of all supported user interfaces.
