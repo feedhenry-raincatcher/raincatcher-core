@@ -25,15 +25,7 @@ export interface CompleteStepParams {
 /**
  * The return value of one of the operations that change the active {@link Step} of a {@link WorkOrder}
  */
-export interface StepOperationData {
-  workorder: WorkOrder;
-  workflow: WorkFlow;
-  result: WorkOrderResult;
-  /**
-   * Index of the next {@link Step} the {@link WorkOrder} should progress to after completion of the current one.
-   * This allows for skipping or returning to a previous one.
-   */
-  nextStepIndex: number;
+export interface StepOperationData extends Summary {
   step: Step;
 }
 
@@ -44,6 +36,11 @@ export interface Summary {
   workflow: WorkFlow;
   workorder: WorkOrder;
   result: WorkOrderResult;
+  /**
+   * Index of the next {@link Step} the {@link WorkOrder} should progress to after completion of the current one.
+   * This allows for skipping or returning to a previous one.
+   */
+  nextStepIndex: number;
 }
 
 export class WfmService {
@@ -61,30 +58,27 @@ export class WfmService {
    *
    * @param {string} workorderId - The ID of the workorder to begin the workflow for.
    */
-  public beginWorkflow(workorderId) {
+  public beginWorkflow(workorderId): Promise<StepOperationData> {
     return this.workorderSummary(workorderId).then(summary => {
       if (summary.result) {
         console.warn(`beginWorkflow() called on already started workflow with id: ${workorderId},`
           + ` ignoring existing result`);
       }
-      const { workorder, workflow } = summary;
-      const res = this.createNewResult(workorderId, workorder.assignee);
+      const { workorder, workflow, nextStepIndex } = summary;
+      return this.createNewResult(workorderId, workorder.assignee)
+        .then(result => {
+          // Now we check the current status of the workflow to see where the next step should be.
+          result.status = this.checkStatus(workorder, workflow, result);
 
-      // When the result has been read/created, then we can move on.
-      return Promise.resolve(res).then(result => {
-        // Now we check the current status of the workflow to see where the next step should be.
-        const { nextStepIndex } = this.executeStepReview(workflow.steps, result);
-        result.status = this.checkStatus(workorder, workflow, result);
-
-        // We now have the current status of the workflow for this workorder, the begin step is now complete.
-        return {
-          workorder,
-          workflow,
-          result,
-          nextStepIndex,
-          step: nextStepIndex > -1 ? workflow.steps[nextStepIndex] : workflow.steps[0]
-        };
-      });
+          // We now have the current status of the workflow for this workorder, the begin step is now complete.
+          return {
+            workorder,
+            workflow,
+            result,
+            nextStepIndex,
+            step: nextStepIndex > -1 ? workflow.steps[nextStepIndex] : workflow.steps[0]
+          };
+        });
     });
   }
 
@@ -101,7 +95,12 @@ export class WfmService {
       .then(workorder => Promise.all([
         this.workflowService.read(workorder.workflowId),
         this.resultService.readByWorkorder(workorderId)
-      ]).then(([workflow, result]) => ({ workflow, workorder, result })));
+      ]).then(([workflow, result]) => ({
+        workflow,
+        workorder,
+        result,
+        nextStepIndex: this.executeStepReview(workflow.steps, result).nextStepIndex
+      })));
   }
 
   /**
@@ -113,9 +112,8 @@ export class WfmService {
   public previousStep(workorderId): Promise<StepOperationData> {
     const self = this;
     return this.workorderSummary(workorderId).then(summary => {
-      const workorder = summary.workorder;
-      const workflow = summary.workflow;
-      const result = summary.result;
+      const { workorder, workflow, result } = summary;
+      let { nextStepIndex } = summary;
 
       if (!result) {
         // No result exists, The workflow should have been started
@@ -124,7 +122,6 @@ export class WfmService {
       }
 
       // -1 is a special value for 'no next step'
-      let { nextStepIndex } = this.executeStepReview(workflow.steps, result);
       nextStepIndex = _.max([nextStepIndex - 1, -1]) || -1; // _.max returns `number?`
 
       return self.resultService.update(result)
@@ -149,7 +146,7 @@ export class WfmService {
       this.userService.readUser().then(profileData => profileData.id),
       this.workorderSummary(workorderId)
     ]).then(([userId, summary]) => {
-      const { workorder, workflow, result } = summary;
+      const { workorder, workflow, result, nextStepIndex } = summary;
 
       if (!result) {
         // No result exists, The workflow should have been started
@@ -179,7 +176,6 @@ export class WfmService {
       result.stepResults = result.stepResults || {};
       result.stepResults[step.code] = stepResult;
       result.status = this.checkStatus(workorder, workflow, result);
-      const { nextStepIndex } = this.executeStepReview(workflow.steps, result);
 
       return this.resultService.update(result).then(() => ({
         workorder,
