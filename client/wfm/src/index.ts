@@ -3,3 +3,8 @@ export { WorkFlow } from './workflow/WorkFlow';
 export { WorkOrderResult } from './result/WorkOrderResult';
 export { StepResult } from './result/StepResult';
 export { Step } from './step/Step';
+export { STATUS } from './status';
+export { WfmService } from './service/WfmService';
+export { ResultService } from './service/ResultService';
+export { UserService } from './service/UserService';
+export { DataService } from './service/DataService';
