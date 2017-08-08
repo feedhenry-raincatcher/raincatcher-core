@@ -1,8 +1,7 @@
 import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '@raincatcher/datasync-cloud';
 import { getLogger } from '@raincatcher/logger';
 import * as Promise from 'bluebird';
-import appConfig from '../../util/config';
-import initData from './data';
+import appConfig from '../../util/Config';
 import { GlobalMongoDataHandler } from './MongoDataHandler';
 
 const sync = SyncServer;
@@ -39,9 +38,6 @@ export function connect() {
       if (config.sync.customDataHandlers) {
         const handler = new GlobalMongoDataHandler(mongo);
         handler.initGlobalHandlers();
-      }
-      if (config.sync.seedDemoData) {
-        initData(mongo);
       }
       return resolve({ mongo, redis });
     });

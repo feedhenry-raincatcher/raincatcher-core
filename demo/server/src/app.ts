@@ -10,7 +10,7 @@ import * as path from 'path';
 import * as favicon from 'serve-favicon';
 import { securityMiddleware, setupModules } from './modules';
 import index from './user-routes/index';
-import appConfig from './util/config';
+import appConfig from './util/Config';
 
 const app: express.Express = express();
 const config = appConfig.getConfig();
@@ -51,9 +51,6 @@ app.set('view engine', 'hbs');
 
 setupModules(app);
 app.use('/', index);
-app.use('/test', securityMiddleware.protect(), index);
-app.use('/testAdmin', securityMiddleware.protect('admin'), index);
-app.use('/testUser', securityMiddleware.protect('admin'), index);
 
 app.use((req: express.Request, res: express.Response, next) => {
   const err: any = new Error('Not Found');
@@ -73,5 +70,4 @@ errHandler = (err: any, req: express.Request, res: express.Response, next: () =>
 };
 
 app.use(errHandler);
-
 export default app;

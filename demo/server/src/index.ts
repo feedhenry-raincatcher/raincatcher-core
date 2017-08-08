@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 import { BunyanLogger, getLogger, setLogger } from '@raincatcher/logger';
-import appConfig from './util/config';
+import appConfig from './util/Config';
 const config = appConfig.getConfig();
 setLogger(new BunyanLogger(config.bunyanConfig));
 import * as http from 'http';

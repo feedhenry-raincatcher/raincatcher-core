@@ -1,8 +1,8 @@
 import * as express from 'express';
 import * as session from 'express-session';
 
-import appConfig from '../../util/config';
-import sessionOpts from '../sessionOpts';
+import appConfig from '../../util/Config';
+import sessionOpts from '../SessionOptions';
 
 // tslint:disable-next-line:no-var-requires
 const Keycloak = require('keycloak-connect');
