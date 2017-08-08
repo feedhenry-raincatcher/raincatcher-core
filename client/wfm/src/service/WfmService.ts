@@ -38,7 +38,7 @@ export interface Summary {
   result: WorkOrderResult;
   /**
    * Index of the next {@link Step} the {@link WorkOrder} should progress to after completion of the current one.
-   * This allows for skipping or returning to a previous one.
+   * This allows for skipping or returning to a previous {@link Step}.
    */
   nextStepIndex: number;
 }
@@ -104,7 +104,6 @@ export class WfmService {
   }
 
   /**
-   *
    * Going to the previous step of a workorder.
    *
    * @param workorderId - The ID of the workorder to switch to the previous step for
