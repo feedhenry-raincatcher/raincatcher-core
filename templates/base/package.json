@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "main": "src/",
   "scripts": {
-    "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
+    "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
     "start": "ts-node src/index.ts",
     "test": "npm run clean && nyc mocha"
@@ -22,6 +22,11 @@
     "require": [
       "ts-node/register"
     ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "report-dir": "coverage_report",
     "check-coverage": true,
     "lines": 75,
     "functions": 100,
@@ -39,3 +44,4 @@
     "typescript": "^2.3.4"
   }
 }
+

@@ -1,4 +1,4 @@
-import { logger } from '@raincatcher/logger';
+import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
 import * as session from 'express-session';
 import { SessionOptions } from 'express-session';
@@ -61,7 +61,7 @@ export class PassportAuth implements EndpointSecurity {
    * @param sessionOpts - Session options to be used by express-session
    */
   public init(app: express.Express, sessionOpts: SessionOptions) {
-    logger.info('Initializing express app to use express session and passport', {tag: 'cloud:passportauth:src:auth'});
+    getLogger().info('Initializing express app to use express session and passport');
     app.use(session(sessionOpts));
     app.use(passport.initialize());
     app.use(passport.session());
@@ -76,17 +76,18 @@ export class PassportAuth implements EndpointSecurity {
    * @param role - Role which the user needs in order to access this resource
    */
   public protect(role?: string) {
+    const self = this;
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
       if (!req.isAuthenticated()) {
         if (req.session) {
           // Used for redirecting to after a successful login when option successReturnToOrRedirect is defined.
-          req.session.returnTo = req.originalUrl;
+          req.session.returnTo = self.setReturnToUrl(req);
         }
-        return res.redirect(this.loginRoute);
+        return res.status(401).send();
       }
 
       const hasRole = role ? this.userService.hasResourceRole(req.user, role) : true;
-      return hasRole ? next() : res.status(403).send();
+      return hasRole ? next() : self.accessDenied(req, res);
     };
   }
 
@@ -103,6 +104,24 @@ export class PassportAuth implements EndpointSecurity {
       failureRedirect: errorRedirect,
       successReturnToOrRedirect: defaultRedirect
     });
+  }
+
+  /**
+   * Handler for access denied responses in the event that a user is not authorized to access
+   * a resource. This method can be overridden to provide a custom access denied handler
+   */
+  protected accessDenied(req: express.Request, res: express.Response) {
+    res.status(403).send();
+  }
+
+  /**
+   * Sets the url to return to after successful login.
+   * This method can be overridden to provide a custom URL to return to
+   *
+   * @param returnToUrl - location to redirect to after a successful login
+   */
+  protected setReturnToUrl(req: express.Request) {
+    return req.headers.referer || req.originalUrl;
   }
 
   /**

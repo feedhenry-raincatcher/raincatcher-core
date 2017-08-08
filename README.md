@@ -1,4 +1,7 @@
 # RainCatcher
+
+[![Build Status](https://travis-ci.org/feedhenry-raincatcher/raincatcher-core.svg?branch=master)](https://travis-ci.org/feedhenry-raincatcher/raincatcher-core) [![Coverage Status](https://coveralls.io/repos/github/feedhenry-raincatcher/raincatcher-core/badge.svg?branch=master)](https://coveralls.io/github/feedhenry-raincatcher/raincatcher-core?branch=master)
+
 Feedhenry RainCatcher Core Repository
 
 ## About RainCatcher

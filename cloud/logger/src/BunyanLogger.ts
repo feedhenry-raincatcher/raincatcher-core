@@ -1,6 +1,12 @@
 import * as bunyan from 'bunyan';
 import Logger from './Logger';
 
+/**
+ * Default logger implementation for server side code using bunyan.
+ * For more information about logging methods please refer to bunyan documentation.
+ *
+ * @see Logger
+ */
 export class BunyanLogger implements Logger {
   public logger: bunyan;
 
@@ -8,21 +14,35 @@ export class BunyanLogger implements Logger {
     this.logger = bunyan.createLogger(options);
   }
 
-  public debug(format: any, ...params: any[]): void {
-    this.logger.debug(format, params);
+  public debug(message: string, options?: any): void {
+    if (options) {
+      this.logger.debug(options, message);
+    } else {
+      this.logger.debug(message);
+    }
   }
 
-  public error(format: any, ...params: any[]): void {
-    this.logger.error(format, params);
+  public error(message: string, options?: any): void {
+    if (options) {
+      this.logger.error(options, message);
+    } else {
+      this.logger.error(message);
+    }
   }
 
-  public info(format: any, ...params: any[]): void {
-    this.logger.info(format, params);
+  public info(message: string, options?: any): void {
+    if (options) {
+      this.logger.info(options, message);
+    } else {
+      this.logger.info(message);
+    }
   }
 
-  public warn(format: any, ...params: any[]): void {
-    this.logger.warn(format, params);
+  public warn(message: string, options?: any): void {
+    if (options) {
+      this.logger.warn(options, message);
+    } else {
+      this.logger.warn(message);
+    }
   }
 }
-
-export default BunyanLogger;

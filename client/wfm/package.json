@@ -25,6 +25,11 @@
       "ts-node/register",
       "source-map-support/register"
     ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "report-dir": "../../coverage_report/client-wfm",
     "produce-source-map": true,
     "check-coverage": false,
     "lines": 75,

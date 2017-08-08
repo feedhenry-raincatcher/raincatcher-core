@@ -5,13 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "lerna run test",
+    "test-ci": "npm-run-all test coverage:*",
+    "coverage:create-file": "echo '' > ./coverage_report/coverage_merged.info",
+    "coverage:merge-reports": "lcov-result-merger './coverage_report/*/lcov.info' './coverage_report/coverage_merged.info'",
+    "coverage:upload-coveralls": "cat ./coverage_report/coverage_merged.info | coveralls",
     "cleanInstall": "lerna exec npm install --ignore-scripts",
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start  --parallel --stream --scope=@raincatcher/demo-*",
     "docs": "lerna exec -- typedoc --out docs/ --excludePrivate",
     "lint": "tslint '*/*/src/**/*.ts' '*/*/test/**/*.ts'",
     "build": "lerna run build",
-    "clean": "lerna run clean"
+    "clean": "npm-run-all clean:*",
+    "clean:coverage": "del coverage_report",
+    "clean:packages": "lerna run clean"
   },
   "repository": {
     "type": "git",
@@ -24,8 +30,13 @@
   },
   "homepage": "https://github.com/feedhenry-raincatcher/raincatcher#readme",
   "devDependencies": {
+    "coveralls": "^2.13.1",
+    "del-cli": "^1.0.0",
+    "lcov-result-merger": "^1.2.0",
     "lerna": "^2.0.0-rc.5",
+    "npm-run-all": "^4.0.2",
     "tslint": "^5.4.3",
     "typescript": "^2.3.4"
-  }
+  },
+  "dependencies": {}
 }

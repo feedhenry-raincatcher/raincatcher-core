@@ -97,32 +97,36 @@ describe('Test Passport Auth', function() {
     });
   });
 
-  it('should redirect to the login route if user was not authenticated', function() {
+  it('should send a status of 401 if the user was not authenticated', function() {
     mockReq = {
       isAuthenticated: sinon.stub().returns(false),
-      originalUrl: 'testUrlToReturnTo'
+      headers: {
+        referer: 'testUrlToReturnTo'
+      }
     };
     testSubject.protect()(mockReq as express.Request, mockRes as express.Response, mockNext);
 
     sinon.assert.notCalled(mockNext);
-    sinon.assert.calledOnce(mockRes.redirect);
+    sinon.assert.calledOnce(mockRes.status);
     sinon.assert.calledOnce(mockReq.isAuthenticated);
-    sinon.assert.calledWith(mockRes.redirect, loginRoute);
+    sinon.assert.calledWith(mockRes.status, 401);
   });
 
   it('should assign a url to return to in session if session was defined', function() {
     mockReq = {
       isAuthenticated: sinon.stub().returns(false),
       session: {},
-      originalUrl: 'testUrlToReturnTo'
+      headers: {
+        referer: 'testUrlToReturnTo'
+      }
     };
     testSubject.protect()(mockReq as express.Request, mockRes as express.Response, mockNext);
 
     sinon.assert.notCalled(mockNext);
-    sinon.assert.calledOnce(mockRes.redirect);
+    sinon.assert.calledOnce(mockRes.status);
     sinon.assert.calledOnce(mockReq.isAuthenticated);
-    sinon.assert.calledWith(mockRes.redirect, loginRoute);
-    sinon.match.has(mockReq.session.returnTo, mockReq.url);
+    sinon.assert.calledWith(mockRes.status, 401);
+    sinon.match.has(mockReq.session.returnTo, mockReq.headers.referer);
   });
 
   it('should call next if the user was authenticated and the route was not protected by a role', function() {

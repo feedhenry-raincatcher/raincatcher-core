@@ -1,11 +1,12 @@
 {
-    "morganOptions": null,
-    "logStackTraces": true,
-    "keycloakConfig": {
-      "realm": "raincatcher",
-      "auth-server-url": "http://localhost:8080/auth",
-      "ssl-required": "external",
-      "resource": "raincatcher-cloud",
-      "public-client": true
-    }
+  "morganOptions": null,
+  "logStackTraces": true,
+  "sync":{
+    "customDataHandlers": true,
+    "seedDemoData": true
+  },
+  "bunyanConfig": {
+    "name": "Demo application",
+    "level": "debug"
+  }
 }

@@ -1,20 +1,18 @@
-import { BunyanLogger, ConsoleLogger, Logger, logger, setLogger } from '../src/index';
+// npm run example
+import { BunyanLogger, ClientLogger, getLogger, Logger, setLogger } from '../src/index';
 
-// by default logger is turned off
-logger.info('This should not render', { orthis: 'will not return' });
-logger.error('This should not render', { orthis: 'will not return' });
-logger.debug('This should not render', { orthis: 'will not return' });
-logger.warn('This should not render', { orthis: 'will not return' });
-
-// you can instantiate the default logger with any Logger implementation to change the global logger
-const log = new BunyanLogger({name: 'index', level: 'trace'});
-
+// In application
+const log = new BunyanLogger({ name: 'index', level: 'debug' });
 setLogger(log);
+
+// In other module
+const logger = getLogger();
+
 logger.info('This log will render with BunyanLogger');
+logger.debug('debug logger message');
+logger.error('error logger message', { customField: 1 });
 
-// constructor accept bunyan options. Please refer to https://www.npmjs.com/package/bunyan
-
-log.debug('debug logger message\n', {testObject: 'debug'}, {anything: 'anything'});
-log.error('error logger message\n', {testObject: 'error'});
-log.info('info logger message\n', {testObject: 'info'});
-log.warn('warn logger message\n', {testObject: 'warn'});
+// change the logger to console
+setLogger(new ClientLogger(LogLevel.INFO));
+logger.info('ClientLogger info level');
+logger.info('ClientLogger info level ', { customField: 1 });
