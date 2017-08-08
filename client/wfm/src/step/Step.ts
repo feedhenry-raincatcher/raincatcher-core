@@ -6,6 +6,9 @@ export interface Step {
    * Code that matches the identifier of the module that should handle the execution of this {@link Step}
    */
   code: string;
+  /**
+   * Short name intended to be displayed in the User Interface
+   */
   name: string;
   /**
    * Options object that act as runtime parameters for the execution of this {@link Step}

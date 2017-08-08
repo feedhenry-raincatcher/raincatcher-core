@@ -1,5 +1,5 @@
 /**
- * List of available status for available for {@link WorkOrder}s and their individual {@link Step}s
+ * List of available status for {@link WorkOrder}s and their individual {@link Step}s
  */
 export enum STATUS {
   /** Required actions have all been executed */

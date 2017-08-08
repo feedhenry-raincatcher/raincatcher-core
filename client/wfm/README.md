@@ -1,6 +1,6 @@
 ## RainCatcher WFM
 
-RainCatcher **W**ork**F**low **M**anagement module is an TypeScript implementation for a equivalent subset of the [BPMN specification](http://www.bpmn.org/).
+RainCatcher **W**ork**F**low **M**anagement module is an TypeScript implementation for an equivalent subset of the [BPMN specification](http://www.bpmn.org/).
 
 This module allows users to map business process into an organized set of tasks that can be built by developers to suit business needs.
 
@@ -14,7 +14,7 @@ The WFM module consists of a set of TypeScript interfaces and implementations fo
 * `StepResult`: the output of the execution of a `Step`
 * `WorkOrderResult`: The tracking of the progress of a `WorkOrder`
 
-THe classes are framework-agnostic, allowing developers to focus on the implementation of Business Process on top of any new or existing solution.
+The classes are framework-agnostic, allowing developers to focus on the implementation of Business Process on top of any new or existing solution.
 
 ## Getting Started
 

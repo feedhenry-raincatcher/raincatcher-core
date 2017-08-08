@@ -1,12 +1,11 @@
-import {Step} from '../step/Step';
-import {WorkOrder} from '../workorder/WorkOrder';
+import { Step } from '../step/Step';
+import { WorkOrder } from '../workorder/WorkOrder';
 
 /**
- * Definition holder for a linear set of {@link Task}s
- * Intended to be instantiated as a {@link ProcessInstance} in order to be executed
+ * Definition holder for a linear set of {@link Step}s
  */
 export interface WorkFlow {
-  /** Unique identifier for this {@link Process} */
+  /** Unique identifier for this {@link WorkFlow} */
   id: string;
   /** Short description for the User Interface */
   title: string;
