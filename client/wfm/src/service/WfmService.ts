@@ -76,7 +76,7 @@ export class WfmService {
             workflow,
             result,
             nextStepIndex,
-            step: nextStepIndex > -1 ? workflow.steps[nextStepIndex] : workflow.steps[0]
+            step: this.getNextStep(nextStepIndex, workflow);
           };
         });
     });
@@ -129,7 +129,7 @@ export class WfmService {
           workflow,
           result,
           nextStepIndex,
-          step: nextStepIndex > -1 ? workflow.steps[nextStepIndex] : null
+          step: this.getNextStep(nextStepIndex, workflow)
         }));
     });
   }
@@ -181,7 +181,7 @@ export class WfmService {
         workflow,
         result,
         nextStepIndex,
-        step: nextStepIndex > -1 ? workflow.steps[nextStepIndex] : workflow.steps[0]
+        step: this.getNextStep(nextStepIndex, workflow)
       }));
     });
   }
@@ -221,6 +221,10 @@ export class WfmService {
       nextStepIndex,
       complete // false means some steps are "pending"
     };
+  }
+
+  protected getNextStep(index: number, workflow: WorkFlow): Step {
+    return index > -1 ? workflow.steps[index] : workflow.steps[0];
   }
 
   /**

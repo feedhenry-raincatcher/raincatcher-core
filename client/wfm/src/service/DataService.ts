@@ -10,7 +10,7 @@ export interface DataService<T> {
   /**
    * Retrieves a single item per id
    */
-  read(id: string): Promise<T>;
+  read(id: string): Promise<T | undefined>;
   /**
    * Creates a new item in the underlying storage
    * @param item The item to create

@@ -40,5 +40,5 @@ export interface WorkOrder {
    * Container for extra metadata for this {@link WorkOrder}, such as timestamps,
    * physical location for execution of work, etc.
    */
-  data: object;
+  data?: object;
 }
