@@ -7,8 +7,8 @@ import { steps } from './MockStepData';
 const fixtures: WorkOrderResult[] = [
   {
     assignee: 'trever',
-    id: '1',
-    workorderId: '1',
+    id: 'completeWorkOrderResult',
+    workorderId: 'completeWorkOrder',
     stepResults: {
       'vehicle-inspection': {
         step: steps[0],
@@ -27,7 +27,7 @@ const fixtures: WorkOrderResult[] = [
 ];
 class MockResultService extends MockDataService<WorkOrderResult> implements ResultService {
   public readByWorkorder(workorderId) {
-    return Promise.resolve(find(this.data, item => item.id === workorderId));
+    return Promise.resolve(find(this.data, item => item.workorderId === workorderId));
   }
 }
 const mockWorkorderResultService = new MockResultService(fixtures);

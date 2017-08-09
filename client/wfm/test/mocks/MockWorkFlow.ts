@@ -5,12 +5,12 @@ import { steps } from './MockStepData';
 
 const fixtures: WorkFlow[] = [
   {
-    id: '1',
+    id: 'singleStepWorkFlow',
     title: 'Vehicle Inspection Form',
     steps: [steps[0]]
   },
   {
-    id: '1',
+    id: 'multiStepWorkFlow',
     title: 'Vehicle Inspection Form',
     steps
   }

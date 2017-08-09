@@ -35,7 +35,7 @@ export interface StepOperationData extends Summary {
 export interface Summary {
   workflow: WorkFlow;
   workorder: WorkOrder;
-  result: WorkOrderResult;
+  result?: WorkOrderResult;
   /**
    * Index of the next {@link Step} the {@link WorkOrder} should progress to after completion of the current one.
    * This allows for skipping or returning to a previous {@link Step}.
@@ -58,13 +58,15 @@ export class WfmService {
    *
    * @param {string} workorderId - The ID of the workorder to begin the workflow for.
    */
-  public beginWorkflow(workorderId): Promise<StepOperationData> {
+  public beginWorkflow(workorderId: string): Promise<StepOperationData> {
     return this.workorderSummary(workorderId).then(summary => {
       if (summary.result) {
-        console.warn(`beginWorkflow() called on already started workflow with id: ${workorderId},`
-          + ` ignoring existing result`);
+        return Promise.reject(new Error (`beginWorkflow() called on already started workflow with id: ${workorderId}`));
       }
       const { workorder, workflow, nextStepIndex } = summary;
+      if (!workorder.assignee) {
+        return Promise.reject(new Error(`Workorder with Id ${workorderId} has no assignee`));
+      }
       return this.createNewResult(workorderId, workorder.assignee)
         .then(result => {
           // Now we check the current status of the workflow to see where the next step should be.
@@ -76,7 +78,7 @@ export class WfmService {
             workflow,
             result,
             nextStepIndex,
-            step: this.getNextStep(nextStepIndex, workflow);
+            step: this.getNextStep(nextStepIndex, workflow)
           };
         });
     });
@@ -90,17 +92,32 @@ export class WfmService {
    * @return {{workflow: Workflow, workorder: Workorder, result: Result}}
    * An object containing all the major entities related to the workorder
    */
-  public workorderSummary(workorderId): Promise<Summary> {
-    return this.workorderService.read(workorderId)
+  public workorderSummary(workorderId: string): Promise<Summary> {
+    const workorderRead = this.workorderService.read(workorderId)
+      .then(workorder => {
+        if (!workorder) {
+          throw new Error(`No workorder found with id ${workorderId}`);
+        }
+        return workorder;
+      });
+    return workorderRead
       .then(workorder => Promise.all([
         this.workflowService.read(workorder.workflowId),
         this.resultService.readByWorkorder(workorderId)
-      ]).then(([workflow, result]) => ({
-        workflow,
-        workorder,
-        result,
-        nextStepIndex: this.executeStepReview(workflow.steps, result).nextStepIndex
-      })));
+      ]).then(([workflow, result]) => {
+        if (!workflow) {
+          throw new Error(
+          `No WorkFlow found for WorkOrder with id ${workorderId}, Workflow id: ${workorder.workflowId}`);
+        }
+        const summary: Summary = {
+          workflow,
+          workorder,
+          result,
+          nextStepIndex: this.executeStepReview(workflow.steps, result).nextStepIndex
+        };
+        return summary;
+      }
+    ));
   }
 
   /**
@@ -108,7 +125,7 @@ export class WfmService {
    *
    * @param workorderId - The ID of the workorder to switch to the previous step for
    */
-  public previousStep(workorderId): Promise<StepOperationData> {
+  public previousStep(workorderId: string): Promise<StepOperationData> {
     const self = this;
     return this.workorderSummary(workorderId).then(summary => {
       const { workorder, workflow, result } = summary;
@@ -186,7 +203,7 @@ export class WfmService {
     });
   }
 
-  protected createNewResult(workorderId, assignee) {
+  protected createNewResult(workorderId: string, assignee: string) {
     return this.resultService.create({
       id: shortid.generate(),
       status: STATUS.NEW_DISPLAY,
@@ -200,7 +217,7 @@ export class WfmService {
    * Checks each of the result steps to determine if the workflow is complete,
    * and if not, what is the next step in the workflow to display to the user.
    */
-  protected executeStepReview(steps: Step[], result: WorkOrderResult) {
+  protected executeStepReview(steps: Step[], result?: WorkOrderResult) {
     let nextStepIndex = 0;
     let complete = false;
 

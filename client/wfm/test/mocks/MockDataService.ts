@@ -1,5 +1,5 @@
 import * as Promise from 'bluebird';
-import { find, cloneDeep } from 'lodash';
+import { cloneDeep, find, findIndex, remove } from 'lodash';
 import { DataService } from '../../src/index';
 export class MockDataService<T extends { id: string }> implements DataService<T> {
   protected data: T[] = [];
@@ -12,14 +12,20 @@ export class MockDataService<T extends { id: string }> implements DataService<T>
   public list() {
     return Promise.resolve(this.data);
   }
-  public create(data: T) {
-    return Promise.resolve(data);
+  public create(item: T) {
+    this.data.push(item);
+    return Promise.resolve(item);
   }
-  public update(data) {
-    return Promise.resolve(data);
+  public update(item) {
+    const idx = findIndex(this.data, i => i.id === item.id);
+    if (idx > -1) {
+      this.data[idx] = item;
+    }
+    return Promise.resolve(item);
   }
-  public remove(data) {
-    return Promise.resolve(data);
+  public remove(item) {
+    this.data = remove(this.data, i => i.id === item.id);
+    return Promise.resolve(item);
   }
   public reset() {
     this.data = cloneDeep(this.fixtures);
