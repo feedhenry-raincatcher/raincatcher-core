@@ -49,9 +49,13 @@
     "typescript": "^2.3.4"
   },
   "dependencies": {
+    "@types/chai": "^4.0.2",
+    "@types/chai-as-promised": "0.0.31",
     "@types/node": "^7.0.29",
     "ajv": "^5.1.5",
     "bluebird": "^3.5.0",
+    "chai": "^4.1.1",
+    "chai-as-promised": "^7.1.1",
     "eventemitter3": "^2.0.3",
     "lodash": "^4.17.4",
     "shortid": "^2.2.8",
