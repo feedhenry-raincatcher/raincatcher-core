@@ -2,8 +2,8 @@ import * as Promise from 'bluebird';
 import { find, cloneDeep } from 'lodash';
 import { DataService } from '../../src/index';
 export class MockDataService<T extends { id: string }> implements DataService<T> {
-  private data: T[] = [];
-  constructor(private fixtures: T[] = []) {
+  protected data: T[] = [];
+  constructor(protected fixtures: T[] = []) {
     this.data = cloneDeep(fixtures);
   }
   public read(id) {

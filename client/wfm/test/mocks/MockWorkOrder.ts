@@ -7,7 +7,14 @@ const fixtures: WorkOrder[] = [
     assignee: 'trever',
     id: '1',
     workflowId: '1',
-    title: 'example Work Order',
+    title: 'Complete Order',
+    status: STATUS.COMPLETE
+  },
+  {
+    assignee: 'trever',
+    id: '2',
+    workflowId: '2',
+    title: 'New Order',
     status: STATUS.NEW
   }
 ];
