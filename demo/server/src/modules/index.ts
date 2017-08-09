@@ -1,5 +1,6 @@
 import { EndpointSecurity } from '@raincatcher/auth-passport';
 import { getLogger } from '@raincatcher/logger';
+import * as Promise from 'bluebird';
 import * as express from 'express';
 import { Db } from 'mongodb';
 import appConfig from '../util/Config';
@@ -18,11 +19,11 @@ export let securityMiddleware: EndpointSecurity;
 export function setupModules(app: express.Express) {
   const connectionPromise = syncSetup(app);
   securitySetup(app);
-  connectionPromise.then(function(mongo: Db) {
+  apiSetup(app, connectionPromise);
+  connectionPromise.then(function(data: any) {
     if (config.seedDemoData) {
-      initData(mongo);
+      initData(data.mongo);
     }
-    apiSetup(app, mongo);
   });
 }
 
@@ -58,7 +59,10 @@ function syncSetup(app: express.Express) {
   });
 }
 
-function apiSetup(app: express.Express, db: Db) {
+function apiSetup(app: express.Express, connectionPromise: Promise<any>) {
+  const router: express.Router = express.Router();
+  // TODO Pagination https://github.com/expressjs/express-paginate
+  // TODO Wrap controller with security interface
   // Mount api
-  app.use('/api', buildApiRouter(db));
+  app.use('/api', buildApiRouter(connectionPromise));
 }

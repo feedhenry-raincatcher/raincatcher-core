@@ -5,15 +5,22 @@ import { Db } from 'mongodb';
  */
 export class DataService {
 
+  private db: Db;
+
   /**
-   * @param db - mongodb driver connection
+   * @param dbPromise - mongodb driver connection promise
    * @param collectionName - name of the collection stored in mongodb
    */
-  constructor(readonly db: Db, readonly collectionName: string) {
+  constructor(dbPromise: Promise<any>, readonly collectionName: string) {
+    const self = this;
+    dbPromise.then(function(data: any) {
+      self.db = data.mongo;
+    });
   }
 
   public list() {
-    return this.db.collection(this.collectionName).find({});
+    console.info('logging', this.collectionName);
+    return this.db.collection(this.collectionName).find({}).toArray();
   }
 
   public get(id: string) {

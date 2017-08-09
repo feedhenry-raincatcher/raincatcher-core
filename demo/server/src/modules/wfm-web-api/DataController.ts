@@ -8,8 +8,8 @@ export class DataController {
     this.buildRoutes(router, service, apiPrefix);
   }
   public buildRoutes(router: express.Router, service: DataService, apiPrefix: string) {
-    const idRoute = router.route(apiPrefix + '/:id');
-    const objectRoute = router.route(apiPrefix + '/');
+    const idRoute = router.route('/' + apiPrefix + '/:id');
+    const objectRoute = router.route('/' + apiPrefix + '/');
 
     objectRoute.get(function(req: express.Request, res: express.Response) {
       const objectList = service.list();
