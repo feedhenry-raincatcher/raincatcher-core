@@ -23,13 +23,6 @@ export interface CompleteStepParams {
 }
 
 /**
- * The return value of one of the operations that change the active {@link Step} of a {@link WorkOrder}
- */
-export interface StepOperationData extends Summary {
-  step: Step;
-}
-
-/**
  * Return value of the {@link WfmService#workorderSummary} interface
  */
 export interface Summary {
@@ -41,6 +34,7 @@ export interface Summary {
    * This allows for skipping or returning to a previous {@link Step}.
    */
   nextStepIndex: number;
+  step: Step;
 }
 
 export class WfmService {
@@ -58,7 +52,7 @@ export class WfmService {
    *
    * @param {string} workorderId - The ID of the workorder to begin the workflow for.
    */
-  public beginWorkflow(workorderId: string): Promise<StepOperationData> {
+  public beginWorkflow(workorderId: string): Promise<Summary> {
     return this.workorderSummary(workorderId).then(summary => {
       if (summary.result) {
         return Promise.reject(new Error (`beginWorkflow() called on already started workflow with id: ${workorderId}`));
@@ -109,11 +103,13 @@ export class WfmService {
           throw new Error(
           `No WorkFlow found for WorkOrder with id ${workorderId}, Workflow id: ${workorder.workflowId}`);
         }
+        const nextStepIndex = this.executeStepReview(workflow.steps, result).nextStepIndex;
         const summary: Summary = {
           workflow,
           workorder,
           result,
-          nextStepIndex: this.executeStepReview(workflow.steps, result).nextStepIndex
+          nextStepIndex,
+          step: this.getNextStep(nextStepIndex, workflow)
         };
         return summary;
       }
@@ -125,7 +121,7 @@ export class WfmService {
    *
    * @param workorderId - The ID of the workorder to switch to the previous step for
    */
-  public previousStep(workorderId: string): Promise<StepOperationData> {
+  public previousStep(workorderId: string): Promise<Summary> {
     const self = this;
     return this.workorderSummary(workorderId).then(summary => {
       const { workorder, workflow, result } = summary;
@@ -154,7 +150,7 @@ export class WfmService {
   /**
    * Completing a single step for a workorder.
    */
-  public completeStep(parameters: CompleteStepParams): Promise<StepOperationData> {
+  public completeStep(parameters: CompleteStepParams): Promise<Summary> {
     const workorderId = parameters.workorderId;
     const stepCode = parameters.stepCode;
     const submission = parameters.submission;
