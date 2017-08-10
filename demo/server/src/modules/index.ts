@@ -1,5 +1,6 @@
 import { EndpointSecurity } from '@raincatcher/auth-passport';
 import { getLogger } from '@raincatcher/logger';
+import { WfmRestApi } from '@raincatcher/wfm-rest-api';
 import * as Promise from 'bluebird';
 import * as express from 'express';
 import { Db } from 'mongodb';
@@ -9,7 +10,6 @@ import { router as syncRouter } from './datasync/Router';
 import initData from './demo-data';
 import { init as initKeycloak } from './keycloak';
 import { init as authInit } from './passport-auth';
-import { buildApiRouter } from './wfm-web-api';
 
 const config = appConfig.getConfig();
 
@@ -61,8 +61,10 @@ function syncSetup(app: express.Express) {
 
 function apiSetup(app: express.Express, connectionPromise: Promise<any>) {
   const router: express.Router = express.Router();
-  // TODO Pagination https://github.com/expressjs/express-paginate
-  // TODO Wrap controller with security interface
   // Mount api
-  app.use('/api', buildApiRouter(connectionPromise));
+  const api = new WfmRestApi();
+  app.use('/api', api.createWFMRouter());
+  connectionPromise.then(function(db: Db) {
+    api.setDb(db);
+  });
 }

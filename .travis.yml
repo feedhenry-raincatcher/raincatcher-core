@@ -17,6 +17,7 @@ cache:
     - cloud/logger/node_modules
     - cloud/passportauth/node_modules
     - cloud/datasync/node_modules
+    - cloud/wfm-rest-api/node_modules
     - client/logger/node_modules
     - client/wfm/node_modules
     - client/datasync-client/node_modules

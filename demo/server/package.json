@@ -58,6 +58,7 @@
     "typescript": "^2.3.4"
   },
   "dependencies": {
+    "@raincatcher/wfm-rest-api": "1.0.0",
     "@raincatcher/auth-passport": "1.0.0",
     "@raincatcher/datasync-cloud": "1.0.0",
     "@raincatcher/logger": "1.0.0",
