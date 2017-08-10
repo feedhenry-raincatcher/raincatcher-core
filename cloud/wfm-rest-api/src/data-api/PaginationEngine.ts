@@ -1,4 +1,5 @@
 
+import * as Promise from 'bluebird';
 import { Cursor } from 'mongodb';
 import { DIRECTION, SortedPageRequest } from '../data-api/PageRequest';
 import { PageResponse } from '../data-api/PageResponse';
@@ -58,7 +59,7 @@ export class PaginationEngine {
    * @param totalCount total number of results
    * @param request page request
    */
-  public buildPageResponse(request: SortedPageRequest, cursor: Cursor, totalCount: number) {
+  public buildPageResponse(request: SortedPageRequest, cursor: Cursor, totalCount: number): Promise<PageResponse> {
     if (request.sortField) {
       if (!request.order) {
         request.order = DIRECTION.ASC;
@@ -67,21 +68,13 @@ export class PaginationEngine {
     }
     cursor = cursor.skip(request.size * request.page).limit(request.size);
     return cursor.toArray().then(function(data) {
-      return defaultPaginationEngine.buildResponse(Math.ceil(totalCount / request.size), totalCount, data);
+      const totalPages = Math.ceil(totalCount / request.size);
+      return {
+        totalPages,
+        totalCount,
+        data
+      };
     });
-  }
-
-  /**
-   * @param totalPages - list of pages available
-   * @param totalCount - total list of the elements
-   * @param data
-   */
-  public buildResponse(totalPages: number, totalCount: number, data: any[]): PageResponse {
-    return {
-      totalPages,
-      totalCount,
-      data
-    };
   }
 }
 

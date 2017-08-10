@@ -20,7 +20,7 @@ export class ApiController {
    * @param repository - repository to retrieve data
    * @param apiPrefix - prefix to mount api in URI path. For example `/prefix/:id`
    */
-  public buildRoutes(router: express.Router, repository: CrudRepository, apiPrefix: string) {
+  protected buildRoutes(router: express.Router, repository: CrudRepository, apiPrefix: string) {
     const self = this;
     const idRoute = router.route('/' + apiPrefix + '/:id');
     const objectRoute = router.route('/' + apiPrefix + '/');
