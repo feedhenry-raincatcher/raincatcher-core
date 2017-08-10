@@ -42,6 +42,9 @@ export interface CloudAppConfig {
   bunyanConfig: any;
   keycloakConfig: any;
   seedDemoData: boolean;
+  security: {
+    apiRole: string
+  };
   sync: {
     customDataHandlers: boolean;
   };

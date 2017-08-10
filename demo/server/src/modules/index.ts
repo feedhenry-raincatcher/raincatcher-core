@@ -20,11 +20,7 @@ export function setupModules(app: express.Express) {
   const connectionPromise = syncSetup(app);
   securitySetup(app);
   apiSetup(app, connectionPromise);
-  connectionPromise.then(function(data: any) {
-    if (config.seedDemoData) {
-      initData(data.mongo);
-    }
-  });
+  demoDataSetup(connectionPromise);
 }
 
 function securitySetup(app: express.Express) {
@@ -51,9 +47,9 @@ function syncSetup(app: express.Express) {
   // Mount api
   app.use('/sync', syncRouter);
   // Connect sync
-  return syncConnector().then(function(mongo: Db) {
+  return syncConnector().then(function(connections: { mongo: Db, redis: any }) {
     getLogger().info('Sync started');
-    return mongo;
+    return connections.mongo;
   }).catch(function(err: any) {
     getLogger().error('Failed to initialize sync', err);
   });
@@ -63,8 +59,17 @@ function apiSetup(app: express.Express, connectionPromise: Promise<any>) {
   const router: express.Router = express.Router();
   // Mount api
   const api = new WfmRestApi();
-  app.use('/api', api.createWFMRouter());
+  const role = config.security.apiRole;
+  app.use('/api', securityMiddleware.protect(role), api.createWFMRouter());
   connectionPromise.then(function(db: Db) {
     api.setDb(db);
+  });
+}
+
+function demoDataSetup(connectionPromise: Promise<Db>) {
+  connectionPromise.then(function(mongo: Db) {
+    if (config.seedDemoData) {
+      initData(mongo);
+    }
   });
 }
