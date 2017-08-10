@@ -15,8 +15,8 @@ export class PaginationEngine {
    * @param defaultPageSize Default page size added when parameter is missing
    */
   constructor(readonly defaultPageSize: number) {
-
   }
+
   /**
    * @param query - list of arguments passed as http query parameters
    */
