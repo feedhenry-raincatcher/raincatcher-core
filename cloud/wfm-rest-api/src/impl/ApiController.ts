@@ -28,9 +28,19 @@ export class ApiController {
     objectRoute.get(function(req: express.Request, res: express.Response) {
       getLogger().debug('Api list method called',
         { object: apiPrefix, body: req.query });
-
       const page = defaultPaginationEngine.buildRequestFromQuery(req.query);
-      const objectList = repository.list(req.query.filter, page).then(function(data) {
+      let filter = {};
+      if (req.query.filter) {
+        try {
+          filter = JSON.parse(req.query.filter);
+        } catch (err) {
+          getLogger().debug('Invalid filter passed');
+        }
+      }
+      if (req.body.filter) {
+        filter = req.body.filter;
+      }
+      const objectList = repository.list(filter, page).then(function(data) {
         res.send(data);
       }).catch(function(err: ApiError) {
         self.errorHandler(req, res, err);

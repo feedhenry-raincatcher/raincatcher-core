@@ -56,12 +56,11 @@ function syncSetup(app: express.Express) {
 }
 
 function apiSetup(app: express.Express, connectionPromise: Promise<any>) {
-  const router: express.Router = express.Router();
   // Mount api
   const api = new WfmRestApi();
   const role = config.security.apiRole;
   app.use('/api', api.createWFMRouter());
-  app.use('/apiSecure', securityMiddleware.protect(role), api.createWFMRouter());
+  // app.use('/apiSecure', securityMiddleware.protect(role), api.createWFMRouter());
   connectionPromise.then(function(mongo: Db) {
     api.setDb(mongo);
   });

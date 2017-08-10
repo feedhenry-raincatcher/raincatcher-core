@@ -18,13 +18,13 @@ export class WfmRestApi {
 
   constructor(userConfig?: ApiConfig) {
     this.config = _.defaults(defaultConfiguration, userConfig);
+    this.createWFMServices();
   }
 
   /**
    * Create new router for hosting WFM http api.
    */
   public createWFMRouter() {
-    this.createWFMServices();
     const router: express.Router = express.Router();
     const workorderController = new ApiController(router, this.workorderService, this.config.workorderApiName);
     const workflowController = new ApiController(router, this.workflowService, this.config.workflowApiName);
@@ -45,7 +45,7 @@ export class WfmRestApi {
 
   protected createWFMServices() {
     this.workorderService = new MongoDbRepository(this.config.workorderCollectionName);
-    this.workflowService = new MongoDbRepository(this.config.workflowApiName);
-    this.resultService = new MongoDbRepository(this.config.resultApiName);
+    this.workflowService = new MongoDbRepository(this.config.workflowCollectionName);
+    this.resultService = new MongoDbRepository(this.config.resultCollectionName);
   }
 }

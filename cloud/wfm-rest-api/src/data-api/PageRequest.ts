@@ -23,7 +23,7 @@ export interface SortedPageRequest extends PageRequest {
   /**
    * Name of the field to sort
    */
-  sort?: string;
+  sortField?: string;
   /**
    * Order of the sort direction
    */

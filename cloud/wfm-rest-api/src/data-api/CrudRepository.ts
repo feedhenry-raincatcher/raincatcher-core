@@ -1,6 +1,6 @@
 import * as Promise from 'bluebird';
 import { Db } from 'mongodb';
-import { PageRequest } from '../data-api/PageRequest';
+import { SortedPageRequest } from '../data-api/PageRequest';
 import { PageResponse } from '../data-api/PageResponse';
 
 /**
@@ -22,7 +22,7 @@ export interface CrudRepository {
    * @see PageRequest
    * @see PageResponse
    */
-  list(filter: any, request: PageRequest): Promise<PageResponse>;
+  list(filter: any, request: SortedPageRequest): Promise<PageResponse>;
 
   /**
    * Get specific item from database

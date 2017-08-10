@@ -21,5 +21,5 @@ export const defaultConfiguration = {
   resultApiName: 'results',
   workorderCollectionName: 'workorders',
   workflowCollectionName: 'workflows',
-  resultCollectionName: 'results'
+  resultCollectionName: 'result'
 };

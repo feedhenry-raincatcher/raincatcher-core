@@ -1,5 +1,6 @@
 
-import { PageRequest } from '../data-api/PageRequest';
+import { Cursor } from 'mongodb';
+import { DIRECTION, SortedPageRequest } from '../data-api/PageRequest';
 import { PageResponse } from '../data-api/PageResponse';
 
 /**
@@ -18,23 +19,58 @@ export class PaginationEngine {
   }
 
   /**
+   * Create page request from query
+   *
    * @param query - list of arguments passed as http query parameters
+   *
+   * Expected query example:
+   * {
+   *  page:1,
+   *  size:10,
+   *  sortField: "id",
+   *  order: 1
+   * }
    */
-  public buildRequestFromQuery(query: any): PageRequest {
+  public buildRequestFromQuery(query: any): SortedPageRequest {
     let page;
     let size;
+    let order;
     if (query.size) {
-      size = query.size;
+      size = Number(query.size);
     } else {
       size = this.defaultPageSize;
     }
     if (query.page) {
-      page = query.page;
+      page = Number(query.page);
     } else {
-      page = 1;
+      page = 0;
     }
-    return { page, size };
+    if (query.order) {
+      order = Number(query.order);
+    }
+    return { page, size, sortField: query.sortField, order };
   }
+
+  /**
+   * Fetch data using PageRequest and return PaggedResponse
+   *
+   * @param cursor mongodb cursor
+   * @param totalCount total number of results
+   * @param request page request
+   */
+  public buildPageResponse(request: SortedPageRequest, cursor: Cursor, totalCount: number) {
+    if (request.sortField) {
+      if (!request.order) {
+        request.order = DIRECTION.ASC;
+      }
+      cursor = cursor.sort(request.sortField, request.order);
+    }
+    cursor = cursor.skip(request.size * request.page).limit(request.size);
+    return cursor.toArray().then(function(data) {
+      return defaultPaginationEngine.buildResponse(Math.ceil(totalCount / request.size), totalCount, data);
+    });
+  }
+
   /**
    * @param totalPages - list of pages available
    * @param totalCount - total list of the elements

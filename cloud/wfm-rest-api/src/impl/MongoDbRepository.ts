@@ -1,9 +1,10 @@
 import * as Promise from 'bluebird';
-import { Db } from 'mongodb';
+import { Cursor, Db } from 'mongodb';
 import { ApiError } from '../data-api/ApiError';
 import { CrudRepository } from '../data-api/CrudRepository';
-import { PageRequest } from '../data-api/PageRequest';
+import { DIRECTION, SortedPageRequest } from '../data-api/PageRequest';
 import { PageResponse } from '../data-api/PageResponse';
+import { defaultPaginationEngine } from '../data-api/PaginationEngine';
 import * as errorCodes from './ErrorCodes';
 
 const dbError: ApiError = { code: errorCodes.DB_ERROR, message: 'MongoDbRepository database not intialized' };
@@ -22,11 +23,14 @@ export class MongoDbRepository implements CrudRepository {
     const self = this;
   }
 
-  public list(filter: any, request: PageRequest): Promise<PageResponse> {
+  public list(filter: any, request: SortedPageRequest): Promise<PageResponse> {
     if (!this.db) {
       return Promise.reject(dbError);
     }
-    return this.db.collection(this.collectionName).find(filter);
+    const cursor: Cursor = this.db.collection(this.collectionName).find(filter);
+    return cursor.count(filter).then(function(totalNumber) {
+      return defaultPaginationEngine.buildPageResponse(request, cursor, totalNumber);
+    });
   }
 
   public get(id: string) {
