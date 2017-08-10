@@ -5,13 +5,12 @@ import { DIRECTION, SortedPageRequest } from '../data-api/PageRequest';
 import { PageResponse } from '../data-api/PageResponse';
 
 /**
- * Pagination procesor
+ * Mongo pagination procesor
  * Clients may override this class to provide custom pagination parameters
  *
- * Note: pages are counted from number 1.
- * Page 0 requests will return empty data.
+ * Note: pages are counted starting from 0.
  */
-export class PaginationEngine {
+export class MongoPaginationEngine {
 
   /**
    * @param defaultPageSize Default page size added when parameter is missing
@@ -78,4 +77,4 @@ export class PaginationEngine {
   }
 }
 
-export const defaultPaginationEngine = new PaginationEngine(10);
+export const defaultPaginationEngine = new MongoPaginationEngine(10);

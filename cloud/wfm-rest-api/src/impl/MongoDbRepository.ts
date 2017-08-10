@@ -2,9 +2,9 @@ import * as Promise from 'bluebird';
 import { Cursor, Db } from 'mongodb';
 import { ApiError } from '../data-api/ApiError';
 import { CrudRepository } from '../data-api/CrudRepository';
+import { defaultPaginationEngine } from '../data-api/MongoPaginationEngine';
 import { DIRECTION, SortedPageRequest } from '../data-api/PageRequest';
 import { PageResponse } from '../data-api/PageResponse';
-import { defaultPaginationEngine } from '../data-api/PaginationEngine';
 import * as errorCodes from './ErrorCodes';
 
 const dbError: ApiError = { code: errorCodes.DB_ERROR, message: 'MongoDbRepository database not intialized' };

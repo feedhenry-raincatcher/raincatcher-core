@@ -11,4 +11,4 @@ export * from './data-api/CrudRepository';
 export * from './data-api/PageRequest';
 export * from './data-api/PageResponse';
 export * from './data-api/ApiError';
-export * from './data-api/PaginationEngine';
+export * from './data-api/MongoPaginationEngine';

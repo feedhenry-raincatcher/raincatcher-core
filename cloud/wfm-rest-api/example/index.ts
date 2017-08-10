@@ -19,7 +19,7 @@ MongoClient.connect(url, function(err, db) {
     api.setDb(db);
   } else {
     console.info('MongoDb not connected', err);
-    process.exit();
+    process.exit(1);
   }
 });
 

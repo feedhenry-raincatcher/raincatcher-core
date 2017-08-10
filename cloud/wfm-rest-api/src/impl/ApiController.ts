@@ -2,7 +2,7 @@ import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
 import { ApiError } from '../data-api/ApiError';
 import { CrudRepository } from '../data-api/CrudRepository';
-import { defaultPaginationEngine } from '../data-api/PaginationEngine';
+import { defaultPaginationEngine } from '../data-api/MongoPaginationEngine';
 import * as errorCodes from './ErrorCodes';
 
 /**
