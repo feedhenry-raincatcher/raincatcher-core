@@ -28,7 +28,7 @@ export class MongoDbRepository<T extends { id: string }> implements PagingDataRe
       return Bluebird.reject(dbError);
     }
     const cursor = this.collection.find(filter);
-    return Bluebird.resolve(cursor.count(true, filter))
+    return Bluebird.resolve(cursor.count(false, filter))
       .then(count => defaultPaginationEngine.buildPageResponse(request, cursor, count));
   }
 
