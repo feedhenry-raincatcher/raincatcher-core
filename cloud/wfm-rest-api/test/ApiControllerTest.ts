@@ -10,15 +10,19 @@ import {
   PageResponse, PagingDataRepository, SortedPageRequest
 } from '../src/index';
 
-const testObj = { id: 1, name: 'test' };
-const listReponse: PageResponse = {
+interface TestEntity {
+  id: number;
+  name: string;
+}
+const testObj: TestEntity = { id: 1, name: 'test' };
+const listReponse: PageResponse<TestEntity> = {
   data: [testObj],
   totalCount: 0,
   totalPages: 0
 };
 
-class MockRepository implements PagingDataRepository {
-  public list(filter: any, request: SortedPageRequest): Bluebird<PageResponse> {
+class MockRepository implements PagingDataRepository<TestEntity> {
+  public list(filter: any, request: SortedPageRequest) {
     return Bluebird.resolve(listReponse);
   }
 

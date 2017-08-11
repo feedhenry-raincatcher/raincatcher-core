@@ -2,10 +2,14 @@ import * as assert from 'assert';
 import * as proxyquire from 'proxyquire';
 import { MongoDbRepository } from '../src/index';
 
-const testObj = { id: 1, name: 'test' };
+interface TestEntity {
+  id: string;
+  name: string;
+}
+const testObj = { id: '1', name: 'test' };
 
-const testSubject = new MongoDbRepository('testCollection');
-const testSubjectNoDb = new MongoDbRepository('testCollection');
+const testSubject = new MongoDbRepository<TestEntity>('testCollection');
+const testSubjectNoDb = new MongoDbRepository<TestEntity>('testCollection');
 const mock = function() { return db; };
 const db: any = {
   collection: mock,

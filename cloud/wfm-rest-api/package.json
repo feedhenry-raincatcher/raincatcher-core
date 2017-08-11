@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "main": "src/",
   "scripts": {
-    "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
+    "clean": "del coverage_report src/*.js src/*.map src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
     "start": "ts-node src/index.ts",
     "test": "npm run clean && nyc mocha"
