@@ -2,7 +2,8 @@
 /**
  * Interface used to construct standarized response for api error handlers.
  */
-export interface ApiError {
-  code: string;
-  message: string;
+export class ApiError extends Error {
+  constructor(public code: string, public message: string) {
+    super();
+  }
 }

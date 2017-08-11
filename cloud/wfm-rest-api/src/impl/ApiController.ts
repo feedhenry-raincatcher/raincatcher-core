@@ -8,8 +8,11 @@ import * as errorCodes from './ErrorCodes';
 /**
  * Generic controller that can be used to create API for specific objects
  */
-export class ApiController {
-  constructor(readonly router: express.Router, readonly repository: PagingDataRepository, readonly apiPrefix: string) {
+export class ApiController<T> {
+  constructor(
+    readonly router: express.Router,
+    readonly repository: PagingDataRepository<T>,
+    readonly apiPrefix: string) {
   }
 
   /**
@@ -27,7 +30,7 @@ export class ApiController {
         filter = JSON.parse(req.query.filter);
       } catch (err) {
         getLogger().debug('Invalid filter passed');
-        const error: ApiError = { code: errorCodes.CLIENT_ERROR, message: 'Invalid filter query parameter' };
+        const error: ApiError = new ApiError(errorCodes.CLIENT_ERROR, 'Invalid filter query parameter');
         return res.status(400).json(error);
       }
     }
@@ -51,7 +54,7 @@ export class ApiController {
       { object: self.apiPrefix, params: req.params });
 
     if (!req.params.id) {
-      const error: ApiError = { code: errorCodes.MISSING_ID, message: 'Missing id parameter' };
+      const error = new ApiError(errorCodes.MISSING_ID, 'Missing id parameter');
       return res.status(400).json(error);
     }
 
@@ -72,7 +75,7 @@ export class ApiController {
       { object: self.apiPrefix, body: req.body });
 
     if (!req.body) {
-      const error: ApiError = { code: errorCodes.CLIENT_ERROR, message: 'Missing request body' };
+      const error = new ApiError(errorCodes.CLIENT_ERROR, 'Missing request body');
       return res.status(400).json(error);
     }
 
@@ -93,7 +96,7 @@ export class ApiController {
       { object: self.apiPrefix, params: req.params });
 
     if (!req.params.id) {
-      const error: ApiError = { code: errorCodes.MISSING_ID, message: 'Missing id parameter' };
+      const error = new ApiError(errorCodes.MISSING_ID, 'Missing id parameter');
       return res.status(400).json(error);
     }
 

@@ -1,5 +1,5 @@
-import * as Promise from 'bluebird';
-import { Cursor, Db } from 'mongodb';
+import * as Bluebird from 'bluebird';
+import { Collection, Cursor, CursorCommentOptions, Db } from 'mongodb';
 import { ApiError } from '../data-api/ApiError';
 import { defaultPaginationEngine } from '../data-api/MongoPaginationEngine';
 import { DIRECTION, SortedPageRequest } from '../data-api/PageRequest';
@@ -7,64 +7,61 @@ import { PageResponse } from '../data-api/PageResponse';
 import { PagingDataRepository } from '../data-api/PagingDataRepository';
 import * as errorCodes from './ErrorCodes';
 
-const dbError: ApiError = { code: errorCodes.DB_ERROR, message: 'MongoDbRepository database not intialized' };
+const dbError: ApiError = new ApiError(errorCodes.DB_ERROR, 'MongoDbRepository database not intialized');
 
 /**
  * Service for performing data operations on mongodb database
  */
-export class MongoDbRepository implements PagingDataRepository {
+export class MongoDbRepository<T extends { id: string }> implements PagingDataRepository<T> {
 
-  public db: any;
+  public db: Db;
+  protected collection: Collection<T>;
 
   /**
    * @param collectionName - name of the collection stored in mongodb
    */
   constructor(readonly collectionName: string) {
-    const self = this;
   }
 
-  public list(filter: any, request: SortedPageRequest): Promise<PageResponse> {
+  public list(filter: object | CursorCommentOptions, request: SortedPageRequest): Bluebird<PageResponse<T>> {
     if (!this.db) {
-      return Promise.reject(dbError);
+      return Bluebird.reject(dbError);
     }
-    const cursor: Cursor = this.db.collection(this.collectionName).find(filter);
-    return new Promise((resolve, reject) => {
-      cursor.count(filter, function(err, totalNumber) {
-        if (err) {
-          return reject(err);
-        }
-        return resolve(defaultPaginationEngine.buildPageResponse(request, cursor, totalNumber));
-      });
-    });
+    const cursor = this.collection.find(filter);
+    return Bluebird.resolve(cursor.count(true, filter))
+      .then(count => defaultPaginationEngine.buildPageResponse(request, cursor, count));
   }
 
-  public get(id: string) {
+  public get(id: string): Bluebird<T> {
     if (!this.db) {
-      return Promise.reject(dbError);
+      return Bluebird.reject(dbError);
     }
-    return this.db.collection(this.collectionName).findOne({ id });
+    return Bluebird.resolve(this.collection.findOne({ id }));
   }
 
-  public create(object: any) {
+  public create(object: T): Bluebird<T> {
     if (!this.db) {
-      return Promise.reject(dbError);
+      return Bluebird.reject(dbError);
     }
-    return this.db.collection(this.collectionName).insertOne(object);
+    return Bluebird.resolve(this.collection.insertOne(object))
+      .then(() => this.get(object.id));
   }
 
-  public update(object: any) {
+  public update(object: T): Bluebird<T> {
     if (!this.db) {
-      return Promise.reject(dbError);
+      return Bluebird.reject(dbError);
     }
     const id = object.id;
-    return this.db.collection(this.collectionName).updateOne({ id }, object);
+    return Bluebird.resolve(this.collection.updateOne({ id }, object))
+      .then(() => this.get(object.id));
   }
 
-  public delete(id: string) {
+  public delete(id: string): Bluebird<boolean> {
     if (!this.db) {
-      return Promise.reject(dbError);
+      return Bluebird.reject(dbError);
     }
-    return this.db.collection(this.collectionName).deleteOne({ id });
+    return Bluebird.resolve(this.collection.deleteOne({ id }))
+      .then(response => response.result.ok === 1);
   }
 
   /**
@@ -72,5 +69,6 @@ export class MongoDbRepository implements PagingDataRepository {
    */
   public setDb(db: Db) {
     this.db = db;
+    this.collection = this.db.collection<T>(this.collectionName);
   }
 }

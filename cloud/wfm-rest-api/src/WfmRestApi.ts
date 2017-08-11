@@ -1,4 +1,5 @@
 
+import { WorkFlow, WorkOrder, WorkOrderResult } from '@raincatcher/wfm';
 import * as Promise from 'bluebird';
 import * as express from 'express';
 import * as _ from 'lodash';
@@ -12,9 +13,9 @@ import { MongoDbRepository } from './impl/MongoDbRepository';
  */
 export class WfmRestApi {
   private config;
-  private workorderService: MongoDbRepository;
-  private workflowService: MongoDbRepository;
-  private resultService: MongoDbRepository;
+  private workorderService: MongoDbRepository<WorkOrder>;
+  private workflowService: MongoDbRepository<WorkFlow>;
+  private resultService: MongoDbRepository<WorkOrderResult>;
 
   constructor(userConfig?: ApiConfig) {
     this.config = _.defaults(defaultConfiguration, userConfig);
@@ -26,11 +27,12 @@ export class WfmRestApi {
    */
   public createWFMRouter() {
     const router: express.Router = express.Router();
-    const workorderController = new ApiController(router, this.workorderService, this.config.workorderApiName);
+    const workorderController = new ApiController<WorkOrder>(router, this.workorderService,
+      this.config.workorderApiName);
     workorderController.applyAllRoutes();
-    const workflowController = new ApiController(router, this.workflowService, this.config.workflowApiName);
+    const workflowController = new ApiController<WorkFlow>(router, this.workflowService, this.config.workflowApiName);
     workflowController.applyAllRoutes();
-    const resultController = new ApiController(router, this.resultService, this.config.resultApiName);
+    const resultController = new ApiController<WorkOrderResult>(router, this.resultService, this.config.resultApiName);
     resultController.applyAllRoutes();
     return router;
   }

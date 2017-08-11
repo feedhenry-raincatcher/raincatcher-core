@@ -10,7 +10,7 @@ import { PageResponse } from '../data-api/PageResponse';
  * Interface is being used internally to perform database operations for WFM models
  * It's not recomended to use it for other application business logic.
  */
-export interface PagingDataRepository {
+export interface PagingDataRepository<T> {
 
   /**
    * Retrieve list of results from database
@@ -22,30 +22,30 @@ export interface PagingDataRepository {
    * @see PageRequest
    * @see PageResponse
    */
-  list(filter: any, request: SortedPageRequest): Promise<PageResponse>;
+  list(filter: any, request: SortedPageRequest): Promise<PageResponse<T>>;
 
   /**
    * Get specific item from database
    * @param id - object id
    */
-  get(id: any): Promise<any>;
+  get(id: string): Promise<T>;
 
   /**
    * Store object in database
    * @param object - object to store
    */
-  create(object: any): Promise<any>;
+  create(object: T): Promise<T>;
 
   /**
    * Update object
    * @param object - object to update
    * Note: id field of the object will be used to determine what should be updated
    */
-  update(object: any): Promise<any>;
+  update(object: T): Promise<T>;
 
   /**
    * Delete object from database
    * @param id - object id
    */
-  delete(id: any): Promise<any>;
+  delete(id: string): Promise<boolean>;
 }

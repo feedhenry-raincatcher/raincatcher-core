@@ -58,7 +58,8 @@ export class MongoPaginationEngine {
    * @param totalCount total number of results
    * @param request page request
    */
-  public buildPageResponse(request: SortedPageRequest, cursor: Cursor, totalCount: number): Promise<PageResponse> {
+  public buildPageResponse<T>(request: SortedPageRequest, cursor: Cursor<T>, totalCount: number):
+  Promise<PageResponse<T>> {
     if (request.sortField) {
       if (!request.order) {
         request.order = DIRECTION.ASC;

@@ -1,7 +1,7 @@
 /**
  * Wrapper interface to return ordered and pagged list of items.
  */
-export interface PageResponse {
+export interface PageResponse<T> {
   /**
    *  Number of pages
    */
@@ -15,5 +15,5 @@ export interface PageResponse {
   /**
    * Represents returned data
    */
-  data: any[];
+  data: T[];
 }
