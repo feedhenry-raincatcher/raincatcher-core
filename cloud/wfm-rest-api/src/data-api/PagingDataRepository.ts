@@ -10,7 +10,7 @@ import { PageResponse } from '../data-api/PageResponse';
  * Interface is being used internally to perform database operations for WFM models
  * It's not recomended to use it for other application business logic.
  */
-export interface CrudRepository {
+export interface PagingDataRepository {
 
   /**
    * Retrieve list of results from database

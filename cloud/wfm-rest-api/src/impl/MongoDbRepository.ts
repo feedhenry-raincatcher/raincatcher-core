@@ -1,10 +1,10 @@
 import * as Promise from 'bluebird';
 import { Cursor, Db } from 'mongodb';
 import { ApiError } from '../data-api/ApiError';
-import { CrudRepository } from '../data-api/CrudRepository';
 import { defaultPaginationEngine } from '../data-api/MongoPaginationEngine';
 import { DIRECTION, SortedPageRequest } from '../data-api/PageRequest';
 import { PageResponse } from '../data-api/PageResponse';
+import { PagingDataRepository } from '../data-api/PagingDataRepository';
 import * as errorCodes from './ErrorCodes';
 
 const dbError: ApiError = { code: errorCodes.DB_ERROR, message: 'MongoDbRepository database not intialized' };
@@ -12,7 +12,7 @@ const dbError: ApiError = { code: errorCodes.DB_ERROR, message: 'MongoDbReposito
 /**
  * Service for performing data operations on mongodb database
  */
-export class MongoDbRepository implements CrudRepository {
+export class MongoDbRepository implements PagingDataRepository {
 
   public db: any;
 
@@ -28,8 +28,13 @@ export class MongoDbRepository implements CrudRepository {
       return Promise.reject(dbError);
     }
     const cursor: Cursor = this.db.collection(this.collectionName).find(filter);
-    return cursor.count(filter).then(function(totalNumber) {
-      return defaultPaginationEngine.buildPageResponse(request, cursor, totalNumber);
+    return new Promise((resolve, reject) => {
+      cursor.count(filter, function(err, totalNumber) {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(defaultPaginationEngine.buildPageResponse(request, cursor, totalNumber));
+      });
     });
   }
 

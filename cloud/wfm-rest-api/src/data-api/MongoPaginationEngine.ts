@@ -5,7 +5,7 @@ import { DIRECTION, SortedPageRequest } from '../data-api/PageRequest';
 import { PageResponse } from '../data-api/PageResponse';
 
 /**
- * Mongo pagination procesor
+ * Mongo pagination processor
  * Clients may override this class to provide custom pagination parameters
  *
  * Note: pages are counted starting from 0.
@@ -66,7 +66,7 @@ export class MongoPaginationEngine {
       cursor = cursor.sort(request.sortField, request.order);
     }
     cursor = cursor.skip(request.size * request.page).limit(request.size);
-    return cursor.toArray().then(function(data) {
+    return Promise.resolve(cursor.toArray()).then(function(data) {
       const totalPages = Math.ceil(totalCount / request.size);
       return {
         totalPages,

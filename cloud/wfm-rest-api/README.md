@@ -54,7 +54,7 @@ Supports pagination and sorting by providing additional query parameters:
 - `size` number of elements to return
 - `sortField` sorting field
 - `order` -1 for DESC and 1 for ASC
-`
+
 Example `/workorders?page=0&size=5&sortField=id&order=-1`
 
 > **Note** - sorting parameters are optional.  When missing default sorting values are applied (10 results)
@@ -88,3 +88,21 @@ Example `/workorders/B1r71fOBr`
 ### Delete object
 
 > DELETE {object}/:objectId
+
+### Error handling
+
+Api returns non 200 status in case of error.
+
+`400` - For user input error (missing required field etc.)
+`500` - For internal server errors
+
+Additionaly error metadata is being returned:
+
+```json
+{
+  "code":"InvalidID",
+  "message":"Provided id is invalid"
+}
+```
+
+> **Note:** If you apply security middleware additional `401` and `403` statuses may be returned

@@ -9,6 +9,7 @@ describe('FeedHenry Wfm api Tests', function() {
       assert.ok(testSubject.createWFMRouter());
     });
   });
+
   describe('Test mongo setup', function() {
     it('create router', function() {
       const testSubject = new WfmRestApi();
