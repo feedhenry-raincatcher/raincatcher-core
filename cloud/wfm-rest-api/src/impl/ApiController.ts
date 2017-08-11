@@ -1,6 +1,7 @@
 import { getLogger } from '@raincatcher/logger';
+import * as Bluebird from 'bluebird';
 import * as express from 'express';
-import { NextFunction, Request, Response, Router } from 'express';
+import { NextFunction, Request, RequestHandler, Response, Router } from 'express';
 import { ApiError } from '../data-api/ApiError';
 import { defaultPaginationEngine } from '../data-api/MongoPaginationEngine';
 import { PagingDataRepository } from '../data-api/PagingDataRepository';
@@ -20,7 +21,7 @@ export class ApiController<T> {
    * Handler for list method
    * Can be reused by developers that wish to mount handler directly on router
    */
-  public listHandler(req: Request, res: Response, next: NextFunction) {
+  public listHandler(req: Request) {
     getLogger().debug('Api list method called',
       { object: this.apiPrefix, body: req.query });
     const page = defaultPaginationEngine.buildRequestFromQuery(req.query);
@@ -33,85 +34,82 @@ export class ApiController<T> {
       } catch (err) {
         getLogger().error('Invalid filter passed');
         const error = new ApiError(errorCodes.CLIENT_ERROR, 'Invalid filter query parameter', 400);
-        return next(error);
+        return Bluebird.reject(error);
       }
     }
-    return this.repository.list(filter, page).then(function(data) {
-      res.json(data);
-    }).catch(next);
+    return this.repository.list(filter, page);
   }
 
   /**
    * Handler for get method
    * Can be reused by developers that wish to mount handler directly on router
    */
-  public getHandler(req: Request, res: Response, next: NextFunction) {
+  public getHandler(req: Request) {
     getLogger().debug('Api get method called',
       { object: this.apiPrefix, params: req.params });
 
     if (!req.params.id) {
       const error = new ApiError(errorCodes.MISSING_ID, 'Missing id parameter', 400);
-      return next(error);
+      return Bluebird.reject(error);
     }
 
-    return this.repository.get(req.params.id).then(function(data) {
-      res.json(data);
-    }).catch(next);
+    return this.repository.get(req.params.id);
   }
 
   /**
    * Handler for create method
    * Can be reused by developers that wish to mount handler directly on router
    */
-  public postHandler(req: Request, res: Response, next: NextFunction) {
+  public postHandler(req: Request) {
     getLogger().debug('Api create method called',
       { object: this.apiPrefix, body: req.body });
 
     if (!req.body) {
       const error = new ApiError(errorCodes.CLIENT_ERROR, 'Missing request body', 400);
-      return next(error);
+      return Bluebird.reject(error);
     }
 
-    return this.repository.create(req.body).then(function(data) {
-      res.json(data);
-    }).catch(next);
+    return this.repository.create(req.body);
   }
 
   /**
    * Delete handler
    * Can be reused by developers that wish to mount handler directly on router
    */
-  public deleteHandler(req: Request, res: Response, next: NextFunction) {
+  public deleteHandler(req: Request) {
     getLogger().debug('Api delete method called',
       { object: this.apiPrefix, params: req.params });
 
     if (!req.params.id) {
       const error = new ApiError(errorCodes.MISSING_ID, 'Missing id parameter');
-      return next(error);
+      return Bluebird.reject(error);
     }
 
-    this.repository.delete(req.params.id).then(function() {
-      // HTTP 204: No Content
-      res.status(204).end();
-    }).catch(next);
+    return this.repository.delete(req.params.id)
+      // Return nothing to imply 204 http status
+      .then(() => undefined);
   }
 
   /**
    * Update handler
    * Can be reused by developers that wish to mount handler directly on router
    */
-  public putHandler(req: Request, res: Response, next: NextFunction) {
+  public putHandler(req: Request) {
     getLogger().debug('Api update method called',
       { object: this.apiPrefix, body: req.body });
 
     if (!req.body) {
-      const error = { code: errorCodes.CLIENT_ERROR, message: 'Missing request body' };
-      next(error);
+      const error = new ApiError(errorCodes.CLIENT_ERROR, 'Missing request body');
+      return Bluebird.reject(error);
     }
 
-    this.repository.update(req.body).then(function(data) {
-      res.json(data);
-    }).catch(next);
+    return this.repository.update(req.body);
+  }
+
+  public buildExpressHandler(handlerFn: (this: this, req: Request) => Bluebird<T | T[] | undefined>): RequestHandler {
+    return (req, res, next) => handlerFn.bind(this)(req)
+      .then(data => data ? res.json(data) : res.status(204).end())
+      .catch(next);
   }
 
   /**
@@ -126,10 +124,10 @@ export class ApiController<T> {
     const objectRoute = this.router.route('/' + this.apiPrefix + '/');
     getLogger().info('REST api initialization', this.apiPrefix);
 
-    objectRoute.get(this.listHandler.bind(this));
-    objectRoute.post(this.postHandler.bind(this));
-    objectRoute.put(this.putHandler.bind(this));
-    idRoute.get(this.getHandler.bind(this));
-    idRoute.delete(this.deleteHandler.bind(this));
+    objectRoute.get(this.buildExpressHandler(this.listHandler));
+    objectRoute.post(this.buildExpressHandler(this.postHandler));
+    objectRoute.put(this.buildExpressHandler(this.putHandler));
+    idRoute.get(this.buildExpressHandler(this.getHandler));
+    idRoute.delete(this.buildExpressHandler(this.deleteHandler));
   }
 }
