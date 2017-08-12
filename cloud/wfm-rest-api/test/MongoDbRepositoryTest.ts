@@ -1,4 +1,7 @@
-import * as assert from 'assert';
+import * as Bluebird from 'bluebird';
+import * as chai from 'chai';
+import { expect } from 'chai';
+import * as chaiAsPromised from 'chai-as-promised';
 import * as proxyquire from 'proxyquire';
 import { MongoDbRepository } from '../src/index';
 
@@ -10,45 +13,77 @@ const testObj = { id: '1', name: 'test' };
 
 const testSubject = new MongoDbRepository<TestEntity>('testCollection');
 const testSubjectNoDb = new MongoDbRepository<TestEntity>('testCollection');
-const mock = function() { return db; };
-const db: any = {
-  collection: mock,
-  findOne: mock,
-  insertOne: mock,
-  find() {
-    return {
-      count(filter, cb) {
-        cb(10);
-      }
-    };
+const mockDataAccessFunction = function() { return Bluebird.resolve(testObj); };
+const mockCursor: any = {
+  count() {
+    return Bluebird.resolve(10);
   },
-  updateOne: mock,
-  deleteOne: mock
+  sort() {
+    return this;
+  },
+  skip() {
+    return this;
+  },
+  limit() {
+    return this;
+  },
+  toArray() {
+    return [testObj];
+  }
+};
+const db: any = {
+  collection: () => ({
+    findOne: mockDataAccessFunction,
+    insertOne: mockDataAccessFunction,
+    find() {
+      return mockCursor;
+    },
+    updateOne: mockDataAccessFunction,
+    deleteOne() {
+      return {
+        result: {
+          ok: 1
+        }
+      };
+    }
+  })
 };
 testSubject.setDb(db);
 
 describe('FeedHenry MongoDbRepository Tests', function() {
   describe('Test CRUD operations', function() {
+
     it('should create obj', function() {
-      assert.ok(testSubjectNoDb.create(testObj));
-      assert.ok(testSubject.create(testObj));
+      return Bluebird.all([
+        expect(testSubject.create(testObj)).to.eventually.equal(testObj),
+        expect(testSubjectNoDb.create(testObj)).to.be.rejected
+      ]);
     });
+
     it('should get obj', function() {
-      assert.ok(testSubjectNoDb.get('test'));
-      assert.ok(testSubject.get('test'));
+      return Bluebird.all([
+        expect(testSubject.get('1')).to.eventually.equal(testObj),
+        expect(testSubjectNoDb.get('1')).to.be.rejected
+      ]);
     });
     it('should list obj', function() {
       const page = { order: -1, page: 0, size: 10, sortField: 'id' };
-      assert.ok(testSubject.list({}, page));
-      assert.ok(testSubjectNoDb.list({}, page));
+      return Bluebird.all([
+        expect(testSubject.list({}, page)).to.be.fulfilled,
+        expect(testSubjectNoDb.list({}, page)).to.be.rejected
+      ]);
     });
     it('should update obj', function() {
-      assert.ok(testSubject.update(testObj));
-      assert.ok(testSubjectNoDb.update(testObj));
+      return Bluebird.all([
+        expect(testSubject.update(testObj)).to.be.fulfilled,
+        expect(testSubjectNoDb.update(testObj)).to.be.rejected
+      ]);
     });
     it('should delete obj', function() {
-      assert.ok(testSubject.delete('id'));
-      assert.ok(testSubjectNoDb.delete('id'));
+      return Bluebird.all([
+        expect(testSubject.delete('id')).to.be.fulfilled,
+        expect(testSubjectNoDb.delete('id')).to.be.rejected
+      ]);
     });
   });
 });

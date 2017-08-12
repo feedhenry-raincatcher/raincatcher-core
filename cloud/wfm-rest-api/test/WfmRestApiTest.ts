@@ -13,7 +13,11 @@ describe('FeedHenry Wfm api Tests', function() {
   describe('Test mongo setup', function() {
     it('create router', function() {
       const testSubject = new WfmRestApi();
-      const db: any = {};
+      const db: any = {
+        collection() {
+          // noop
+        }
+      };
       testSubject.setDb(db);
     });
   });
