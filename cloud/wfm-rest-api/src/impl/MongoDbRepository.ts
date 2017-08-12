@@ -1,5 +1,6 @@
 import * as Bluebird from 'bluebird';
 import { Collection, Cursor, CursorCommentOptions, Db } from 'mongodb';
+import { generate } from 'shortid';
 import { ApiError } from '../data-api/ApiError';
 import { defaultPaginationEngine } from '../data-api/MongoPaginationEngine';
 import { DIRECTION, SortedPageRequest } from '../data-api/PageRequest';
@@ -40,6 +41,7 @@ export class MongoDbRepository<T extends { id: string }> implements PagingDataRe
   }
 
   public create(object: T): Bluebird<T> {
+    object.id = object.id || generate();
     if (!this.db) {
       return Bluebird.reject(dbError);
     }
