@@ -11,10 +11,7 @@ import * as errorCodes from './ErrorCodes';
  * Generic controller that can be used to create API for specific objects
  */
 export class ApiController<T> {
-  constructor(
-    readonly router: Router,
-    readonly repository: PagingDataRepository<T>,
-    readonly apiPrefix: string) {
+  constructor(readonly repository: PagingDataRepository<T>) {
   }
 
   /**
@@ -22,8 +19,7 @@ export class ApiController<T> {
    * Can be reused by developers that wish to mount handler directly on router
    */
   public listHandler(req: Request) {
-    getLogger().debug('Api list method called',
-      { object: this.apiPrefix, body: req.query });
+    getLogger().debug('Api list method called', { body: req.query });
     const page = defaultPaginationEngine.buildRequestFromQuery(req.query);
     let filter = {};
     if (req.body.filter) {
@@ -45,8 +41,7 @@ export class ApiController<T> {
    * Can be reused by developers that wish to mount handler directly on router
    */
   public getHandler(req: Request) {
-    getLogger().debug('Api get method called',
-      { object: this.apiPrefix, params: req.params });
+    getLogger().debug('Api get method called', { params: req.params });
 
     if (!req.params.id) {
       const error = new ApiError(errorCodes.MISSING_ID, 'Missing id parameter', 400);
@@ -61,8 +56,7 @@ export class ApiController<T> {
    * Can be reused by developers that wish to mount handler directly on router
    */
   public postHandler(req: Request) {
-    getLogger().debug('Api create method called',
-      { object: this.apiPrefix, body: req.body });
+    getLogger().debug('Api create method called', { body: req.body });
 
     if (!req.body) {
       const error = new ApiError(errorCodes.CLIENT_ERROR, 'Missing request body', 400);
@@ -77,8 +71,7 @@ export class ApiController<T> {
    * Can be reused by developers that wish to mount handler directly on router
    */
   public deleteHandler(req: Request) {
-    getLogger().debug('Api delete method called',
-      { object: this.apiPrefix, params: req.params });
+    getLogger().debug('Api delete method called', { params: req.params });
 
     if (!req.params.id) {
       const error = new ApiError(errorCodes.MISSING_ID, 'Missing id parameter');
@@ -95,8 +88,7 @@ export class ApiController<T> {
    * Can be reused by developers that wish to mount handler directly on router
    */
   public putHandler(req: Request) {
-    getLogger().debug('Api update method called',
-      { object: this.apiPrefix, body: req.body });
+    getLogger().debug('Api update method called', { body: req.body });
 
     if (!req.body) {
       const error = new ApiError(errorCodes.CLIENT_ERROR, 'Missing request body');
@@ -119,15 +111,18 @@ export class ApiController<T> {
    * @param repository - repository to retrieve data
    * @param apiPrefix - prefix to mount api in URI path. For example `/prefix/:id`
    */
-  public applyAllRoutes() {
-    const idRoute = this.router.route('/' + this.apiPrefix + '/:id');
-    const objectRoute = this.router.route('/' + this.apiPrefix + '/');
-    getLogger().info('REST api initialization', this.apiPrefix);
+  public buildRouter(): Router {
+    const router = express.Router();
+    getLogger().info('REST api initialization');
 
-    objectRoute.get(this.buildExpressHandler(this.listHandler));
-    objectRoute.post(this.buildExpressHandler(this.postHandler));
-    objectRoute.put(this.buildExpressHandler(this.putHandler));
-    idRoute.get(this.buildExpressHandler(this.getHandler));
-    idRoute.delete(this.buildExpressHandler(this.deleteHandler));
+    router.route('/')
+      .get(this.buildExpressHandler(this.listHandler))
+      .post(this.buildExpressHandler(this.postHandler))
+      .put(this.buildExpressHandler(this.putHandler));
+    router.route('/:id')
+      .get(this.buildExpressHandler(this.getHandler))
+      .delete(this.buildExpressHandler(this.deleteHandler));
+
+    return router;
   }
 }

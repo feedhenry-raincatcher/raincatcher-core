@@ -27,13 +27,10 @@ export class WfmRestApi {
    */
   public createWFMRouter() {
     const router: express.Router = express.Router();
-    const workorderController = new ApiController<WorkOrder>(router, this.workorderService,
-      this.config.workorderApiName);
-    workorderController.applyAllRoutes();
-    const workflowController = new ApiController<WorkFlow>(router, this.workflowService, this.config.workflowApiName);
-    workflowController.applyAllRoutes();
-    const resultController = new ApiController<WorkOrderResult>(router, this.resultService, this.config.resultApiName);
-    resultController.applyAllRoutes();
+    const { workorderApiName, workflowApiName, resultApiName } = this.config;
+    router.use(`/${workorderApiName}`, new ApiController<WorkOrder>(this.workorderService).buildRouter());
+    router.use(`/${workflowApiName}`, new ApiController<WorkFlow>(this.workflowService).buildRouter());
+    router.use(`/${resultApiName}`, new ApiController<WorkOrderResult>(this.resultService).buildRouter());
     return router;
   }
 
