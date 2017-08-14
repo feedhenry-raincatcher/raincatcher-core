@@ -4,17 +4,17 @@
  * Holds all values that can be changed to modify module behavior
  */
 export interface ApiConfig {
-  /** Used to create workorder route */
+  /** Root path for the WorkOrder http endpoints */
   workorderApiName?: string;
-  /** Used to create workflow route */
+  /** Root path for the WorkFlow http endpoints  */
   workflowApiName?: string;
-  /** Used to create result route */
+  /** Root path for the Result http endpoints  */
   resultApiName?: string;
-  /** Used as collection name to make database query for workorder */
+  /** Collection name to make database query for workorder */
   workorderCollectionName?: string;
-  /** Used as collection name to make database query for workflow */
+  /** Collection name to make database query for workflow */
   workflowCollectionName?: string;
-  /** Used as collection name to make database query for result */
+  /** Collection name to make database query for result */
   resultCollectionName?: string;
 }
 
