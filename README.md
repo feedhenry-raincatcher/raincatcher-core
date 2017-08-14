@@ -45,7 +45,7 @@ cd raincatcher-core
 npm install
 npm run bootstrap
 ```
-> Note: Core server requires mongodb and redis to be running on machine.
+> **Note**: Core server requires `mongodb` and `redis` to be running on machine.
 
 ## Repository folder structure
 
