@@ -1,12 +1,12 @@
 {
   "morganOptions": "dev",
   "logStackTraces": true,
+  "seedDemoData": true,
   "security": {
     "apiRole": "admin"
   },
   "sync": {
-    "customDataHandlers": true,
-    "seedDemoData": true
+    "customDataHandlers": true
   },
   "bunyanConfig": {
     "name": "Demo application",
