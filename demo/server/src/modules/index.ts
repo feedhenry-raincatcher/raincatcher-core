@@ -61,7 +61,8 @@ function apiSetup(app: express.Express, connectionPromise: Promise<any>) {
   const role = config.security.apiRole;
   app.use('/api', securityMiddleware.protect(role), api.createWFMRouter());
   connectionPromise.then(function(mongo: Db) {
-    api.setDb(mongo);
+    // Fix compilation problem with different version of Db.
+    api.setDb(mongo as any);
   });
 }
 

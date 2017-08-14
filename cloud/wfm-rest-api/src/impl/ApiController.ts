@@ -74,7 +74,7 @@ export class ApiController<T> {
     getLogger().debug('Api delete method called', { params: req.params });
 
     if (!req.params.id) {
-      const error = new ApiError(errorCodes.MISSING_ID, 'Missing id parameter');
+      const error = new ApiError(errorCodes.MISSING_ID, 'Missing id parameter', 400);
       return Bluebird.reject(error);
     }
 
@@ -91,7 +91,7 @@ export class ApiController<T> {
     getLogger().debug('Api update method called', { body: req.body });
 
     if (!req.body) {
-      const error = new ApiError(errorCodes.CLIENT_ERROR, 'Missing request body');
+      const error = new ApiError(errorCodes.CLIENT_ERROR, 'Missing request body', 204);
       return Bluebird.reject(error);
     }
 

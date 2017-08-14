@@ -8,7 +8,7 @@ import { PageResponse } from '../data-api/PageResponse';
 import { PagingDataRepository } from '../data-api/PagingDataRepository';
 import * as errorCodes from './ErrorCodes';
 
-const dbError: ApiError = new ApiError(errorCodes.DB_ERROR, 'MongoDbRepository database not intialized');
+const dbError: ApiError = new ApiError(errorCodes.DB_ERROR, 'MongoDbRepository database not intialized', 500);
 
 /**
  * Service for performing data operations on mongodb database

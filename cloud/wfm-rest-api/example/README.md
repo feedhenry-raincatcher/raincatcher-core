@@ -4,7 +4,7 @@
 
 Mongodb running on standard port
 
-### Runining example
+### Running example
 
     ts-node example/index.ts
 
@@ -12,4 +12,4 @@ To test example try
 
     curl http://localhost:3000/api/workorders
 
-Note: This example assumes that you have run demo application that populated your database.
+> **Note**: This example assumes that you have run the demo application that populated your database.

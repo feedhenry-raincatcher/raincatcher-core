@@ -5,10 +5,12 @@ import { PageResponse } from '../data-api/PageResponse';
 
 /**
  * Interface for building CRUD database repository.
+ * Generic parameter should be an interface that will be returned from queries.
  * Clients should implement this interface to connect storage of WFM objects
  * with different data storage engines like MySQL etc.
  * Interface is being used internally to perform database operations for WFM models
  * It's not recomended to use it for other application business logic.
+ *
  */
 export interface PagingDataRepository<T> {
 

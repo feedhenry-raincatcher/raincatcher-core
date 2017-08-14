@@ -2,7 +2,7 @@
 
 Module used to expose express based api for WFM objects.
 
-### WFM speficic implementations
+### WFM specific implementations
 
 Following api is being exposed:
 
@@ -36,12 +36,11 @@ See Api documentation for more details.
 ## Rest API
 
 Module provides a way to dynamically create API for different business objects.
-Created api will use simplied implementations for typical create, read, delete and update operations.
-It's not recomended to use it outside WFM framework to store user related objects. Please use mongodb driver directly.
+Created api will use simplified implementations for typical create, read, delete and update operations. It's not recomended to use `wfm-rest-api` outside the WFM framework. Please use database driver or ORM framework or your choice.
 
 ## Rest API definitions
 
-Definitions apply to every to object exposed by this API. Placeholder `{object}` can be replaced by `workflow`, `workorder` and `result`.
+Definitions apply to every object exposed by this API. Placeholder `{object}` can be replaced by `workflow`, `workorder` and `result`.
 
 ### Retrieve list
 
@@ -91,18 +90,24 @@ Example `/workorders/B1r71fOBr`
 
 ### Error handling
 
+In case of error express `next` callback is being called with `ApiError` instance.
+Users should build their own middleware for global error handling in their application.
+
 Api returns non 200 status in case of error.
 
 `400` - For user input error (missing required field etc.)
 `500` - For internal server errors
 
-Additionaly error metadata is being returned:
+For every error `ApiError` object is being returned.
+For example:
 
-```json
+```typescript
 {
-  "code":"InvalidID",
-  "message":"Provided id is invalid"
+  "code": "InvalidID",
+  "message": "Provided id is invalid",
+  "statusCode": 400
 }
 ```
+Clients can adapt it to their preffered way of presenting errors to user (html,json etc.)
 
-> **Note:** If you apply security middleware additional `401` and `403` statuses may be returned
+> **Note:** If you apply middleware security, additional  `401` and `403` statuses may be returned
