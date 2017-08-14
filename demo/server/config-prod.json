@@ -6,7 +6,8 @@
     "seedDemoData": true
   },
   "security": {
-    "apiRole": "admin"
+    "apiRole": "admin",
+    "syncRole": "user"
   },
   "keycloakConfig": {
     "realm": "",

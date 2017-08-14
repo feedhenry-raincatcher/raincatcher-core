@@ -17,8 +17,8 @@ export let securityMiddleware: EndpointSecurity;
 
 // Setup all modules
 export function setupModules(app: express.Express) {
-  const connectionPromise = syncSetup(app);
   securitySetup(app);
+  const connectionPromise = syncSetup(app);
   apiSetup(app, connectionPromise);
   demoDataSetup(connectionPromise);
 }
@@ -45,7 +45,8 @@ function setupKeycloakSecurity(app: express.Express) {
 
 function syncSetup(app: express.Express) {
   // Mount api
-  app.use('/sync', syncRouter);
+  const role = config.security.syncRole;
+  app.use('/sync', securityMiddleware.protect(role), syncRouter);
   // Connect sync
   return syncConnector().then(function(connections: { mongo: Db, redis: any }) {
     getLogger().info('Sync started');

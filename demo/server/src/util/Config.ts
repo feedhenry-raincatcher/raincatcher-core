@@ -43,7 +43,8 @@ export interface CloudAppConfig {
   keycloakConfig: any;
   seedDemoData: boolean;
   security: {
-    apiRole: string
+    apiRole: string,
+    syncRole: string
   };
 
   sync: {
