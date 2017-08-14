@@ -1,3 +1,4 @@
+import { getLogger } from '@raincatcher/logger';
 import { Db } from 'mongodb';
 
 const workorders = [
@@ -189,7 +190,7 @@ export default function(collectionName: string, database: Db) {
       workorder.startTimestamp = newDate.toDateString();
       workorder.finishTimestamp = tomorrow.toDateString();
     });
-    console.info('Saving workorders');
+    getLogger().info('Saving workorders');
     database.collection(collectionName).insertMany(workorders);
   });
 }

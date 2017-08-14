@@ -1,5 +1,5 @@
 import { sync } from '@raincatcher/datasync-cloud';
-import { Db, ObjectID } from 'mongodb';
+import { Db } from 'mongodb';
 
 /**
  * Initializes global mongodb data handlers for feedhenry sync
@@ -64,7 +64,7 @@ export class GlobalMongoDataHandler {
   public setupHandleRead() {
     const self = this;
     sync.globalHandleRead(function(datasetId, uid, metadata, cb) {
-      self.db.collection(datasetId).findOne({ 'id': uid})
+      self.db.collection(datasetId).findOne({ 'id': uid })
         .then(function(result: any) {
           if (!result) {
             return cb(new Error('Missing result'));

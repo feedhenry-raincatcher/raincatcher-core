@@ -1,7 +1,10 @@
 {
   "morganOptions": null,
   "logStackTraces": true,
-  "sync":{
+  "security": {
+    "apiRole": "admin"
+  },
+  "sync": {
     "customDataHandlers": true,
     "seedDemoData": true
   },

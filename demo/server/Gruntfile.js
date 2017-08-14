@@ -14,6 +14,7 @@ module.exports = function (grunt) {
         },
         exec: {
             'run': 'ts-node src/index.ts',
+            'runDebug': 'ts-node --inspect src/index.ts',
             'test': 'npm run test'
         },
         env: {
@@ -32,5 +33,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('serve', ['env:local', 'watch']);
     grunt.registerTask('test', ['env:local', 'exec:test']);
+    grunt.registerTask('debug', ['env:local', 'exec:runDebug']);
     grunt.registerTask('default', ['serve']);
 };

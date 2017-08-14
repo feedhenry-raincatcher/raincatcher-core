@@ -1,7 +1,7 @@
 import { PassportAuth, UserRepository, UserService } from '@raincatcher/auth-passport';
 import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
-import sessionOpts from '../sessionOpts';
+import sessionOpts from '../SessionOptions';
 
 // Implementation for fetching and mapping user data
 import DemoUserRepository, { SampleUserService } from './DemoUserRepository';

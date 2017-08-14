@@ -1,3 +1,4 @@
+import { getLogger } from '@raincatcher/logger';
 import { Db } from 'mongodb';
 
 const workflows = [
@@ -19,7 +20,7 @@ export default function(collectionName: string, database: Db) {
     if (count !== 0) {
       return;
     }
-    console.info('Saving workflows');
+    getLogger().info('Saving workflows');
     database.collection(collectionName).insertMany(workflows);
   });
 }

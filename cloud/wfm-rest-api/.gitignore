@@ -1,0 +1,4 @@
+# generated code
+/**/*.map
+/**/*.js
+coverage_report/

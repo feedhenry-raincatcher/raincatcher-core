@@ -1,9 +1,13 @@
 import { EndpointSecurity } from '@raincatcher/auth-passport';
 import { getLogger } from '@raincatcher/logger';
+import { WfmRestApi } from '@raincatcher/wfm-rest-api';
+import * as Promise from 'bluebird';
 import * as express from 'express';
-import appConfig from '../util/config';
+import { Db } from 'mongodb';
+import appConfig from '../util/Config';
 import { connect as syncConnector } from './datasync/Connector';
 import { router as syncRouter } from './datasync/Router';
+import initData from './demo-data';
 import { init as initKeycloak } from './keycloak';
 import { init as authInit } from './passport-auth';
 
@@ -13,8 +17,10 @@ export let securityMiddleware: EndpointSecurity;
 
 // Setup all modules
 export function setupModules(app: express.Express) {
-  syncSetup(app);
+  const connectionPromise = syncSetup(app);
   securitySetup(app);
+  apiSetup(app, connectionPromise);
+  demoDataSetup(connectionPromise);
 }
 
 function securitySetup(app: express.Express) {
@@ -41,9 +47,29 @@ function syncSetup(app: express.Express) {
   // Mount api
   app.use('/sync', syncRouter);
   // Connect sync
-  syncConnector().then(function() {
+  return syncConnector().then(function(connections: { mongo: Db, redis: any }) {
     getLogger().info('Sync started');
+    return connections.mongo;
   }).catch(function(err: any) {
     getLogger().error('Failed to initialize sync', err);
+  });
+}
+
+function apiSetup(app: express.Express, connectionPromise: Promise<any>) {
+  // Mount api
+  const api = new WfmRestApi();
+  const role = config.security.apiRole;
+  app.use('/api', securityMiddleware.protect(role), api.createWFMRouter());
+  connectionPromise.then(function(mongo: Db) {
+    // Fix compilation problem with different version of Db.
+    api.setDb(mongo as any);
+  });
+}
+
+function demoDataSetup(connectionPromise: Promise<Db>) {
+  connectionPromise.then(function(mongo: Db) {
+    if (config.seedDemoData) {
+      initData(mongo);
+    }
   });
 }

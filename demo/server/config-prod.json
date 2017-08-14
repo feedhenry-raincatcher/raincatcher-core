@@ -5,6 +5,9 @@
     "customDataHandlers": true,
     "seedDemoData": true
   },
+  "security": {
+    "apiRole": "admin"
+  },
   "keycloakConfig": {
     "realm": "",
     "auth-server-url": "",
