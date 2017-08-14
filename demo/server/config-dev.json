@@ -2,7 +2,8 @@
   "morganOptions": null,
   "logStackTraces": true,
   "security": {
-    "apiRole": "admin"
+    "apiRole": "admin",
+    "syncRole": "user"
   },
   "sync": {
     "customDataHandlers": true,
