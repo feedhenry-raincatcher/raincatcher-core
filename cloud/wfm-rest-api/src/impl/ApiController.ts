@@ -95,6 +95,12 @@ export class ApiController<T> {
       return Bluebird.reject(error);
     }
 
+    req.body.id = req.body.id || req.params.id;
+    if (!req.body) {
+      const error = new ApiError(errorCodes.CLIENT_ERROR, 'Missing entity id for update', 204);
+      return Bluebird.reject(error);
+    }
+
     return this.repository.update(req.body);
   }
 
@@ -121,7 +127,8 @@ export class ApiController<T> {
       .put(this.buildExpressHandler(this.putHandler));
     router.route('/:id')
       .get(this.buildExpressHandler(this.getHandler))
-      .delete(this.buildExpressHandler(this.deleteHandler));
+      .delete(this.buildExpressHandler(this.deleteHandler))
+      .put(this.buildExpressHandler(this.putHandler));
 
     return router;
   }

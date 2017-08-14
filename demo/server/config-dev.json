@@ -1,5 +1,5 @@
 {
-  "morganOptions": null,
+  "morganOptions": "dev",
   "logStackTraces": true,
   "security": {
     "apiRole": "admin"
