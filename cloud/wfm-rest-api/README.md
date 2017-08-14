@@ -82,7 +82,7 @@ Example `/workorders/B1r71fOBr`
 
 ### Update object
 
-> PUT {object}/
+> PUT {object}/:objectId
 
 ### Delete object
 
