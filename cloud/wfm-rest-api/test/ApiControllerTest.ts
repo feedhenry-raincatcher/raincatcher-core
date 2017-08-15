@@ -100,7 +100,8 @@ describe('FeedHenry ApiController Tests', function() {
     });
 
     it('verify put middleware success', function() {
-      return expect(testSubject.putHandler({ body: testObj } as Request)).to.eventually.equal(testObj);
+      const request = { params: { id: 1 }, body: testObj };
+      return expect(testSubject.putHandler(request as Request)).to.eventually.equal(testObj);
     });
 
     it('verify delete middleware success', function() {
