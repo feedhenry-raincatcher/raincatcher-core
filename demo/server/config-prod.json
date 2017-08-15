@@ -2,7 +2,6 @@
   "morganOptions": null,
   "logStackTraces": false,
   "sync": {
-    "customDataHandlers": true,
     "seedDemoData": true
   },
   "security": {

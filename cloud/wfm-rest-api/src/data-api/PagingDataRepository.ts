@@ -11,6 +11,7 @@ import { PageResponse } from '../data-api/PageResponse';
  * Interface is being used internally to perform database operations for WFM models
  * It's not recomended to use it for other application business logic.
  *
+ * T - interface with fields that are expected to be returned by this repository
  */
 export interface PagingDataRepository<T> {
 

@@ -1,5 +1,6 @@
 import * as Bluebird from 'bluebird';
 import { Collection, Cursor, CursorCommentOptions, Db } from 'mongodb';
+import { ObjectID } from 'mongodb';
 import { generate } from 'shortid';
 import { ApiError } from '../data-api/ApiError';
 import { defaultPaginationEngine } from '../data-api/MongoPaginationEngine';
@@ -13,7 +14,10 @@ const dbError: ApiError = new ApiError(errorCodes.DB_ERROR, 'MongoDbRepository d
 /**
  * Service for performing data operations on mongodb database
  */
-export class MongoDbRepository<T extends { id: string }> implements PagingDataRepository<T> {
+export class MongoDbRepository<T extends {
+  id: string,
+  _id?: string | ObjectID
+}> implements PagingDataRepository<T> {
 
   public db: Db;
   protected collection: Collection<T>;
@@ -53,6 +57,8 @@ export class MongoDbRepository<T extends { id: string }> implements PagingDataRe
     if (!this.db) {
       return Bluebird.reject(dbError);
     }
+    // Find update target by id, do not ask mongo to update the ObjectID
+    delete object._id;
     const id = object.id;
     return Bluebird.resolve(this.collection.updateOne({ id }, object))
       .then(() => this.get(object.id));

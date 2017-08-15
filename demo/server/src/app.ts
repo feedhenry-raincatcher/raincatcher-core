@@ -1,11 +1,12 @@
 'use strict';
 
+import { getLogger } from '@raincatcher/logger';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as expressHbs from 'express-handlebars';
-import * as logger from 'morgan';
+import * as morgan from 'morgan';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
 import { securityMiddleware, setupModules } from './modules';
@@ -37,7 +38,7 @@ function getCorsConfig() {
 }
 
 if (config.morganOptions) {
-  app.use(logger(config.morganOptions));
+  app.use(morgan(config.morganOptions));
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -62,6 +63,7 @@ let errHandler: express.ErrorRequestHandler;
 
 errHandler = (err: any, req: express.Request, res: express.Response, next: () => void) => {
   res.status(err.status || 500);
+  getLogger().error(err);
   res.json({
     title: 'error',
     message: err.message,
