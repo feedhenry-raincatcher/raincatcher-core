@@ -127,11 +127,13 @@ export class PassportAuth implements EndpointSecurity {
   /**
    * Sets the url to return to after successful login.
    * This method can be overridden to provide a custom URL to return to
-   *
-   * @param returnToUrl - location to redirect to after a successful login
    */
   protected setReturnToUrl(req: express.Request) {
-    return req.headers.referer || req.originalUrl;
+    if (req.headers && req.headers.referer) {
+      return req.headers.referer;
+    }
+
+    return req.originalUrl;
   }
 
   /**
