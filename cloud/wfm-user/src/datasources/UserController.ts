@@ -40,7 +40,7 @@ export class UserController {
     router.route('/')
       .get(function(request, response, next) {
         self.listUsersHandler(request).then(function(data) {
-          return response.json(data);
+          return response.json({ users: data });
         }).catch(next);
       });
     return router;
