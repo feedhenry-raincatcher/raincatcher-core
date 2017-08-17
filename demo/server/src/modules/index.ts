@@ -1,6 +1,7 @@
 import { EndpointSecurity } from '@raincatcher/auth-passport';
 import { getLogger } from '@raincatcher/logger';
 import { WfmRestApi } from '@raincatcher/wfm-rest-api';
+import { User, UserController, UsersRepository } from '@raincatcher/wfm-user';
 import * as Promise from 'bluebird';
 import * as express from 'express';
 import { Db } from 'mongodb';
@@ -10,6 +11,7 @@ import { router as syncRouter } from './datasync/Router';
 import initData from './demo-data';
 import { init as initKeycloak } from './keycloak';
 import { init as authInit } from './passport-auth';
+import {StaticUsersRepository} from './wfm-user/StaticUsersRepository';
 
 const config = appConfig.getConfig();
 
@@ -19,7 +21,8 @@ export let securityMiddleware: EndpointSecurity;
 export function setupModules(app: express.Express) {
   securitySetup(app);
   const connectionPromise = syncSetup(app);
-  apiSetup(app, connectionPromise);
+  wfmApiSetup(app, connectionPromise);
+  userApiSetup(app);
   demoDataSetup(connectionPromise);
 }
 
@@ -35,6 +38,13 @@ function securitySetup(app: express.Express) {
   }
 }
 
+function userApiSetup(app: express.Express) {
+  const usersRepo = new StaticUsersRepository();
+  const userController = new UserController(usersRepo);
+  const role = config.security.adminRole;
+  app.use('/api/users', securityMiddleware.protect(role), userController.buildRouter());
+}
+
 function setupPassportSecurity(app: express.Express) {
   securityMiddleware = authInit(app);
 }
@@ -45,7 +55,7 @@ function setupKeycloakSecurity(app: express.Express) {
 
 function syncSetup(app: express.Express) {
   // Mount api
-  const role = config.security.syncRole;
+  const role = config.security.userRole;
   app.use('/sync', securityMiddleware.protect(role), syncRouter);
   // Connect sync
   return syncConnector().then(function(connections: { mongo: Db, redis: any }) {
@@ -56,10 +66,10 @@ function syncSetup(app: express.Express) {
   });
 }
 
-function apiSetup(app: express.Express, connectionPromise: Promise<any>) {
+function wfmApiSetup(app: express.Express, connectionPromise: Promise<any>) {
   // Mount api
   const api = new WfmRestApi();
-  const role = config.security.apiRole;
+  const role = config.security.adminRole;
   app.use('/api', securityMiddleware.protect(role), api.createWFMRouter());
   connectionPromise.then(function(mongo: Db) {
     // Fix compilation problem with different version of Db.

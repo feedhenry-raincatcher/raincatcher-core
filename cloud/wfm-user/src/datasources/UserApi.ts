@@ -34,11 +34,12 @@ export class UserController {
    * Build all routes and return new router instance
    */
   public buildRouter(): Router {
+    const self = this;
     const router = express.Router();
     getLogger().info('User web api initialization');
     router.route('/')
       .get(function(request, response, next) {
-        this.listUsersHandler(request).then(function(data) {
+        self.listUsersHandler(request).then(function(data) {
           return response.json(data);
         }).catch(next);
       });
