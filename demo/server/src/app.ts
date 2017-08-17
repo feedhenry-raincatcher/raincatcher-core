@@ -64,11 +64,16 @@ let errHandler: express.ErrorRequestHandler;
 errHandler = (err: any, req: express.Request, res: express.Response, next: () => void) => {
   res.status(err.status || 500);
   getLogger().error(err);
-  res.json({
-    title: 'error',
+  const errorObj: any = {
     message: err.message,
-    error: config.logStackTraces ? err : {}
-  });
+    originalError: config.logStackTraces ? err.originalError : {}
+  };
+  if (err.code) {
+    errorObj.code = err.code;
+  } else {
+    errorObj.code = 'UnexpectedError';
+  }
+  res.json(errorObj);
 };
 
 app.use(errHandler);
