@@ -107,23 +107,13 @@ export class ApiController<T> {
     return this.repository.update(data);
   }
 
-  public buildExpressHandler(handlerFn: (this: this, req: Request) => Bluebird<T | T[] | undefined>): RequestHandler {
-    return (req, res, next) => handlerFn.bind(this)(req)
-      .then(data => data ? res.json(data) : res.status(204).end())
-      .catch(next);
-  }
-
   /**
-   * Build all CRUD routes for `apiPrefix`
+   * Build all CRUD routes
    *
-   * @param router - router used to attach api
-   * @param repository - repository to retrieve data
-   * @param apiPrefix - prefix to mount api in URI path. For example `/prefix/:id`
+   * @return router containing all routes
    */
   public buildRouter(): Router {
     const router = express.Router();
-    getLogger().info('REST api initialization');
-
     router.route('/')
       .get(this.buildExpressHandler(this.listHandler))
       .post(this.buildExpressHandler(this.postHandler));
@@ -133,5 +123,11 @@ export class ApiController<T> {
       .put(this.buildExpressHandler(this.putHandler));
 
     return router;
+  }
+
+  private buildExpressHandler(handlerFn: (this: this, req: Request) => Bluebird<T | T[] | undefined>): RequestHandler {
+    return (req, res, next) => handlerFn.bind(this)(req)
+      .then(data => data ? res.json(data) : res.status(204).end())
+      .catch(next);
   }
 }
