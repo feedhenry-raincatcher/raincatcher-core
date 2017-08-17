@@ -93,31 +93,25 @@ export class PassportAuth implements EndpointSecurity {
   }
 
   /**
-   * Create middleware for authentication purposes
-   * This method wraps `passport.authenticate` to provide middleware for authenticating users.
+   * Creates a middleware for authentication purposes.
+   * This method wraps `passport.authenticate` to provide a middleware for authenticating users.
+   * It also includes a check if the user is already authenticated. If the user is already
+   * authenticated, it redirects back to the application, otherwise, it proceeds to authenticate
+   * the user.
    *
    * @param defaultRedirect - location to redirect after successful authentication
    *                          when login page was loaded directly (without redirect)
    * @param errorRedirect - location to redirect after unsuccessful authentication
    */
   public authenticate(defaultRedirect: string, errorRedirect?: string) {
-    return passport.authenticate('local', {
-      failureRedirect: errorRedirect,
-      successReturnToOrRedirect: defaultRedirect
-    });
-  }
-
-  /**
-   * A middleware which checks if the user is authenticated.
-   * If the user is already authenticated, the user is redirected back to the application,
-   * otherwise it will proceed onto authenticating the user.
-   */
-  public isAuthenticated() {
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
       if (req.isAuthenticated() && req.session) {
-        res.redirect(req.session.clientURL);
+        return res.redirect(req.session.clientURL);
       } else {
-        next();
+        return passport.authenticate('local', {
+          failureRedirect: errorRedirect,
+          successReturnToOrRedirect: defaultRedirect
+        })(req, res, next);
       }
     };
   }
