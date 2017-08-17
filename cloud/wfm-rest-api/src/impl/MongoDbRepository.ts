@@ -34,14 +34,20 @@ export class MongoDbRepository<T extends {
     }
     const cursor = this.collection.find(filter);
     return Bluebird.resolve(cursor.count(false, filter))
-      .then(count => defaultPaginationEngine.buildPageResponse(request, cursor, count));
+      .then(count => defaultPaginationEngine.buildPageResponse(request, cursor, count)).catch(err => {
+        const apiError = new ApiError(errorCodes.DB_ERROR, 'Cannot perform mongo query', 500, err);
+        return Bluebird.reject(apiError);
+      });
   }
 
   public get(id: string): Bluebird<T> {
     if (!this.db) {
       return Bluebird.reject(dbError);
     }
-    return Bluebird.resolve(this.collection.findOne({ id }));
+    return Bluebird.resolve(this.collection.findOne({ id })).catch(err => {
+      const apiError = new ApiError(errorCodes.DB_ERROR, 'Cannot perform mongo query', 500, err);
+      return Bluebird.reject(apiError);
+    });
   }
 
   public create(object: T): Bluebird<T> {
@@ -50,7 +56,10 @@ export class MongoDbRepository<T extends {
       return Bluebird.reject(dbError);
     }
     return Bluebird.resolve(this.collection.insertOne(object))
-      .then(() => this.get(object.id));
+      .then(() => this.get(object.id)).catch(err => {
+        const apiError = new ApiError(errorCodes.DB_ERROR, 'Cannot perform mongo query', 500, err);
+        return Bluebird.reject(apiError);
+      });
   }
 
   public update(object: T): Bluebird<T> {
@@ -61,7 +70,10 @@ export class MongoDbRepository<T extends {
     delete object._id;
     const id = object.id;
     return Bluebird.resolve(this.collection.updateOne({ id }, object))
-      .then(() => this.get(object.id));
+      .then(() => this.get(object.id)).catch(err => {
+        const apiError = new ApiError(errorCodes.DB_ERROR, 'Cannot perform mongo query', 500, err);
+        return Bluebird.reject(apiError);
+      });
   }
 
   public delete(id: string): Bluebird<boolean> {
@@ -69,7 +81,10 @@ export class MongoDbRepository<T extends {
       return Bluebird.reject(dbError);
     }
     return Bluebird.resolve(this.collection.deleteOne({ id }))
-      .then(response => response.result.ok === 1);
+      .then(response => response.result.ok === 1).catch(err => {
+        const apiError = new ApiError(errorCodes.DB_ERROR, 'Cannot perform mongo query', 500, err);
+        return Bluebird.reject(apiError);
+      });
   }
 
   /**
