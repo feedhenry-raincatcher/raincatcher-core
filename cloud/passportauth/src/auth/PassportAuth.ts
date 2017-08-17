@@ -82,6 +82,7 @@ export class PassportAuth implements EndpointSecurity {
         if (req.session) {
           // Used for redirecting to after a successful login when option successReturnToOrRedirect is defined.
           req.session.returnTo = self.setReturnToUrl(req);
+          req.session.clientURL = req.session.returnTo;
         }
         return res.status(401).send();
       }
@@ -104,6 +105,21 @@ export class PassportAuth implements EndpointSecurity {
       failureRedirect: errorRedirect,
       successReturnToOrRedirect: defaultRedirect
     });
+  }
+
+  /**
+   * A middleware which checks if the user is authenticated.
+   * If the user is already authenticated, the user is redirected back to the application,
+   * otherwise it will proceed onto authenticating the user.
+   */
+  public isAuthenticated() {
+    return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      if (req.isAuthenticated() && req.session) {
+        res.redirect(req.session.clientURL);
+      } else {
+        next();
+      }
+    };
   }
 
   /**
