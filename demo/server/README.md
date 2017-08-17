@@ -23,3 +23,17 @@ When process start you can connect to it using ide of your choice.
 - mongodb installed and running on port 27017.
 - redis installed and running on port 6379
 
+## Configuration
+
+Demo offers different configuration profiles depending on where application will be deployed.
+
+- config-dev.json (for developer/local setup - used by default)
+- config-prod.json (for production uses)
+
+Profiles can be changed using `process.env.CONFIG_PROFILE` variable.
+For example:
+```
+// use production profile.
+process.env.CONFIG_PROFILE === 'prod'
+// it will load config-prod.json file in top level application
+```
