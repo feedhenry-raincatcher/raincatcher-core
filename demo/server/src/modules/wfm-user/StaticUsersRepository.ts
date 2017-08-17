@@ -10,11 +10,16 @@ import { users } from '../demo-data';
  */
 export class StaticUsersRepository implements UsersRepository {
   public retrieveUsers(filter: string, limit: number): Bluebird<User[]> {
-    const filteredList = _.filter(users, function(user: User) {
-      if (user && user.name) {
-        return user.name.indexOf(filter) !== -1;
-      }
-    });
+    let filteredList;
+    if (!filter) {
+      filteredList = [];
+    } else {
+      filteredList = _.filter(users, function(user: User) {
+        if (user && user.name) {
+          return user.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
+        }
+      });
+    }
     return Bluebird.resolve(_.take(filteredList, limit));
   }
 }
