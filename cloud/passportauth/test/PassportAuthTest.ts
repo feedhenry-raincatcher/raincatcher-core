@@ -44,6 +44,7 @@ describe('Test Passport Auth', function() {
         password: 'testError'
       },
       logIn: sinon.spy(),
+      isAuthenticated: sinon.stub().returns(false),
       user: null
     };
 
@@ -64,6 +65,7 @@ describe('Test Passport Auth', function() {
         password: 'invalidPassword'
       },
       logIn: sinon.spy(),
+      isAuthenticated: sinon.stub().returns(false),
       user: null
     };
 
@@ -84,6 +86,7 @@ describe('Test Passport Auth', function() {
         password: 'testPassword'
       },
       logIn: sinon.spy(),
+      isAuthenticated: sinon.stub().returns(false),
       user: null
     };
 
@@ -172,6 +175,5 @@ describe('Test Passport Auth', function() {
 
       done();
     });
-
   });
 });
