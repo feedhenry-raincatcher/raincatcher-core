@@ -36,7 +36,7 @@
     "@raincatcher/logger": "1.0.0",
     "@raincatcher/wfm": "1.0.0",
     "bluebird": "^3.5.0",
-    "express": "^4.15.3",
+    "express": "^4.15.4",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.31",
     "shortid": "^2.2.8"

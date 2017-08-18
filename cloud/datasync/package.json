@@ -48,9 +48,9 @@
     "typescript": "^2.5.0"
   },
   "dependencies": {
-    "@types/mongodb": "^2.2.7",
-    "body-parser": "1.17.2",
-    "cors": "2.8.3",
+    "@types/mongodb": "^2.2.10",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
     "express": "4.15.3",
     "fh-sync": "^1.0.7"
   }
