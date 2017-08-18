@@ -1,3 +1,4 @@
+import { User } from '@raincatcher/wfm-user';
 import { Db } from 'mongodb';
 import workflowSetup from './Workflows';
 import workorderSetup from './Workorders';
@@ -15,4 +16,4 @@ export default function(database: Db) {
  * Static user json data
  */
 // tslint:disable-next-line:no-var-requires
-export const users = require('./users.json');
+export const users: User[] = require('./users.json');

@@ -127,7 +127,7 @@ export class ApiController<T> {
 
   private buildExpressHandler(handlerFn: (this: this, req: Request) => Bluebird<T | T[] | undefined>): RequestHandler {
     return (req, res, next) => handlerFn.bind(this)(req)
-      .then(data => data ? res.json(data) : res.status(204).end())
+      .then((data: T | T[] | undefined) => data ? res.json(data) : res.status(204).end())
       .catch(next);
   }
 }

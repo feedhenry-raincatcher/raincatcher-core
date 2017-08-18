@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es5",
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "experimentalDecorators": true,
         "strictNullChecks": true,
         "sourceMap": true

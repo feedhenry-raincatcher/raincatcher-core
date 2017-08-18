@@ -13,13 +13,13 @@ import { MongoDbRepository } from './impl/MongoDbRepository';
  * RESTfull api handlers for Workorders, Workflows and Results (WFM objects)
  */
 export class WfmRestApi {
-  private config;
+  private config: ApiConfig;
   private workorderService: MongoDbRepository<WorkOrder>;
   private workflowService: MongoDbRepository<WorkFlow>;
   private resultService: MongoDbRepository<WorkOrderResult>;
 
-  constructor(userConfig?: ApiConfig) {
-    this.config = _.defaults(defaultConfiguration, userConfig);
+  constructor(userConfig?: Partial<ApiConfig>) {
+    this.config = _.defaults<ApiConfig>(defaultConfiguration, userConfig);
     this.createWFMServices();
   }
 

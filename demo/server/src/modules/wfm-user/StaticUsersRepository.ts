@@ -10,7 +10,7 @@ import { users } from '../demo-data';
  */
 export class StaticUsersRepository implements UsersRepository {
   public retrieveUsers(filter: string, limit: number): Bluebird<User[]> {
-    let filteredList;
+    let filteredList: User[];
     if (!filter) {
       filteredList = [];
     } else {

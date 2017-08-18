@@ -3,6 +3,7 @@ import { ApiError } from '@raincatcher/wfm-rest-api';
 import * as Bluebird from 'bluebird';
 import * as express from 'express';
 import { NextFunction, Request, RequestHandler, Response, Router } from 'express';
+import { User } from './User';
 import { UsersRepository } from './UsersRepository';
 
 const INVALID_FILTER_ERROR = 'InvalidFilter';
@@ -19,11 +20,11 @@ export class UserController {
   /**
    * Handler using `UsersRepository` to fetch list of the users
    */
-  public listUsersHandler(req: Request) {
+  public listUsersHandler(req: Request): Bluebird<User[]> {
     getLogger().debug('Api list method called', { body: req.query });
     if (!req.query.filter) {
       getLogger().debug('Invalid filter passed');
-      const error = new ApiError(INVALID_FILTER_ERROR, 'Missing user fiter', 400);
+      const error = new ApiError(INVALID_FILTER_ERROR, 'Missing user filter', 400);
       return Bluebird.reject(error);
     }
     const limit = req.query.limit || DEFAULT_QUERY_LIMIT;
