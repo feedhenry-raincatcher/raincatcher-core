@@ -6,13 +6,17 @@ import { User, UserController, UsersRepository } from '../src/index';
 
 const app = express();
 
+const exampleUser: User = { id: 1, name: 'Example User', username: 'example' };
+
 /**
  * Simplified example UsersRepository.
  * Implementation can fetch users from databases, LDAP etc.
  */
 class ExampleRepository implements UsersRepository {
+  public getUser(id: string | number): Bluebird<User> {
+    return Bluebird.resolve(exampleUser);
+  }
   public retrieveUsers(filter: string, limit: number): Bluebird<User[]> {
-    const exampleUser = { id: 1, name: 'Example User' };
     return Bluebird.resolve([exampleUser]);
   }
 }

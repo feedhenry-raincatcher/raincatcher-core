@@ -4,6 +4,8 @@ Module responsible for user operations required by all WFM modules.
 
 ## RESTfull API
 
+### Filter
+
 > GET /?filter=name&limit=10
 
 Retruns JSON array containing users
@@ -13,8 +15,29 @@ Retruns JSON array containing users
 }
 ```
 
-For example:
+#### Example
+
 http://localhost:8001/api/users?filter=a&limit=1
+
+> Note: Default limit is 10
+
+#### Errors
+
+400 - missing filter `{code: 'InvalidFilter'}`
+
+### Get user by id
+
+> GET /:id
+
+Gets user by id
+
+#### Example
+
+http://localhost:8001/api/users/fhj3nf
+
+#### Errors
+
+400 - missing id `{code: 'InvalidID'}`
 
 ## Implementing UserRepository
 

@@ -15,4 +15,11 @@ export interface UsersRepository {
    * @param limit - used to limit number of results for situations when list of users will be to large.
    */
   retrieveUsers(filter: string, limit: number): Bluebird<User[]>;
+
+  /**
+   * Retrieve single user from datasource
+   *
+   * @param id - user identifier
+   */
+  getUser(id: string | number): Bluebird<User>;
 }

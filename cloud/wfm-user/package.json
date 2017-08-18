@@ -29,7 +29,7 @@
     "report-dir": "coverage_report",
     "check-coverage": true,
     "lines": 75,
-    "functions": 65,
+    "functions": 55,
     "branches": 80
   },
   "devDependencies": {
