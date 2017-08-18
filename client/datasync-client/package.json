@@ -33,15 +33,15 @@
     "branches": 50
   },
   "devDependencies": {
-    "@types/chai": "^4.0.1",
-    "@types/lodash": "^4.14.70",
+    "@types/chai": "^4.0.3",
+    "@types/lodash": "^4.14.73",
     "@types/mocha": "^2.2.41",
     "@types/proxyquire": "^1.3.27",
     "@types/sinon": "^2.3.3",
     "assert": "^1.4.1",
     "browserify": "^14.4.0",
     "browserify-shim": "^3.8.14",
-    "chai": "^4.1.0",
+    "chai": "^4.1.1",
     "del-cli": "^1.1.0",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",

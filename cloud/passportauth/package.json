@@ -43,11 +43,11 @@
     "@types/mocha": "^2.2.41",
     "@types/passport": "^0.3.3",
     "@types/passport-local": "^1.0.30",
-    "@types/sinon": "^2.3.1",
+    "@types/sinon": "^2.3.3",
     "del-cli": "^1.1.0",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
-    "sinon": "^2.3.5",
+    "sinon": "^2.4.1",
     "source-map-support": "^0.4.16",
     "ts-node": "^3.3.0",
     "typescript": "^2.5.0"
