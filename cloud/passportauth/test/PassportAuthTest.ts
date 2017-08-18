@@ -44,6 +44,7 @@ describe('Test Passport Auth', function() {
         password: 'testError'
       },
       logIn: sinon.spy(),
+      isAuthenticated: sinon.stub().returns(false),
       user: null
     };
 
@@ -64,6 +65,7 @@ describe('Test Passport Auth', function() {
         password: 'invalidPassword'
       },
       logIn: sinon.spy(),
+      isAuthenticated: sinon.stub().returns(false),
       user: null
     };
 
@@ -84,6 +86,7 @@ describe('Test Passport Auth', function() {
         password: 'testPassword'
       },
       logIn: sinon.spy(),
+      isAuthenticated: sinon.stub().returns(false),
       user: null
     };
 
@@ -102,7 +105,8 @@ describe('Test Passport Auth', function() {
       isAuthenticated: sinon.stub().returns(false),
       headers: {
         referer: 'testUrlToReturnTo'
-      }
+      },
+      session: {}
     };
     testSubject.protect()(mockReq as express.Request, mockRes as express.Response, mockNext);
 
@@ -112,7 +116,7 @@ describe('Test Passport Auth', function() {
     sinon.assert.calledWith(mockRes.status, 401);
   });
 
-  it('should assign a url to return to in session if session was defined', function() {
+  it('should not assign a url to return to in session if session is not available', function() {
     mockReq = {
       isAuthenticated: sinon.stub().returns(false),
       session: {},
@@ -127,6 +131,37 @@ describe('Test Passport Auth', function() {
     sinon.assert.calledOnce(mockReq.isAuthenticated);
     sinon.assert.calledWith(mockRes.status, 401);
     sinon.match.has(mockReq.session.returnTo, mockReq.headers.referer);
+  });
+
+  it('should assign a url to return to in session if referer is available', function() {
+    mockReq = {
+      isAuthenticated: sinon.stub().returns(false),
+      headers: {
+        referer: 'testUrlToReturnTo'
+      }
+    };
+    testSubject.protect()(mockReq as express.Request, mockRes as express.Response, mockNext);
+
+    sinon.assert.notCalled(mockNext);
+    sinon.assert.calledOnce(mockRes.status);
+    sinon.assert.calledOnce(mockReq.isAuthenticated);
+    sinon.assert.calledWith(mockRes.status, 401);
+    sinon.match(mockReq.session, undefined);
+  });
+
+  it('should assign a url to returnTo in session if originalUrl is available', function() {
+    mockReq = {
+      isAuthenticated: sinon.stub().returns(false),
+      session: {},
+      originalUrl: 'testUrlToReturnTo'
+    };
+    testSubject.protect()(mockReq as express.Request, mockRes as express.Response, mockNext);
+
+    sinon.assert.notCalled(mockNext);
+    sinon.assert.calledOnce(mockRes.status);
+    sinon.assert.calledOnce(mockReq.isAuthenticated);
+    sinon.assert.calledWith(mockRes.status, 401);
+    sinon.match.has(mockReq.session.returnTo, mockReq.originalUrl);
   });
 
   it('should call next if the user was authenticated and the route was not protected by a role', function() {
@@ -172,6 +207,28 @@ describe('Test Passport Auth', function() {
 
       done();
     });
+  });
 
+  it('should not authenticate if the user is already authenticated', function(done) {
+    mockReq = {
+      session: {
+        clientURL: '/'
+      },
+      isAuthenticated: sinon.stub().returns(true),
+      logIn: sinon.spy(),
+      user: mockUserObj
+    };
+
+    testSubject.authenticate('/')(mockReq as express.Request, mockRes as express.Response,
+      mockNext as express.NextFunction);
+
+    setImmediate(() => {
+      sinon.assert.calledOnce(mockReq.isAuthenticated);
+      sinon.assert.calledOnce(mockRes.redirect);
+      sinon.assert.calledWith(mockRes.redirect, mockReq.session.clientURL);
+      sinon.assert.notCalled(mockReq.logIn);
+
+      done();
+    });
   });
 });

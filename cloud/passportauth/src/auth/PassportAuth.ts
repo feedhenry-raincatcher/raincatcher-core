@@ -82,6 +82,7 @@ export class PassportAuth implements EndpointSecurity {
         if (req.session) {
           // Used for redirecting to after a successful login when option successReturnToOrRedirect is defined.
           req.session.returnTo = self.setReturnToUrl(req);
+          req.session.clientURL = req.session.returnTo;
         }
         return res.status(401).send();
       }
@@ -92,18 +93,27 @@ export class PassportAuth implements EndpointSecurity {
   }
 
   /**
-   * Create middleware for authentication purposes
-   * This method wraps `passport.authenticate` to provide middleware for authenticating users.
+   * Creates a middleware for authentication purposes.
+   * This method wraps `passport.authenticate` to provide a middleware for authenticating users.
+   * It also includes a check if the user is already authenticated. If the user is already
+   * authenticated, it redirects back to the application, otherwise, it proceeds to authenticate
+   * the user.
    *
    * @param defaultRedirect - location to redirect after successful authentication
    *                          when login page was loaded directly (without redirect)
    * @param errorRedirect - location to redirect after unsuccessful authentication
    */
   public authenticate(defaultRedirect: string, errorRedirect?: string) {
-    return passport.authenticate('local', {
-      failureRedirect: errorRedirect,
-      successReturnToOrRedirect: defaultRedirect
-    });
+    return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      if (req.isAuthenticated() && req.session) {
+        return res.redirect(req.session.clientURL);
+      } else {
+        return passport.authenticate('local', {
+          failureRedirect: errorRedirect,
+          successReturnToOrRedirect: defaultRedirect
+        })(req, res, next);
+      }
+    };
   }
 
   /**
@@ -117,11 +127,13 @@ export class PassportAuth implements EndpointSecurity {
   /**
    * Sets the url to return to after successful login.
    * This method can be overridden to provide a custom URL to return to
-   *
-   * @param returnToUrl - location to redirect to after a successful login
    */
   protected setReturnToUrl(req: express.Request) {
-    return req.headers.referer || req.originalUrl;
+    if (req.headers && req.headers.referer) {
+      return req.headers.referer;
+    }
+
+    return req.originalUrl;
   }
 
   /**
