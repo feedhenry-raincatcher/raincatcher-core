@@ -12,28 +12,28 @@ export interface Logger {
    * @param message - message to log
    * @param options - object to include in log
    */
-  debug(message: string, options?: any);
+  debug(message: string, options?: any): void;
 
   /**
    * Log on info level
    * @param message - message to log
    * @param options - object to include in log
    */
-  info(message: string, options?: any);
+  info(message: string, options?: any): void;
 
   /**
    * Log on warn level
    * @param message - message to log
    * @param options - object to include in log
    */
-  warn(message: string, options?: any);
+  warn(message: string, options?: any): void;
 
   /**
    * Log on error level
    * @param message - message to log
    * @param options - object to include in log
    */
-  error(message: string, options?: any);
+  error(message: string, options?: any): void;
 }
 
 /**

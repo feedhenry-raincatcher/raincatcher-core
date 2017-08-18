@@ -26,7 +26,7 @@ const config = appConfig.getConfig();
 function getCorsConfig() {
   let corsConfig = {};
   if (!config.keycloakConfig) {
-    const dynamicOrigin = function(origin, callback) {
+    const dynamicOrigin = function(origin: any, callback: (err: Error | null, bool: boolean) => void) {
       callback(null, true);
     };
     corsConfig = {

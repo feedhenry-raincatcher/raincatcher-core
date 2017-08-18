@@ -5,17 +5,17 @@
  */
 export interface ApiConfig {
   /** Root path for the WorkOrder http endpoints */
-  workorderApiName?: string;
+  workorderApiName: string;
   /** Root path for the WorkFlow http endpoints  */
-  workflowApiName?: string;
+  workflowApiName: string;
   /** Root path for the Result http endpoints  */
-  resultApiName?: string;
+  resultApiName: string;
   /** Collection name to make database query for workorder */
-  workorderCollectionName?: string;
+  workorderCollectionName: string;
   /** Collection name to make database query for workflow */
-  workflowCollectionName?: string;
+  workflowCollectionName: string;
   /** Collection name to make database query for result */
-  resultCollectionName?: string;
+  resultCollectionName: string;
 }
 
 /**
