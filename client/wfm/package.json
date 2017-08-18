@@ -37,16 +37,16 @@
     "branches": 80
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.5",
+    "@types/bluebird": "^3.5.8",
     "@types/lodash": "^4.14.65",
     "@types/mocha": "^2.2.41",
     "@types/valid-url": "^1.0.2",
-    "del-cli": "^1.0.0",
-    "mocha": "^3.4.2",
-    "nyc": "^11.0.1",
-    "source-map-support": "^0.4.15",
-    "ts-node": "^3.0.4",
-    "typescript": "^2.3.4"
+    "del-cli": "^1.1.0",
+    "mocha": "^3.5.0",
+    "nyc": "^11.1.0",
+    "source-map-support": "^0.4.16",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.0"
   },
   "dependencies": {
     "@types/chai": "^4.0.2",
