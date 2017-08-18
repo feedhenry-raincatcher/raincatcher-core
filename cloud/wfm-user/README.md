@@ -23,7 +23,7 @@ http://localhost:8001/api/users?filter=a&limit=1
 
 #### Errors
 
-400 - missing filter `{code: 'InvalidFilter'}`
+Missing filter: `{status: 400 , code: 'InvalidFilter'}`
 
 ### Get user by id
 
@@ -37,7 +37,7 @@ http://localhost:8001/api/users/fhj3nf
 
 #### Errors
 
-400 - missing id `{code: 'InvalidID'}`
+Missing id `{status: 400 , code: 'InvalidID'}`
 
 ## Implementing UserRepository
 
