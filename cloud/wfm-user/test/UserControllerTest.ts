@@ -13,14 +13,12 @@ import {
   User, UserController, UsersRepository
 } from '../src/index';
 
-interface TestEntity {
-  id: string;
-  name: string;
-}
-
-const testObj: TestEntity = { id: '1', name: 'Tom Smith' };
+const testObj = { id: '1', name: 'Tom Smith', username: 'tsmith' };
 const listResponse = [testObj];
 class MockRepository implements UsersRepository {
+  public getUser(id: string | number): Bluebird<User> {
+    return Bluebird.resolve(testObj);
+  }
   public retrieveUsers(filter: string, limit: number): Bluebird<User[]> {
     return Bluebird.resolve(listResponse);
   }
@@ -52,6 +50,25 @@ describe('FeedHenry User Controller Tests', function() {
         // tslint:disable-next-line:no-unused-expression
         expect(err).to.not.empty;
       });
+    });
+  });
+  it('verify get middleware', function() {
+    const request = {
+      params: {
+        id: testObj.id
+      }
+    };
+    return testSubject.getUserHandler(request as Request).then(data =>
+      expect(data).to.equal(testObj)
+    );
+  });
+  it('verify get middleware fails on missing id', function() {
+    const request = {
+      params: {}
+    };
+    return testSubject.getUserHandler(request as Request).catch(err => {
+      // tslint:disable-next-line:no-unused-expression
+      expect(err).to.not.empty;
     });
   });
   it('verify route creation', function() {
