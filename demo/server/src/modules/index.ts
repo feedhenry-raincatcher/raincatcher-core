@@ -1,4 +1,5 @@
 import { EndpointSecurity } from '@raincatcher/auth-passport';
+import initData from '@raincatcher/demo-data';
 import { getLogger } from '@raincatcher/logger';
 import { WfmRestApi } from '@raincatcher/wfm-rest-api';
 import { User, UserController, UsersRepository } from '@raincatcher/wfm-user';
@@ -8,7 +9,6 @@ import { Db } from 'mongodb';
 import appConfig from '../util/Config';
 import { connect as syncConnector } from './datasync/Connector';
 import { router as syncRouter } from './datasync/Router';
-import initData from './demo-data';
 import { init as initKeycloak } from './keycloak';
 import { init as authInit } from './passport-auth';
 import {StaticUsersRepository} from './wfm-user/StaticUsersRepository';
