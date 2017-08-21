@@ -106,8 +106,7 @@ describe('Data Manager', function() {
 
       const mockDataItem = {
         name: 'mynewdataitem',
-        description: 'My New Data Item',
-        _localuid: mockRecordUid
+        description: 'My New Data Item'
       };
 
       const mockSyncAPIResponse = {
@@ -139,7 +138,6 @@ describe('Data Manager', function() {
       const mockRecordUid = 'syncRecordUID';
 
       const mockDataItem = {
-        _localuid: mockRecordUid,
         name: 'mynewdataitem',
         description: 'My New Data Item'
       };
@@ -148,7 +146,7 @@ describe('Data Manager', function() {
         uid: mockRecordUid
       };
 
-      const expectedCreatedData = _.extend({ _localuid: mockSyncAPIResponse.uid }, mockDataItem);
+      const expectedCreatedData = _.extend(mockDataItem);
 
       const mock$fh = {
         doUpdate: sinon.stub().callsArgWith(3, mockSyncAPIResponse),
@@ -172,7 +170,6 @@ describe('Data Manager', function() {
 
       const mockDataItem = {
         id: 'dataitemid',
-        _localuid: mockRecordUid,
         name: 'mynewdataitem',
         description: 'My New Data Item'
       };
