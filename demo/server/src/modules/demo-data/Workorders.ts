@@ -1,4 +1,5 @@
 import { getLogger } from '@raincatcher/logger';
+import * as Promise from 'bluebird';
 import { Db } from 'mongodb';
 
 const workorders = [
@@ -173,24 +174,39 @@ const workorders = [
   }
 ];
 
+function updateWorkorderDates() {
+  const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 4);
+  workorders.forEach(function(workorder, index) {
+    const date = new Date(workorder.startTimestamp);
+    const hours = date.getHours();
+    const newDate = index < workorders.length * 2 / 3 ? today : tomorrow;
+    newDate.setHours(hours);
+    workorder.startTimestamp = newDate.toDateString();
+    workorder.finishTimestamp = tomorrow.toDateString();
+  });
+}
+
 export default function(collectionName: string, database: Db) {
-  database.collection(collectionName).count({}, function(err, count) {
+  return database.collection(collectionName).count({}, {})
+  .then(count => {
     if (count !== 0) {
-      return;
+      getLogger().info(`${count} workorders found, not re-initializing data`);
+      return Promise.resolve(undefined);
     }
-    // Change workorders dates
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 4);
-    workorders.forEach(function(workorder, index) {
-      const date = new Date(workorder.startTimestamp);
-      const hours = date.getHours();
-      const newDate = index < workorders.length * 2 / 3 ? today : tomorrow;
-      newDate.setHours(hours);
-      workorder.startTimestamp = newDate.toDateString();
-      workorder.finishTimestamp = tomorrow.toDateString();
+    getLogger().info('Generating sample workorders');
+    updateWorkorderDates();
+    return database.collection(collectionName).createIndex({
+      id: 'hashed'
     });
-    getLogger().info('Saving workorders');
-    database.collection(collectionName).insertMany(workorders);
+  })
+  .then(indexResult => indexResult ?
+    database.collection(collectionName).insertMany(workorders) : Promise.resolve(undefined))
+  .then(insertResult => {
+    if (insertResult) {
+      getLogger().info(`Generated ${insertResult.insertedCount} sample workorders`);
+    }
+    return insertResult;
   });
 }
