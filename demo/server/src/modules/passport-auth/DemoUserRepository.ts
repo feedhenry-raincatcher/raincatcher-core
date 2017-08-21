@@ -1,11 +1,11 @@
 import { UserRepository, UserService } from '@raincatcher/auth-passport';
 import * as _ from 'lodash';
-
-// tslint:disable-next-line:no-var-requires
-const users: any = require('./users.json');
+import { users } from '../demo-data';
 
 /**
  * A sample user implementation
+ *
+ * Note: This implementation is only for demo purposes.
  */
 export class SampleUserService implements UserService {
   // Map user object

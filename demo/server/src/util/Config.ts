@@ -1,3 +1,5 @@
+import { existsSync } from 'fs';
+import { basename, join } from 'path';
 /**
  * Interface for fetching application configuration.
  *
@@ -22,16 +24,23 @@ export class EnvironmentConfig<T> implements Config<T> {
   private rawConfig: T;
 
   constructor() {
-    const prodEnv = process.env.NODE_ENV === 'production';
-    if (prodEnv) {
-      this.rawConfig = require('../../config-prod.json');
-    } else {
-      this.rawConfig = require('../../config-dev.json');
-    }
+    this.setupProfile();
   }
 
   public getConfig() {
     return this.rawConfig;
+  }
+
+  private setupProfile() {
+    const profile = process.env.CONFIG_PROFILE;
+    let location = '../../config-' + profile + '.json';
+    if (!existsSync(join(__dirname, location))) {
+      console.info('Using default server configuration.'
+        + 'Set CONFIG_PROFILE env var to point to different configuration file.');
+      location = '../../config-dev.json';
+    }
+    console.info('Loading server side configuration', { path: basename(location) });
+    this.rawConfig = require(location);
   }
 }
 
@@ -43,10 +52,9 @@ export interface CloudAppConfig {
   keycloakConfig: any;
   seedDemoData: boolean;
   security: {
-    apiRole: string,
-    syncRole: string
+    adminRole: string,
+    userRole: string
   };
-
   sync: {
     customDataHandlers: boolean;
   };

@@ -3,8 +3,8 @@
   "logStackTraces": true,
   "seedDemoData": true,
   "security": {
-    "apiRole": "admin",
-    "syncRole": "user"
+    "adminRole": "admin",
+    "userRole": "user"
   },
   "sync": {
     "customDataHandlers": true

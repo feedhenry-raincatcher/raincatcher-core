@@ -1,12 +1,17 @@
 {
   "morganOptions": null,
   "logStackTraces": false,
-  "sync": {
-    "seedDemoData": true
-  },
+  "seedDemoData": false,
   "security": {
-    "apiRole": "admin",
-    "syncRole": "user"
+    "adminRole": "admin",
+    "userRole": "user"
+  },
+  "sync": {
+    "customDataHandlers": true
+  },
+  "bunyanConfig": {
+    "name": "Demo application",
+    "level": "warn"
   },
   "keycloakConfig": {
     "realm": "",
@@ -14,9 +19,5 @@
     "ssl-required": "external",
     "resource": "",
     "public-client": true
-  },
-  "bunyanConfig": {
-    "name": "Demo application",
-    "level": "warn"
   }
 }

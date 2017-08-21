@@ -1,4 +1,5 @@
 
+import { getLogger } from '@raincatcher/logger';
 import { WorkFlow, WorkOrder, WorkOrderResult } from '@raincatcher/wfm';
 import * as Promise from 'bluebird';
 import * as express from 'express';
@@ -12,13 +13,13 @@ import { MongoDbRepository } from './impl/MongoDbRepository';
  * RESTfull api handlers for Workorders, Workflows and Results (WFM objects)
  */
 export class WfmRestApi {
-  private config;
+  private config: ApiConfig;
   private workorderService: MongoDbRepository<WorkOrder>;
   private workflowService: MongoDbRepository<WorkFlow>;
   private resultService: MongoDbRepository<WorkOrderResult>;
 
-  constructor(userConfig?: ApiConfig) {
-    this.config = _.defaults(defaultConfiguration, userConfig);
+  constructor(userConfig?: Partial<ApiConfig>) {
+    this.config = _.defaults<ApiConfig>(defaultConfiguration, userConfig);
     this.createWFMServices();
   }
 
@@ -28,6 +29,7 @@ export class WfmRestApi {
   public createWFMRouter() {
     const router: express.Router = express.Router();
     const { workorderApiName, workflowApiName, resultApiName } = this.config;
+    getLogger().info('WFM web api initialization');
     router.use(`/${workorderApiName}`, new ApiController<WorkOrder>(this.workorderService).buildRouter());
     router.use(`/${workflowApiName}`, new ApiController<WorkFlow>(this.workflowService).buildRouter());
     router.use(`/${resultApiName}`, new ApiController<WorkOrderResult>(this.resultService).buildRouter());
