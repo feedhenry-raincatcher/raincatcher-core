@@ -24,7 +24,7 @@ export class SyncExpressMiddleware {
    */
   public createSyncExpressRouter() {
     const apiURI = path.join(this.prefix + '/:datasetId');
-    logger.debug('Creating sync endpoint', apiURI);
+    logger.debug('Creating sync endpoint');
     const syncRoute = this.router.route(apiURI);
 
     /**

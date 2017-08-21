@@ -26,7 +26,7 @@ const config = appConfig.getConfig();
 function getCorsConfig() {
   let corsConfig = {};
   if (!config.keycloakConfig) {
-    const dynamicOrigin = function(origin, callback) {
+    const dynamicOrigin = function(origin: any, callback: (err: Error | null, bool: boolean) => void) {
       callback(null, true);
     };
     corsConfig = {
@@ -64,11 +64,16 @@ let errHandler: express.ErrorRequestHandler;
 errHandler = (err: any, req: express.Request, res: express.Response, next: () => void) => {
   res.status(err.status || 500);
   getLogger().error(err);
-  res.json({
-    title: 'error',
+  const errorObj: any = {
     message: err.message,
-    error: config.logStackTraces ? err : {}
-  });
+    originalError: config.logStackTraces ? err.originalError : {}
+  };
+  if (err.code) {
+    errorObj.code = err.code;
+  } else {
+    errorObj.code = 'UnexpectedError';
+  }
+  res.json(errorObj);
 };
 
 app.use(errHandler);
