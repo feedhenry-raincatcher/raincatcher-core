@@ -6,5 +6,10 @@
     "integration/*",
     "demo/*"
   ],
+  "commands": {
+    "bootstrap": {
+      "hoist": "**"
+    }
+  },
   "version": "independent"
 }
