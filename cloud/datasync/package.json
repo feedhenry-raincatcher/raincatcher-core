@@ -32,23 +32,14 @@
     "branches": 50
   },
   "devDependencies": {
-    "@raincatcher/logger": "1.0.0",
-    "@types/body-parser": "^1.16.4",
-    "@types/cors": "^2.8.1",
-    "@types/express": "^4.0.36",
-    "@types/mocha": "^2.2.41",
-    "@types/node": "^8.0.7",
-    "@types/proxyquire": "^1.3.27",
-    "@types/mongodb": "^2.2.10",
     "del-cli": "^1.1.0",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
-    "proxyquire": "^1.8.0",
-    "source-map-support": "^0.4.16",
     "ts-node": "^3.3.0",
     "typescript": "^2.5.0"
   },
   "dependencies": {
+    "@raincatcher/logger": "1.0.0",
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
     "express": "^4.15.4",
