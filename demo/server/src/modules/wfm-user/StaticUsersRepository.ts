@@ -16,6 +16,9 @@ export class StaticUsersRepository implements UsersRepository {
         return user.id === id;
       }
     });
+    if (!foundUser) {
+      return Bluebird.reject(`User with id ${id} not found`);
+    }
     return Bluebird.resolve(foundUser);
   }
   public retrieveUsers(filter: string, limit: number): Bluebird<User[]> {
