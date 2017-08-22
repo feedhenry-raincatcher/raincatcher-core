@@ -33,4 +33,4 @@ git push origin +$DOCS_BRANCH:$DOCS_BRANCH
 
 echo "Creating pull request using hub."
 echo "If you do not have hub installed do that manually"
-hub compare origin $DOCS_BRANCH 2> /dev/null
+hub compare $DOCS_BRANCH 2> /dev/null
