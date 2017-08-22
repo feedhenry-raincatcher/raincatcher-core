@@ -12,12 +12,13 @@
     "cleanInstall": "lerna exec npm install --ignore-scripts",
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start  --parallel --stream --scope=@raincatcher/demo-*",
-    "docs": "lerna exec -- typedoc --out docs/ --excludePrivate",
+    "docs": "./scripts/docgen.sh",
     "lint": "tslint '*/*/src/**/*.ts' '*/*/test/**/*.ts'",
     "build": "lerna run build",
     "clean": "npm-run-all clean:*",
     "clean:coverage": "del coverage_report",
-    "clean:packages": "lerna run clean"
+    "clean:packages": "lerna run clean",
+    "clean:docs": "del **/**/docs "
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "lerna": "^2.0.0-rc.5",
     "npm-run-all": "^4.0.2",
     "tslint": "^5.4.3",
+    "typedoc": "^0.8.0",
     "typescript": "^2.3.4"
   },
   "dependencies": {
