@@ -1,4 +1,5 @@
 import { EndpointSecurity } from '@raincatcher/auth-passport';
+import initData from '@raincatcher/demo-data';
 import { getLogger } from '@raincatcher/logger';
 import { WfmRestApi } from '@raincatcher/wfm-rest-api';
 import { User, UserController, UsersRepository } from '@raincatcher/wfm-user';
@@ -8,7 +9,6 @@ import { Db } from 'mongodb';
 import appConfig from '../util/Config';
 import { connect as syncConnector } from './datasync/Connector';
 import { router as syncRouter } from './datasync/Router';
-import initData from './demo-data';
 import { init as initKeycloak } from './keycloak';
 import { init as authInit } from './passport-auth';
 import {StaticUsersRepository} from './wfm-user/StaticUsersRepository';
@@ -56,7 +56,8 @@ function setupKeycloakSecurity(app: express.Express) {
 function syncSetup(app: express.Express) {
   // Mount api
   const role = config.security.userRole;
-  app.use('/sync', securityMiddleware.protect(role), syncRouter);
+  app.use('/sync', securityMiddleware.protect(role));
+  app.use('/sync', syncRouter);
   // Connect sync
   return syncConnector().then(function(connections: { mongo: Db, redis: any }) {
     getLogger().info('Sync started');
@@ -70,7 +71,8 @@ function wfmApiSetup(app: express.Express, connectionPromise: Promise<any>) {
   // Mount api
   const api = new WfmRestApi();
   const role = config.security.adminRole;
-  app.use('/api', securityMiddleware.protect(role), api.createWFMRouter());
+  app.use('/api', securityMiddleware.protect(role));
+  app.use('/api', api.createWFMRouter());
   connectionPromise.then(function(mongo: Db) {
     // Fix compilation problem with different version of Db.
     api.setDb(mongo as any);

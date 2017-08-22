@@ -1,6 +1,6 @@
 import { UserRepository, UserService } from '@raincatcher/auth-passport';
+import { users } from '@raincatcher/demo-data';
 import * as _ from 'lodash';
-import { users } from '../demo-data';
 
 /**
  * A sample user implementation

@@ -1,0 +1,53 @@
+{
+  "name": "@raincatcher/demo-data",
+  "version": "1.0.0",
+  "description": "Example seed data for the RainCatcher project",
+  "types": "src/index.ts",
+  "author": "feedhenry-raincatcher@redhat.com",
+  "license": "Apache-2.0",
+  "main": "src/",
+  "scripts": {
+    "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
+    "build": "tsc",
+    "start": "ts-node src/index.ts"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "report-dir": "coverage_report",
+    "check-coverage": true,
+    "lines": 75,
+    "functions": 100,
+    "branches": 80
+  },
+  "dependencies": {
+    "@raincatcher/logger": "1.0.0",
+    "@raincatcher/wfm": "1.0.0",
+    "@raincatcher/wfm-user": "1.0.0",
+    "bluebird": "^3.5.0",
+    "mongodb": "^2.2.31"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^2.2.10",
+    "@types/bluebird": "^3.5.8",
+    "@types/mocha": "^2.2.41",
+    "del-cli": "^1.1.0",
+    "mocha": "^3.5.0",
+    "nyc": "^11.1.0",
+    "source-map-support": "^0.4.16",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.0"
+  }
+}
+

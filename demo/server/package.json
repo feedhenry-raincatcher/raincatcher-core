@@ -62,6 +62,7 @@
     "@raincatcher/logger": "1.0.0",
     "@raincatcher/wfm-rest-api": "1.0.0",
     "@raincatcher/wfm-user": "1.0.0",
+    "@raincatcher/demo-data": "1.0.0",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
