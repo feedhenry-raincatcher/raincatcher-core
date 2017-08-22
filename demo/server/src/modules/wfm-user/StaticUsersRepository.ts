@@ -12,9 +12,7 @@ export const users: User[] = require('./users.json');
 export class StaticUsersRepository implements UsersRepository {
   public getUser(id: string | number): Bluebird<User> {
     const foundUser = _.find(users, function(user: User) {
-      if (user && user.name) {
-        return user.id === id;
-      }
+      return user.id === id;
     });
     if (!foundUser) {
       return Bluebird.reject(`User with id ${id} not found`);
@@ -27,9 +25,7 @@ export class StaticUsersRepository implements UsersRepository {
       filteredList = [];
     } else {
       filteredList = _.filter(users, function(user: User) {
-        if (user.name) {
-          return user.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
-        }
+        return user.name.toLowerCase().indexOf(filter.toLowerCase()) !== -1;
       });
     }
     return Bluebird.resolve(_.take(filteredList, limit));
