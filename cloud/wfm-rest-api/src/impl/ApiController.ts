@@ -107,6 +107,39 @@ export class ApiController<T> {
     return this.repository.update(data);
   }
 
+  public listByFilterHandler(req: Request) {
+    getLogger().debug('Api list by filter method called', { query: req.query });
+    const page = defaultPaginationEngine.buildRequestFromQuery(req.query);
+    let filter = {};
+    if (req.query.filter) {
+      try {
+        const parsedFilter = JSON.parse(req.query.filter);
+        const propertiesToFilter = new Array();
+        for (const property in parsedFilter) {
+          if (property) {
+            const propertyToFilter = {
+              [property]: {
+                $regex: '.*' + parsedFilter[property] + '.*',
+                $options: 'i'
+              }
+            };
+
+            propertiesToFilter.push(propertyToFilter);
+          }
+        }
+
+        filter = {
+          $or: propertiesToFilter
+        };
+      } catch (err) {
+        getLogger().error('Invalid filter passed');
+        const error = new ApiError(errorCodes.CLIENT_ERROR, 'Invalid filter query parameter', 400);
+        return Bluebird.reject(error);
+      }
+    }
+    return this.repository.list(filter, page);
+  }
+
   /**
    * Build all CRUD routes
    *
@@ -117,6 +150,8 @@ export class ApiController<T> {
     router.route('/')
       .get(this.buildExpressHandler(this.listHandler))
       .post(this.buildExpressHandler(this.postHandler));
+    router.route('/search')
+      .get(this.buildExpressHandler(this.listByFilterHandler));
     router.route('/:id')
       .get(this.buildExpressHandler(this.getHandler))
       .delete(this.buildExpressHandler(this.deleteHandler))
