@@ -107,13 +107,17 @@ export class ApiController<T> {
     return this.repository.update(data);
   }
 
+  /**
+   * Handler for list by filter method
+   * Can be reused by developers that wish to mount handler directly on router
+   */
   public listByFilterHandler(req: Request) {
     getLogger().debug('Api list by filter method called', { query: req.query });
     const page = defaultPaginationEngine.buildRequestFromQuery(req.query);
     let filter = {};
-    let parsedFilter;
 
     if (req.query.filter) {
+      let parsedFilter;
       try {
         parsedFilter = JSON.parse(req.query.filter);
       } catch (err) {
@@ -121,29 +125,30 @@ export class ApiController<T> {
         const error = new ApiError(errorCodes.CLIENT_ERROR, 'Invalid filter query parameter', 400);
         return Bluebird.reject(error);
       }
-    }
 
-    if (parsedFilter) {
-      const propertiesToFilter = new Array();
-      for (const property in parsedFilter) {
-        if (property) {
-          const propertyToFilter = {
-            [property]: {
-              $regex: '.*' + parsedFilter[property] + '.*',
-              $options: 'i'
-            }
+      if (parsedFilter) {
+        const propertiesToFilter = new Array();
+        for (const property in parsedFilter) {
+          if (property) {
+            const propertyToFilter = {
+              [property]: {
+                $regex: '.*' + parsedFilter[property] + '.*',
+                $options: 'i'
+              }
+            };
+
+            propertiesToFilter.push(propertyToFilter);
+          }
+        }
+
+        if (propertiesToFilter.length > 0) {
+          filter = {
+            $or: propertiesToFilter
           };
-
-          propertiesToFilter.push(propertyToFilter);
         }
       }
-
-      if (propertiesToFilter.length > 0) {
-        filter = {
-          $or: propertiesToFilter
-        };
-      }
     }
+
     return this.repository.list(filter, page);
   }
 

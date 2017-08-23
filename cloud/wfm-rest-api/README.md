@@ -109,6 +109,16 @@ Where `:objectId` is an `id` field of the object.
 
 Where `:objectId` is an `id` field of the object.
 
+### Search for objects
+
+Retrieves a list of objects that satisfies a query.
+
+> GET {object}/search
+
+A query can be made by providing a json `filter` query parameter
+
+For example `filter = {'title': 'Example'}`
+
 ### Error handling
 
 In case of error express `next` callback is being called with `ApiError` instance.
