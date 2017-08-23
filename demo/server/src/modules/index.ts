@@ -56,7 +56,7 @@ function setupKeycloakSecurity(app: express.Express) {
 function syncSetup(app: express.Express) {
   // Mount api
   const role = config.security.userRole;
-  app.use('/sync', securityMiddleware.protect(role));
+  // app.use('/sync', securityMiddleware.protect(role));
   app.use('/sync', syncRouter);
   // Connect sync
   return syncConnector().then(function(connections: { mongo: Db, redis: any }) {
