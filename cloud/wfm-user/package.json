@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/wfm-user",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Module responsible for user management",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
@@ -52,8 +52,8 @@
     "typescript": "^2.5.0"
   },
   "dependencies": {
-    "@raincatcher/wfm-rest-api": "1.0.0",
-    "@raincatcher/logger": "1.0.0",
+    "@raincatcher/logger": "^0.0.1",
+    "@raincatcher/wfm-rest-api": "^0.0.1",
     "bluebird": "^3.5.0",
     "express": "^4.15.4"
   }

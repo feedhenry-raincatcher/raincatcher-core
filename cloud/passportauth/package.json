@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/auth-passport",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Passport authentication module",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
@@ -34,7 +34,7 @@
     "branches": 80
   },
   "devDependencies": {
-    "@raincatcher/logger": "1.0.0",
+    "@raincatcher/logger": "^0.0.1",
     "@types/body-parser": "^1.16.4",
     "@types/cors": "^2.8.1",
     "@types/express": "^4.0.36",
@@ -53,7 +53,7 @@
     "typescript": "^2.5.0"
   },
   "dependencies": {
-    "@raincatcher/express-auth": "1.0.0",
+    "@raincatcher/express-auth": "^0.0.1",
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
     "express": "^4.15.4",
