@@ -61,14 +61,17 @@ export class WfmService {
       if (!workorder.assignee) {
         return Promise.reject(new Error(`Workorder with Id ${workorderId} has no assignee`));
       }
-      return this.createNewResult(workorderId, workorder.assignee)
-        .then(result => {
+      workorder.status = this.checkStatus(workorder, workflow);
+      return Promise.all([
+        this.workorderService.update(workorder),
+        this.createNewResult(workorderId, workorder.assignee)
+      ]).then(([updatedWorkorder, result]) => {
           // Now we check the current status of the workflow to see where the next step should be.
-          result.status = this.checkStatus(workorder, workflow, result);
+          result.status = updatedWorkorder.status;
 
           // We now have the current status of the workflow for this workorder, the begin step is now complete.
           return {
-            workorder,
+            updatedWorkorder,
             workflow,
             result,
             nextStepIndex,
@@ -187,9 +190,14 @@ export class WfmService {
       // The result needs to be updated with the latest step results
       result.stepResults = result.stepResults || {};
       result.stepResults[step.code] = stepResult;
-      result.status = this.checkStatus(workorder, workflow, result);
+      const status = this.checkStatus(workorder, workflow, result);
+      result.status = status;
+      workorder.status = status;
 
-      return this.resultService.update(result).then(() => ({
+      return Promise.all([
+        this.workorderService.update(workorder),
+        this.resultService.update(result)
+      ]).then(() => ({
         workorder,
         workflow,
         result,
@@ -247,7 +255,7 @@ export class WfmService {
    * @param workflow   - The workflow to check status
    * @param result     - The result to check status
    */
-  protected checkStatus(workorder: WorkOrder, workflow: WorkFlow, result: WorkOrderResult): STATUS {
+  protected checkStatus(workorder: WorkOrder, workflow: WorkFlow, result?: WorkOrderResult): STATUS {
     let status;
     const stepReview = this.executeStepReview(workflow.steps, result);
     if (stepReview.nextStepIndex >= workflow.steps.length - 1 && stepReview.complete) {

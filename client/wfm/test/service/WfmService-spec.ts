@@ -86,6 +86,7 @@ describe('WfmService', function() {
         stepCode: 'vehicle-inspection'
       }).then(data => {
         expect(data.nextStepIndex).to.equal(1);
+        expect(data.workorder.status).to.equal(STATUS.COMPLETE_DISPLAY);
         // would be nice to have `?.` here...
         // see  https://github.com/tc39/proposal-optional-chaining
         const stepResult: StepResult | undefined = data.result &&
@@ -102,6 +103,7 @@ describe('WfmService', function() {
         stepCode: 'vehicle-inspection'
       }).then(data => {
         expect(data.result && data.result.status).to.equal(STATUS.PENDING_DISPLAY);
+        expect(data.workorder.status).to.equal(STATUS.PENDING_DISPLAY);
         const stepResult: StepResult | undefined = data.result &&
           data.result.stepResults &&
           data.result.stepResults['vehicle-inspection'];
