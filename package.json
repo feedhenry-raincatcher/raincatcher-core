@@ -18,7 +18,12 @@
     "clean": "npm-run-all clean:*",
     "clean:coverage": "del coverage_report",
     "clean:packages": "lerna run clean",
-    "clean:docs": "del **/**/docs "
+    "clean:dependencies": "lerna clean --yes",
+    "clean:docs": "del **/**/docs ",
+    "publish:prepare": "del node_modules && npm install && npm run clean && lerna bootstrap",
+    "publish:dry": "npm run publish:prepare && lerna publish --skip-npm --skip-git --canary --yes",
+    "publish:test": "lerna publish --skip-npm --skip-git --canary",
+    "publish:full": "npm run publish:prepare && lerna publish"
   },
   "repository": {
     "type": "git",

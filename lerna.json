@@ -9,6 +9,9 @@
   "commands": {
     "bootstrap": {
       "hoist": "**"
+    },
+    "publish": {
+      "ignore": "@raincatcher/demo-server"
     }
   },
   "version": "0.0.1"
