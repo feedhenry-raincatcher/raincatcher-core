@@ -10,7 +10,7 @@
     "clean": "del coverage_report src/*.js src/**/*.js src/*.map src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "startDebug": "ts-node --inspect -debug-brk src/index.ts",
+    "startDebug": "ts-node --inspect --debug-brk src/index.ts",
     "watch": "nodemon",
     "test": "nyc mocha"
   },
