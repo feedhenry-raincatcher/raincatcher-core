@@ -20,9 +20,9 @@
     "clean:packages": "lerna run clean",
     "clean:dependencies": "lerna clean --yes",
     "clean:docs": "del **/**/docs ",
-    "publish:prepare": "del node_modules && npm install && npm run clean && lerna bootstrap",
+    "publish:prepare": "rm -rf node_modules && npm install && npm run clean && lerna bootstrap",
     "publish:dry": "npm run publish:prepare && lerna publish --skip-npm --skip-git --canary --yes",
-    "publish:test": "lerna publish --skip-npm --skip-git --canary",
+    "publish:test": "./scripts/test-publish.sh",
     "publish:full": "npm run publish:prepare && lerna publish"
   },
   "repository": {
@@ -42,6 +42,7 @@
     "lcov-result-merger": "^1.2.0",
     "lerna": "^2.0.0-rc.5",
     "npm-run-all": "^4.0.2",
+    "opn-cli": "^3.1.0",
     "tslint": "^5.4.3",
     "typedoc": "^0.8.0",
     "typescript": "^2.3.4",
