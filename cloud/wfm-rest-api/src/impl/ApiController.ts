@@ -111,30 +111,37 @@ export class ApiController<T> {
     getLogger().debug('Api list by filter method called', { query: req.query });
     const page = defaultPaginationEngine.buildRequestFromQuery(req.query);
     let filter = {};
+    let parsedFilter;
+
     if (req.query.filter) {
       try {
-        const parsedFilter = JSON.parse(req.query.filter);
-        const propertiesToFilter = new Array();
-        for (const property in parsedFilter) {
-          if (property) {
-            const propertyToFilter = {
-              [property]: {
-                $regex: '.*' + parsedFilter[property] + '.*',
-                $options: 'i'
-              }
-            };
-
-            propertiesToFilter.push(propertyToFilter);
-          }
-        }
-
-        filter = {
-          $or: propertiesToFilter
-        };
+        parsedFilter = JSON.parse(req.query.filter);
       } catch (err) {
         getLogger().error('Invalid filter passed');
         const error = new ApiError(errorCodes.CLIENT_ERROR, 'Invalid filter query parameter', 400);
         return Bluebird.reject(error);
+      }
+    }
+
+    if (parsedFilter) {
+      const propertiesToFilter = new Array();
+      for (const property in parsedFilter) {
+        if (property) {
+          const propertyToFilter = {
+            [property]: {
+              $regex: '.*' + parsedFilter[property] + '.*',
+              $options: 'i'
+            }
+          };
+
+          propertiesToFilter.push(propertyToFilter);
+        }
+      }
+
+      if (propertiesToFilter.length > 0) {
+        filter = {
+          $or: propertiesToFilter
+        };
       }
     }
     return this.repository.list(filter, page);
