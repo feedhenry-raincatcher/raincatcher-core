@@ -25,6 +25,7 @@ git checkout cloud/ demo/ client/
 # travis sets CI=true by default
 if [ -n "$CI" ];
 then
+  echo "Removing npm registry container"
   docker kill $containerId
   docker rm $containerId
 else
