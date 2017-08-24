@@ -3,7 +3,7 @@
   "packages": [
     "cloud/*",
     "client/*",
-    "integration/*",
+    "common/*",
     "demo/*"
   ],
   "commands": {
