@@ -25,9 +25,17 @@ const listResponse: PageResponse<TestEntity> = {
   totalCount: 0,
   totalPages: 0
 };
+const filteredListResponse: PageResponse<TestEntity> = {
+  data: [{id: '1', name: 'filter test'}],
+  totalCount: 0,
+  totalPages: 0
+};
 
 class MockRepository implements PagingDataRepository<TestEntity> {
-  public list() {
+  public list(filter) {
+    if (Object.keys(filter).length !== 0) {
+      return Bluebird.resolve(filteredListResponse);
+    }
     return Bluebird.resolve(listResponse);
   }
 
@@ -54,7 +62,7 @@ describe('FeedHenry ApiController Tests', function() {
     testSubject = new ApiController<TestEntity>(new MockRepository());
   });
   describe('ApiController routes creation', function() {
-    it('verify list middleware', function() {
+    it('verify list middleware success', function() {
       const request = {
         query: {
           filter: '{}',
@@ -99,13 +107,75 @@ describe('FeedHenry ApiController Tests', function() {
       return expect(testSubject.postHandler({ body: testObj } as Request)).to.eventually.equal(testObj);
     });
 
+    it('verify post middleware error', function() {
+      return testSubject.postHandler({} as Request).catch(err => {
+        expect(err).to.be.an('error');
+        expect(err).to.have.property('code', 'CLIENT_ARGUMENT_ERROR');
+        expect(err).to.have.property('statusCode', 400);
+      });
+    });
+
     it('verify put middleware success', function() {
       const request = { params: { id: 1 }, body: testObj };
       return expect(testSubject.putHandler(request as Request)).to.eventually.equal(testObj);
     });
 
+    it('verify put middleware error (missing body)', function() {
+      const request = { params: { id: 1 }};
+      return testSubject.putHandler(request as Request).catch(err => {
+        expect(err).to.be.an('error');
+        expect(err).to.have.property('code', 'CLIENT_ARGUMENT_ERROR');
+        expect(err).to.have.property('statusCode', 204);
+      });
+    });
+
+    it('verify put middleware error (missing param id)', function() {
+      const request = { params: {}, body: testObj};
+      return testSubject.putHandler(request as Request).catch(err => {
+        expect(err).to.be.an('error');
+        expect(err).to.have.property('code', 'CLIENT_ARGUMENT_ERROR');
+        expect(err).to.have.property('statusCode', 204);
+      });
+    });
+
     it('verify delete middleware success', function() {
       return expect(testSubject.deleteHandler({ params: { id: 1 } } as Request)).to.be.fulfilled;
+    });
+
+    it('verify delete middleware error', function() {
+      return testSubject.deleteHandler({params: {}} as Request).catch(err => {
+        expect(err).to.be.an('error');
+        expect(err).to.have.property('code', 'MISSING_ID');
+        expect(err).to.have.property('statusCode', 400);
+      });
+    });
+
+    it('verify listByFilter middleware success', function() {
+      const request = {
+        query: {
+          filter: '{"title": "test"}',
+          page: 0,
+          size: 1
+        }
+      };
+      return testSubject.listByFilterHandler(request as Request).then((data) => {
+        expect(data).to.be.equal(filteredListResponse);
+      });
+    });
+
+    it('verify listByFilter middleware error', function() {
+      const request = {
+        query: {
+          filter: 'test',
+          page: 0,
+          size: 1
+        }
+      };
+      return testSubject.listByFilterHandler(request as Request).catch((err) => {
+        expect(err).to.be.an('error');
+        expect(err).to.have.property('code', 'CLIENT_ARGUMENT_ERROR');
+        expect(err).to.have.property('statusCode', 400);
+      });
     });
 
   });
