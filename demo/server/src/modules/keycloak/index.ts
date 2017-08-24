@@ -21,13 +21,10 @@ export class KeycloakSecurity implements EndpointSecurity {
     // Create a session store
     const memoryStore = new session.MemoryStore();
     this.keycloak = new Keycloak({ store: memoryStore }, config.keycloakConfig);
+    app.use(this.keycloak.middleware({logout: '/logout'}));
   }
   public protect(role?: string | undefined): express.Handler {
     return this.keycloak.protect(role);
-  }
-
-  public authenticate(redirect: string, loginError: string): express.Handler {
-    throw new Error('Method not applicable for keycloak');
   }
 }
 

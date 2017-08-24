@@ -23,15 +23,6 @@ export interface EndpointSecurity {
    * @param role - Role which the user needs in order to access this resource
    */
   protect(role?: string): express.Handler;
-
-  /**
-   * Create middleware for authentication purposes
-   * This method wraps `passport.authenticate` to provide middleware for authenticating users.
-   *
-   * @param redirect - location to redirect after successful authentication
-   * @param loginError - location to redirect after failed authentication
-   */
-  authenticate(redirect: string, loginError: string): express.Handler;
 }
 
 export default EndpointSecurity;
