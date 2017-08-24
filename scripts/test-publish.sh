@@ -23,7 +23,7 @@ lerna publish --skip-git --canary --yes --registry=$registry
 if [ -n "$CI" ];
 then
   echo "Testing regular npm install..."
-  packages=$(lerna ls | awk '{print $1"@"$2}')
+  packages=$(lerna ls | awk -F " +v" '{print $1"@"$2}')
   npm install $packages
   echo "Removing npm registry container"
   docker kill $containerId
