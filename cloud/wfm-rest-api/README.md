@@ -111,7 +111,7 @@ Where `:objectId` is an `id` field of the object.
 
 ### Search for objects
 
-Retrieves a list of objects that satisfies a query.
+Retrieves a list of objects that matches a user query.
 
 > GET {object}/search
 

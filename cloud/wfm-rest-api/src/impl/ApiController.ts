@@ -129,7 +129,7 @@ export class ApiController<T> {
       if (parsedFilter) {
         const propertiesToFilter = new Array();
         for (const property in parsedFilter) {
-          if (property) {
+          if (property && parsedFilter[property] && parsedFilter[property].length !== 0) {
             const propertyToFilter = {
               [property]: {
                 $regex: '.*' + parsedFilter[property] + '.*',
