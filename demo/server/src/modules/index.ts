@@ -1,5 +1,5 @@
-import { EndpointSecurity } from '@raincatcher/auth-passport';
 import initData from '@raincatcher/demo-data';
+import { EndpointSecurity } from '@raincatcher/express-auth';
 import { getLogger } from '@raincatcher/logger';
 import { WfmRestApi } from '@raincatcher/wfm-rest-api';
 import { User, UserController, UsersRepository } from '@raincatcher/wfm-user';
