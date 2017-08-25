@@ -24,7 +24,7 @@ if [ -n "$CI" ];
 then
   echo "Testing regular npm install..."
   packages=$(lerna ls | awk -F " +v" '{print $1"@"$2}')
-  npm install $packages
+  npm install --registry=$registry $packages
   echo "Removing npm registry container"
 else
   # cross-platform `open` command
