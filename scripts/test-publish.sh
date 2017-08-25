@@ -35,4 +35,4 @@ else
 fi
 
 echo "Publishing finished, reverting version changes..."
-git checkout cloud/ demo/ client/
+git checkout cloud/ demo/ client/ common/ lerna.json
