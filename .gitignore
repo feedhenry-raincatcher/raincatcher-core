@@ -65,3 +65,6 @@ typings/
 
 # typedoc generated docs
 docs/
+
+npm-shrinkwrap.json
+package-lock.json
