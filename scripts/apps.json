@@ -1,0 +1,14 @@
+{
+  "server": {
+    "path": "demo/server",
+    "repo": "git@github.com:feedhenry-templates/wfm-server.git"
+  },
+  "mobile": {
+    "path": "demo/mobile",
+    "repo": "git@github.com:feedhenry-templates/wfm-portal.git"
+  },
+  "portal": {
+    "path": "demo/portal",
+    "repo": "git@github.com:feedhenry-templates/wfm-mobile.git"
+  }
+}

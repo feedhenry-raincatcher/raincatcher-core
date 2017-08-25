@@ -5,18 +5,17 @@ var path = require('path');
 var fs = require('fs');
 var args = require('yargs')
   .boolean('p')
-  .default('p', false)
+  .default('push', false)
   .alias('p', 'push')
   .describe('p', 'Push changes to remote repository, i.e. do an actual publish')
   .alias('v', 'version')
-  .describe('v', 'semver version to publish the app as')
+  .describe('v', 'semver version to publish the app as, defaults to the version in lerna.json')
   .alias('u', 'user')
   .describe('u', 'Git user')
   .alias('e', 'email')
   .describe('e', "Git user's email")
-  .demandOption(['p'])
   .demandCommand(1)
-  .usage('Usage: $0 <app name> -p ')
+  .usage('Usage: $0 <app name>')
   .argv;
 
 // Debug tooling
@@ -26,20 +25,7 @@ process.env.NODE_DEBUG = 'gh-pages';
 var version = args.version || require(path.resolve(__dirname, '../lerna.json')).version;
 var appName = args._[0];
 
-var appInfo = {
-  server: {
-    path: 'demo/server',
-    repo: 'git@github.com:feedhenry-templates/wfm-server.git'
-  },
-  mobile: {
-    path: 'demo/mobile',
-    repo: 'git@github.com:feedhenry-templates/wfm-portal.git'
-  },
-  portal: {
-    path: 'demo/portal',
-    repo: 'git@github.com:feedhenry-templates/wfm-mobile.git'
-  },
-};
+var appInfo = require('./apps.json');
 
 // gh-branch's default, should pick from local machine's git config
 var gitUser = null;
