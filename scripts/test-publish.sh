@@ -26,8 +26,6 @@ then
   packages=$(lerna ls | awk -F " +v" '{print $1"@"$2}')
   npm install $packages
   echo "Removing npm registry container"
-  docker kill $containerId
-  docker rm $containerId
 else
   # cross-platform `open` command
   # requires `npm i -g opn-cli` if not running as npm script
