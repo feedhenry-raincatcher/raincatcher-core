@@ -20,7 +20,7 @@
     "clean:packages": "lerna run clean",
     "clean:dependencies": "lerna clean --yes",
     "clean:docs": "del **/**/docs ",
-    "publish:prepare": "rm -rf node_modules && npm install && npm run clean && npm run bootstrap && npm run build",
+    "publish:prepare": "./scripts/publish-prepare.sh",
     "publish:dry": "npm run publish:prepare && lerna publish --skip-npm --skip-git --canary --yes",
     "publish:test": "./scripts/test-publish.sh",
     "publish:full": "npm run publish:prepare && lerna publish"
