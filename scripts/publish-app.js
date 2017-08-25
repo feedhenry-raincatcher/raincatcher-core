@@ -10,6 +10,10 @@ var args = require('yargs')
   .describe('p', 'Push changes to remote repository, i.e. do an actual publish')
   .alias('v', 'version')
   .describe('v', 'semver version to publish the app as')
+  .alias('u', 'user')
+  .describe('u', 'Git user')
+  .alias('e', 'email')
+  .describe('e', "Git user's email")
   .demandOption(['p'])
   .demandCommand(1)
   .usage('Usage: $0 <app name> -p ')
@@ -37,6 +41,15 @@ var appInfo = {
   },
 };
 
+// gh-branch's default, should pick from local machine's git config
+var gitUser = null;
+if (args.user && args.email) {
+  gitUser = {
+    user: args.user,
+    email: args.email
+  };
+}
+
 var target = appInfo[appName];
 
 if(!target || !fs.existsSync(target.path)) {
@@ -46,15 +59,11 @@ if(!target || !fs.existsSync(target.path)) {
 var options = {
   branch: version,
   dotfiles: true,
-  //Only add, and never remove existing files
-  add: true,
   remote: 'origin',
   repo: target.repo,
-  user: { name: "Wojciech Trocki", email: "wtrocki@redhat.com" },
+  user: gitUser,
   tag: 'release-' + appName + "-" + version,
-  // Commit message
   message: "Release " + appName + " at version: " + version,
-  // Do not push (we will need to review and run tests before)
   push: args.push
 };
 
