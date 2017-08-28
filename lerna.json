@@ -11,8 +11,9 @@
       "hoist": "**"
     },
     "publish": {
-      "ignore": "@raincatcher/demo-server"
+      "ignore": "@raincatcher/demo-server",
+      "exact": true
     }
   },
-  "version": "0.0.2"
+  "version": "0.0.1"
 }

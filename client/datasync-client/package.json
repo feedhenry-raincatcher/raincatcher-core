@@ -53,7 +53,7 @@
     "typescript": "^2.5.0"
   },
   "dependencies": {
-    "@raincatcher/logger": "^0.0.1",
+    "@raincatcher/logger": "0.0.1",
     "fh-sync-js": "^1.0.3",
     "lodash": "^4.17.4"
   }

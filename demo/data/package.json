@@ -32,9 +32,9 @@
     "branches": 80
   },
   "dependencies": {
-    "@raincatcher/logger": "^0.0.1",
-    "@raincatcher/wfm": "^0.0.1",
-    "@raincatcher/wfm-user": "^0.0.1",
+    "@raincatcher/logger": "0.0.1",
+    "@raincatcher/wfm": "0.0.1",
+    "@raincatcher/wfm-user": "0.0.1",
     "bluebird": "^3.5.0",
     "mongodb": "^2.2.31"
   },

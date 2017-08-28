@@ -52,8 +52,8 @@
     "typescript": "^2.5.0"
   },
   "dependencies": {
-    "@raincatcher/logger": "^0.0.1",
-    "@raincatcher/wfm-rest-api": "^0.0.1",
+    "@raincatcher/logger": "0.0.1",
+    "@raincatcher/wfm-rest-api": "0.0.1",
     "bluebird": "^3.5.0",
     "express": "^4.15.4"
   }
