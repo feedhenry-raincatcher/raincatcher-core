@@ -18,9 +18,6 @@ var args = require('yargs')
   .usage('Usage: $0 <app name>')
   .argv;
 
-// Debug tooling
-process.env.NODE_DEBUG = 'gh-pages';
-
 // get version from lerna global version
 var version = args.version || require(path.resolve(__dirname, '../lerna.json')).version;
 var appName = args._[0];
@@ -43,12 +40,11 @@ if(!target || !fs.existsSync(target.path)) {
 }
 
 var options = {
-  branch: version,
+  branch: 'release-' + version,
   dotfiles: true,
-  remote: 'origin',
   repo: target.repo,
   user: gitUser,
-  tag: 'release-' + appName + "-" + version,
+  tag: 'v' + version,
   message: "Release " + appName + " at version: " + version,
   push: args.push
 };
