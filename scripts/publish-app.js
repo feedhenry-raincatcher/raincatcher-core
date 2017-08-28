@@ -3,6 +3,7 @@
 var ghpages = require('gh-pages');
 var path = require('path');
 var fs = require('fs');
+var exec = require('child_process').exec;
 var args = require('yargs')
   .boolean('p')
   .default('push', false)
@@ -44,18 +45,27 @@ var options = {
   dotfiles: true,
   repo: target.repo,
   user: gitUser,
-  tag: 'v' + version,
   message: "Release " + appName + " at version: " + version,
   push: args.push
 };
+
+// Use root's gitignore file over target's
+// To have sane ignores while keeping the compiled JS output
+fs.writeFileSync(path.join(target.path, '/.gitignore'),
+  fs.readFileSync('.gitignore'));
 
 console.info('Publishing contents of ' + target.path +
   ' to remote ' + target.repo);
 
 ghpages.publish(target.path, options, function(err) {
   if (err) {
-    console.info("Finished with error ", err);
-  } else {
-    console.info("Finished with success ");
+    return console.info("Finished with error", err);
   }
+  // revert gitignore change
+  exec('git checkout ' + target.path, function(err) {
+    if(err) {
+      return console.info("Finished with error", err);
+    }
+    console.info("Finished with success");
+  });
 });
