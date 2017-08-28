@@ -126,12 +126,12 @@ export class DataManager {
   /**
    * Subscribe to sync changes in dataset
    *
-   * @returns {*}
+   * @param dataUpdated - function to call when data is updated
+   * @returns void
    */
   public subscribeToDatasetUpdates(dataUpdated) {
     syncApi.notify(this.datasetId, function(notification) {
-      if (notification.code === 'delta_received') {
-        console.info(notification);
+      if (notification && notification.code === 'delta_received') {
         dataUpdated();
       }
     });
