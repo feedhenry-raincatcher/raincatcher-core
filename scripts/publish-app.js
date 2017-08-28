@@ -23,7 +23,7 @@ var args = require('yargs')
 var version = args.version || require(path.resolve(__dirname, '../lerna.json')).version;
 var appName = args._[0];
 
-var appInfo = require('./apps.json');
+var appInfo = require(path.join(__dirname, '/apps.json'));
 
 // gh-branch's default, should pick from local machine's git config
 var gitUser = null;
