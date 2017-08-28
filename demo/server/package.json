@@ -59,7 +59,7 @@
   "dependencies": {
     "@raincatcher/auth-passport": "0.0.1",
     "@raincatcher/datasync-cloud": "0.0.1",
-    "@raincatcher/demo-data": "0.0.1",
+    "@raincatcher/wfm-demo-data": "0.0.1",
     "@raincatcher/logger": "0.0.1",
     "@raincatcher/wfm-rest-api": "0.0.1",
     "@raincatcher/wfm-user": "0.0.1",

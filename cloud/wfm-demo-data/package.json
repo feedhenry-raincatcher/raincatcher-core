@@ -1,5 +1,5 @@
 {
-  "name": "@raincatcher/demo-data",
+  "name": "@raincatcher/wfm-demo-data",
   "version": "0.0.1",
   "description": "Example seed data for the RainCatcher project",
   "types": "src/index.ts",
