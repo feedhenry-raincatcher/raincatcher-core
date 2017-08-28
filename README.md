@@ -150,20 +150,21 @@ We recommend users to write their code in TypeScript, especially if their new Ra
 
 See the example on [examples/js]() for more information also for reusing the unit test suites from JavaScript code.
 
-### Publishing modules
-
-Before publishing the typescript modules, do a manual compilation step via `npm run build` on the root of the repository.
-
 ### Repository commands
 
- `npm run test` - run unit tests
+- `npm run test` - run unit tests
+- `npm run bootstrap` - perform boostrap for all modules
+- `npm run start` - run top level applications
+- `npm run lint` - execute tslint for all modules
+- `npm run build` - execute the build command for all modules, compiling TypeScript sources to JavaScript
+- `npm run cleanInstall` - perform install without executing additional scripts
 
- `npm run bootstrap` - perform boostrap for all modules
+#### Publishing
 
- `npm run start` - run top level applications
+The repository also includes a set of commands for publishing both the standalone modules and the contained applications.
 
- `npm run lint` - execute tslint for all modules
-
- `npm run build` - execute the build command for all modules, compiling TypeScript sources to JavaScript
-
- `npm run cleanInstall` - perform install without executing additional scripts
+- `npm run publish:prepare` - builds TS sources and setups dependencies for publishing packages
+- `npm run publish:test` - runs a test of publishing packages to a local npm registry via the [Verdaccio](https://github.com/verdaccio/verdaccio) project
+- `npm run publish:full` - prepares packages and tries to publish to the public registry, requires human input for confirming the version bumps, see the [lerna publish](https://github.com/lerna/lerna#publish) documentation for more information.
+- `npm run publish:dry` - does a dry-run of the publish scripts for local test purposes, avoiding any permanent changes to git history or npm registries
+- `npm run publish:demo-server` - publishes the `demo/server` application to the feedhenry-templates repository as part of the project's inclusion in the [Red Hat Mobile Application Platform](https://www.redhat.com/en/technologies/mobile/application-platform)
