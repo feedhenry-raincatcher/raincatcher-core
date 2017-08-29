@@ -23,7 +23,7 @@ lerna publish --skip-git --canary --yes --registry=$registry
 if [ -n "$CI" ];
 then
   echo "Testing regular npm install..."
-  packages=$(lerna ls --ignore=@raincatcher/demo-server | awk -F " +v" '{print $1"@"$2}')
+  packages=$(lerna ls --ignore=@raincatcher/demo-server --ignore=@raincatcher/demo-mobile --ignore=@raincatcher/demo-portal | awk -F " +v" '{print $1"@"$2}')
   npm install --registry=$registry $packages
   echo "Removing npm registry container"
 else
