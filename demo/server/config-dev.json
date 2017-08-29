@@ -6,6 +6,14 @@
     "adminRole": "admin",
     "userRole": "user"
   },
+  "keycloakConfigExample" : {
+   "realm": "raincatcher",
+   "bearer-only": true,
+   "auth-server-url": "http://localhost:8080/auth",
+   "ssl-required": "external",
+   "resource": "raincatcher-cloud",
+   "use-resource-role-mappings": true
+ },
   "sync": {
     "customDataHandlers": true
   },
