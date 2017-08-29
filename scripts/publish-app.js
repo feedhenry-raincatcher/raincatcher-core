@@ -17,6 +17,9 @@ var args = require('yargs')
   .describe('e', "Git user's email")
   .demandCommand(1)
   .usage('Usage: $0 <app name>')
+  .alias('o', 'org')
+  .describe('org', 'github organization/user to target publication')
+  .default('org', 'feedhenry-templates')
   .argv;
 
 // get version from lerna global version
@@ -40,10 +43,12 @@ if(!target || !fs.existsSync(target.path)) {
   console.error('module ' + appName + ' not found!');
 }
 
+var repo = path.join('git@github.com:' + args.org, target.repo);
+
 var options = {
   branch: 'release-' + version,
   dotfiles: true,
-  repo: target.repo,
+  repo: repo,
   user: gitUser,
   message: "Release " + appName + " at version: " + version,
   push: args.push
@@ -55,7 +60,7 @@ fs.writeFileSync(path.join(target.path, '/.gitignore'),
   fs.readFileSync('.gitignore'));
 
 console.info('Publishing contents of ' + target.path +
-  ' to remote ' + target.repo);
+  ' to remote ' + repo);
 
 ghpages.publish(target.path, options, function(err) {
   if (err) {
