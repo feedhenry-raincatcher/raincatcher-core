@@ -5,7 +5,14 @@ import { Db, InsertWriteOpResult } from 'mongodb';
 
 export const WORKFLOWS: WorkFlow[] = [
   {
-    id: 'SyVXyMuSr', title: 'Vehicle Inspection Form', steps: [
+    id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+      {
+        code: 'accident-report-form', name: 'Accident Report',
+        templates: {
+          form: '<accident-report-form></accident-report-form>',
+          view: '<accident-report value="result.submission"></accident-report>'
+        }
+      },
       {
         code: 'vehicle-inspection', name: 'Vehicle Inspection',
         templates: {
