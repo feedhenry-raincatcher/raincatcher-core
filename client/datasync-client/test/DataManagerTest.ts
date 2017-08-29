@@ -165,6 +165,25 @@ describe('Data Manager', function() {
       });
     });
 
+    it('should notify about updates', function() {
+      let mock$fh = {
+        notify: sinon.stub().callsArgWith(1)
+      };
+      const DataManager = proxyquire.noCallThru().load('../src/DataManager', {
+        'fh-sync-js': mock$fh
+      }).DataManager;
+      const dataManager = new DataManager(mockDataSetId);
+      dataManager.subscribeToDatasetUpdates(function() {
+        sinon.assert.notCalled(mock$fh.notify);
+      });
+      mock$fh = {
+        notify: sinon.stub().callsArgWith(1, { code: 'delta_received' })
+      };
+      return dataManager.subscribeToDatasetUpdates(function() {
+        sinon.assert.calledOnce(mock$fh.notify);
+      });
+    });
+
     it('should remove a single item', function() {
       const mockRecordUid = 'syncRecordUID';
 

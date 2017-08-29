@@ -124,6 +124,20 @@ export class DataManager {
   }
 
   /**
+   * Subscribe to sync changes in dataset
+   *
+   * @param dataUpdated - function to call when data is updated
+   * @returns void
+   */
+  public subscribeToDatasetUpdates(dataUpdated) {
+    syncApi.notify(this.datasetId, function(notification) {
+      if (notification && notification.code === 'delta_received') {
+        dataUpdated();
+      }
+    });
+  }
+
+  /**
    * Extracting the Data Set data from a Sync Client API response
    *
    * See the sync Client API documentation for more information on
