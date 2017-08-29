@@ -15,9 +15,10 @@
   },
   "keycloakConfig": {
     "realm": "",
+    "bearer-only": true,
     "auth-server-url": "",
-    "ssl-required": "external",
+    "ssl-required": "",
     "resource": "",
-    "public-client": true
-  }
+    "use-resource-role-mappings": true
+ }
 }
