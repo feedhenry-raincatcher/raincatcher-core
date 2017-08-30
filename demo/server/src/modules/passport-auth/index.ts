@@ -1,10 +1,12 @@
 import { PassportAuth, UserRepository, UserService } from '@raincatcher/auth-passport';
 import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
+import * as jwt from 'jsonwebtoken';
 import sessionOpts from '../SessionOptions';
 
 // Implementation for fetching and mapping user data
 import DemoUserRepository, { SampleUserService } from './DemoUserRepository';
+import * as logger from 'loglevel';
 
 export function init(app: express.Express) {
   // Initialize user data repository and map current user
@@ -18,21 +20,35 @@ export function init(app: express.Express) {
 
 function createRoutes(router: express.Express, authService: PassportAuth) {
   router.get('/login', (req: express.Request, res: express.Response) => {
-    if (req.session) {
-      req.session.returnTo = req.headers.referer;
-    }
+    // if (req.session) {
+    //   req.session.returnTo = req.headers.referer;
+    // }
     return res.render('login', {
       title: 'Feedhenry Workforce Management'
     });
   });
 
-  router.post('/login', authService.authenticate('/', '/loginError'));
+  router.post('/login', authService.authenticate('local'));
 
   router.get('/loginError', (req: express.Request, res: express.Response) => {
     return res.render('login', {
       title: 'Feedhenry Workforce Management',
       message: 'Invalid credentials'});
   });
+
+  router.post('/token', function(req, res, next) {
+    if (req.body && req.body.username && req.body.password) {
+      const payload = {loginId: req.body.username};
+      const token = jwt.sign(payload, 'secret');
+      console.log('TOKEN: ', token);
+      res.status(200).json({'token': token});
+    }
+  });
+
+  router.post('/login-mobile', authService.authenticate('jwt'), (req, res, next) => {
+      console.log('Mobile Authentication success');
+      res.status(200).send();
+    });
 
   router.get('/profile', authService.protect(), (req: express.Request, res: express.Response) => {
     res.json(req.user);

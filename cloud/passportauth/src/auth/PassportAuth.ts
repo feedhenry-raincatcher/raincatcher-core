@@ -3,6 +3,7 @@ import * as express from 'express';
 import * as session from 'express-session';
 import { SessionOptions } from 'express-session';
 import * as passport from 'passport';
+import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import { Strategy } from 'passport-local';
 import { UserRepository } from '../user/UserRepository';
 import { UserService } from '../user/UserService';
@@ -46,6 +47,10 @@ export class PassportAuth implements EndpointSecurity {
   public protect(role?: string) {
     const self = this;
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      console.log('---------- PROTECT -----------');
+      console.log('is Authenticated: ', req.isAuthenticated());
+      console.log('session: ', req.session);
+      console.log('------------------------------');
       if (!req.isAuthenticated()) {
         if (req.session) {
           // Used for redirecting to after a successful login when option successReturnToOrRedirect is defined.
@@ -71,18 +76,26 @@ export class PassportAuth implements EndpointSecurity {
    *                          when login page was loaded directly (without redirect)
    * @param errorRedirect - location to redirect after unsuccessful authentication
    */
-  public authenticate(defaultRedirect: string, errorRedirect?: string) {
+  public authenticate(strategy: string, defaultRedirect?: string, errorRedirect?: string) {
+    const self = this;
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
       if (req.isAuthenticated() && req.session) {
-        return res.redirect(req.session.clientURL);
+        // redirects causes issues with cors for mobile
+        return next();
+        // return res.redirect(req.session.clientURL);
       } else {
-        return passport.authenticate('local', {
-          failureRedirect: errorRedirect,
-          successReturnToOrRedirect: defaultRedirect
-        })(req, res, next);
+        // It's best to not redirect from here for mobile as it's creating issues with cors
+        if (defaultRedirect && errorRedirect) {
+          return passport.authenticate(strategy, {
+            failureRedirect: errorRedirect,
+            successReturnToOrRedirect: defaultRedirect
+          })(req, res, next);
+        }
+        return passport.authenticate(strategy)(req, res, next);
       }
     };
   }
+
 
   /**
    * Handler for access denied responses in the event that a user is not authorized to access
@@ -111,7 +124,26 @@ export class PassportAuth implements EndpointSecurity {
    * @param passportApi - passport.js instance
    */
   protected setup(passportApi: passport.Passport) {
+    const options = {
+      jwtFromRequest: ExtractJwt.fromAuthHeader(),
+      secretOrKey: 'secret'
+    };
     passportApi.use(new Strategy(defaultStrategy(this.userRepo, this.userService)));
+    passportApi.use(new JwtStrategy(options, (jwtPayload, done) => {
+      console.log('------------ JWT Strategy ------------');
+      console.log('jwtPayload: ', jwtPayload);
+      console.log('-----------------------------------------');
+      const callback = (err?: Error, user?: any) => {
+        if (err) {
+          return done(err, false);
+        } else if (user) {
+          return done(null, user);
+        } else {
+          return done(null, false);
+        }
+      };
+      this.userRepo.getUserByLogin(jwtPayload.loginId, callback);
+    }));
     passportApi.serializeUser(defaultSerializeUser);
     passportApi.deserializeUser(defaultDeserializeUser);
   }

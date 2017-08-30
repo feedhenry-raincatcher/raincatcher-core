@@ -42,6 +42,7 @@
     "@types/lodash": "^4.14.73",
     "@types/mocha": "^2.2.41",
     "@types/passport": "^0.3.3",
+    "@types/passport-jwt": "^2.0.23",
     "@types/passport-local": "^1.0.30",
     "@types/sinon": "^2.3.3",
     "del-cli": "^1.1.0",
@@ -60,6 +61,7 @@
     "express-session": "^1.15.5",
     "lodash": "^4.17.4",
     "passport": "^0.3.2",
+    "passport-jwt": "^2.0.23",
     "passport-local": "^1.0.0"
   }
 }
