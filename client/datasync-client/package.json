@@ -30,7 +30,7 @@
     "check-coverage": true,
     "lines": 75,
     "functions": 60,
-    "branches": 50
+    "branches": 45
   },
   "devDependencies": {
     "@types/chai": "^4.0.3",
@@ -38,6 +38,7 @@
     "@types/mocha": "^2.2.41",
     "@types/proxyquire": "^1.3.27",
     "@types/sinon": "^2.3.3",
+    "@types/bluebird": "^3.5.8",
     "assert": "^1.4.1",
     "browserify": "^14.4.0",
     "browserify-shim": "^3.8.14",
@@ -54,6 +55,7 @@
   },
   "dependencies": {
     "@raincatcher/logger": "0.0.1",
+    "bluebird": "^3.5.0",
     "fh-sync-js": "^1.0.3",
     "lodash": "^4.17.4"
   }

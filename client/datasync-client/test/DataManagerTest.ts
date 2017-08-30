@@ -38,9 +38,8 @@ describe('Data Manager', function() {
 
       const dataManager = new DataManager(mockDataSetId);
 
-      return dataManager.list(function(err, dataSetList) {
+      return dataManager.list().then(function(dataSetList) {
         sinon.assert.called(mock$fh.doList);
-
         assert.strictEqual(mockSyncDataSetListAPIResponse.dataentryid.data, dataSetList[0]);
       });
     });
@@ -57,9 +56,8 @@ describe('Data Manager', function() {
 
       const dataManager = new DataManager(mockDataSetId);
 
-      return dataManager.list(function(err, dataSetList) {
+      return dataManager.list().catch(function(err) {
         sinon.assert.called(mock$fh.doList);
-
         assert.ok(err);
       });
     });
@@ -91,7 +89,7 @@ describe('Data Manager', function() {
 
       const dataManager = new DataManager(mockDataSetId);
 
-      dataManager.create(mockDataItem, function(err, createResult) {
+      dataManager.create(mockDataItem).then(function(createResult) {
         expect(createResult).to.deep.equal(expectedCreatedData);
 
         sinon.assert.calledOnce(mock$fh.doCreate);
@@ -122,16 +120,14 @@ describe('Data Manager', function() {
       }).DataManager;
 
       const dataManager = new DataManager(mockDataSetId);
-      return dataManager.read(mockRecordUid, function(err, readRecord) {
+      return dataManager.read(mockRecordUid).then(function(readRecord) {
         expect(readRecord).to.deep.equal(mockDataItem);
 
         sinon.assert.calledOnce(mock$fh.doRead);
         sinon.assert.calledWith(mock$fh.doRead,
           sinon.match(mockDataSetId), sinon.match(mockRecordUid),
           sinon.match.func, sinon.match.func);
-
       });
-
     });
 
     it('should update a new item', function() {
@@ -159,7 +155,7 @@ describe('Data Manager', function() {
 
       const dataManager = new DataManager(mockDataSetId);
 
-      return dataManager.update(mockDataItem, function(err, createResult) {
+      return dataManager.update(mockDataItem).then(function(createResult) {
         expect(createResult).to.deep.equal(expectedCreatedData);
         sinon.assert.calledOnce(mock$fh.doUpdate);
       });
@@ -203,10 +199,63 @@ describe('Data Manager', function() {
 
       const dataManager = new DataManager(mockDataSetId);
 
-      return dataManager.delete(mockDataItem, function() {
+      return dataManager.delete(mockDataItem).then(function() {
         sinon.assert.calledOnce(mock$fh.doDelete);
       });
     });
   });
 
+  it('should start stop', function() {
+    const mockRecordUid = 'syncRecordUID';
+    const mock$fh = {
+      startSync: sinon.stub().callsArgWith(1),
+      stopSync: sinon.stub().callsArgWith(1)
+    };
+
+    const DataManager = proxyquire.noCallThru().load('../src/DataManager', {
+      'fh-sync-js': mock$fh
+    }).DataManager;
+
+    const dataManager = new DataManager(mockDataSetId);
+
+    return dataManager.start().then(function(error) {
+      assert.ok(!error);
+      dataManager.stop().then(function(err) {
+        assert.ok(!err);
+      });
+    });
+  });
+
+  it('should force sync', function() {
+    const mockRecordUid = 'syncRecordUID';
+    const mock$fh = {
+      forceSync: sinon.stub().callsArgWith(1)
+    };
+    const DataManager = proxyquire.noCallThru().load('../src/DataManager', {
+      'fh-sync-js': mock$fh
+    }).DataManager;
+
+    const dataManager = new DataManager(mockDataSetId);
+    return dataManager.forceSync().then(function(error) {
+      assert.ok(!error);
+    });
+  });
+
+  it('should safeStop', function() {
+    const mockRecordUid = 'syncRecordUID';
+    const results = [{}, {}];
+    const mock$fh = {
+      getPending: sinon.stub().callsArgWith(1, results),
+    };
+
+    const DataManager = proxyquire.noCallThru().load('../src/DataManager', {
+      'fh-sync-js': mock$fh
+    }).DataManager;
+
+    const dataManager = new DataManager(mockDataSetId);
+
+    return dataManager.safeStop({ delay: 1 }).then(function(error) {
+      assert.ok(!error);
+    });
+  });
 });
