@@ -3,13 +3,17 @@
   "packages": [
     "cloud/*",
     "client/*",
-    "integration/*",
+    "common/*",
     "demo/*"
   ],
   "commands": {
     "bootstrap": {
       "hoist": "**"
+    },
+    "publish": {
+      "ignore": "@raincatcher/demo-server",
+      "exact": true
     }
   },
-  "version": "independent"
+  "version": "0.0.1"
 }

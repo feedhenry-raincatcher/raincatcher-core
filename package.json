@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "lerna run test",
-    "test-ci": "npm-run-all test coverage:*",
+    "test-ci": "npm-run-all test coverage:* && npm run publish:test",
     "coverage:create-file": "echo '' > ./coverage_report/coverage_merged.info",
     "coverage:merge-reports": "lcov-result-merger './coverage_report/*/lcov.info' './coverage_report/coverage_merged.info'",
     "coverage:upload-coveralls": "cat ./coverage_report/coverage_merged.info | coveralls",
@@ -18,7 +18,13 @@
     "clean": "npm-run-all clean:*",
     "clean:coverage": "del coverage_report",
     "clean:packages": "lerna run clean",
-    "clean:docs": "del **/**/docs "
+    "clean:dependencies": "lerna clean --yes",
+    "clean:docs": "del **/**/docs ",
+    "publish:prepare": "./scripts/publish-prepare.sh",
+    "publish:dry": "npm run publish:prepare && lerna publish --skip-npm --skip-git --canary --yes",
+    "publish:test": "./scripts/test-publish.sh",
+    "publish:full": "npm run publish:prepare && lerna publish",
+    "publish:demo-server": "lerna run build --scope='@raincatcher/demo-server' && NODE_DEBUG=gh-pages node ./scripts/publish-app server --push true"
   },
   "repository": {
     "type": "git",
@@ -33,12 +39,15 @@
   "devDependencies": {
     "coveralls": "^2.13.1",
     "del-cli": "^1.1.0",
+    "gh-pages": "^1.0.0",
     "lcov-result-merger": "^1.2.0",
     "lerna": "^2.0.0-rc.5",
     "npm-run-all": "^4.0.2",
+    "opn-cli": "^3.1.0",
     "tslint": "^5.4.3",
     "typedoc": "^0.8.0",
-    "typescript": "^2.3.4"
+    "typescript": "^2.3.4",
+    "yargs": "^8.0.2"
   },
   "dependencies": {
     "tslint": "^5.6.0",
