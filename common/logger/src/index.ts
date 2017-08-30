@@ -4,7 +4,7 @@ import { EmptyLogger, Logger } from './Logger';
 
 export { Logger } from './Logger';
 export { BunyanLogger } from './BunyanLogger';
-export { ClientLogger } from './ClientLogger';
+export { ClientLogger, LogLevel } from './ClientLogger';
 
 let logger: Logger = new EmptyLogger();
 
