@@ -30,6 +30,7 @@ export class PassportAuth implements EndpointSecurity {
    * @param sessionOpts - Session options to be used by express-session
    */
   public init(app: express.Express, sessionOpts: SessionOptions) {
+    //  have different apps for mobile/portal
     getLogger().info('Initializing express app to use express session and passport');
     app.use(session(sessionOpts));
     app.use(passport.initialize());
@@ -77,12 +78,15 @@ export class PassportAuth implements EndpointSecurity {
    * @param errorRedirect - location to redirect after unsuccessful authentication
    */
   public authenticate(strategy: string, defaultRedirect?: string, errorRedirect?: string) {
+    console.log('Authenticate called');
     const self = this;
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
       if (req.isAuthenticated() && req.session) {
+        if (req.session.clientURL) {
+          return res.redirect(req.session.clientURL);
+        }
         // redirects causes issues with cors for mobile
         return next();
-        // return res.redirect(req.session.clientURL);
       } else {
         // It's best to not redirect from here for mobile as it's creating issues with cors
         if (defaultRedirect && errorRedirect) {

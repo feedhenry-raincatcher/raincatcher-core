@@ -20,15 +20,15 @@ export function init(app: express.Express) {
 
 function createRoutes(router: express.Express, authService: PassportAuth) {
   router.get('/login', (req: express.Request, res: express.Response) => {
-    // if (req.session) {
-    //   req.session.returnTo = req.headers.referer;
-    // }
+    if (req.session) {
+      req.session.returnTo = req.headers.referer;
+    }
     return res.render('login', {
       title: 'Feedhenry Workforce Management'
     });
   });
 
-  router.post('/login', authService.authenticate('local'));
+  router.post('/login', authService.authenticate('local', '/', '/loginError'));
 
   router.get('/loginError', (req: express.Request, res: express.Response) => {
     return res.render('login', {
