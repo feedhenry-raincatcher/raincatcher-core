@@ -1,5 +1,17 @@
-import * as logger from 'loglevel';
 import { Logger } from './Logger';
+// tslint:disable-next-line:no-var-requires
+const logger: any = require('loglevel');
+
+// imported from https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/loglevel/index.d.ts#L9
+// see https://issues.jboss.org/browse/RAINCATCH-1183 and https://issues.jboss.org/browse/RAINCATCH-1182 for reasons
+export const enum LogLevel {
+  TRACE = 0,
+  DEBUG = 1,
+  INFO = 2,
+  WARN = 3,
+  ERROR = 4,
+  SILENT = 5
+}
 
 /**
  * Default client (browser) logger implementation using loglevel library

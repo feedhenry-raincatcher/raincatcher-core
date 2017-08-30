@@ -1,7 +1,7 @@
 /// <reference types="mocha" />
 'use strict';
 
-import { ClientLogger } from '../src/ClientLogger';
+import { ClientLogger, LogLevel } from '../src/ClientLogger';
 const loggerObject: object = { test: 'test' };
 const emptyObject: object = {};
 
