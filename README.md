@@ -2,7 +2,7 @@
 ![Logo](img/logo-blue.png)
 > Workforce management platform
 
-[![Build Status](https://travis-ci.org/feedhenry-raincatcher/raincatcher-core.svg?branch=master)](https://travis-ci.org/feedhenry-raincatcher/raincatcher-core) [![Coverage Status](https://coveralls.io/repos/github/feedhenry-raincatcher/raincatcher-core/badge.svg?branch=master)](https://coveralls.io/github/feedhenry-raincatcher/raincatcher-core?branch=master)
+[![Build Status](https://travis-ci.org/feedhenry-raincatcher/raincatcher-core.svg?branch=master)](https://travis-ci.org/feedhenry-raincatcher/raincatcher-core) [![Coverage Status](https://coveralls.io/repos/github/feedhenry-raincatcher/raincatcher-core/badge.svg?branch=master)](https://coveralls.io/github/feedhenry-raincatcher/raincatcher-core?branch=master) [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/FeedhenryRaincatcher/Lobby)
 
 ## About RainCatcher
 
