@@ -50,7 +50,7 @@ const router = middleware.createSyncExpressRouter();
 app.use('/', router);
 ```
 
-See [integration](./integration) for complete runnable example.
+See [example app](https://github.com/feedhenry-raincatcher/raincatcher-core/tree/master/cloud/datasync/example) for complete runnable example.
 
 ## Accessing underlying sync library
 
@@ -65,9 +65,9 @@ sync.anyapicall(...) ;
 Where `anyapicall` is one of the types defined in:
 https://github.com/feedhenry/fh-sync/blob/master/types/fh-sync.d.ts
 
-For more advanced usages please follow [FeedHenry sync documentation](https://github.com/feedhenry/fh-sync/tree/master/docs)
+For more advanced usages please follow [FeedHenry sync documentation](https://access.redhat.com/documentation/en-us/red_hat_mobile_application_platform_hosted/3/html/client_api/fh-sync)
 
 ## Overriding sync filter on server
 
 By default sync clients can specify any type of filter and efectivelly get access to
-every record for dataset. If you wish to disable user query_filters for certain datasets for security reasons `SyncMapperMiddleware` should be used, before mounting sync express router.
+every record for dataset. If you wish to disable user query_filters for certain datasets for security reasons `userMapperMiddleware` should be used, before mounting sync express router.
