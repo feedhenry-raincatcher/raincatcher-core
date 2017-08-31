@@ -5,6 +5,7 @@ export * from './options/SyncGlobalOptions';
 export * from './options/SyncDatasetOptions';
 export * from './SyncApi';
 export * from './web/SyncWebExpress';
+export * from './web/SyncMapperMiddleware';
 
 export { sync };
 export { SyncServer };

@@ -1,3 +1,5 @@
+import { SyncExpressMiddleware, userMapperMiddleware } from '@raincatcher/datasync-cloud';
+import SyncServer, { SyncApi, SyncOptions } from '@raincatcher/datasync-cloud';
 import { EndpointSecurity } from '@raincatcher/express-auth';
 import { getLogger } from '@raincatcher/logger';
 import initData from '@raincatcher/wfm-demo-data';
@@ -8,10 +10,9 @@ import * as express from 'express';
 import { Db } from 'mongodb';
 import appConfig from '../util/Config';
 import { connect as syncConnector } from './datasync/Connector';
-import { router as syncRouter } from './datasync/Router';
 import { init as initKeycloak } from './keycloak';
 import { init as authInit } from './passport-auth';
-import {StaticUsersRepository} from './wfm-user/StaticUsersRepository';
+import { StaticUsersRepository } from './wfm-user/StaticUsersRepository';
 
 const config = appConfig.getConfig();
 
@@ -56,9 +57,14 @@ function setupKeycloakSecurity(app: express.Express) {
 function syncSetup(app: express.Express) {
   // Mount api
   const role = config.security.userRole;
-  // app.use('/sync', securityMiddleware.protect(role));
+  // Mount router at specific location
+  const middleware: SyncExpressMiddleware = new SyncExpressMiddleware('');
+  const syncRouter = middleware.createSyncExpressRouter();
+
+  app.use('/sync', securityMiddleware.protect(role));
+  app.use('/sync', userMapperMiddleware('workorders', 'assignee'));
   app.use('/sync', syncRouter);
-  // Connect sync
+
   return syncConnector().then(function(connections: { mongo: Db, redis: any }) {
     getLogger().info('Sync started');
     return connections.mongo;
