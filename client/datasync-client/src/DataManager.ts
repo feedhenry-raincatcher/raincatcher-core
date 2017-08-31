@@ -1,4 +1,5 @@
 import { getLogger } from '@raincatcher/logger';
+import * as Bluebird from 'bluebird';
 import * as syncApi from 'fh-sync-js';
 import * as _ from 'lodash';
 
@@ -18,14 +19,18 @@ export class DataManager {
 
   /**
    * Listing all data for this data set.
+   *
+   * @returns Promise (bluebird)
    */
-  public list(callback: (err?: Error, results?: any) => void) {
+  public list(): Bluebird<any[]> {
     const self = this;
-    syncApi.doList(self.datasetId, function(syncDataSetList: any) {
-      const dataSetData = self.extractDataFromSyncResponse(syncDataSetList);
-      callback(undefined, dataSetData);
-    }, function handleSyncListError(syncErrorCode: string, syncErrorMessage: string) {
-      callback(new Error(self.formatSyncErrorMessage(syncErrorCode, syncErrorMessage)));
+    return new Bluebird(function(resolve, reject) {
+      syncApi.doList(self.datasetId, function(syncDataSetList: any) {
+        const dataSetData = self.extractDataFromSyncResponse(syncDataSetList);
+        resolve(dataSetData);
+      }, function handleSyncListError(syncErrorCode: string, syncErrorMessage: string) {
+        reject(new Error(self.formatSyncErrorMessage(syncErrorCode, syncErrorMessage)));
+      });
     });
   }
 
@@ -33,62 +38,73 @@ export class DataManager {
    * Adding a new item to the data set.
    *
    * @param itemToCreate - The item to add to the data set.
+   *
+   * @returns Promise (bluebird)
    */
-  public create(itemToCreate: any, callback: (err?: Error, results?: any) => void) {
+  public create(itemToCreate: any): Bluebird<any> {
     const self = this;
-    function handleCreateSuccess(syncDataCreateResult: any) {
-      itemToCreate.uid = syncDataCreateResult.uid;
-      callback(undefined, itemToCreate);
-    }
-    function handleCreateError(errorCode: string, syncErrorMessage: string) {
-      callback(new Error(self.formatSyncErrorMessage(errorCode, syncErrorMessage)));
-    }
-    syncApi.doCreate(this.datasetId, itemToCreate, handleCreateSuccess, handleCreateError);
+    return new Bluebird(function(resolve, reject) {
+      function handleCreateSuccess(syncDataCreateResult: any) {
+        itemToCreate.uid = syncDataCreateResult.uid;
+        resolve(itemToCreate);
+      }
+      function handleCreateError(errorCode: string, syncErrorMessage: string) {
+        reject(new Error(self.formatSyncErrorMessage(errorCode, syncErrorMessage)));
+      }
+      syncApi.doCreate(self.datasetId, itemToCreate, handleCreateSuccess, handleCreateError);
+    });
   }
 
   /**
    * Reading a single item from the data set.
    */
-  public read(uid: string, callback: (err?: Error, result?: any) => void) {
+  public read(uid: string): Bluebird<any> {
     const self = this;
-    function handleSuccess(syncDataCreateResult: any) {
-      syncDataCreateResult.data.uid = uid;
-      callback(undefined, syncDataCreateResult.data);
-    }
-    function handleError(errorCode: string, syncErrorMessage: string) {
-      callback(new Error(self.formatSyncErrorMessage(errorCode, syncErrorMessage)));
-    }
-    syncApi.doRead(this.datasetId, uid, handleSuccess, handleError);
+    return new Bluebird(function(resolve, reject) {
+      function handleSuccess(syncDataCreateResult: any) {
+        syncDataCreateResult.data.uid = uid;
+        return resolve(syncDataCreateResult.data);
+      }
+      function handleError(errorCode: string, syncErrorMessage: string) {
+        return reject(new Error(self.formatSyncErrorMessage(errorCode, syncErrorMessage)));
+      }
+      syncApi.doRead(self.datasetId, uid, handleSuccess, handleError);
+    });
   }
 
   /**
    * Updating a single item in the data set.
    */
-  public update(itemToUpdate: any, callback: (err?: Error, result?: any) => void) {
+  public update(itemToUpdate: any): Bluebird<any> {
     const self = this;
-    function handleSuccess(syncDataCreateResult: any) {
-      callback(undefined, itemToUpdate);
-    }
-    function handleError(errorCode: string, syncErrorMessage: string) {
-      callback(new Error(self.formatSyncErrorMessage(errorCode, syncErrorMessage)));
-    }
-    syncApi.doUpdate(this.datasetId, itemToUpdate.uid, itemToUpdate, handleSuccess, handleError);
+    return new Bluebird(function(resolve, reject) {
+      function handleSuccess(syncDataCreateResult: any) {
+        resolve(itemToUpdate);
+      }
+      function handleError(errorCode: string, syncErrorMessage: string) {
+        reject(new Error(self.formatSyncErrorMessage(errorCode, syncErrorMessage)));
+      }
+      syncApi.doUpdate(self.datasetId, itemToUpdate.uid, itemToUpdate, handleSuccess, handleError);
+    });
   }
 
   /**
    * Deleting an item from the data set.
    *
    * @param itemToDelete
+   * @returns Promise (bluebird)
    */
-  public delete(itemToDelete: any, callback: (err?: Error, result?: any) => void) {
+  public delete(itemToDelete: any): Bluebird<any> {
     const self = this;
-    function handleSuccess() {
-      callback(undefined);
-    }
-    function handleError(errorCode: string, syncErrorMessage: string) {
-      callback(new Error(self.formatSyncErrorMessage(errorCode, syncErrorMessage)));
-    }
-    syncApi.doDelete(this.datasetId, itemToDelete.uid, handleSuccess, handleError);
+    return new Bluebird(function(resolve, reject) {
+      function handleSuccess() {
+        resolve();
+      }
+      function handleError(errorCode: string, syncErrorMessage: string) {
+        reject(new Error(self.formatSyncErrorMessage(errorCode, syncErrorMessage)));
+      }
+      syncApi.doDelete(self.datasetId, itemToDelete.uid, handleSuccess, handleError);
+    });
   }
 
   /**
@@ -98,13 +114,16 @@ export class DataManager {
    *
    * See the sync Client API docs for more information on $fh.sync.startSync
    *
-   * @returns {*}
+   * @returns Promise (bluebird)
    */
-  public start(callback: (err?: Error, result?: any) => void) {
-    syncApi.startSync(this.datasetId, function() {
-      return callback();
-    }, function(error) {
-      return callback(error);
+  public start(): Bluebird<any> {
+    const self = this;
+    return new Bluebird(function(resolve, reject) {
+      syncApi.startSync(self.datasetId, function() {
+        resolve();
+      }, function(error) {
+        reject(new Error(error));
+      });
     });
   }
 
@@ -113,15 +132,69 @@ export class DataManager {
    *
    * This will stop the sync Client API from sending/recieving updates from the remote server.
    *
-   * @returns {*}
+   * @returns Promise (bluebird)
    */
-  public stop(callback: (err?: Error, result?: any) => void) {
-    syncApi.startSync(this.datasetId, function() {
-      return callback();
-    }, function(error) {
-      return callback(error);
+  public stop(): Bluebird<any> {
+    const self = this;
+    return new Bluebird(function(resolve, reject) {
+      syncApi.stopSync(self.datasetId, function() {
+        resolve();
+      }, function(error) {
+        reject(new Error(error));
+      });
     });
   }
+
+  /**
+   * Forcing the sync framework to do a sync request to the remote server to exchange data.
+   *
+   * @returns Promise (bluebird)
+   */
+  public forceSync(): Bluebird<any> {
+    const self = this;
+    return new Bluebird(function(resolve, reject) {
+      syncApi.forceSync(self.datasetId, function() {
+        resolve();
+      }, function(error) {
+        reject(new Error(error));
+      });
+    });
+  }
+
+  /**
+   * A utility function to push any updates to the remote server and then stop syncing.
+   * If there are pending sync operations, then force them to sync and then stop syncing.
+   * Method can be used to ensure that all changes were saved to server before logout.
+   *
+   * @param userOptions - object that can contain delay
+   * @returns {*}
+   */
+  public safeStop = function(userOptions) {
+    const self = this;
+    // Amount of time to wait before attempting stop.
+    const defaultOptions = {
+      delay: 5000
+    };
+
+    const options = _.defaults(userOptions, defaultOptions);
+    function forceSyncThenStop(pendingUpdateQueueSize) {
+      if (pendingUpdateQueueSize === 0) {
+        self.stop().then(Bluebird.resolve);
+        return;
+      }
+      // Steps: force sync, wait, check if results were synced back, stop server
+      return self.forceSync()
+        .delay(options.delay)
+        .then(self.getQueueSize.bind(self))
+        .then(function(size) {
+          if (size > 0) {
+            return Bluebird.reject(new Error('forceSync failed, outstanding results still present'));
+          }
+        })
+        .then(self.stop.bind(self));
+    }
+    return self.getQueueSize().then(forceSyncThenStop);
+  };
 
   /**
    * Subscribe to sync changes in dataset
@@ -136,6 +209,18 @@ export class DataManager {
       }
     });
   }
+
+  /**
+   * Get the current number of pending sync requests for this data set.
+   */
+  private getQueueSize = function() {
+    const self = this;
+    return new Bluebird(function(resolve) {
+      syncApi.getPending(self.datasetId, function(pending?) {
+        return resolve(_.size(pending));
+      });
+    });
+  };
 
   /**
    * Extracting the Data Set data from a Sync Client API response
