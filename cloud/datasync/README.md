@@ -66,3 +66,8 @@ Where `anyapicall` is one of the types defined in:
 https://github.com/feedhenry/fh-sync/blob/master/types/fh-sync.d.ts
 
 For more advanced usages please follow [FeedHenry sync documentation](https://github.com/feedhenry/fh-sync/tree/master/docs)
+
+## Overriding sync filter on server
+
+By default sync clients can specify any type of filter and efectivelly get access to
+every record for dataset. If you wish to disable user query_filters for certain datasets for security reasons `SyncMapperMiddleware` should be used, before mounting sync express router.
