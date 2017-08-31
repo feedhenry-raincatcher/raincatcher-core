@@ -22,7 +22,7 @@ export class DataManager {
    *
    * @returns Promise (bluebird)
    */
-  public list(): Bluebird<any> {
+  public list(): Bluebird<any[]> {
     const self = this;
     return new Bluebird(function(resolve, reject) {
       syncApi.doList(self.datasetId, function(syncDataSetList: any) {
@@ -164,36 +164,34 @@ export class DataManager {
   /**
    * A utility function to push any updates to the remote server and then stop syncing.
    * If there are pending sync operations, then force them to sync and then stop syncing.
+   * Method can be used to ensure that all changes were saved to server before logout.
+   *
    * @param userOptions - object that can contain delay
    * @returns {*}
    */
   public safeStop = function(userOptions) {
     const self = this;
+    // Amount of time to wait before attempting stop.
     const defaultOptions = {
       delay: 5000
     };
 
     const options = _.defaults(userOptions, defaultOptions);
-
     function forceSyncThenStop(pendingUpdateQueueSize) {
       if (pendingUpdateQueueSize === 0) {
         self.stop().then(Bluebird.resolve);
         return;
       }
+      // Steps: force sync, wait, check if results were synced back, stop server
       return self.forceSync()
         .delay(options.delay)
         .then(self.getQueueSize.bind(self))
         .then(function(size) {
           if (size > 0) {
-            Bluebird.reject(new Error('forceSync failed, outstanding results still present'));
+            return Bluebird.reject(new Error('forceSync failed, outstanding results still present'));
           }
         })
-        .then(self.stop.bind(self))
-        .then(function() {
-          Bluebird.resolve();
-        }, function() {
-          Bluebird.reject(new Error('forceSync error'));
-        });
+        .then(self.stop.bind(self));
     }
     return self.getQueueSize().then(forceSyncThenStop);
   };
@@ -219,7 +217,7 @@ export class DataManager {
     const self = this;
     return new Bluebird(function(resolve) {
       syncApi.getPending(self.datasetId, function(pending?) {
-        resolve(_.size(pending));
+        return resolve(_.size(pending));
       });
     });
   };

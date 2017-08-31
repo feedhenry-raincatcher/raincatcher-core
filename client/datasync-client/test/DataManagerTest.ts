@@ -243,9 +243,10 @@ describe('Data Manager', function() {
 
   it('should safeStop', function() {
     const mockRecordUid = 'syncRecordUID';
-    const results = [{}, {}];
+    const results = [];
     const mock$fh = {
-      getPending: sinon.stub().callsArgWith(1, results),
+      forceSync: sinon.stub().callsArgWith(1),
+      getPending: sinon.stub().callsArgWith(1, results)
     };
 
     const DataManager = proxyquire.noCallThru().load('../src/DataManager', {

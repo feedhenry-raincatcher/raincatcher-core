@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "lerna run test",
-    "test-ci": "npm-run-all test coverage:* && npm run publish:test",
+    "test-ci": "npm-run-all test coverage:*",
     "coverage:create-file": "echo '' > ./coverage_report/coverage_merged.info",
     "coverage:merge-reports": "lcov-result-merger './coverage_report/*/lcov.info' './coverage_report/coverage_merged.info'",
     "coverage:upload-coveralls": "cat ./coverage_report/coverage_merged.info | coveralls",
