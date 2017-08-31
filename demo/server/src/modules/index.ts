@@ -62,7 +62,7 @@ function syncSetup(app: express.Express) {
   const syncRouter = middleware.createSyncExpressRouter();
 
   app.use('/sync', securityMiddleware.protect(role));
-  app.use('/sync', userMapperMiddleware('workorders', 'assignee'));
+  app.use('/sync', userMapperMiddleware('workorders', 'assignee', true));
   app.use('/sync', syncRouter);
 
   return syncConnector().then(function(connections: { mongo: Db, redis: any }) {
