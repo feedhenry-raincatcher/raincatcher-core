@@ -20,8 +20,10 @@ When process start you can connect to it using ide of your choice.
 
 ## Prerequisites
 
-- mongodb installed and running on port 27017.
+- mongodb installed and running on port 27017
+URL controlled by `process.env.MONGO_CONNECTION_URL` and `config-{env}.json` file.
 - redis installed and running on port 6379
+URL controlled by `process.env.REDIS_CONNECTION_URL` and `config-{env}.json` file.
 
 ## Configuration
 
