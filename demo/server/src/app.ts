@@ -9,7 +9,7 @@ import * as expressHbs from 'express-handlebars';
 import * as morgan from 'morgan';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
-import { securityMiddleware, setupModules } from './modules';
+import { setupModules } from './modules';
 import index from './user-routes/index';
 import appConfig from './util/Config';
 
