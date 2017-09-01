@@ -58,6 +58,13 @@ export interface CloudAppConfig {
   sync: {
     customDataHandlers: boolean;
   };
+  mongodb: {
+    url: string
+    options: any
+  };
+  redis: {
+    url: string
+  };
 }
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
 

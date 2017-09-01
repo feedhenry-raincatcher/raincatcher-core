@@ -12,5 +12,12 @@
   "bunyanConfig": {
     "name": "Demo application",
     "level": "debug"
+  },
+  "mongodb": {
+    "url": "mongodb://127.0.0.1:27017/raincatcher",
+    "options": {}
+  },
+  "redis": {
+    "url": "redis://127.0.0.1:6379"
   }
 }

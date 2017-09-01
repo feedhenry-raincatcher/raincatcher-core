@@ -20,5 +20,12 @@
     "ssl-required": "",
     "resource": "",
     "use-resource-role-mappings": true
- }
+  },
+  "mongodb": {
+    "url": "mongodb://127.0.0.1:27017/raincatcher",
+    "options": {}
+  },
+  "redis": {
+    "url": "redis://127.0.0.1:6379"
+  }
 }

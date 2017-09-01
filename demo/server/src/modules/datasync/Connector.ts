@@ -13,9 +13,9 @@ process.env.DEBUG = 'fh-mbaas-api:sync';
 // Sync connection options
 const connectOptions: SyncOptions = {
   datasetConfiguration: {
-    mongoDbConnectionUrl: process.env.MONGO_CONNECTION_URL || 'mongodb://127.0.0.1:27017/raincatcher',
-    mongoDbOptions: {},
-    redisConnectionUrl: process.env.REDIS_CONNECTION_URL || 'redis://127.0.0.1:6379'
+    mongoDbConnectionUrl: process.env.MONGO_CONNECTION_URL || appConfig.getConfig().mongodb.url,
+    mongoDbOptions: appConfig.getConfig().mongodb.options,
+    redisConnectionUrl: process.env.REDIS_CONNECTION_URL || appConfig.getConfig().redis.url
   },
   globalSyncOptions: { useCache: false }
 };
