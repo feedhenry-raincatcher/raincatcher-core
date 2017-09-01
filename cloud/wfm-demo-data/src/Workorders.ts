@@ -6,88 +6,292 @@ import { Db } from 'mongodb';
 export const WORKORDERS: WorkOrder[] = [
   {
     id: 'rkX1fdSH',
-    workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3041',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: 'rJeXyfdrH',
-    workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3062',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: 'ByzQyz_BS',
-    workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3012',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: 'SJ8b3Mr8g',
-    workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3019',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: '3ycX4MuSr',
-    workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3011',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: '1ycX3guvr',
-    workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     title: 'Accident No. 4001',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: 'HJ8QkzOSH',
-    workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     title: 'Accident No. 4003',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: 'BJwQJfdrH',
-    workflowId: 'SyVXyMuSr',
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3090',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: 'HJQTjsUr',
-    workflowId: 'SyVXyMuSr',
     assignee: 'BJQm1G_BS',
     title: 'Accident No. 3071',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: 'Syx76jiUH',
-    workflowId: 'SyVXyMuSr',
     assignee: 'BJQm1G_BS',
     title: 'Accident No. 3046',
-    status: 'New'
-  }, {
-    id: 'HJbXpioIS',
-    workflowId: 'SyVXyMuSr',
-    assignee: 'BJQm1G_BS',
-    title: 'Accident No. 3099',
-    status: 'New'
-  }, {
-    id: 'ryMXaos8S',
-    workflowId: 'SyVXyMuSr',
-    assignee: 'BJQm1G_BS',
-    title: 'Accident No. 3060',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: 'H1H76ij8r',
-    workflowId: 'HJ8QkzOSH',
     assignee: 'HJ8QkzOSH',
     title: 'Accident No. 3084',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }, {
     id: 'BkuXajsIB',
-    workflowId: 'SyVXyMuSr',
     assignee: 'HJ8QkzOSH',
     title: 'Accident No. 3089',
-    status: 'New'
+    status: 'New',
+    result: {},
+    workflow: {
+      id: 'SyVXyMuSr', title: 'Vehicle Accident Workflow', steps: [
+        {
+          code: 'accident-report-form', name: 'Accident Report',
+          templates: {
+            form: '<accident-report-form></accident-report-form>',
+            view: '<accident-report value="result.submission"></accident-report>'
+          }
+        },
+        {
+          code: 'vehicle-inspection', name: 'Vehicle Inspection',
+          templates: {
+            form: '<vehicle-inspection-form></vehicle-inspection-form>',
+            view: '<vehicle-inspection value="result.submission"></vehicle-inspection>'
+          }
+        }
+      ]
+    }
   }
 ];
 
