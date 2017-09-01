@@ -2,6 +2,7 @@ import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
 import * as session from 'express-session';
 import { SessionOptions } from 'express-session';
+import * as jwt from 'jsonwebtoken';
 import * as passport from 'passport';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import { Strategy } from 'passport-local';
@@ -16,6 +17,7 @@ import { defaultDeserializeUser, defaultSerializeUser } from './UserSerializer';
  * Default implementation for passport authentication
  */
 export class PassportAuth implements EndpointSecurity {
+  protected passport: passport.Passport = new passport.Passport();
   protected loginRoute: string;
 
   // tslint:disable-next-line:max-line-length
@@ -29,13 +31,16 @@ export class PassportAuth implements EndpointSecurity {
    * @param app - An express application
    * @param sessionOpts - Session options to be used by express-session
    */
-  public init(app: express.Express, sessionOpts: SessionOptions) {
-    //  have different apps for mobile/portal
+  public init(app: express.Router, sessionOpts?: SessionOptions) {
     getLogger().info('Initializing express app to use express session and passport');
-    app.use(session(sessionOpts));
-    app.use(passport.initialize());
-    app.use(passport.session());
-    this.setup(passport);
+    if (sessionOpts) {
+      app.use(session(sessionOpts));
+      app.use(this.passport.initialize());
+      app.use(this.passport.session());
+    } else {
+      app.use(this.passport.initialize());
+    }
+    this.setup(this.passport);
   }
 
   /**
@@ -48,11 +53,16 @@ export class PassportAuth implements EndpointSecurity {
   public protect(role?: string) {
     const self = this;
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      console.log('---------- PROTECT -----------');
-      console.log('is Authenticated: ', req.isAuthenticated());
-      console.log('session: ', req.session);
-      console.log('------------------------------');
-      if (!req.isAuthenticated()) {
+      let user;
+      if (req.headers && req.headers.authorization) {
+        let token = req.headers.authorization.toString();
+        token = token.substring(4); // Need to remove JWT at the beginning
+        try {
+          user = jwt.verify(token, 'secret'); // verifies the token and decodes the payload
+        } catch (error) {
+          return res.status(401).json(new Error(error));
+        }
+      } else if (!req.isAuthenticated()) {
         if (req.session) {
           // Used for redirecting to after a successful login when option successReturnToOrRedirect is defined.
           req.session.returnTo = self.setReturnToUrl(req);
@@ -61,7 +71,11 @@ export class PassportAuth implements EndpointSecurity {
         return res.status(401).send();
       }
 
-      const hasRole = role ? this.userService.hasResourceRole(req.user, role) : true;
+      if (req.user) {
+        user = req.user;
+      }
+
+      const hasRole = role ? this.userService.hasResourceRole(user, role) : true;
       return hasRole ? next() : self.accessDenied(req, res);
     };
   }
@@ -78,24 +92,21 @@ export class PassportAuth implements EndpointSecurity {
    * @param errorRedirect - location to redirect after unsuccessful authentication
    */
   public authenticate(strategy: string, defaultRedirect?: string, errorRedirect?: string) {
-    console.log('Authenticate called');
     const self = this;
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
       if (req.isAuthenticated() && req.session) {
         if (req.session.clientURL) {
           return res.redirect(req.session.clientURL);
         }
-        // redirects causes issues with cors for mobile
         return next();
       } else {
-        // It's best to not redirect from here for mobile as it's creating issues with cors
         if (defaultRedirect && errorRedirect) {
-          return passport.authenticate(strategy, {
+          return this.passport.authenticate(strategy, {
             failureRedirect: errorRedirect,
             successReturnToOrRedirect: defaultRedirect
           })(req, res, next);
         }
-        return passport.authenticate(strategy)(req, res, next);
+        return this.passport.authenticate(strategy)(req, res, next);
       }
     };
   }
@@ -134,9 +145,6 @@ export class PassportAuth implements EndpointSecurity {
     };
     passportApi.use(new Strategy(defaultStrategy(this.userRepo, this.userService)));
     passportApi.use(new JwtStrategy(options, (jwtPayload, done) => {
-      console.log('------------ JWT Strategy ------------');
-      console.log('jwtPayload: ', jwtPayload);
-      console.log('-----------------------------------------');
       const callback = (err?: Error, user?: any) => {
         if (err) {
           return done(err, false);
@@ -146,7 +154,7 @@ export class PassportAuth implements EndpointSecurity {
           return done(null, false);
         }
       };
-      this.userRepo.getUserByLogin(jwtPayload.loginId, callback);
+      this.userRepo.getUserByLogin(jwtPayload.username, callback);
     }));
     passportApi.serializeUser(defaultSerializeUser);
     passportApi.deserializeUser(defaultDeserializeUser);
