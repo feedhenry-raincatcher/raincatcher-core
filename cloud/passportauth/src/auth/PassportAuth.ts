@@ -94,20 +94,22 @@ export class PassportAuth implements EndpointSecurity {
   public authenticate(strategy: string, defaultRedirect?: string, errorRedirect?: string) {
     const self = this;
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      if (req.isAuthenticated() && req.session) {
-        if (req.session.clientURL) {
-          return res.redirect(req.session.clientURL);
+      if (defaultRedirect || errorRedirect) {
+        if (req.isAuthenticated() && req.session) {
+          const redirectUrl = req.session.returnTo || req.session.clientURL;
+          if (redirectUrl) {
+            return res.redirect(req.session.clientURL);
+          }
+          return next();
         }
-        return next();
-      } else {
-        if (defaultRedirect && errorRedirect) {
-          return this.passport.authenticate(strategy, {
-            failureRedirect: errorRedirect,
-            successReturnToOrRedirect: defaultRedirect
-          })(req, res, next);
-        }
-        return this.passport.authenticate(strategy)(req, res, next);
+
+        return this.passport.authenticate(strategy, {
+          failureRedirect: errorRedirect,
+          successReturnToOrRedirect: defaultRedirect
+        })(req, res, next);
       }
+
+      return this.passport.authenticate(strategy)(req, res, next);
     };
   }
 
@@ -128,7 +130,6 @@ export class PassportAuth implements EndpointSecurity {
     if (req.headers && req.headers.referer) {
       return req.headers.referer;
     }
-
     return req.originalUrl;
   }
 
