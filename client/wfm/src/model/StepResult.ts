@@ -1,5 +1,5 @@
 import { STATUS } from '../status';
-import { Step } from '../step/Step';
+import { Step } from './Step';
 
 /**
  * Output of a single {@link Step} in the context of a {@link WorkOrder}

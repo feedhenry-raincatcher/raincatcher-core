@@ -1,5 +1,5 @@
-import { Step } from '../step/Step';
-import { WorkOrder } from '../workorder/WorkOrder';
+import { Step } from '../model/Step';
+import { WorkOrder } from '../model/WorkOrder';
 
 /**
  * Definition holder for a linear set of {@link Step}s

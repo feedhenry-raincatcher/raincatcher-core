@@ -1,6 +1,8 @@
 import * as Promise from 'bluebird';
 import { min } from 'lodash';
 import { STATUS } from '../status';
+import { WorkFlow } from './WorkFlow';
+import { WorkOrderResult } from './WorkOrderResult';
 
 type LatLng = [number, number];
 
@@ -20,11 +22,6 @@ export interface WorkOrder {
   assignee?: string;
 
   /**
-   * Id for the {@link WorkFlow} that originated this {@link WorkOrder}
-   */
-  workflowId: string;
-
-  /**
    * Display name for this {@link ProcessInstance}
    */
   title: string;
@@ -40,5 +37,16 @@ export interface WorkOrder {
    * Container for extra metadata for this {@link WorkOrder}, such as timestamps,
    * physical location for execution of work, etc.
    */
-  data?: object;
+  data?: any;
+
+  /**
+   * Contains workflow that will be used for this workorders.
+   * {@link WorkFlow}  this {@link WorkOrder}
+   */
+  workflow: WorkFlow;
+
+  /**
+   *
+   */
+  result: WorkOrderResult | any;
 }
