@@ -1,15 +1,15 @@
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import * as shortid from 'shortid';
-import { WorkOrderResult } from '../result/WorkOrderResult';
+import { Step } from '../model/Step';
+import { WorkFlow } from '../model/WorkFlow';
+import { WorkOrder } from '../model/WorkOrder';
+import { WorkOrderResult } from '../model/WorkOrderResult';
 import { STATUS } from '../status';
-import { Step } from '../step/Step';
-import { WorkFlow } from '../workflow/WorkFlow';
-import { WorkOrder } from '../workorder/WorkOrder';
 import { DataService } from './DataService';
-import { ResultService } from './ResultService';
 import { UserService } from './UserService';
 
+// FIXME Remove this
 /**
  * Parameter interface for the {@link WfmService#completeStep()} function
  */
@@ -22,6 +22,7 @@ export interface CompleteStepParams {
   stepCode: string;
 }
 
+// FIXME adjust UI to not relay on summary and pick all data from Workorder
 /**
  * Return value of the {@link WfmService#workorderSummary} interface
  */
@@ -38,11 +39,9 @@ export interface Summary {
 }
 
 export class WfmService {
-
   constructor(
     protected workorderService: DataService<WorkOrder>,
     protected workflowService: DataService<WorkFlow>,
-    protected resultService: ResultService,
     protected userService: UserService
   ) {
   }
@@ -55,33 +54,42 @@ export class WfmService {
   public beginWorkflow(workorderId: string): Promise<Summary> {
     return this.workorderSummary(workorderId).then(summary => {
       if (summary.result) {
-        return Promise.reject(new Error (`beginWorkflow() called on already started workflow with id: ${workorderId}`));
+        return Promise.reject(new Error(`beginWorkflow() called on already started workflow with id: ${workorderId}`));
       }
       const { workorder, workflow, nextStepIndex } = summary;
       if (!workorder.assignee) {
         return Promise.reject(new Error(`Workorder with Id ${workorderId} has no assignee`));
       }
       workorder.status = this.checkStatus(workorder, workflow);
-      return Promise.all([
-        this.workorderService.update(workorder),
-        this.createNewResult(workorderId, workorder.assignee)
-      ]).then(([updatedWorkorder, result]) => {
-          // Now we check the current status of the workflow to see where the next step should be.
-          result.status = updatedWorkorder.status;
+      workorder.result = {
+        id: shortid.generate(),
+        // TODO move status
+        status: STATUS.NEW_DISPLAY,
+        stepResults: {}
+      };
 
-          // We now have the current status of the workflow for this workorder, the begin step is now complete.
-          return {
-            updatedWorkorder,
-            workflow,
-            result,
-            nextStepIndex,
-            step: this.getNextStep(nextStepIndex, workflow)
-          };
-        });
+      return Promise.all([
+        this.workorderService.update(workorder)
+      ]).then(([updatedWorkorder]) => {
+        // Now we check the current status of the workflow to see where the next step should be.
+        // FIXME  remove this and provide status on workoder (needs UI change)
+        updatedWorkorder.result.status = updatedWorkorder.status;
+
+        // We now have the current status of the workflow for this workorder, the begin step is now complete.
+        return {
+          updatedWorkorder,
+          workflow,
+          result: updatedWorkorder.result,
+          nextStepIndex,
+          step: this.getNextStep(nextStepIndex, workflow)
+        };
+      });
     });
   }
 
   /**
+   * FIXME - no longer needed. Just fetch workorder
+   *
    * Gets a summary of the workflow.
    * This will get all of the details related to the workorder, including workflow and result data.
    *
@@ -98,14 +106,9 @@ export class WfmService {
         return workorder;
       });
     return workorderRead
-      .then(workorder => Promise.all([
-        this.workflowService.read(workorder.workflowId),
-        this.resultService.readByWorkorder(workorderId)
-      ]).then(([workflow, result]) => {
-        if (!workflow) {
-          throw new Error(
-          `No WorkFlow found for WorkOrder with id ${workorderId}, Workflow id: ${workorder.workflowId}`);
-        }
+      .then(workorder => {
+        const workflow: WorkFlow = workorder.workflow;
+        const result: WorkOrderResult = workorder.result;
         const nextStepIndex = this.executeStepReview(workflow.steps, result).nextStepIndex;
         const summary: Summary = {
           workflow,
@@ -115,8 +118,7 @@ export class WfmService {
           step: this.getNextStep(nextStepIndex, workflow)
         };
         return summary;
-      }
-    ));
+      });
   }
 
   /**
@@ -126,6 +128,8 @@ export class WfmService {
    */
   public previousStep(workorderId: string): Promise<Summary> {
     const self = this;
+
+    // TODO fetch workorder only
     return this.workorderSummary(workorderId).then(summary => {
       const { workorder, workflow, result } = summary;
       let { nextStepIndex } = summary;
@@ -139,7 +143,7 @@ export class WfmService {
       // -1 is a special value for 'no next step'
       nextStepIndex = _.max([nextStepIndex - 1, -1]) || -1; // _.max returns `number?`
 
-      return self.resultService.update(result)
+      return self.workorderService.update(workorder)
         .then(() => ({
           workorder,
           workflow,
@@ -195,8 +199,7 @@ export class WfmService {
       workorder.status = status;
 
       return Promise.all([
-        this.workorderService.update(workorder),
-        this.resultService.update(result)
+        this.workorderService.update(workorder)
       ]).then(() => ({
         workorder,
         workflow,
@@ -204,16 +207,6 @@ export class WfmService {
         nextStepIndex,
         step: this.getNextStep(nextStepIndex, workflow)
       }));
-    });
-  }
-
-  protected createNewResult(workorderId: string, assignee: string) {
-    return this.resultService.create({
-      id: shortid.generate(),
-      status: STATUS.NEW_DISPLAY,
-      workorderId,
-      assignee,
-      stepResults: {}
     });
   }
 
