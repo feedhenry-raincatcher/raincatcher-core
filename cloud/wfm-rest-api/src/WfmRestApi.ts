@@ -16,7 +16,6 @@ export class WfmRestApi {
   private config: ApiConfig;
   private workorderService: MongoDbRepository<WorkOrder>;
   private workflowService: MongoDbRepository<WorkFlow>;
-  private resultService: MongoDbRepository<WorkOrderResult>;
 
   constructor(userConfig?: Partial<ApiConfig>) {
     this.config = _.defaults<ApiConfig>(defaultConfiguration, userConfig);
@@ -32,7 +31,6 @@ export class WfmRestApi {
     getLogger().info('WFM web api initialization');
     router.use(`/${workorderApiName}`, new ApiController<WorkOrder>(this.workorderService).buildRouter());
     router.use(`/${workflowApiName}`, new ApiController<WorkFlow>(this.workflowService).buildRouter());
-    router.use(`/${resultApiName}`, new ApiController<WorkOrderResult>(this.resultService).buildRouter());
     return router;
   }
 
@@ -44,12 +42,10 @@ export class WfmRestApi {
   public setDb(db: Db) {
     this.workorderService.setDb(db);
     this.workflowService.setDb(db);
-    this.resultService.setDb(db);
   }
 
   protected createWFMServices() {
     this.workorderService = new MongoDbRepository(this.config.workorderCollectionName);
     this.workflowService = new MongoDbRepository(this.config.workflowCollectionName);
-    this.resultService = new MongoDbRepository(this.config.resultCollectionName);
   }
 }
