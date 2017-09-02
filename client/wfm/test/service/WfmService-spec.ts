@@ -5,7 +5,6 @@ import { DataService, STATUS, StepResult, WfmService, WorkOrder } from '../../sr
 import { mockUserService } from '../mocks/MockUserService';
 import { mockWorkflowService } from '../mocks/MockWorkFlow';
 import { mockWorkorderService } from '../mocks/MockWorkOrder';
-import { mockWorkorderResultService } from '../mocks/MockWorkorderResult';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -21,15 +20,13 @@ describe('WfmService', function() {
   beforeEach(function() {
     mockWorkorderService.reset();
     mockWorkflowService.reset();
-    mockWorkorderResultService.reset();
-    subject = new WfmService(mockWorkorderService, mockWorkflowService, mockWorkorderResultService, mockUserService);
+    subject = new WfmService(mockWorkorderService, mockWorkflowService, mockUserService);
   });
   describe('#workorderSummary', function() {
     it('should return the correct data for a complete workorder', function() {
       return subject.workorderSummary('completeWorkOrder').then(summary => {
         expect(summary.workorder.id).to.equal('completeWorkOrder');
         expect(summary.workflow.id).to.equal('singleStepWorkFlow');
-        expect(summary.result && summary.result.id).to.equal('completeWorkOrderResult');
       });
     });
 
@@ -54,7 +51,7 @@ describe('WfmService', function() {
   describe('#beginWorkflow', function() {
     it('should create the result for the workorder', function() {
       return subject.beginWorkflow('newWorkOrder').then(data => {
-        expect(data.result && data.result.workorderId).to.equal('newWorkOrder');
+        expect(data.result && data.workorder.id).to.equal('newWorkOrder');
       });
     });
 

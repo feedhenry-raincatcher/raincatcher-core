@@ -43,7 +43,7 @@ export interface WorkOrder {
    * Contains workflow that will be used for this workorders.
    * {@link WorkFlow}  this {@link WorkOrder}
    */
-  workflow: WorkFlow;
+  workflow: WorkFlow | any;
 
   /**
    *
