@@ -29,6 +29,8 @@ export class WfmRestApi {
     const router: express.Router = express.Router();
     const { workorderApiName, workflowApiName, resultApiName } = this.config;
     getLogger().info('WFM web api initialization');
+    // FIXME - Move WorkOrder and Workflow implementations for api (they will differ!)
+    // Blocking further refactoring
     router.use(`/${workorderApiName}`, new ApiController<WorkOrder>(this.workorderService).buildRouter());
     router.use(`/${workflowApiName}`, new ApiController<WorkFlow>(this.workflowService).buildRouter());
     return router;

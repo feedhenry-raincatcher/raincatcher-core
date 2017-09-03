@@ -15,6 +15,5 @@ const fixtures: WorkFlow[] = [
     steps
   }
 ];
-const mockWorkflowService = new MockDataService<WorkFlow>(fixtures);
 
-export { mockWorkflowService, fixtures };
+export { fixtures };

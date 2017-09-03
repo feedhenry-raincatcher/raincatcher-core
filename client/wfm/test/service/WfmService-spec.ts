@@ -3,7 +3,6 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import { DataService, STATUS, StepResult, WfmService, WorkOrder } from '../../src/index';
 import { mockUserService } from '../mocks/MockUserService';
-import { mockWorkflowService } from '../mocks/MockWorkFlow';
 import { mockWorkorderService } from '../mocks/MockWorkOrder';
 
 chai.use(chaiAsPromised);
@@ -19,8 +18,7 @@ describe('WfmService', function() {
   let subject: WfmService;
   beforeEach(function() {
     mockWorkorderService.reset();
-    mockWorkflowService.reset();
-    subject = new WfmService(mockWorkorderService, mockWorkflowService, mockUserService);
+    subject = new WfmService(mockWorkorderService, mockUserService);
   });
   describe('#workorderSummary', function() {
     it('should return the correct data for a complete workorder', function() {
@@ -94,19 +92,19 @@ describe('WfmService', function() {
     });
     it('should add a stepResult for the step and update the WorkOrderResult', function() {
       return subject.beginWorkflow('newWorkOrder')
-      .then(() => subject.completeStep({
-        workorderId: 'newWorkOrder',
-        submission: vehicleInspectionSubmission,
-        stepCode: 'vehicle-inspection'
-      }).then(data => {
-        expect(data.result && data.result.status).to.equal(STATUS.PENDING_DISPLAY);
-        expect(data.workorder.status).to.equal(STATUS.PENDING_DISPLAY);
-        const stepResult: StepResult | undefined = data.result &&
-          data.result.stepResults &&
-          data.result.stepResults['vehicle-inspection'];
-        expect(stepResult && stepResult.status).to.equal(STATUS.COMPLETE);
-        expect(stepResult && stepResult.step.name).to.equal('First Step');
-      }));
+        .then(() => subject.completeStep({
+          workorderId: 'newWorkOrder',
+          submission: vehicleInspectionSubmission,
+          stepCode: 'vehicle-inspection'
+        }).then(data => {
+          expect(data.result && data.result.status).to.equal(STATUS.PENDING_DISPLAY);
+          expect(data.workorder.status).to.equal(STATUS.PENDING_DISPLAY);
+          const stepResult: StepResult | undefined = data.result &&
+            data.result.stepResults &&
+            data.result.stepResults['vehicle-inspection'];
+          expect(stepResult && stepResult.status).to.equal(STATUS.COMPLETE);
+          expect(stepResult && stepResult.step.name).to.equal('First Step');
+        }));
     });
     it('should error if there\'s no result', function() {
       return expect(subject.completeStep({
