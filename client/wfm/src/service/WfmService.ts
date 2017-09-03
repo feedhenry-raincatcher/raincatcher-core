@@ -41,7 +41,6 @@ export interface Summary {
 export class WfmService {
   constructor(
     protected workorderService: DataService<WorkOrder>,
-    protected workflowService: DataService<WorkFlow>,
     protected userService: UserService
   ) {
   }
