@@ -65,6 +65,7 @@ export interface CloudAppConfig {
   redis: {
     url: string
   };
+  jwtSecret: string;
 }
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
 
