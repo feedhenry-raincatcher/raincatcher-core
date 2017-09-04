@@ -22,13 +22,6 @@ export interface StepResult {
   timestamp: number;
 
   /**
-   * Status of the progression of the {@link WorkOrder}
-   *
-   * @see STATUS
-   */
-  status: STATUS | string;
-
-  /**
    * Reference to the original {@link Step}
    */
   step: Step;

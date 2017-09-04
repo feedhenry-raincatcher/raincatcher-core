@@ -30,11 +30,6 @@ export interface Summary {
   workflow: WorkFlow;
   workorder: WorkOrder;
   result?: WorkOrderResult;
-  /**
-   * Index of the next {@link Step} the {@link WorkOrder} should progress to after completion of the current one.
-   * This allows for skipping or returning to a previous {@link Step}.
-   */
-  nextStepIndex: number;
   step: Step;
 }
 
@@ -55,15 +50,13 @@ export class WfmService {
       if (summary.result) {
         return Promise.reject(new Error(`beginWorkflow() called on already started workflow with id: ${workorderId}`));
       }
-      const { workorder, workflow, nextStepIndex } = summary;
+      const { workorder, workflow } = summary;
       if (!workorder.assignee) {
         return Promise.reject(new Error(`Workorder with Id ${workorderId} has no assignee`));
       }
-      workorder.status = this.checkStatus(workorder, workflow);
+      workorder.status = STATUS.NEW_DISPLAY;
       workorder.result = {
         id: shortid.generate(),
-        // TODO move status
-        status: STATUS.NEW_DISPLAY,
         stepResults: {}
       };
 
@@ -71,16 +64,21 @@ export class WfmService {
         this.workorderService.update(workorder)
       ]).then(([updatedWorkorder]) => {
         // Now we check the current status of the workflow to see where the next step should be.
-        // FIXME  remove this and provide status on workoder (needs UI change)
-        updatedWorkorder.result.status = updatedWorkorder.status;
-
         // We now have the current status of the workflow for this workorder, the begin step is now complete.
+        let step;
+        if (updatedWorkorder.currentStep) {
+          step = workflow.steps[updatedWorkorder.currentStep];
+        } else {
+          step = workflow.steps[0];
+        }
+
         return {
           updatedWorkorder,
           workflow,
           result: updatedWorkorder.result,
-          nextStepIndex,
-          step: this.getNextStep(nextStepIndex, workflow)
+          // TODO get current step updatedWorkorder.currentStep
+          // TODO use code here
+          step
         };
       });
     });
@@ -108,13 +106,12 @@ export class WfmService {
       .then(workorder => {
         const workflow: WorkFlow = workorder.workflow;
         const result: WorkOrderResult = workorder.result;
-        const nextStepIndex = this.executeStepReview(workflow.steps, result).nextStepIndex;
         const summary: Summary = {
           workflow,
           workorder,
           result,
-          nextStepIndex,
-          step: this.getNextStep(nextStepIndex, workflow)
+          // TODO push next step method
+          step: workflow.steps[0]
         };
         return summary;
       });
@@ -131,7 +128,6 @@ export class WfmService {
     // TODO fetch workorder only
     return this.workorderSummary(workorderId).then(summary => {
       const { workorder, workflow, result } = summary;
-      let { nextStepIndex } = summary;
 
       if (!result) {
         // No result exists, The workflow should have been started
@@ -139,16 +135,13 @@ export class WfmService {
           '. The workflow back topic can only be used for a workflow that has begun'));
       }
 
-      // -1 is a special value for 'no next step'
-      nextStepIndex = _.max([nextStepIndex - 1, -1]) || -1; // _.max returns `number?`
-
       return self.workorderService.update(workorder)
         .then(() => ({
           workorder,
           workflow,
           result,
-          nextStepIndex,
-          step: this.getNextStep(nextStepIndex, workflow)
+          // TODO push next step method
+          step: workflow.steps[0]
         }));
     });
   }
@@ -164,7 +157,7 @@ export class WfmService {
       this.userService.readUser().then(profileData => profileData.id),
       this.workorderSummary(workorderId)
     ]).then(([userId, summary]) => {
-      const { workorder, workflow, result, nextStepIndex } = summary;
+      const { workorder, workflow, result } = summary;
 
       if (!result) {
         // No result exists, The workflow should have been started
@@ -185,7 +178,6 @@ export class WfmService {
       const stepResult = {
         step,
         submission,
-        status: STATUS.COMPLETE,
         timestamp: new Date().getTime(),
         submitter: userId
       };
@@ -193,8 +185,7 @@ export class WfmService {
       // The result needs to be updated with the latest step results
       result.stepResults = result.stepResults || {};
       result.stepResults[step.code] = stepResult;
-      const status = this.checkStatus(workorder, workflow, result);
-      workorder.status = status;
+      workorder.status = STATUS.COMPLETE;
 
       return Promise.all([
         this.workorderService.update(workorder)
@@ -202,8 +193,8 @@ export class WfmService {
         workorder,
         workflow,
         result,
-        nextStepIndex,
-        step: this.getNextStep(nextStepIndex, workflow)
+        // TODO push next step method
+        step: workflow.steps[0]
       }));
     });
   }
@@ -212,52 +203,30 @@ export class WfmService {
    * Checks each of the result steps to determine if the workflow is complete,
    * and if not, what is the next step in the workflow to display to the user.
    */
-  protected executeStepReview(steps: Step[], result?: WorkOrderResult) {
-    let nextStepIndex = 0;
-    let complete = false;
+  // protected executeStepReview(steps: Step[], result?: WorkOrderResult) {
+  //   let nextStepIndex = 0;
+  //   let complete = false;
 
-    // If there is no result, then the first step is the next step.
-    if (result && !_.isEmpty(result.stepResults)) {
-      nextStepIndex = _.findIndex(steps, function(step) {
-        // The next incomplete step is the step with no entry or it's not complete yet.
-        return !result.stepResults || !result.stepResults[step.code] ||
-          result.stepResults[step.code].status !== STATUS.COMPLETE;
-      });
+  //   // If there is no result, then the first step is the next step.
+  //   if (result && !_.isEmpty(result.stepResults)) {
+  //     nextStepIndex = _.findIndex(steps, function(step) {
+  //       // The next incomplete step is the step with no entry or it's not complete yet.
+  //       return !result.stepResults || !result.stepResults[step.code] ||
+  //         result.stepResults[step.code].status !== STATUS.COMPLETE;
+  //     });
 
-      if (nextStepIndex === -1) {
-        complete = true;
-        nextStepIndex = steps.length;
-      }
-    }
-    return {
-      nextStepIndex,
-      complete // false means some steps are "pending"
-    };
-  }
+  //     if (nextStepIndex === -1) {
+  //       complete = true;
+  //       nextStepIndex = steps.length;
+  //     }
+  //   }
+  //   return {
+  //     nextStepIndex,
+  //     complete // false means some steps are "pending"
+  //   };
+  // }
 
   protected getNextStep(index: number, workflow: WorkFlow): Step {
     return index > -1 ? workflow.steps[index] : workflow.steps[0];
-  }
-
-  /**
-   * Checking the status of a workorder
-   *
-   * @param workorder  - The workorder to check status
-   * @param workflow   - The workflow to check status
-   * @param result     - The result to check status
-   */
-  protected checkStatus(workorder: WorkOrder, workflow: WorkFlow, result?: WorkOrderResult): STATUS {
-    let status;
-    const stepReview = this.executeStepReview(workflow.steps, result);
-    if (stepReview.nextStepIndex >= workflow.steps.length - 1 && stepReview.complete) {
-      status = STATUS.COMPLETE_DISPLAY;
-    } else if (!workorder.assignee) {
-      status = STATUS.UNASSIGNED_DISPLAY;
-    } else if (stepReview.nextStepIndex < 0) {
-      status = STATUS.NEW_DISPLAY;
-    } else {
-      status = STATUS.PENDING_DISPLAY;
-    }
-    return status;
   }
 }

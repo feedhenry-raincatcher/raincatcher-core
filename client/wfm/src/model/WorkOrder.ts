@@ -46,7 +46,12 @@ export interface WorkOrder {
   workflow: WorkFlow | any;
 
   /**
-   *
+   * Contains data (results) from step execution
    */
   result: WorkOrderResult | any;
+
+  /**
+   * Contains id of the current active step (if empty means that workflow has no active step)
+   */
+  currentStep?: string;
 }
