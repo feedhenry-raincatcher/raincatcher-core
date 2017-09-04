@@ -6,13 +6,6 @@ import { StepResult } from './StepResult';
  */
 export interface WorkOrderResult {
   /**
-   * Status of the progression of the {@link WorkOrder}
-   *
-   * @see STATUS
-   */
-  status: STATUS | string;
-
-  /**
    * Set of {@link StepResult}s for the {@link Step}s contained in the related {@link WorkOrder}
    */
   stepResults?: {

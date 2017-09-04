@@ -97,7 +97,6 @@ describe('WfmService', function() {
           submission: vehicleInspectionSubmission,
           stepCode: 'vehicle-inspection'
         }).then(data => {
-          expect(data.result && data.result.status).to.equal(STATUS.PENDING_DISPLAY);
           expect(data.workorder.status).to.equal(STATUS.PENDING_DISPLAY);
           const stepResult: StepResult | undefined = data.result &&
             data.result.stepResults &&

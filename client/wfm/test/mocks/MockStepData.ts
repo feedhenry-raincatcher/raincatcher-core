@@ -2,6 +2,7 @@ import { Step } from '../../src/index';
 
 const steps: Step[] = [
   {
+    id: 'dagsdfa',
     code: 'vehicle-inspection',
     name: 'First Step',
     templates: {
@@ -10,6 +11,7 @@ const steps: Step[] = [
     }
   },
   {
+    id: 'fdsg23d',
     code: 'vehicle-inspection2',
     name: 'Second Step',
     templates: {

@@ -18,8 +18,7 @@ const fixtures: WorkOrderResult[] = [
         timestamp: 1502132714787,
         submitter: 'trever'
       }
-    },
-    status: STATUS.NEW
+    }
   }
 ];
 

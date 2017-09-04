@@ -194,7 +194,6 @@ export class WfmService {
       result.stepResults = result.stepResults || {};
       result.stepResults[step.code] = stepResult;
       const status = this.checkStatus(workorder, workflow, result);
-      result.status = status;
       workorder.status = status;
 
       return Promise.all([
