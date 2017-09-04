@@ -21,28 +21,29 @@ const config = appConfig.getConfig();
 export let portalsecurityMiddleware: EndpointSecurity;
 export let mobileSecurityMiddleware: EndpointSecurity;
 
-// Setup all modules
+/**
+ * Setup modules for the mobile and portal app and mount it to
+ * the express app.
+ */
 export function setupModules(app: express.Express) {
   const mobileApp = express.Router();
-  const portalApp = express.Router();
-  portalsecurityMiddleware = securitySetup(portalApp, sessionOpts);
   mobileSecurityMiddleware = securitySetup(mobileApp);
   const connectionPromise = syncSetup(mobileApp);
+  demoDataSetup(connectionPromise);
+
+  const portalApp = express.Router();
+  portalsecurityMiddleware = securitySetup(portalApp, sessionOpts);
   wfmApiSetup(portalApp, connectionPromise);
   userApiSetup(portalApp);
-  demoDataSetup(connectionPromise);
+
   app.use(portalApp);
   app.use(mobileApp);
 }
 
 function securitySetup(app: express.Router, sessionOptions?: SessionOptions) {
-  // Use Keycloak if Keycloak configuration is provided
-  const useKeycloak = config.keycloakConfig || false;
-  if (useKeycloak) {
-    // user keycloak authentication
+  if (config.keycloakConfig) {
     return setupKeycloakSecurity(app);
   } else {
-    // resort to passport authentication
     return setupPassportSecurity(app, sessionOptions);
   }
 }

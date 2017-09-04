@@ -28,5 +28,8 @@
   "redis": {
     "url": "redis://127.0.0.1:6379"
   },
-  "jwtSecret": "raincatcher"
+  "jwtSecret": "raincatcher",
+  "clientUrl": {
+    "portal": "http://localhost:9003/?url=http://localhost:8001"
+  }
 }

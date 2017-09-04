@@ -11,16 +11,18 @@ import DemoUserRepository, { SampleUserService } from './DemoUserRepository';
 
 const config = appConfig.getConfig();
 
-export function init(app: express.Router, sessionOpts?: SessionOptions) {
+export function init(router: express.Router, sessionOpts?: SessionOptions) {
   // Initialize user data repository and map current user
   const userRepo: UserRepository = new DemoUserRepository();
   const userService: UserService = new SampleUserService();
   const authService: PassportAuth = new PassportAuth(userRepo, userService);
-  authService.init(app, sessionOpts);
+
   if (sessionOpts) {
-      createPortalRoutes(app, authService, userRepo);
+    authService.init(router, sessionOpts);
+    createPortalRoutes(router, authService, userRepo);
   } else {
-    createMobileRoutes(app, authService, userRepo, userService);
+    authService.init(router, sessionOpts, config.jwtSecret);
+    createMobileRoutes(router, userRepo, userService);
   }
   return authService;
 }
@@ -34,7 +36,7 @@ function createPortalRoutes(router: express.Router, authService: PassportAuth, u
   });
 
   router.post('/login', authService.authenticate('local', {
-    successReturnToOrRedirect: '/',
+    successReturnToOrRedirect: config.clientUrl.portal,
     failureRedirect: '/loginError'
   }));
 
@@ -65,14 +67,12 @@ function createPortalRoutes(router: express.Router, authService: PassportAuth, u
   });
 }
 
-function createMobileRoutes(router: express.Router, authService: PassportAuth,
-                            userRepo: UserRepository, userService: UserService) {
+function createMobileRoutes(router: express.Router, userRepo: UserRepository, userService: UserService) {
   getLogger().info('Creating Mobile Routes');
   router.post('/token', function(req, res, next) {
     if (req.body && req.body.username && req.body.password) {
       const callback = (err?: Error, user?: any) => {
         if (user && userService.validatePassword(user, req.body.password)) {
-          delete user.password;
           const payload = user;
           const token = jwt.sign(payload, config.jwtSecret);
           return res.status(200).json({'token': token, 'profile': user });

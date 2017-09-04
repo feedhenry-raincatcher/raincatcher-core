@@ -66,6 +66,9 @@ export interface CloudAppConfig {
     url: string
   };
   jwtSecret: string;
+  clientUrl: {
+    portal: string
+  };
 }
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
 
