@@ -1,6 +1,6 @@
 
 import { getLogger } from '@raincatcher/logger';
-import { WorkFlow, WorkOrder, WorkOrderResult } from '@raincatcher/wfm';
+import { WorkFlow, WorkOrder } from '@raincatcher/wfm';
 import * as Promise from 'bluebird';
 import * as express from 'express';
 import * as _ from 'lodash';
