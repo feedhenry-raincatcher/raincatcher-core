@@ -1,6 +1,5 @@
 export { WorkOrder } from './model/WorkOrder';
 export { WorkFlow } from './model/WorkFlow';
-export { WorkOrderResult } from './model/WorkOrderResult';
 export { StepResult } from './model/StepResult';
 export { Step } from './model/Step';
 export { STATUS } from './status';
