@@ -1,8 +1,8 @@
 import * as Promise from 'bluebird';
 import { min } from 'lodash';
 import { STATUS } from '../status';
+import { StepResult } from './StepResult';
 import { WorkFlow } from './WorkFlow';
-import { WorkOrderResult } from './WorkOrderResult';
 
 type LatLng = [number, number];
 
@@ -37,18 +37,18 @@ export interface WorkOrder {
    * Container for extra metadata for this {@link WorkOrder}, such as timestamps,
    * physical location for execution of work, etc.
    */
-  data?: any;
+  data?: object;
 
   /**
    * Contains workflow that will be used for this workorders.
    * {@link WorkFlow}  this {@link WorkOrder}
    */
-  workflow: WorkFlow | any;
+  workflow: WorkFlow;
 
   /**
    * Contains data (results) from step execution
    */
-  result: WorkOrderResult | any;
+  result: StepResult[];
 
   /**
    * Contains id of the current active step (if empty means that workflow has no active step)

@@ -21,8 +21,5 @@ export interface StepResult {
    */
   timestamp: number;
 
-  /**
-   * Reference to the original {@link Step}
-   */
-  step: Step;
+  stepId: string;
 }

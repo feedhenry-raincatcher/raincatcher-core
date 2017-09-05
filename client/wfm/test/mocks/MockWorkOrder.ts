@@ -8,9 +8,10 @@ const fixtures: WorkOrder[] = [
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3041',
     status: 'New',
-    result: {},
+    result: [],
     workflow: {
       id: 'SyVXyMuSr',
+      version: 1,
       title: 'Vehicle Accident Workflow',
       steps: []
     }

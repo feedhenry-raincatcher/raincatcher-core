@@ -2,36 +2,12 @@ import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 import * as shortid from 'shortid';
 import { Step } from '../model/Step';
+import { StepResult } from '../model/StepResult';
 import { WorkFlow } from '../model/WorkFlow';
 import { WorkOrder } from '../model/WorkOrder';
-import { WorkOrderResult } from '../model/WorkOrderResult';
 import { STATUS } from '../status';
 import { DataService } from './DataService';
 import { UserService } from './UserService';
-
-// FIXME Remove this
-/**
- * Parameter interface for the {@link WfmService#completeStep()} function
- */
-export interface CompleteStepParams {
-  /** The ID of the workorder to complete the step for */
-  workorderId: string;
-  /** The submission to save */
-  submission: object;
-  /** The ID of the step to save the submission for */
-  stepCode: string;
-}
-
-// FIXME adjust UI to not relay on summary and pick all data from Workorder
-/**
- * Return value of the {@link WfmService#workorderSummary} interface
- */
-export interface Summary {
-  workflow: WorkFlow;
-  workorder: WorkOrder;
-  result?: WorkOrderResult;
-  step: Step;
-}
 
 export class WfmService {
   constructor(
@@ -45,76 +21,24 @@ export class WfmService {
    *
    * @param {string} workorderId - The ID of the workorder to begin the workflow for.
    */
-  public beginWorkflow(workorderId: string): Promise<Summary> {
-    return this.workorderSummary(workorderId).then(summary => {
-      if (summary.result) {
-        return Promise.reject(new Error(`beginWorkflow() called on already started workflow with id: ${workorderId}`));
+  public begin(workorderId: string): Promise<WorkOrder> {
+    return this.readWorkOrder(workorderId).then(workorder => {
+      if (this.hasBegun(workorder)) {
+        // tslint:disable-next-line:max-line-length
+        throw new Error(`beginWorkflow() called on workflow with id: ${workorderId} and status ${workorder.status}`);
       }
-      const { workorder, workflow } = summary;
+      if (_.isEmpty(workorder.workflow.steps)) {
+        throw new Error(`WorkOrder with id: ${workorderId} references an empty WorkFlow and cannot be started`);
+      }
       if (!workorder.assignee) {
-        return Promise.reject(new Error(`Workorder with Id ${workorderId} has no assignee`));
+        throw new Error(`Workorder with Id ${workorderId} has no assignee and cannot be started`);
       }
-      workorder.status = STATUS.NEW_DISPLAY;
-      workorder.result = {
-        id: shortid.generate(),
-        stepResults: {}
-      };
+      workorder.status = STATUS.PENDING;
+      workorder.currentStep = workorder.workflow.steps[0].id;
+      workorder.result = [];
 
-      return Promise.all([
-        this.workorderService.update(workorder)
-      ]).then(([updatedWorkorder]) => {
-        // Now we check the current status of the workflow to see where the next step should be.
-        // We now have the current status of the workflow for this workorder, the begin step is now complete.
-        let step;
-        if (updatedWorkorder.currentStep) {
-          step = workflow.steps[updatedWorkorder.currentStep];
-        } else {
-          step = workflow.steps[0];
-        }
-
-        return {
-          updatedWorkorder,
-          workflow,
-          result: updatedWorkorder.result,
-          // TODO get current step updatedWorkorder.currentStep
-          // TODO use code here
-          step
-        };
-      });
+      return this.workorderService.update(workorder);
     });
-  }
-
-  /**
-   * FIXME - no longer needed. Just fetch workorder
-   *
-   * Gets a summary of the workflow.
-   * This will get all of the details related to the workorder, including workflow and result data.
-   *
-   * @param {string} workorderId - The ID of the workorder to get the summary for.
-   * @return {{workflow: Workflow, workorder: Workorder, result: Result}}
-   * An object containing all the major entities related to the workorder
-   */
-  public workorderSummary(workorderId: string): Promise<Summary> {
-    const workorderRead = this.workorderService.read(workorderId)
-      .then(workorder => {
-        if (!workorder) {
-          throw new Error(`No workorder found with id ${workorderId}`);
-        }
-        return workorder;
-      });
-    return workorderRead
-      .then(workorder => {
-        const workflow: WorkFlow = workorder.workflow;
-        const result: WorkOrderResult = workorder.result;
-        const summary: Summary = {
-          workflow,
-          workorder,
-          result,
-          // TODO push next step method
-          step: workflow.steps[0]
-        };
-        return summary;
-      });
   }
 
   /**
@@ -122,111 +46,112 @@ export class WfmService {
    *
    * @param workorderId - The ID of the workorder to switch to the previous step for
    */
-  public previousStep(workorderId: string): Promise<Summary> {
+  public previousStep(workorderId: string): Promise<WorkOrder> {
     const self = this;
-
-    // TODO fetch workorder only
-    return this.workorderSummary(workorderId).then(summary => {
-      const { workorder, workflow, result } = summary;
-
-      if (!result) {
-        // No result exists, The workflow should have been started
-        return Promise.reject(new Error('No result exists for workflow ' + workorderId +
-          '. The workflow back topic can only be used for a workflow that has begun'));
+    return this.readWorkOrder(workorderId).then(workorder => {
+      if (!this.hasBegun(workorder)) {
+        // tslint:disable-next-line:max-line-length
+        throw new Error(`Can only go to the previous step of a workorder that has begun. WorkOrder ${workorder.id} has status ${workorder.status}`);
       }
 
-      return self.workorderService.update(workorder)
-        .then(() => ({
-          workorder,
-          workflow,
-          result,
-          // TODO push next step method
-          step: workflow.steps[0]
-        }));
+      workorder.result.pop();
+      const index = this.getCurrentStepIdx(workorder);
+      if (!index) {
+        workorder.currentStep = undefined;
+      } else {
+        const previousStep = workorder.workflow.steps[index - 1];
+        // Previous step might be undefined if index-1 < 0
+        workorder.currentStep = previousStep && previousStep.id;
+      }
+
+      return self.workorderService.update(workorder);
     });
   }
 
+  public getCurrentStep(workorder: WorkOrder): Step | undefined {
+    if (!workorder.currentStep) {
+      return;
+    }
+    return _.find(workorder.workflow.steps,
+      step => step.id === workorder.currentStep);
+  }
+
   /**
-   * Completing a single step for a workorder.
+   * Completes the current step of a workorder.
+   * @param workorderId Id of the workorder
+   * @param submission Data for the step's result
+   * @param nextId Optional id of the next step to move to
    */
-  public completeStep(parameters: CompleteStepParams): Promise<Summary> {
-    const workorderId = parameters.workorderId;
-    const stepCode = parameters.stepCode;
-    const submission = parameters.submission;
+  public completeStep(workorderId: string, submission: object, nextId?: string): Promise<WorkOrder> {
     return Promise.all([
       this.userService.readUser().then(profileData => profileData.id),
-      this.workorderSummary(workorderId)
-    ]).then(([userId, summary]) => {
-      const { workorder, workflow, result } = summary;
-
-      if (!result) {
-        // No result exists, The workflow should have been started
-        return Promise.reject(new Error('No result exists for workorder ' + workorderId +
-          '. The workflow done topic can only be used for a workflow that has begun'));
+      this.readWorkOrder(workorderId)
+    ]).then(([userId, workorder]) => {
+      if (!this.hasBegun(workorder)) {
+        // tslint:disable-next-line:max-line-length
+        throw new Error(`Can only go to the previous step of a workorder that has begun. WorkOrder ${workorder.id} has status ${workorder.status}`);
       }
-
-      const step = _.find(workflow.steps, s => s.code === stepCode);
-
-      // If there is no step, then this step submission is invalid.
-      if (!step) {
-        // No result exists, The workflow should have been started
-        return Promise.reject(new Error('Invalid step to assign completed data for workorder ' + workorderId +
-          ' and step code ' + stepCode));
+      const stepId = workorder.currentStep;
+      if (!stepId) {
+        return Promise.reject(new Error('Invalid step to assign completed data for workorder ' + workorderId));
       }
-
-      // Got the workflow, now we can create the step result.
-      const stepResult = {
-        step,
+      const stepResult: StepResult = {
+        stepId,
         submission,
         timestamp: new Date().getTime(),
         submitter: userId
       };
 
-      // The result needs to be updated with the latest step results
-      result.stepResults = result.stepResults || {};
-      result.stepResults[step.code] = stepResult;
-      workorder.status = STATUS.COMPLETE;
+      workorder.result.push(stepResult);
+      this.goToNextStep(workorder, nextId);
 
-      return Promise.all([
-        this.workorderService.update(workorder)
-      ]).then(() => ({
-        workorder,
-        workflow,
-        result,
-        // TODO push next step method
-        step: workflow.steps[0]
-      }));
+      return this.workorderService.update(workorder);
     });
   }
 
   /**
-   * Checks each of the result steps to determine if the workflow is complete,
-   * and if not, what is the next step in the workflow to display to the user.
+   * Helper method that throws on a not-found workorder
+   * @param workorderId Id of the workorder
    */
-  // protected executeStepReview(steps: Step[], result?: WorkOrderResult) {
-  //   let nextStepIndex = 0;
-  //   let complete = false;
+  protected readWorkOrder(workorderId: string): Promise<WorkOrder> {
+    return this.workorderService.read(workorderId).then(workorder => {
+      if (!workorder) {
+        throw new Error(`WorkOrder with id ${workorderId} not found`);
+      }
+      return workorder;
+    });
+  }
 
-  //   // If there is no result, then the first step is the next step.
-  //   if (result && !_.isEmpty(result.stepResults)) {
-  //     nextStepIndex = _.findIndex(steps, function(step) {
-  //       // The next incomplete step is the step with no entry or it's not complete yet.
-  //       return !result.stepResults || !result.stepResults[step.code] ||
-  //         result.stepResults[step.code].status !== STATUS.COMPLETE;
-  //     });
+  protected getCurrentStepIdx(workorder: WorkOrder) {
+    if (!workorder.currentStep) {
+      return;
+    }
+    return _.findIndex(workorder.workflow.steps,
+      step => step.id === workorder.currentStep);
+  }
 
-  //     if (nextStepIndex === -1) {
-  //       complete = true;
-  //       nextStepIndex = steps.length;
-  //     }
-  //   }
-  //   return {
-  //     nextStepIndex,
-  //     complete // false means some steps are "pending"
-  //   };
-  // }
+  protected hasBegun(workorder: WorkOrder): boolean {
+    return workorder.status !== STATUS.NEW &&
+      workorder.status !== STATUS.UNASSIGNED;
+  }
 
-  protected getNextStep(index: number, workflow: WorkFlow): Step {
-    return index > -1 ? workflow.steps[index] : workflow.steps[0];
+  protected goToNextStep(workorder: WorkOrder, nextId?: string) {
+    if (nextId) {
+      const step = _.find(workorder.workflow.steps,
+        s => s.id === nextId);
+      if (!step) {
+        throw new Error(`${nextId} not found in the steps for WorkOrder ${workorder.id}`);
+      }
+      return workorder.currentStep = step.id;
+    }
+
+    const index = this.getCurrentStepIdx(workorder) || -1;
+    // if current is the last, workorder is now complete
+    if (index === workorder.workflow.steps.length - 1) {
+      workorder.status = STATUS.COMPLETE;
+      return workorder.currentStep = undefined;
+    }
+    const nextStep = workorder.workflow.steps[index + 1];
+    return workorder.currentStep = nextStep && nextStep.id;
   }
 }

@@ -22,14 +22,14 @@ describe('WfmService', function() {
   });
   describe('#workorderSummary', function() {
     it('should return the correct data for a complete workorder', function() {
-      return subject.workorderSummary('completeWorkOrder').then(summary => {
+      return subject.workorderService.read('completeWorkOrder').then(summary => {
         expect(summary.workorder.id).to.equal('completeWorkOrder');
         expect(summary.workflow.id).to.equal('singleStepWorkFlow');
       });
     });
 
     it('should return the correct data for a new workorder', function() {
-      return subject.workorderSummary('newWorkOrder').then(summary => {
+      return subject.workorderService.read('newWorkOrder').then(summary => {
         expect(summary.workorder.id).to.equal('newWorkOrder');
         expect(summary.workflow.id).to.equal('multiStepWorkFlow');
         // tslint:disable-next-line:no-unused-expression
@@ -38,23 +38,23 @@ describe('WfmService', function() {
     });
 
     it('should error when workorder has no workflow', function() {
-      return expect(subject.workorderSummary('brokenWorkOrder')).to.eventually.be.rejected;
+      return expect(subject.workorderService.read('brokenWorkOrder')).to.eventually.be.rejected;
     });
 
     it('should error when workorder is not found', function() {
-      return expect(subject.workorderSummary('fake id')).to.eventually.be.rejected;
+      return expect(subject.workorderService.read('fake id')).to.eventually.be.rejected;
     });
   });
 
   describe('#beginWorkflow', function() {
     it('should create the result for the workorder', function() {
-      return subject.beginWorkflow('newWorkOrder').then(data => {
+      return subject.begin('newWorkOrder').then(data => {
         expect(data.result && data.workorder.id).to.equal('newWorkOrder');
       });
     });
 
     it('should error on an already begun workorder', function() {
-      return expect(subject.beginWorkflow('completeWorkOrder')).to.eventually.be.rejected;
+      return expect(subject.begin('completeWorkOrder')).to.eventually.be.rejected;
     });
   });
 
@@ -91,7 +91,7 @@ describe('WfmService', function() {
       });
     });
     it('should add a stepResult for the step and update the WorkOrderResult', function() {
-      return subject.beginWorkflow('newWorkOrder')
+      return subject.begin('newWorkOrder')
         .then(() => subject.completeStep({
           workorderId: 'newWorkOrder',
           submission: vehicleInspectionSubmission,
