@@ -7,11 +7,12 @@ import * as passport from 'passport';
 import { AuthenticateOptions } from 'passport';
 import { ExtractJwt, Strategy as JwtStrategy, StrategyOptions as JwtOptions } from 'passport-jwt';
 import { Strategy } from 'passport-local';
+import { CONSTANTS } from '../constants';
 import { UserRepository } from '../user/UserRepository';
 import { UserService } from '../user/UserService';
 
 import { EndpointSecurity } from '@raincatcher/express-auth';
-import { defaultStrategy } from './DefaultStrategy';
+import { jwtStrategy, webStrategy } from './DefaultStrategy';
 import { defaultDeserializeUser, defaultSerializeUser } from './UserSerializer';
 
 /**
@@ -26,35 +27,34 @@ export class PassportAuth implements EndpointSecurity {
   }
 
   /**
-   * Initializes an Express application to use passport and express-session
-   * Note: If the session options is not defined, session will not be used.
+   * Initializes an Express application to use passport.
+   * Note: If the session options are not defined, session based authentication will not be used.
    *
    * @param app - An express application
    * @param sessionOpts - Session options to be used by express-session
-   * @param secret - secret used for Passport's JWT strategy
+   * @param secret - Secret to be used for Passport's JWT strategy
    */
-  public init(app: express.Router, sessionOpts?: SessionOptions, secret?: string) {
-    getLogger().info('Initializing express app to use express session and passport');
+  public init(app: express.Router, sessionOpts?: SessionOptions, secret?: any) {
+    getLogger().info('Initializing express app to use passport');
     if (sessionOpts) {
       app.use(session(sessionOpts));
       app.use(this.passport.initialize());
       app.use(this.passport.session());
+      this.setupCookie(this.passport);
     } else {
-      if (secret) {
-        this.jwtOpts = {
-          jwtFromRequest: ExtractJwt.fromAuthHeader(),
-          secretOrKey: secret
-        };
-      }
+      this.jwtOpts = {
+        jwtFromRequest: ExtractJwt.fromAuthHeader(),
+        secretOrKey: secret || CONSTANTS.defaultSecret
+      };
       app.use(this.passport.initialize());
+      this.setupToken(this.passport, this.jwtOpts);
     }
 
-    this.setup(this.passport, this.jwtOpts);
   }
 
   /**
    * Function which checks if the user requesting access to the resource is authenticated and authorized to
-   * access the resource. Redirects to the login page if user is not authenticated or returns a status of 403
+   * access the resource. Returns a status of 401 if the user is not authenticated and returns a status of 403
    * if the user does not have the required role.
    *
    * @param role - Role which the user needs in order to access this resource
@@ -140,29 +140,30 @@ export class PassportAuth implements EndpointSecurity {
   }
 
   /**
-   * Initialized passport configuration.
+   * Sets up the local strategy, serializer and deserializer to be used by Passport's cookie
+   * based authentication.
    * Method can be overridden to provide custom passport setup
    *
    * @param passportApi - passport.js instance
    */
-  protected setup(passportApi: passport.Passport, jwtOpts?: JwtOptions) {
-    if (jwtOpts) {
-      passportApi.use(new JwtStrategy(jwtOpts, (jwtPayload, done) => {
-        const callback = (err?: Error, user?: any) => {
-          if (err) {
-            return done(err, false);
-          } else if (user) {
-            return done(null, user);
-          } else {
-            return done(null, false);
-          }
-        };
-        this.userRepo.getUserByLogin(jwtPayload.username, callback);
-      }));
-    } else {
-      passportApi.use(new Strategy(defaultStrategy(this.userRepo, this.userService)));
-    }
+  protected setupCookie(passportApi: passport.Passport) {
+    getLogger().info('Setting up configuration for cookie based authentication');
+    passportApi.use(new Strategy(webStrategy(this.userRepo, this.userService)));
+    passportApi.serializeUser(defaultSerializeUser);
+    passportApi.deserializeUser(defaultDeserializeUser);
+  }
 
+  /**
+   * Sets up the JWT strategy, serializer and deserializer to be used by Passport's token
+   * based authentication.
+   * Method can be overridden to provide custom passport setup
+   *
+   * @param passportApi - passport.js instance
+   * @param jwtOpts - Options used for Passport's JWT strategy
+   */
+  protected setupToken(passportApi: passport.Passport, jwtOpts: JwtOptions) {
+    getLogger().info('Setting up configuration for token based authentication');
+    passportApi.use(new JwtStrategy(jwtOpts, jwtStrategy(this.userRepo)));
     passportApi.serializeUser(defaultSerializeUser);
     passportApi.deserializeUser(defaultDeserializeUser);
   }

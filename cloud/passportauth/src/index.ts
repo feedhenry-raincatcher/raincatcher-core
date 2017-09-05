@@ -1,5 +1,6 @@
 import * as passport from 'passport';
 
+export * from './constants';
 export * from './user/UserService';
 export * from './user/UserRepository';
 export * from './auth/PassportAuth';

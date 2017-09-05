@@ -1,4 +1,4 @@
-import { PassportAuth, UserRepository, UserService } from '@raincatcher/auth-passport';
+import { CONSTANTS as PASSPORTCONSTANTS, PassportAuth, UserRepository, UserService } from '@raincatcher/auth-passport';
 import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
 import { SessionOptions } from 'express-session';
@@ -29,24 +29,29 @@ export function init(router: express.Router, sessionOpts?: SessionOptions) {
 
 function createPortalRoutes(router: express.Router, authService: PassportAuth, userRepo: UserRepository) {
   getLogger().info('Creating Portal Routes');
+
   router.get('/login', (req: express.Request, res: express.Response) => {
+    if (req.session) {
+      req.session.returnTo = req.headers.referer;
+    }
+
     return res.render('login', {
-      title: 'Portal Feedhenry Workforce Management'
+      title: config.portalLoginPage.title
     });
   });
 
   router.post('/login', authService.authenticate('local', {
-    successReturnToOrRedirect: config.clientUrl.portal,
+    successReturnToOrRedirect: '/',
     failureRedirect: '/loginError'
   }));
 
   router.get('/loginError', (req: express.Request, res: express.Response) => {
     return res.render('login', {
-      title: 'Portal Feedhenry Workforce Management',
-      message: 'Invalid credentials'});
+      title: config.portalLoginPage.title,
+      message: config.portalLoginPage.invalidMessage});
   });
 
-  router.get('/profile', authService.protect(), (req: express.Request, res: express.Response) => {
+  router.get('/user/profile', authService.protect(), (req: express.Request, res: express.Response) => {
     if (req.session) {
       res.json(req.session.passport.user);
     }
@@ -74,7 +79,8 @@ function createMobileRoutes(router: express.Router, userRepo: UserRepository, us
       const callback = (err?: Error, user?: any) => {
         if (user && userService.validatePassword(user, req.body.password)) {
           const payload = user;
-          const token = jwt.sign(payload, config.jwtSecret);
+          const secret = config.jwtSecret || PASSPORTCONSTANTS.defaultSecret;
+          const token = jwt.sign(payload, secret);
           return res.status(200).json({'token': token, 'profile': user });
         }
 
