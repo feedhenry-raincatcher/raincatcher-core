@@ -67,7 +67,8 @@ export class WfmService {
    * @return true if workorder is started
    */
   public isNew(workorder: WorkOrder) {
-    return workorder.status === STATUS.NEW;
+    // consider workorder with empty status as new
+    return !workorder.status || workorder.status === STATUS.NEW;
   }
 
   /**
@@ -151,7 +152,7 @@ export class WfmService {
     });
   }
 
-  protected getCurrentStepIdx(workorder: WorkOrder) {
+  public getCurrentStepIdx(workorder: WorkOrder) {
     if (!workorder.currentStep) {
       return;
     }
@@ -169,7 +170,10 @@ export class WfmService {
       return workorder.currentStep = step.id;
     }
 
-    const index = this.getCurrentStepIdx(workorder) || -1;
+    let index = this.getCurrentStepIdx(workorder);
+    if (_.isUndefined(index)) {
+      index = -1;
+    }
     // if current is the last, workorder is now complete
     if (index === workorder.workflow.steps.length - 1) {
       workorder.status = STATUS.COMPLETE;
