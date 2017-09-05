@@ -10,10 +10,7 @@ import { DataService } from './DataService';
 import { UserService } from './UserService';
 
 export class WfmService {
-  constructor(
-    protected workorderService: DataService<WorkOrder>,
-    protected userService: UserService
-  ) {
+  constructor(protected workorderService: DataService<WorkOrder>, protected userService: UserService) {
   }
 
   /**
@@ -21,24 +18,56 @@ export class WfmService {
    *
    * @param {string} workorderId - The ID of the workorder to begin the workflow for.
    */
-  public begin(workorderId: string): Promise<WorkOrder> {
-    return this.readWorkOrder(workorderId).then(workorder => {
-      if (this.hasBegun(workorder)) {
-        // tslint:disable-next-line:max-line-length
-        throw new Error(`beginWorkflow() called on workflow with id: ${workorderId} and status ${workorder.status}`);
-      }
-      if (_.isEmpty(workorder.workflow.steps)) {
-        throw new Error(`WorkOrder with id: ${workorderId} references an empty WorkFlow and cannot be started`);
-      }
-      if (!workorder.assignee) {
-        throw new Error(`Workorder with Id ${workorderId} has no assignee and cannot be started`);
-      }
-      workorder.status = STATUS.PENDING;
-      workorder.currentStep = workorder.workflow.steps[0].id;
-      workorder.result = [];
+  public begin(workorder: WorkOrder): Promise<WorkOrder> {
+    if (!this.isNew(workorder)) {
+      return Promise.resolve(workorder);
+    }
+    if (_.isEmpty(workorder.workflow.steps)) {
+      throw new Error(`WorkOrder with id: ${workorder.id} references an empty WorkFlow and cannot be started`);
+    }
+    if (!workorder.assignee) {
+      throw new Error(`Workorder with Id ${workorder.id} has no assignee and cannot be started`);
+    }
+    workorder.status = STATUS.PENDING;
+    workorder.currentStep = workorder.workflow.steps[0].id;
+    workorder.results = [];
+    return this.workorderService.update(workorder);
+  }
 
-      return this.workorderService.update(workorder);
-    });
+  /**
+   * Check if workorder has active step
+   *
+   * @return true if workorder has step
+   */
+  public isOnStep(workorder: WorkOrder) {
+    return !!workorder.currentStep;
+  }
+
+  /**
+   * Check if workorder has finished status
+   *
+   * @return true if workorder is finished
+   */
+  public isCompleted(workorder: WorkOrder) {
+    return workorder.status === STATUS.COMPLETE;
+  }
+
+  /**
+   * Check if workorder has pending status
+   *
+   * @return true if workorder is pending
+   */
+  public isPending(workorder: WorkOrder) {
+    return workorder.status === STATUS.PENDING;
+  }
+
+  /**
+   * Check if workoder has started
+   *
+   * @return true if workorder is started
+   */
+  public isNew(workorder: WorkOrder) {
+    return workorder.status === STATUS.NEW;
   }
 
   /**
@@ -49,12 +78,12 @@ export class WfmService {
   public previousStep(workorderId: string): Promise<WorkOrder> {
     const self = this;
     return this.readWorkOrder(workorderId).then(workorder => {
-      if (!this.hasBegun(workorder)) {
+      if (this.isNew(workorder)) {
         // tslint:disable-next-line:max-line-length
         throw new Error(`Can only go to the previous step of a workorder that has begun. WorkOrder ${workorder.id} has status ${workorder.status}`);
       }
 
-      workorder.result.pop();
+      workorder.results.pop();
       const index = this.getCurrentStepIdx(workorder);
       if (!index) {
         workorder.currentStep = undefined;
@@ -87,7 +116,7 @@ export class WfmService {
       this.userService.readUser().then(profileData => profileData.id),
       this.readWorkOrder(workorderId)
     ]).then(([userId, workorder]) => {
-      if (!this.hasBegun(workorder)) {
+      if (this.isNew(workorder)) {
         // tslint:disable-next-line:max-line-length
         throw new Error(`Can only go to the previous step of a workorder that has begun. WorkOrder ${workorder.id} has status ${workorder.status}`);
       }
@@ -102,7 +131,7 @@ export class WfmService {
         submitter: userId
       };
 
-      workorder.result.push(stepResult);
+      workorder.results.push(stepResult);
       this.goToNextStep(workorder, nextId);
 
       return this.workorderService.update(workorder);
@@ -113,7 +142,7 @@ export class WfmService {
    * Helper method that throws on a not-found workorder
    * @param workorderId Id of the workorder
    */
-  protected readWorkOrder(workorderId: string): Promise<WorkOrder> {
+  public readWorkOrder(workorderId: string): Promise<WorkOrder> {
     return this.workorderService.read(workorderId).then(workorder => {
       if (!workorder) {
         throw new Error(`WorkOrder with id ${workorderId} not found`);
@@ -128,11 +157,6 @@ export class WfmService {
     }
     return _.findIndex(workorder.workflow.steps,
       step => step.id === workorder.currentStep);
-  }
-
-  protected hasBegun(workorder: WorkOrder): boolean {
-    return workorder.status !== STATUS.NEW &&
-      workorder.status !== STATUS.UNASSIGNED;
   }
 
   protected goToNextStep(workorder: WorkOrder, nextId?: string) {

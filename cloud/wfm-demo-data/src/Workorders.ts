@@ -9,7 +9,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'H1ZmkzOrr',
     title: 'Accident No. 3041',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -35,7 +35,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'H1ZmkzOrr',
     title: 'Accident No. 3062',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -61,7 +61,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'H1ZmkzOrr',
     title: 'Accident No. 3012',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -87,7 +87,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3019',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -113,7 +113,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3011',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -139,7 +139,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'rkX1fdSH',
     title: 'Accident No. 4001',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -165,7 +165,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'rkX1fdSH',
     title: 'Accident No. 4003',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -191,7 +191,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3090',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -217,7 +217,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'BJQm1G_BS',
     title: 'Accident No. 3071',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -243,7 +243,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'BJQm1G_BS',
     title: 'Accident No. 3046',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -269,7 +269,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'HJ8QkzOSH',
     title: 'Accident No. 3084',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
@@ -295,7 +295,7 @@ export const WORKORDERS: WorkOrder[] = [
     assignee: 'HJ8QkzOSH',
     title: 'Accident No. 3089',
     status: 'New',
-    result: {},
+    results: [],
     workflow: {
       id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
         {
