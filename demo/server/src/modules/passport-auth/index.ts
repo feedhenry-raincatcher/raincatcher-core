@@ -3,6 +3,7 @@ import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
 import { SessionOptions } from 'express-session';
 import * as jwt from 'jsonwebtoken';
+import * as _ from 'lodash';
 import * as logger from 'loglevel';
 import appConfig from '../../util/Config';
 
@@ -30,7 +31,7 @@ export function init(router: express.Router, sessionOpts?: SessionOptions) {
 function createPortalRoutes(router: express.Router, authService: PassportAuth, userRepo: UserRepository) {
   getLogger().info('Creating Portal Routes');
 
-  router.get('/login', (req: express.Request, res: express.Response) => {
+  router.get('/cookie-login', (req: express.Request, res: express.Response) => {
     if (req.session) {
       req.session.returnTo = req.headers.referer;
     }
@@ -40,7 +41,7 @@ function createPortalRoutes(router: express.Router, authService: PassportAuth, u
     });
   });
 
-  router.post('/login', authService.authenticate('local', {
+  router.post('/cookie-login', authService.authenticate('local', {
     successReturnToOrRedirect: '/',
     failureRedirect: '/loginError'
   }));
@@ -74,11 +75,12 @@ function createPortalRoutes(router: express.Router, authService: PassportAuth, u
 
 function createMobileRoutes(router: express.Router, userRepo: UserRepository, userService: UserService) {
   getLogger().info('Creating Mobile Routes');
-  router.post('/token', function(req, res, next) {
+  router.post('/token-login', function(req, res, next) {
     if (req.body && req.body.username && req.body.password) {
       const callback = (err?: Error, user?: any) => {
         if (user && userService.validatePassword(user, req.body.password)) {
-          const payload = user;
+          const payload = _.clone(user);
+          delete payload.password;
           const secret = config.jwtSecret || PASSPORTCONSTANTS.defaultSecret;
           const token = jwt.sign(payload, secret);
           return res.status(200).json({'token': token, 'profile': user });

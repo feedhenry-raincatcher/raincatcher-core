@@ -12,7 +12,7 @@ import { UserRepository } from '../user/UserRepository';
 import { UserService } from '../user/UserService';
 
 import { EndpointSecurity } from '@raincatcher/express-auth';
-import { jwtStrategy, webStrategy } from './DefaultStrategy';
+import { jwtStrategy, webStrategy } from './DefaultStrategies';
 import { defaultDeserializeUser, defaultSerializeUser } from './UserSerializer';
 
 /**
