@@ -77,7 +77,6 @@ export class WfmService {
    * @param workorderId - The ID of the workorder to switch to the previous step for
    */
   public previousStep(workorderId: string): Promise<WorkOrder> {
-    const self = this;
     return this.readWorkOrder(workorderId).then(workorder => {
       if (this.isNew(workorder)) {
         // tslint:disable-next-line:max-line-length
@@ -94,7 +93,7 @@ export class WfmService {
         workorder.currentStep = previousStep && previousStep.id;
       }
 
-      return self.workorderService.update(workorder);
+      return this.workorderService.update(workorder);
     });
   }
 
@@ -119,7 +118,7 @@ export class WfmService {
     ]).then(([userId, workorder]) => {
       if (this.isNew(workorder)) {
         // tslint:disable-next-line:max-line-length
-        throw new Error(`Can only go to the previous step of a workorder that has begun. WorkOrder ${workorder.id} has status ${workorder.status}`);
+        throw new Error(`Can only go to the next step of a workorder that has begun. WorkOrder ${workorder.id} has status ${workorder.status}`);
       }
       const stepId = workorder.currentStep;
       if (!stepId) {
@@ -161,9 +160,9 @@ export class WfmService {
     return _.find(workorder.workflow.steps, step => step.id === result.stepId);
   }
 
-  public getCurrentStepIdx(workorder: WorkOrder) {
+  public getCurrentStepIdx(workorder: WorkOrder): number {
     if (!workorder.currentStep) {
-      return;
+      return -1;
     }
     return _.findIndex(workorder.workflow.steps,
       step => step.id === workorder.currentStep);
