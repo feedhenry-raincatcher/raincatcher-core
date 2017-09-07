@@ -152,6 +152,15 @@ export class WfmService {
     });
   }
 
+  /**
+   * Helper to get the equivalent step for a given result
+   * @param result The result to find a step for
+   * @param workorder The WorkOrder containing both the result and a reference to the WorkFlow that contains the Step
+   */
+  public getStepForResult(result: StepResult, workorder: WorkOrder): Step | undefined {
+    return _.find(workorder.workflow.steps, step => step.id === result.stepId);
+  }
+
   public getCurrentStepIdx(workorder: WorkOrder) {
     if (!workorder.currentStep) {
       return;
