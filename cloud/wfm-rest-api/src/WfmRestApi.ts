@@ -1,6 +1,6 @@
 
 import { getLogger } from '@raincatcher/logger';
-import { WorkFlow, WorkOrder, WorkOrderResult } from '@raincatcher/wfm';
+import { WorkFlow, WorkOrder } from '@raincatcher/wfm';
 import * as Promise from 'bluebird';
 import * as express from 'express';
 import * as _ from 'lodash';
@@ -16,7 +16,6 @@ export class WfmRestApi {
   private config: ApiConfig;
   private workorderService: MongoDbRepository<WorkOrder>;
   private workflowService: MongoDbRepository<WorkFlow>;
-  private resultService: MongoDbRepository<WorkOrderResult>;
 
   constructor(userConfig?: Partial<ApiConfig>) {
     this.config = _.defaults<ApiConfig>(defaultConfiguration, userConfig);
@@ -30,9 +29,10 @@ export class WfmRestApi {
     const router: express.Router = express.Router();
     const { workorderApiName, workflowApiName, resultApiName } = this.config;
     getLogger().info('WFM web api initialization');
+    // FIXME - Move WorkOrder and Workflow implementations for api (they will differ!)
+    // Blocking further refactoring
     router.use(`/${workorderApiName}`, new ApiController<WorkOrder>(this.workorderService).buildRouter());
     router.use(`/${workflowApiName}`, new ApiController<WorkFlow>(this.workflowService).buildRouter());
-    router.use(`/${resultApiName}`, new ApiController<WorkOrderResult>(this.resultService).buildRouter());
     return router;
   }
 
@@ -44,12 +44,10 @@ export class WfmRestApi {
   public setDb(db: Db) {
     this.workorderService.setDb(db);
     this.workflowService.setDb(db);
-    this.resultService.setDb(db);
   }
 
   protected createWFMServices() {
     this.workorderService = new MongoDbRepository(this.config.workorderCollectionName);
     this.workflowService = new MongoDbRepository(this.config.workflowCollectionName);
-    this.resultService = new MongoDbRepository(this.config.resultCollectionName);
   }
 }

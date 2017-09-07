@@ -1,29 +1,94 @@
 import * as Promise from 'bluebird';
 import { DataService, STATUS, WorkOrder } from '../../src/index';
 import { MockDataService } from './MockDataService';
+import { steps } from './MockStepData';
 
 const fixtures: WorkOrder[] = [
   {
-    assignee: 'trever',
-    id: 'completeWorkOrder',
-    workflowId: 'singleStepWorkFlow',
-    title: 'Complete Order',
-    status: STATUS.COMPLETE
-  },
-  // This workorder has no result, is in a new state
-  {
-    assignee: 'trever',
-    id: 'newWorkOrder',
-    workflowId: 'multiStepWorkFlow',
-    title: 'New Order',
-    status: STATUS.NEW
+    id: 'new-workorder',
+    assignee: 'rkX1fdSH',
+    title: 'Accident No. 3041',
+    status: STATUS.NEW,
+    results: [],
+    workflow: {
+      id: 'SyVXyMuSr',
+      version: 1,
+      title: 'Vehicle Accident Workflow',
+      steps
+    }
   },
   {
-    assignee: 'trever',
-    id: 'brokenWorkOrder',
-    workflowId: 'no workflow',
-    title: 'WorkOrder without WorkFlow',
-    status: STATUS.NEW
+    id: 'in-progress-workorder',
+    assignee: 'rkX1fdSH',
+    title: 'Accident No. 3041',
+    status: STATUS.PENDING,
+    currentStep: steps[0].id,
+    results: [],
+    workflow: {
+      id: 'SyVXyMuSr',
+      version: 1,
+      title: 'Vehicle Accident Workflow',
+      steps
+    }
+  },
+  {
+    id: 'complete-workorder',
+    assignee: 'rkX1fdSH',
+    title: 'Accident No. 3041',
+    status: STATUS.COMPLETE,
+    results: [
+      {
+        stepId: 'first-step',
+        submission: {
+          lights: true,
+          tires: true,
+          fuel: 50
+        },
+        submitter: 'rkX1fdSH',
+        timestamp: 1504800162822
+      },
+      {
+        stepId: 'second-step',
+        submission: {
+          lights: true,
+          tires: true,
+          fuel: 50
+        },
+        submitter: 'rkX1fdSH',
+        timestamp: 1504800162822
+      }
+    ],
+    workflow: {
+      id: 'SyVXyMuSr',
+      version: 1,
+      title: 'Vehicle Accident Workflow',
+      steps
+    }
+  },
+  {
+    id: 'no-steps-workorder',
+    assignee: 'rkX1fdSH',
+    title: 'Accident No. 3041',
+    status: STATUS.NEW,
+    results: [],
+    workflow: {
+      id: 'SyVXyMuSr',
+      version: 1,
+      title: 'Vehicle Accident Workflow',
+      steps: []
+    }
+  },
+  {
+    id: 'unassigned-workorder',
+    title: 'Accident No. 3041',
+    status: STATUS.NEW,
+    results: [],
+    workflow: {
+      id: 'SyVXyMuSr',
+      version: 1,
+      title: 'Vehicle Accident Workflow',
+      steps
+    }
   }
 ];
 const mockWorkorderService = new MockDataService<WorkOrder>(fixtures);

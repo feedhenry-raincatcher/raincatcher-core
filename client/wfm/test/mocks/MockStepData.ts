@@ -2,6 +2,7 @@ import { Step } from '../../src/index';
 
 const steps: Step[] = [
   {
+    id: 'first-step',
     code: 'vehicle-inspection',
     name: 'First Step',
     templates: {
@@ -10,7 +11,8 @@ const steps: Step[] = [
     }
   },
   {
-    code: 'vehicle-inspection2',
+    id: 'second-step',
+    code: 'vehicle-inspection',
     name: 'Second Step',
     templates: {
       form: '<vehicle-inspection-form></vehicle-inspection-form>',

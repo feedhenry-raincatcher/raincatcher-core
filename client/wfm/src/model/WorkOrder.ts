@@ -1,6 +1,8 @@
 import * as Promise from 'bluebird';
 import { min } from 'lodash';
 import { STATUS } from '../status';
+import { StepResult } from './StepResult';
+import { WorkFlow } from './WorkFlow';
 
 type LatLng = [number, number];
 
@@ -20,11 +22,6 @@ export interface WorkOrder {
   assignee?: string;
 
   /**
-   * Id for the {@link WorkFlow} that originated this {@link WorkOrder}
-   */
-  workflowId: string;
-
-  /**
    * Display name for this {@link ProcessInstance}
    */
   title: string;
@@ -41,4 +38,20 @@ export interface WorkOrder {
    * physical location for execution of work, etc.
    */
   data?: object;
+
+  /**
+   * Contains workflow that will be used for this workorders.
+   * {@link WorkFlow}  this {@link WorkOrder}
+   */
+  workflow: WorkFlow;
+
+  /**
+   * Contains data (results) from step execution
+   */
+  results: StepResult[];
+
+  /**
+   * Contains id of the current active step (if empty means that workflow has no active step)
+   */
+  currentStep?: string;
 }
