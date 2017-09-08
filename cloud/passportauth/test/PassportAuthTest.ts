@@ -90,12 +90,38 @@ describe('Test Passport Auth', function() {
       user: null
     };
 
-    testSubject.authenticate('local')(mockReq as express.Request, mockRes as express.Response,
+    testSubject.authenticate('local', {
+      successReturnToOrRedirect: '/',
+      failureRedirect: '/loginError'
+    })(mockReq as express.Request, mockRes as express.Response,
       mockNext as express.NextFunction);
 
     setImmediate(() => {
       sinon.assert.calledOnce(mockReq.logIn);
 
+      done();
+    });
+  });
+
+
+  it('should call next if the user is already authenticated and no redirect url is provided', function(done) {
+    mockReq = {
+      headers: {},
+      body: {
+        username: 'testloginId',
+        password: 'testPassword'
+      },
+      session: {},
+      logIn: sinon.spy(),
+      isAuthenticated: sinon.stub().returns(true),
+      user: null
+    };
+
+    testSubject.authenticate('local')(mockReq as express.Request, mockRes as express.Response,
+      mockNext as express.NextFunction);
+
+    setImmediate(() => {
+      sinon.assert.calledOnce(mockNext);
       done();
     });
   });

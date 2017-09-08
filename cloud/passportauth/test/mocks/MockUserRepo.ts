@@ -5,7 +5,11 @@ export const mockUserService: UserService = {
     return user.password === password;
   },
   hasResourceRole(user: any, roleRequired: string) {
-    return user.roles.indexOf(roleRequired) > -1;
+    if (user.roles) {
+      return user.roles.indexOf(roleRequired) > -1;
+    } else {
+      return false;
+    }
   }
 };
 

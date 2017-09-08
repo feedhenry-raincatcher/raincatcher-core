@@ -49,7 +49,6 @@ export class PassportAuth implements EndpointSecurity {
       app.use(this.passport.initialize());
       this.setupToken(this.passport, this.jwtOpts);
     }
-
   }
 
   /**
