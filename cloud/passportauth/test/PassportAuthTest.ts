@@ -103,7 +103,6 @@ describe('Test Passport Auth', function() {
     });
   });
 
-
   it('should call next if the user is already authenticated and no redirect url is provided', function(done) {
     mockReq = {
       headers: {},
