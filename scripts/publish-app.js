@@ -19,7 +19,7 @@ var args = require('yargs')
   .usage('Usage: $0 <app name>')
   .alias('o', 'org')
   .describe('org', 'github organization/user to target publication')
-  .default('org', 'feedhenry-templates')
+  .default('org', 'feedhenry-raincatcher')
   .argv;
 
 // get version from lerna global version
