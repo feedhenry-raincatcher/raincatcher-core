@@ -44,4 +44,3 @@ export const jwtStrategy = (userRepo: UserRepository) => {
     userRepo.getUserByLogin(jwtPayload.username, callback);
   };
 };
-

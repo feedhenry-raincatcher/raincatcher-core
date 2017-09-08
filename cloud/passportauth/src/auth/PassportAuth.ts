@@ -119,7 +119,6 @@ export class PassportAuth implements EndpointSecurity {
     };
   }
 
-
   /**
    * Handler for access denied responses in the event that a user is not authorized to access
    * a resource. This method can be overridden to provide a custom access denied handler
