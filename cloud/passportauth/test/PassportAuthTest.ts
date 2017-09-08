@@ -5,8 +5,7 @@ import PassportAuth from '../src/auth/PassportAuth';
 import MockUserRepo, { mockUserObj, mockUserService } from './mocks/MockUserRepo';
 
 describe('Test Passport Auth', function() {
-  const loginRoute = '/login';
-  let app: express.Express;
+  let router: express.Router;
   let mockSessionOpts: SessionOptions;
   let testSubject: PassportAuth;
   let mockReq: any;
@@ -15,7 +14,7 @@ describe('Test Passport Auth', function() {
 
   beforeEach(function() {
     testSubject = new PassportAuth(MockUserRepo, mockUserService);
-    app = express();
+    router = express.Router();
     mockSessionOpts = {
       secret: 'test',
       resave: false,
@@ -31,14 +30,12 @@ describe('Test Passport Auth', function() {
       end: sinon.spy()
     };
     mockNext = sinon.spy();
-  });
-
-  it('should initialize passport', function() {
-    testSubject.init(app, mockSessionOpts);
+    testSubject.init(router, mockSessionOpts);
   });
 
   it('should return an error if an error occurred when retrieving the user', function(done) {
     mockReq = {
+      headers: {},
       body: {
         username: 'testError',
         password: 'testError'
@@ -48,10 +45,11 @@ describe('Test Passport Auth', function() {
       user: null
     };
 
-    testSubject.authenticate('/')(mockReq as express.Request, mockRes as express.Response,
+    testSubject.authenticate('local')(mockReq as express.Request, mockRes as express.Response,
       mockNext as express.NextFunction);
 
     setImmediate(() => {
+      sinon.assert.called(mockReq.isAuthenticated);
       sinon.assert.notCalled(mockReq.logIn);
 
       done();
@@ -60,6 +58,7 @@ describe('Test Passport Auth', function() {
 
   it('should not authenticate the user if the credentials provided are not valid', function(done) {
     mockReq = {
+      headers: {},
       body: {
         username: 'invalidUsername',
         password: 'invalidPassword'
@@ -69,7 +68,7 @@ describe('Test Passport Auth', function() {
       user: null
     };
 
-    testSubject.authenticate('/')(mockReq as express.Request, mockRes as express.Response,
+    testSubject.authenticate('local')(mockReq as express.Request, mockRes as express.Response,
       mockNext as express.NextFunction);
 
     setImmediate(() => {
@@ -81,6 +80,7 @@ describe('Test Passport Auth', function() {
 
   it('should authenticate the user if the credentials provided are valid', function(done) {
     mockReq = {
+      headers: {},
       body: {
         username: 'testloginId',
         password: 'testPassword'
@@ -90,7 +90,7 @@ describe('Test Passport Auth', function() {
       user: null
     };
 
-    testSubject.authenticate('/')(mockReq as express.Request, mockRes as express.Response,
+    testSubject.authenticate('local')(mockReq as express.Request, mockRes as express.Response,
       mockNext as express.NextFunction);
 
     setImmediate(() => {
@@ -211,6 +211,7 @@ describe('Test Passport Auth', function() {
 
   it('should not authenticate if the user is already authenticated', function(done) {
     mockReq = {
+      headers: {},
       session: {
         clientURL: '/'
       },

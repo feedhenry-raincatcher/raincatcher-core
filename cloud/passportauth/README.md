@@ -9,7 +9,6 @@ This module allows the:
 ## Quick Start
 #### Setup
 ```typescript
-...
 import { PassportAuth, UserRepository, UserService }  from '@raincatcher/auth-passport'
 
 // Initialize user data repository, user service and passport
@@ -17,11 +16,17 @@ const userRepo: UserRepository = new YourUserRepository();
 const userService: UserService = new YourUserService();
 const authService: PassportAuth = new PassportAuth(userRepo, userService);
 ...
-authService.init(app, sessionOptions); // Initializes express app to use passport and express-session
+authService.init(router, sessionOptions);
+  or
+authService.init(router, undefined, secret);
+
 ...
 ```
-Visit [express-session](https://github.com/expressjs/session) to find more information about the available express
+In order to use cookie-based authentication, specify the sessionOptions.
+- Visit [express-session](https://github.com/expressjs/session) to find more information about the available express
 session options.
+
+Without the sessionOptions, Passport will use token-based authentication using Passport's JWT strategy by default.
 
 #### Usage
 ```typescript
