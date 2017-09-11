@@ -47,6 +47,9 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')));
 app.use(cors(getCorsConfig()));
 
+// Extra diagnostic endpoint for RHMAP
+app.get('/sys/info/ping', (req, res) => res.status(200).end('"OK"'));
+
 app.engine('hbs', expressHbs());
 app.set('view engine', 'hbs');
 
