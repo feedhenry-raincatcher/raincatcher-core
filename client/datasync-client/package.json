@@ -32,6 +32,9 @@
     "functions": 60,
     "branches": 45
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/chai": "^4.0.3",
     "@types/lodash": "^4.14.73",
