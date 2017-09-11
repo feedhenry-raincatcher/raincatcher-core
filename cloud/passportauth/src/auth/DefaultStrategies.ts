@@ -10,7 +10,7 @@ import { UserService } from '../user/UserService';
  * @param userService - User service
  * @returns {Function} - Returns the default strategy function to be used by passport
  */
-export const defaultStrategy = (userRepo: UserRepository, userService: UserService) => {
+export const webStrategy = (userRepo: UserRepository, userService: UserService) => {
   return (loginId: string, password: string, done: (error: Error | null, user: any) => any) => {
     const callback = (err?: Error, user?: any) => {
       if (user && userService.validatePassword(user, password)) {
@@ -21,5 +21,26 @@ export const defaultStrategy = (userRepo: UserRepository, userService: UserServi
     };
 
     userRepo.getUserByLogin(loginId, callback);
+  };
+};
+
+/**
+ * Default strategy to be used by Passport's JWT strategy. This will verify and authenticate
+ * requests that are trying to access a resource.
+ *
+ * @param userRepo - User repository
+ */
+export const jwtStrategy = (userRepo: UserRepository) => {
+  return (jwtPayload, done) => {
+    const callback = (err?: Error, user?: any) => {
+      if (err) {
+        return done(err, false);
+      } else if (user) {
+        return done(null, user);
+      } else {
+        return done(null, false);
+      }
+    };
+    userRepo.getUserByLogin(jwtPayload.username, callback);
   };
 };

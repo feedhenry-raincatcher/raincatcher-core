@@ -59,11 +59,16 @@ export interface CloudAppConfig {
     customDataHandlers: boolean;
   };
   mongodb: {
-    url: string
+    url: string,
     options: any
   };
   redis: {
     url: string
+  };
+  jwtSecret: any;
+  portalLoginPage: {
+    title: string,
+    invalidMessage: string
   };
 }
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();

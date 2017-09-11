@@ -14,7 +14,7 @@ export class KeycloakSecurity implements EndpointSecurity {
   // Add typescript definitions
   private keycloak: any;
 
-  public init(app: express.Express, sessionOpts: session.SessionOptions): void {
+  public init(app: express.Router, sessionOpts: session.SessionOptions): void {
     // Express Session Configuration.
     app.use(session(sessionOpts));
 
@@ -28,7 +28,7 @@ export class KeycloakSecurity implements EndpointSecurity {
   }
 }
 
-export function init(app: express.Express) {
+export function init(app: express.Router) {
   const securityImpl = new KeycloakSecurity();
   securityImpl.init(app, sessionOptions);
   return securityImpl;

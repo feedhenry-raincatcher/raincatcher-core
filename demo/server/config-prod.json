@@ -27,5 +27,10 @@
   },
   "redis": {
     "url": "redis://127.0.0.1:6379"
+  },
+  "jwtSecret": "D837131FD17F62CB85FBD5919563086369691F4D42379C3596F811839A8992CBA1FBA88DF243BF2481940F112D339C33283BDFEF29A13612550EDAAAB7B5E061",
+  "portalLoginPage": {
+    "title": "RainCatcher Portal",
+    "invalidMessage": "Invalid Credentials"
   }
 }

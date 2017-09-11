@@ -29,9 +29,9 @@
     ],
     "report-dir": "../../coverage_report/cloud-passportauth",
     "check-coverage": true,
-    "lines": 75,
-    "functions": 100,
-    "branches": 80
+    "lines": 70,
+    "functions": 70,
+    "branches": 60
   },
   "devDependencies": {
     "@raincatcher/logger": "0.0.1",
@@ -39,9 +39,11 @@
     "@types/cors": "^2.8.1",
     "@types/express": "^4.0.36",
     "@types/express-session": "^1.15.2",
+    "@types/jsonwebtoken": "^7.2.3",
     "@types/lodash": "^4.14.73",
     "@types/mocha": "^2.2.41",
     "@types/passport": "^0.3.3",
+    "@types/passport-jwt": "^2.0.23",
     "@types/passport-local": "^1.0.30",
     "@types/sinon": "^2.3.3",
     "del-cli": "^1.1.0",
@@ -58,8 +60,10 @@
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "express-session": "^1.15.5",
+    "jsonwebtoken": "^7.4.3",
     "lodash": "^4.17.4",
     "passport": "^0.3.2",
+    "passport-jwt": "^2.0.23",
     "passport-local": "^1.0.0"
   }
 }
