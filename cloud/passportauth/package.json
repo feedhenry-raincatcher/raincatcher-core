@@ -33,6 +33,9 @@
     "functions": 70,
     "branches": 60
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@raincatcher/logger": "0.0.1",
     "@types/body-parser": "^1.16.4",

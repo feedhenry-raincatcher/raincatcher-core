@@ -31,6 +31,9 @@
     "functions": 100,
     "branches": 80
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@raincatcher/logger": "0.0.1",
     "@raincatcher/wfm": "0.0.1",
