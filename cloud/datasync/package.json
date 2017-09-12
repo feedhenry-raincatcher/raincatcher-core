@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/datasync-cloud",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Raincatcher DataSync cloud",
   "types": "src/index.ts",
   "main": "src/",

@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/wfm-demo-data",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Example seed data for the RainCatcher project",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
