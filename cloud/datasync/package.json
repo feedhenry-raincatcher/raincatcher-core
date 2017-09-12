@@ -28,7 +28,7 @@
     "report-dir": "../../coverage_report/cloud-datasync",
     "check-coverage": true,
     "lines": 75,
-    "functions": 80,
+    "functions": 75,
     "branches": 50
   },
   "publishConfig": {
