@@ -42,7 +42,6 @@ describe('FeedHenry Sync Mapper Tests', function() {
       };
       req.body.query_params[mapperField] = 7;
       middleware(req, res, function(err) {
-        assert.ok(err);
         assert.ok(req.body.query_params.otherField);
         done();
       });

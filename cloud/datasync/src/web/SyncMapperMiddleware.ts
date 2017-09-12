@@ -17,6 +17,7 @@ const logger = getLogger();
  */
 export function userMapperMiddleware(dataset: string, fieldName: string, explicit?: boolean) {
   const middleware = function(req: express.Request, res: express.Response, next) {
+    // Execute only when session contains user information
     if (req.user) {
       if (req.body.dataset_id === dataset && req.body.query_params) {
         if (explicit) {
@@ -24,11 +25,8 @@ export function userMapperMiddleware(dataset: string, fieldName: string, explici
         }
         req.body.query_params[fieldName] = req.user.id;
       }
-      next();
-    } else {
-      getLogger().info('Sync request made without user session present');
-      next(new Error('Security error. User is not present'));
     }
+    next();
   };
   return middleware;
 }
