@@ -92,6 +92,10 @@ export class WfmService {
         // Previous step might be undefined if index-1 < 0
         workorder.currentStep = previousStep && previousStep.id;
       }
+      // if there's no longer a current step, we've backed into NEW status
+      if (!workorder.currentStep) {
+        workorder.status = STATUS.NEW;
+      }
 
       return this.workorderService.update(workorder);
     });
