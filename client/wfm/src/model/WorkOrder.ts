@@ -54,4 +54,19 @@ export interface WorkOrder {
    * Contains id of the current active step (if empty means that workflow has no active step)
    */
   currentStep?: string;
+
+  /**
+   * Represents version of workorder that is incremented each time it's updated
+   */
+  version: number;
+
+  /**
+   * Timestamp of this WorkOrder's creation
+   */
+  created: number;
+
+  /**
+   * Timestamp of this WorkOrder's last update
+   */
+  updated: number;
 }

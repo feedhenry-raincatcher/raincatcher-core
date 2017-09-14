@@ -18,7 +18,17 @@ export interface WorkFlow {
   steps: Step[];
 
   /**
-   * Represents version of workflow that is updated each time it's updated
+   * Represents version of workflow that is incremented each time it's updated
    */
   version: number;
+
+  /**
+   * Timestamp of this WorkFlow's creation
+   */
+  created: number;
+
+  /**
+   * Timestamp of this WorkFlow's last update
+   */
+  updated: number;
 }
