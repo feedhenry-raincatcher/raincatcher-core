@@ -138,9 +138,9 @@ export class DataManager {
     const self = this;
     return new Bluebird(function(resolve, reject) {
       syncApi.stopSync(self.datasetId, function() {
-        resolve();
+        return resolve();
       }, function(error) {
-        reject(new Error(error));
+        return reject(new Error(error));
       });
     });
   }
@@ -179,8 +179,7 @@ export class DataManager {
     const options = _.defaults(userOptions, defaultOptions);
     function forceSyncThenStop(pendingUpdateQueueSize) {
       if (pendingUpdateQueueSize === 0) {
-        self.stop().then(Bluebird.resolve);
-        return;
+        return self.stop().then(Bluebird.resolve);
       }
       // Steps: force sync, wait, check if results were synced back, stop server
       return self.forceSync()
@@ -208,6 +207,14 @@ export class DataManager {
         dataUpdated();
       }
     });
+  }
+
+  /**
+   * Clears the cache for the dataset
+   */
+  public clearCache() {
+    const self = this;
+    return syncApi.clearCache(self.datasetId);
   }
 
   /**
