@@ -16,7 +16,10 @@ const dbError: ApiError = new ApiError(errorCodes.DB_ERROR, 'MongoDbRepository d
  */
 export class MongoDbRepository<T extends {
   id: string,
-  _id?: string | ObjectID
+  _id?: string | ObjectID,
+  version?: number,
+  updated: number,
+  created: number
 }> implements PagingDataRepository<T> {
 
   public db: Db;
@@ -54,6 +57,8 @@ export class MongoDbRepository<T extends {
     if (!this.db) {
       return Bluebird.reject(dbError);
     }
+    object.version = 1;
+    object.created = new Date().getTime();
     return Bluebird.resolve(this.collection.insertOne(object))
       .then(() => this.get(object.id))
       .catch(this.handleError);
@@ -66,6 +71,8 @@ export class MongoDbRepository<T extends {
     // Find update target by id, do not ask mongo to update the ObjectID
     delete object._id;
     const id = object.id;
+    object.version = (object.version || 0) + 1;
+    object.updated = new Date().getTime();
     return Bluebird.resolve(this.collection.updateOne({ id }, object))
       .then(() => this.get(object.id))
       .catch(this.handleError);

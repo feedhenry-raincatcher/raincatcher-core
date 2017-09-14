@@ -8,8 +8,17 @@ import { MongoDbRepository } from '../src/index';
 interface TestEntity {
   id: string;
   name: string;
+  version: number;
+  created: number;
+  updated: number;
 }
-const testObj = { id: '1', name: 'test' };
+const testObj: TestEntity = {
+  id: '1',
+  name: 'test',
+  version: 1,
+  created: 0,
+  updated: 0
+};
 
 const testSubject = new MongoDbRepository<TestEntity>('testCollection');
 const testSubjectNoDb = new MongoDbRepository<TestEntity>('testCollection');
