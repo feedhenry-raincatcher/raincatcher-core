@@ -10,11 +10,16 @@ const fixtures: WorkOrder[] = [
     title: 'Accident No. 3041',
     status: STATUS.NEW,
     results: [],
+    version: 1,
+    created: 0,
+    updated: 0,
     workflow: {
       id: 'SyVXyMuSr',
       version: 1,
       title: 'Vehicle Accident Workflow',
-      steps
+      steps,
+      created: 0,
+      updated: 0
     }
   },
   {
@@ -24,11 +29,16 @@ const fixtures: WorkOrder[] = [
     status: STATUS.PENDING,
     currentStep: steps[0].id,
     results: [],
+    version: 1,
+    created: 0,
+    updated: 0,
     workflow: {
       id: 'SyVXyMuSr',
       version: 1,
       title: 'Vehicle Accident Workflow',
-      steps
+      steps,
+      created: 0,
+      updated: 0
     }
   },
   {
@@ -36,6 +46,9 @@ const fixtures: WorkOrder[] = [
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3041',
     status: STATUS.COMPLETE,
+    version: 1,
+    created: 0,
+    updated: 0,
     results: [
       {
         stepId: 'first-step',
@@ -62,7 +75,9 @@ const fixtures: WorkOrder[] = [
       id: 'SyVXyMuSr',
       version: 1,
       title: 'Vehicle Accident Workflow',
-      steps
+      steps,
+      created: 0,
+      updated: 0
     }
   },
   {
@@ -70,24 +85,34 @@ const fixtures: WorkOrder[] = [
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3041',
     status: STATUS.NEW,
+    version: 1,
+    created: 0,
+    updated: 0,
     results: [],
     workflow: {
       id: 'SyVXyMuSr',
       version: 1,
       title: 'Vehicle Accident Workflow',
-      steps: []
+      steps: [],
+      created: 0,
+      updated: 0
     }
   },
   {
     id: 'unassigned-workorder',
     title: 'Accident No. 3041',
     status: STATUS.NEW,
+    version: 1,
+    created: 0,
+    updated: 0,
     results: [],
     workflow: {
       id: 'SyVXyMuSr',
       version: 1,
       title: 'Vehicle Accident Workflow',
-      steps
+      steps,
+      created: 0,
+      updated: 0
     }
   }
 ];

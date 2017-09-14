@@ -5,7 +5,12 @@ import { Db, InsertWriteOpResult } from 'mongodb';
 
 export const WORKFLOWS: WorkFlow[] = [
   {
-    id: 'SyVXyMuSr', version: 1, title: 'Vehicle Accident Workflow', steps: [
+    id: 'SyVXyMuSr',
+    version: 1,
+    title: 'Vehicle Accident Workflow',
+    created: new Date().getTime(),
+    updated: new Date().getTime(),
+    steps: [
       {
         id: 'A33AC351h',
         code: 'accident-report-form', name: 'Accident Report',

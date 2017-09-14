@@ -8,13 +8,17 @@ const fixtures: WorkFlow[] = [
     version: 1,
     id: 'singleStepWorkFlow',
     title: 'Vehicle Inspection Form',
-    steps: [steps[0]]
+    steps: [steps[0]],
+    created: 0,
+    updated: 0
   },
   {
     version: 1,
     id: 'multiStepWorkFlow',
     title: 'Vehicle Inspection Form',
-    steps
+    steps,
+    created: 0,
+    updated: 0
   }
 ];
 
