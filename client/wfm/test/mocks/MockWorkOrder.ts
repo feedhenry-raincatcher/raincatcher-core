@@ -42,6 +42,20 @@ const fixtures: WorkOrder[] = [
     }
   },
   {
+    id: 'second-step-workorder',
+    assignee: 'rkX1fdSH',
+    title: 'Accident No. 3041',
+    status: STATUS.PENDING,
+    currentStep: steps[1].id,
+    results: [],
+    workflow: {
+      id: 'SyVXyMuSr',
+      version: 1,
+      title: 'Vehicle Accident Workflow',
+      steps
+    }
+  },
+  {
     id: 'complete-workorder',
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3041',
