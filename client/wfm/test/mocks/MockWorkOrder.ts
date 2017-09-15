@@ -2,6 +2,7 @@ import * as Promise from 'bluebird';
 import { DataService, STATUS, WorkOrder } from '../../src/index';
 import { MockDataService } from './MockDataService';
 import { steps } from './MockStepData';
+import { fixtures as workflows } from './MockWorkFlow';
 
 const fixtures: WorkOrder[] = [
   {
@@ -13,14 +14,7 @@ const fixtures: WorkOrder[] = [
     version: 1,
     created: 0,
     updated: 0,
-    workflow: {
-      id: 'SyVXyMuSr',
-      version: 1,
-      title: 'Vehicle Accident Workflow',
-      steps,
-      created: 0,
-      updated: 0
-    }
+    workflow: workflows[1]
   },
   {
     id: 'in-progress-workorder',
@@ -32,28 +26,19 @@ const fixtures: WorkOrder[] = [
     version: 1,
     created: 0,
     updated: 0,
-    workflow: {
-      id: 'SyVXyMuSr',
-      version: 1,
-      title: 'Vehicle Accident Workflow',
-      steps,
-      created: 0,
-      updated: 0
-    }
+    workflow: workflows[1]
   },
   {
     id: 'second-step-workorder',
     assignee: 'rkX1fdSH',
     title: 'Accident No. 3041',
     status: STATUS.PENDING,
+    version: 1,
+    created: 0,
+    updated: 0,
     currentStep: steps[1].id,
     results: [],
-    workflow: {
-      id: 'SyVXyMuSr',
-      version: 1,
-      title: 'Vehicle Accident Workflow',
-      steps
-    }
+    workflow: workflows[1]
   },
   {
     id: 'complete-workorder',
@@ -85,14 +70,7 @@ const fixtures: WorkOrder[] = [
         timestamp: 1504800162822
       }
     ],
-    workflow: {
-      id: 'SyVXyMuSr',
-      version: 1,
-      title: 'Vehicle Accident Workflow',
-      steps,
-      created: 0,
-      updated: 0
-    }
+    workflow: workflows[1]
   },
   {
     id: 'no-steps-workorder',
@@ -120,14 +98,7 @@ const fixtures: WorkOrder[] = [
     created: 0,
     updated: 0,
     results: [],
-    workflow: {
-      id: 'SyVXyMuSr',
-      version: 1,
-      title: 'Vehicle Accident Workflow',
-      steps,
-      created: 0,
-      updated: 0
-    }
+    workflow: workflows[1]
   }
 ];
 const mockWorkorderService = new MockDataService<WorkOrder>(fixtures);
