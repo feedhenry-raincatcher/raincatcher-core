@@ -246,7 +246,8 @@ describe('Data Manager', function() {
     const results = [];
     const mock$fh = {
       forceSync: sinon.stub().callsArgWith(1),
-      getPending: sinon.stub().callsArgWith(1, results)
+      getPending: sinon.stub().callsArgWith(1, results),
+      stopSync: sinon.stub().callsArgWith(1)
     };
 
     const DataManager = proxyquire.noCallThru().load('../src/DataManager', {
