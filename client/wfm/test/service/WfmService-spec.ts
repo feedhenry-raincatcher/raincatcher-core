@@ -62,6 +62,21 @@ describe('WfmService', function() {
     });
   });
 
+  describe('#previousStep', function() {
+    it('should move to the previous step', function() {
+      return subject.previousStep('second-step-workorder')
+        .then(workorder => expect(workorder.currentStep).to.equal(workorder.workflow.steps[0].id));
+    });
+    it('should reset status to new when moving back from the first step', function() {
+      return subject.previousStep('in-progress-workorder')
+        .then(workorder => {
+          // tslint:disable-next-line:no-unused-expression
+          expect(workorder.currentStep).to.be.undefined;
+          expect(workorder.status).to.equal(STATUS.NEW);
+        });
+    });
+  });
+
   describe('#getStepForResult', function() {
     it('should get the right step', function() {
       return subject.readWorkOrder('complete-workorder')
