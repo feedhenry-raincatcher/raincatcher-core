@@ -13,11 +13,11 @@ process.env.DEBUG = 'fh-mbaas-api:sync';
 // Sync connection options
 const connectOptions: SyncOptions = {
   datasetConfiguration: {
-    mongoDbConnectionUrl: process.env.MONGO_CONNECTION_URL || appConfig.getConfig().mongodb.url,
+    mongoDbConnectionUrl:  appConfig.getConfig().mongodb.url,
     mongoDbOptions: appConfig.getConfig().mongodb.options,
-    redisConnectionUrl: process.env.REDIS_CONNECTION_URL || appConfig.getConfig().redis.url
+    redisConnectionUrl: appConfig.getConfig().redis.url
   },
-  globalSyncOptions: { useCache: false }
+  globalSyncOptions: appConfig.getConfig().sync.globalOptions
 };
 
 /**

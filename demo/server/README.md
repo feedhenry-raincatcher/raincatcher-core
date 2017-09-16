@@ -29,13 +29,13 @@ URL controlled by `process.env.REDIS_CONNECTION_URL` and `config-{env}.json` fil
 
 Demo offers different configuration profiles depending on where application will be deployed.
 
-- config-dev.json (for developer/local setup - used by default)
-- config-prod.json (for production uses)
+- config-dev.js (for developer/local setup - used by default)
+- config-prod.js (for production uses)
 
 Profiles can be changed using `process.env.CONFIG_PROFILE` variable.
 For example:
 ```
 // use production profile.
 process.env.CONFIG_PROFILE === 'prod'
-// it will load config-prod.json file in top level application
+// it will load config-prod.js file in top level application
 ```

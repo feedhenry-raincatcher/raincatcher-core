@@ -20,7 +20,7 @@ export class KeycloakSecurity implements EndpointSecurity {
 
     // Create a session store
     const memoryStore = new session.MemoryStore();
-    this.keycloak = new Keycloak({ store: memoryStore }, config.keycloakConfig);
+    this.keycloak = new Keycloak({ store: memoryStore }, config.security.keycloak);
     app.use(this.keycloak.middleware({logout: '/logout'}));
   }
   public protect(role?: string | undefined): express.Handler {
