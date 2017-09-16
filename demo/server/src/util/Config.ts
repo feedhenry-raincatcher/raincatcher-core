@@ -45,6 +45,7 @@ export class EnvironmentConfig<T> implements Config<T> {
 }
 
 export interface CloudAppConfig {
+  port: number;
   morganOptions: string;
   logStackTraces: boolean;
   // See bunyan.d.ts/LoggerOptions

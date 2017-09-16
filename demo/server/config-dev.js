@@ -2,6 +2,8 @@
 
 // Server side application configuration
 var config = {
+  // Application port number
+  "port": process.env.PORT || process.env.FH_PORT || 8001,
   "morganOptions": "dev",
   "logStackTraces": true,
   // Use this parameter to disable inserting demo data into mongodb
