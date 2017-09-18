@@ -12,7 +12,7 @@ import app from './app';
 /**
  * Get port from environment and store in Express.
  */
-const port = process.env.PORT || 8001;
+const port = config.port;
 app.set('port', port);
 
 /**

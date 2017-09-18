@@ -41,7 +41,7 @@ export function setupModules(app: express.Express) {
 }
 
 function securitySetup(app: express.Router, sessionOptions?: SessionOptions) {
-  if (config.keycloakConfig) {
+  if (config.security.keycloak) {
     return setupKeycloakSecurity(app);
   } else {
     return setupPassportSecurity(app, sessionOptions);

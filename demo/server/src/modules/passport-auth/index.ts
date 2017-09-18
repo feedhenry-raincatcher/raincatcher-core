@@ -22,7 +22,7 @@ export function init(router: express.Router, sessionOpts?: SessionOptions) {
     authService.init(router, sessionOpts);
     createPortalRoutes(router, authService, userRepo);
   } else {
-    authService.init(router, sessionOpts, config.jwtSecret);
+    authService.init(router, sessionOpts, config.security.passportjs.jwtSecret);
     createMobileRoutes(router, userRepo, userService);
   }
   return authService;
@@ -37,7 +37,7 @@ function createPortalRoutes(router: express.Router, authService: PassportAuth, u
     }
 
     return res.render('login', {
-      title: config.portalLoginPage.title
+      title: config.security.passportjs.portalLoginPage.title
     });
   });
 
@@ -48,8 +48,9 @@ function createPortalRoutes(router: express.Router, authService: PassportAuth, u
 
   router.get('/loginError', (req: express.Request, res: express.Response) => {
     return res.render('login', {
-      title: config.portalLoginPage.title,
-      message: config.portalLoginPage.invalidMessage});
+      title: config.security.passportjs.portalLoginPage.title,
+      message: config.security.passportjs.portalLoginPage.invalidMessage
+    });
   });
 
   router.get('/user/profile', authService.protect(), (req: express.Request, res: express.Response) => {
@@ -81,9 +82,9 @@ function createMobileRoutes(router: express.Router, userRepo: UserRepository, us
         if (user && userService.validatePassword(user, req.body.password)) {
           const payload = _.clone(user);
           delete payload.password;
-          const secret = config.jwtSecret || PASSPORTCONSTANTS.defaultSecret;
+          const secret = config.security.passportjs.jwtSecret || PASSPORTCONSTANTS.defaultSecret;
           const token = jwt.sign(payload, secret);
-          return res.status(200).json({'token': token, 'profile': user });
+          return res.status(200).json({ 'token': token, 'profile': user });
         }
 
         return res.status(401).send();

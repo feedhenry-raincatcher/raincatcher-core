@@ -16,9 +16,9 @@ export interface Config<T> {
  * Default implementation for configuration.
  * Reads configuration from different location depending on process.env.NODE_ENV
  *
- * Required csonfiguration files in application root:
- * - config-dev.json
- * - config-prod.json
+ * Required configuration files in application root:
+ * - config-dev.js
+ * - config-prod.js
  */
 export class EnvironmentConfig<T> implements Config<T> {
   private rawConfig: T;
@@ -33,11 +33,11 @@ export class EnvironmentConfig<T> implements Config<T> {
 
   private setupProfile() {
     const profile = process.env.CONFIG_PROFILE;
-    let location = '../../config-' + profile + '.json';
+    let location = '../../config-' + profile + '.js';
     if (!existsSync(join(__dirname, location))) {
       console.info('Using default server configuration.'
         + 'Set CONFIG_PROFILE env var to point to different configuration file.');
-      location = '../../config-dev.json';
+      location = '../../config-dev.js';
     }
     console.info('Loading server side configuration', { path: basename(location) });
     this.rawConfig = require(location);
@@ -45,18 +45,27 @@ export class EnvironmentConfig<T> implements Config<T> {
 }
 
 export interface CloudAppConfig {
+  port: number;
   morganOptions: string;
   logStackTraces: boolean;
   // See bunyan.d.ts/LoggerOptions
   bunyanConfig: any;
-  keycloakConfig: any;
   seedDemoData: boolean;
   security: {
     adminRole: string,
-    userRole: string
+    userRole: string,
+    keycloak: any
+    passportjs: {
+      jwtSecret: any;
+      portalLoginPage: {
+        title: string,
+        invalidMessage: string
+      };
+    }
   };
   sync: {
     customDataHandlers: boolean;
+    globalOptions: any
   };
   mongodb: {
     url: string,
@@ -64,11 +73,6 @@ export interface CloudAppConfig {
   };
   redis: {
     url: string
-  };
-  jwtSecret: any;
-  portalLoginPage: {
-    title: string,
-    invalidMessage: string
   };
 }
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
