@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/datasync-client",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Raincatcher datasync client wrapper for TypeScript",
   "types": "src/index.ts",
   "main": "src/",
