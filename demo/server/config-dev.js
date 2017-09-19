@@ -25,13 +25,12 @@ var config = {
     /// Redis session store configuration
     // https://github.com/tj/connect-redis
     "redisStore": {
-      "host": getRedisHost(),
-      "port": getRedisPort(),
+      "url": getRedisUrl(),
       "prefix": "rc-session:",
       "logErrors": true
     },
     // Configuration for express session (used for both passport and keycloak)
-    //https://github.com/expressjs/session
+    // https://github.com/expressjs/session
     "session": {
       // Generate new secret for production use
       "secret": process.env.SESSION_SECRET || 'a0dc2c73a1808f65029f41e1b87abf47be4b226b061dd2c025eae3f981ef243444',
@@ -87,12 +86,12 @@ function getMongoUrl() {
 function getRedisPort() {
   if (process.env.REDIS_PORT) return process.env.REDIS_PORT
   if (process.env.FH_REDIS_PORT) return process.env.FH_REDIS_PORT
-  return "127.0.0.1";
+  return 6379;
 }
 function getRedisHost() {
   if (process.env.REDIS_HOST) return process.env.REDIS_HOST
   if (process.env.FH_REDIS_HOST) return process.env.FH_REDIS_HOST
-  return 6379;
+  return "127.0.0.1";
 }
 
 function getRedisUrl() {

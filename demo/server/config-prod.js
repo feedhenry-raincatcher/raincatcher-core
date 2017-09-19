@@ -26,8 +26,7 @@ var config = {
     /// Redis session store configuration
     // https://github.com/tj/connect-redis
     "redisStore": {
-      "host": getRedisHost(),
-      "port": getRedisPort(),
+      "url": getRedisUrl(),
       "prefix": "rc-session:",
       "logErrors": true
     },
