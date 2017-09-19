@@ -23,7 +23,16 @@ var config = {
         "invalidMessage": "Invalid Credentials"
       },
     },
+    /// Redis session store configuration
+    // https://github.com/tj/connect-redis
+    "redisStore": {
+      "host": getRedisHost(),
+      "port": getRedisPort(),
+      "prefix": "rc-session:",
+      "logErrors": true
+    },
     // Configuration for express session (used for both passport and keycloak)
+    // https://github.com/expressjs/session
     "session": {
       // Generate new secret for production use
       "secret": process.env.SESSION_SECRET || '90d12c73a1808f65029f41e1b87abf47be4b226b061dd2c025eae3f981ef243ddd',
@@ -66,25 +75,25 @@ var config = {
 }
 
 function getMongoUrl() {
-  if (process.env.MONGO_CONNECTION_URL) {
-    return process.env.MONGO_CONNECTION_URL
-  }
-  if (process.env.FH_MONGODB_CONN_URL) {
-    // Legacy env variable only to support in house systems
-    return process.env.FH_MONGODB_CONN_URL;
-  }
+  if (process.env.MONGO_CONNECTION_URL) return process.env.MONGO_CONNECTION_URL
+  // Legacy env variable only to support in house systems
+  if (process.env.FH_MONGODB_CONN_URL) return process.env.FH_MONGODB_CONN_URL;
   return "mongodb://127.0.0.1:27017/raincatcher";
 }
 
+function getRedisPort() {
+  if (process.env.REDIS_PORT) return process.env.REDIS_PORT
+  if (process.env.FH_REDIS_PORT) return process.env.FH_REDIS_PORT
+  return "127.0.0.1";
+}
+function getRedisHost() {
+  if (process.env.REDIS_HOST) return process.env.REDIS_HOST
+  if (process.env.FH_REDIS_HOST) return process.env.FH_REDIS_HOST
+  return 6379;
+}
+
 function getRedisUrl() {
-  if (process.env.REDIS_CONNECTION_URL) {
-    return process.env.REDIS_CONNECTION_URL
-  }
-  // Legacy env variable only to support in house systems
-  if (process.env.FH_REDIS_HOST) {
-    return 'redis://' + process.env.FH_REDIS_HOST + ':' + process.env.FH_REDIS_PORT
-  }
-  return "redis://127.0.0.1:6379";
+  return 'redis://' + getRedisHost() + ':' + getRedisPort()
 }
 
 module.exports = config;
