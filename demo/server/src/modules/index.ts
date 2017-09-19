@@ -13,7 +13,7 @@ import appConfig from '../util/Config';
 import { connect as syncConnector } from './datasync/Connector';
 import { init as initKeycloak } from './keycloak';
 import { init as authInit } from './passport-auth';
-import sessionOpts from './SessionOptions';
+import globalSessionOptions from './session/RedisSession';
 import {StaticUsersRepository} from './wfm-user/StaticUsersRepository';
 
 const config = appConfig.getConfig();
@@ -32,7 +32,7 @@ export function setupModules(app: express.Express) {
   demoDataSetup(connectionPromise);
 
   const portalApp = express.Router();
-  portalsecurityMiddleware = securitySetup(portalApp, sessionOpts);
+  portalsecurityMiddleware = securitySetup(portalApp, globalSessionOptions);
   wfmApiSetup(portalApp, connectionPromise);
   userApiSetup(portalApp);
 
@@ -41,7 +41,7 @@ export function setupModules(app: express.Express) {
 }
 
 function securitySetup(app: express.Router, sessionOptions?: SessionOptions) {
-  if (config.security.keycloak) {
+  if (config.security.keycloak.realm) {
     return setupKeycloakSecurity(app);
   } else {
     return setupPassportSecurity(app, sessionOptions);
