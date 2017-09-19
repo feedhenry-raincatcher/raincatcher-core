@@ -6,7 +6,6 @@ import appConfig from '../../util/Config';
 
 // tslint:disable-next-line:no-var-requires
 const Keycloak = require('keycloak-connect');
-import sessionOptions from '../SessionOptions';
 
 const config = appConfig.getConfig();
 

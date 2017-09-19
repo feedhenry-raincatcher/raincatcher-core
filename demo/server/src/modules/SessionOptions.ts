@@ -1,12 +1,16 @@
+import * as connectRedis from 'connect-redis';
+import * as session from 'express-session';
+
+const RedisStore = connectRedis(session);
+const store = new RedisStore({
+  host: 'localhost',
+  port: 6379,
+  prefix: 'rc-session:',
+  logErrors: true
+});
+
 const sessionOpts = {
-  secret: process.env.SESSION_SECRET || 'raincatcher',
-  resave: false,
-  saveUninitialized: true,
-    cookie: {
-      secure: false,
-      httpOnly: true,
-      path: '/'
-    }
+  store
 };
 
 export default sessionOpts;
