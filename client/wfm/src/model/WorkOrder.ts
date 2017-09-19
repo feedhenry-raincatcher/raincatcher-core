@@ -6,6 +6,12 @@ import { WorkFlow } from './WorkFlow';
 
 type LatLng = [number, number];
 
+interface HistoryEntry {
+  before: STATUS | string;
+  after: STATUS | string;
+  timestamp: number;
+}
+
 /**
  * The executable instance of a {@link WorkFlow}
  */
@@ -69,4 +75,6 @@ export interface WorkOrder {
    * Timestamp of this WorkOrder's last update
    */
   updated: number;
+
+  statusHistory?: HistoryEntry[];
 }
