@@ -25,7 +25,7 @@ const config = appConfig.getConfig();
  */
 function getCorsConfig() {
   let corsConfig = {};
-  if (!config.security.keycloak) {
+  if (!config.security.keycloak.realm) {
     const dynamicOrigin = function(origin: any, callback: (err: Error | null, bool: boolean) => void) {
       callback(null, true);
     };
@@ -37,8 +37,8 @@ function getCorsConfig() {
   return corsConfig;
 }
 
-if (config.morganOptions) {
-  app.use(morgan(config.morganOptions));
+if (config.morganFormat) {
+  app.use(morgan(config.morganFormat));
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -4,7 +4,7 @@
 var config = {
   // Application port number
   "port": process.env.PORT || process.env.FH_PORT || 8001,
-  "morganOptions": "dev",
+  "morganFormat": "dev",
   "logStackTraces": true,
   // Use this parameter to disable inserting demo data into mongodb
   "seedDemoData": true,
@@ -33,16 +33,16 @@ var config = {
         "httpOnly": true,
         "path": '/'
       }
-    }
+    },
     // Keycloak configuration. Uncomment to enable keycloak integration
-    // "keycloak": {
-    //   "realm": "",
-    //   "bearer-only": true,
-    //   "auth-server-url": "",
-    //   "ssl-required": "",
-    //   "resource": "",
-    //   "use-resource-role-mappings": true
-    // }
+    "keycloak": {
+      "realm": "",
+      "bearer-only": true,
+      "auth-server-url": "",
+      "ssl-required": "",
+      "resource": "",
+      "use-resource-role-mappings": true
+    }
   },
   "sync": {
     // Required to handle UI.
