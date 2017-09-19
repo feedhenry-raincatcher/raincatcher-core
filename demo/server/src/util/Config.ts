@@ -4,6 +4,7 @@ import { existsSync } from 'fs';
 import { MongoClientOptions } from 'mongodb';
 import { Options } from 'morgan';
 import { basename, join } from 'path';
+import { RedisStoreOptions } from 'connect-redis';
 
 /**
  * Interface for fetching application configuration.
@@ -51,34 +52,35 @@ export class EnvironmentConfig<T> implements Config<T> {
 
 export interface CloudAppConfig {
   port: number;
-  morganOptions: Options;
+  morganFormat: string;
   logStackTraces: boolean;
   // See bunyan.d.ts/LoggerOptions
   bunyanConfig: any;
   seedDemoData: boolean;
   security: {
-    adminRole: string,
-    userRole: string,
-    session: SessionOptions,
-    keycloak: any
+    adminRole: string;
+    userRole: string;
+    session: SessionOptions;
+    keycloak: any;
+    redisStore: RedisStoreOptions;
     passportjs: {
       jwtSecret: any;
       portalLoginPage: {
-        title: string,
-        invalidMessage: string
+        title: string;
+        invalidMessage: string;
       };
     }
   };
   sync: {
     customDataHandlers: boolean;
-    globalOptions: SyncGlobalParameters
+    globalOptions: SyncGlobalParameters;
   };
   mongodb: {
-    url: string,
-    options: MongoClientOptions
+    url: string;
+    options: MongoClientOptions;
   };
   redis: {
-    url: string
+    url: string;
   };
 }
 const appConfig: Config<CloudAppConfig> = new EnvironmentConfig<CloudAppConfig>();
