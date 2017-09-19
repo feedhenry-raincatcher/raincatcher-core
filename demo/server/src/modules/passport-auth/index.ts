@@ -41,10 +41,23 @@ function createPortalRoutes(router: express.Router, authService: PassportAuth, u
     });
   });
 
-  router.post('/cookie-login', authService.authenticate('local', {
-    successReturnToOrRedirect: '/',
-    failureRedirect: '/loginError'
-  }));
+  router.post('/cookie-login',
+    authService.authenticate('local', {failureRedirect: '/loginError'}),
+    (req: express.Request, res: express.Response) => {
+      if (_.intersection(config.security.allowedRoles, req.user.userRoles).length > 0) {
+        res.redirect('/');
+      } else {
+        res.redirect('/loginInsufficientPrivilege');
+      }
+    }
+  );
+
+  router.get('/loginInsufficientPrivilege', (req: express.Request, res: express.Response) => {
+    return res.render('login', {
+      title: config.security.passportjs.portalLoginPage.title,
+      message: config.security.passportjs.portalLoginPage.insufficientPrivilegesMessage
+    });
+  });
 
   router.get('/loginError', (req: express.Request, res: express.Response) => {
     return res.render('login', {

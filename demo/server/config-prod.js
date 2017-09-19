@@ -12,6 +12,7 @@ var config = {
   "security": {
     "adminRole": "admin",
     "userRole": "user",
+    "allowedRoles": ["adminRole"],
     // Passport.js security configuration
     "passportjs": {
       // Passport.js secret for JWT tokens. Provide custom value even for development needs
@@ -19,7 +20,8 @@ var config = {
       // Allows to provide custom login page messages
       "portalLoginPage": {
         "title": "RainCatcher Portal",
-        "invalidMessage": "Invalid Credentials"
+        "invalidMessage": "Invalid Credentials",
+        "insufficientPrivilegesMessage": "Insufficient Privileges"
       },
     },
     // Keycloak configuration. Uncomment to enable keycloak integration
