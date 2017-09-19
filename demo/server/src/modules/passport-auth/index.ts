@@ -1,4 +1,4 @@
-import { CONSTANTS as PASSPORTCONSTANTS, PassportAuth, UserRepository, UserService } from '@raincatcher/auth-passport';
+import { PassportAuth, UserRepository, UserService } from '@raincatcher/auth-passport';
 import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
 import { SessionOptions } from 'express-session';
@@ -22,8 +22,10 @@ export function init(router: express.Router, sessionOpts?: SessionOptions) {
     authService.init(router, sessionOpts);
     createPortalRoutes(router, authService, userRepo);
   } else {
-    authService.init(router, sessionOpts, config.security.passportjs.jwtSecret);
-    createMobileRoutes(router, userRepo, userService);
+    const jwtSecret = config.security.passportjs.jwtSecret;
+    authService.init(router, sessionOpts, jwtSecret);
+    getLogger().info('Creating Mobile Routes');
+    router.post('/token-login', authService.authenticateWithToken(jwtSecret, userService, userRepo));
   }
   return authService;
 }
@@ -71,25 +73,5 @@ function createPortalRoutes(router: express.Router, authService: PassportAuth, u
     }
     getLogger().warn('No session found on GET /logout, responding with HTTP status 200');
     return res.status(200).end();
-  });
-}
-
-function createMobileRoutes(router: express.Router, userRepo: UserRepository, userService: UserService) {
-  getLogger().info('Creating Mobile Routes');
-  router.post('/token-login', function(req, res, next) {
-    if (req.body && req.body.username && req.body.password) {
-      const callback = (err?: Error, user?: any) => {
-        if (user && userService.validatePassword(user, req.body.password)) {
-          const payload = _.clone(user);
-          delete payload.password;
-          const secret = config.security.passportjs.jwtSecret || PASSPORTCONSTANTS.defaultSecret;
-          const token = jwt.sign(payload, secret);
-          return res.status(200).json({ 'token': token, 'profile': user });
-        }
-
-        return res.status(401).send();
-      };
-      userRepo.getUserByLogin(req.body.username, callback);
-    }
   });
 }

@@ -7,7 +7,6 @@ import * as passport from 'passport';
 import { AuthenticateOptions } from 'passport';
 import { ExtractJwt, Strategy as JwtStrategy, StrategyOptions as JwtOptions } from 'passport-jwt';
 import { Strategy } from 'passport-local';
-import { CONSTANTS } from '../constants';
 import { UserRepository } from '../user/UserRepository';
 import { UserService } from '../user/UserService';
 
@@ -42,9 +41,12 @@ export class PassportAuth implements EndpointSecurity {
       app.use(this.passport.session());
       this.setupCookie(this.passport);
     } else {
+      if (!secret) {
+        throw Error('Missing JWT secret');
+      }
       this.jwtOpts = {
         jwtFromRequest: ExtractJwt.fromAuthHeader(),
-        secretOrKey: secret || CONSTANTS.defaultSecret
+        secretOrKey: secret
       };
       app.use(this.passport.initialize());
       this.setupToken(this.passport, this.jwtOpts);
@@ -67,10 +69,17 @@ export class PassportAuth implements EndpointSecurity {
         getLogger().info('Token based authentication and authorization');
         const token = req.headers.authorization.toString().substring(4);
         try {
-          const user = jwt.verify(token, this.jwtOpts.secretOrKey);
-          hasRole = role ? this.userService.hasResourceRole(user, role) : true;
-          return hasRole ? this.passport.authenticate('jwt', {session: false})(req, res, next) :
-                           self.accessDenied(req, res);
+          const userLogin = jwt.verify(token, this.jwtOpts.secretOrKey);
+          this.userRepo.getUserByLogin(userLogin as string, function(err, user) {
+            if (role) {
+              if (this.userService.hasResourceRole(user, role)) {
+                return this.passport.authenticate('jwt', { session: false })(req, res, next);
+              }
+              return self.accessDenied(req, res);
+            } else {
+              return this.passport.authenticate('jwt', { session: false })(req, res, next);
+            }
+          });
         } catch (error) {
           return res.status(401).json(new Error(error));
         }
@@ -115,6 +124,29 @@ export class PassportAuth implements EndpointSecurity {
         return this.passport.authenticate(strategy, options)(req, res, next);
       }
       return this.passport.authenticate(strategy)(req, res, next);
+    };
+  }
+
+  /**
+   *  Creates a middleware for authentication purposes that will base on JWT tokens
+   *
+   * @param secret JWT token secret used to create token
+   * @param userService - UserService custom implementation
+   * @param userRepo - UserRepository custom implementation
+   */
+  public authenticateWithToken(secret: string, userService: UserService, userRepo: UserRepository) {
+    return function(req, res, next) {
+      if (req.body && req.body.username && req.body.password) {
+        const callback = (err?: Error, user?: any) => {
+          if (user && userService.validatePassword(user, req.body.password)) {
+            const payload = req.body.username;
+            const token = jwt.sign(payload, secret);
+            return res.status(200).json({ 'token': token, 'profile': user });
+          }
+          return res.status(401).send();
+        };
+        userRepo.getUserByLogin(req.body.username, callback);
+      }
     };
   }
 
