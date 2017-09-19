@@ -14,7 +14,8 @@ var config = {
     "userRole": "user",
     // Passport.js security configuration
     "passportjs": {
-      // Passport.js secret for JWT tokens. Provide custom value even for development needs
+      // Passport.js secret for JWT tokens used in mobile. Change this value even for development
+      // To generate strong secret: node -e "console.log(require('crypto').randomBytes(64).toString('hex'));"
       "jwtSecret": "D837131FD17F62CB85FBD5919563086369691F4D42379C3596F811839A8992CBA1FBA88DF243BF2481940F112D339C33283BDFEF29A13612550EDAAAB7B5E061",
       // Allows to provide custom login page messages
       "portalLoginPage": {
@@ -22,6 +23,18 @@ var config = {
         "invalidMessage": "Invalid Credentials"
       },
     },
+    // Configuration for express session (used for both passport and keycloak)
+    "session": {
+      // Generate new secret for production use
+      "secret": process.env.SESSION_SECRET || '90d12c73a1808f65029f41e1b87abf47be4b226b061dd2c025eae3f981ef243ddd',
+      "resave": false,
+      "saveUninitialized": true,
+      "cookie": {
+        "secure": false,
+        "httpOnly": true,
+        "path": '/'
+      }
+    }
     // Keycloak configuration. Uncomment to enable keycloak integration
     // "keycloak": {
     //   "realm": "",

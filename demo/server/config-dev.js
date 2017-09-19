@@ -22,6 +22,18 @@ var config = {
         "invalidMessage": "Invalid Credentials"
       },
     },
+    // Configuration for express session (used for both passport and keycloak)
+    "session": {
+      // Generate new secret for production use
+      "secret": process.env.SESSION_SECRET || 'a0dc2c73a1808f65029f41e1b87abf47be4b226b061dd2c025eae3f981ef243444',
+      "resave": false,
+      "saveUninitialized": true,
+      "cookie": {
+        "secure": false,
+        "httpOnly": true,
+        "path": '/'
+      }
+    }
     // Keycloak configuration. Uncomment to enable keycloak integration
     // "keycloak": {
     //   "realm": "",

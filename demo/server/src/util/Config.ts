@@ -1,5 +1,10 @@
+import { SyncGlobalParameters } from '@raincatcher/datasync-cloud';
+import { SessionOptions } from 'express-session';
 import { existsSync } from 'fs';
+import { MongoClientOptions } from 'mongodb';
+import { Options } from 'morgan';
 import { basename, join } from 'path';
+
 /**
  * Interface for fetching application configuration.
  *
@@ -46,7 +51,7 @@ export class EnvironmentConfig<T> implements Config<T> {
 
 export interface CloudAppConfig {
   port: number;
-  morganOptions: string;
+  morganOptions: Options;
   logStackTraces: boolean;
   // See bunyan.d.ts/LoggerOptions
   bunyanConfig: any;
@@ -54,6 +59,7 @@ export interface CloudAppConfig {
   security: {
     adminRole: string,
     userRole: string,
+    session: SessionOptions,
     keycloak: any
     passportjs: {
       jwtSecret: any;
@@ -65,11 +71,11 @@ export interface CloudAppConfig {
   };
   sync: {
     customDataHandlers: boolean;
-    globalOptions: any
+    globalOptions: SyncGlobalParameters
   };
   mongodb: {
     url: string,
-    options: any
+    options: MongoClientOptions
   };
   redis: {
     url: string
