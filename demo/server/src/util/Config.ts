@@ -54,12 +54,14 @@ export interface CloudAppConfig {
   security: {
     adminRole: string,
     userRole: string,
+    allowedRoles: string[]
     keycloak: any
     passportjs: {
       jwtSecret: any;
       portalLoginPage: {
         title: string,
-        invalidMessage: string
+        invalidMessage: string,
+        insufficientPrivilegesMessage: string
       };
     }
   };
