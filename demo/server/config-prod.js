@@ -44,14 +44,14 @@ var config = {
       }
     },
     // Keycloak configuration. Uncomment to enable keycloak integration
-    "keycloak": {
-      "realm": "",
-      "bearer-only": true,
-      "auth-server-url": "",
-      "ssl-required": "",
-      "resource": "",
-      "use-resource-role-mappings": true
-    }
+    // "keycloak": {
+    //   "realm": "",
+    //   "bearer-only": true,
+    //   "auth-server-url": "",
+    //   "ssl-required": "",
+    //   "resource": "",
+    //   "use-resource-role-mappings": true
+    // }
   },
   "sync": {
     // Required to handle UI.
