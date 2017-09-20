@@ -1,21 +1,19 @@
 # RainCatcher DataSync
 
-Feedhenry Sync typescript client.
-Data synchonization javascript client. Library can be used for offline storage of mobile applications data.
-
-Raincatcher DataSync is based on [sync.js client](https://github.com/feedhenry/fh-sync-js)
-For advanced usage see [FeedHenry Sync documentation](https://github.com/feedhenry/fh-sync/tree/master/docs).
+Raincatcher DataSync is based on the[Feedhenry sync.js client](https://github.com/feedhenry/fh-sync-js)
+For advanced usage of the Raincatcher DataSync module, see[FeedHenry Sync] (https://github.com/feedhenry/fh-sync/tree/master/docs) documentation.
 
 ## Overview
 
-Sync mobile data synchronization framework provides the following key functionality:
+Raincatcher DataSync provides the following functionality:
 
+- Allows synchronisation of WFM workorder data between the RainCatcher mobile client and the RainCatcher cloud server
 - Allows mobile apps to use and update data offline (local cache)
 - Provides a mechanism to manage bi-directional data synchronization from multiple Client Apps via the Cloud App and into back-end data stores
 - Allows data updates (that is, deltas) to be distributed from the Cloud App to connected clients
 - Provides facilities for managing data collisions from multiple updates in the cloud
 
-This service effectively allows sync apps to seamlessly continue working when the network connection is lost, and allow them to recover when the network connection is restored.
+This service effectively allows Sync apps to seamlessly continue working when the network connection is lost, and allow them to recover when the network connection is restored.
 
 ## Getting started with sync
 
@@ -41,7 +39,7 @@ $fh.sync.init(options);
 
 Sync introduces concept of `DataSets`. DataSets are form of local data collections
 that will be managed and synchronized with server in sync loop.
-In example bellow we register new `UserTasks` dataset.
+In the following example,a new `UserTasks` dataset is registered.
 
  ```typescript
 const datasetId = 'UserTasks';
@@ -56,7 +54,7 @@ $fh.sync.manage(datasetId, options, queryParams, metaData, function() {
 
 ### Perform operations on datasets
 
-Sync provides set of methods to perform create, read, update and delete operations on datasets.
+Sync provides a set of methods to perform create, read, update and delete operations on datasets.
 
  ```typescript
 // Example object to save
