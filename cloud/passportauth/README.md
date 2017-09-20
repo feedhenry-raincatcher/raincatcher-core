@@ -1,9 +1,9 @@
-# RainCatcher Passport Auth
-Raincatcher authentication and authorization module using [PassportJS](http://passportjs.org/).
-This module allows the:
-- Creation and initialization of a Passport authentication service using Passport's local strategy.
-- Protection of express routes from requests by user authentication and authorization.
-- Usage of persistent login sessions using [express-session](https://github.com/expressjs/session).
+# RainCatcher PassportAuth
+The PassportAuth module is RainCatcher's implementation of  [PassportJS](http://passportjs.org/) and is the default authentication and authorization module for RainCatcher..
+PassportAuth provides:
+- Creation and initialization of a Passport authentication service using Passport's local strategy
+- Protection of express routes from requests by user authentication and authorization
+- Usage of persistent login sessions using [express-session](https://github.com/expressjs/session)
 
 
 ## Quick Start
@@ -23,8 +23,7 @@ authService.init(router, undefined, secret);
 ...
 ```
 In order to use cookie-based authentication, specify the sessionOptions.
-- Visit [express-session](https://github.com/expressjs/session) to find more information about the available express
-session options.
+- For more information about the available express session options, see  [express-session](https://github.com/expressjs/session).
 
 Without the sessionOptions, Passport will use token-based authentication using Passport's JWT strategy by default.
 
