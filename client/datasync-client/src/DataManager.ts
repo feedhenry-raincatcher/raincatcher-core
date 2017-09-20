@@ -6,8 +6,8 @@ import * as _ from 'lodash';
 /**
  * Wrapper class around sync to allow easier operations on a single data set.
  *
- * Sor more information on the sync client API,
- * See https://tinyurl.com/yc5q3rj3
+ * For more information on the sync client API,
+ * See https://github.com/feedhenry/fh-sync/blob/master/docs/sync_service.adoc 
  */
 export class DataManager {
   public datasetId: string;

@@ -7,7 +7,7 @@ This behavior can be changed by providing custom handlers.
 
 For advanced usage see [FeedHenry Sync documentation](https://github.com/feedhenry/fh-sync/tree/master/docs).
 
-> **Note**: Cloud service is utilized by one of the sync clients. See [datasync-js](../client/datasync)
+> **Note**: Cloud service is utilized by one of the sync clients. See [datasync-js](https://github.com/feedhenry-raincatcher/raincatcher-core/tree/master/client/datasync-client)
 
 
 ## Quick start

@@ -16,7 +16,7 @@ export class ApiController<T> {
 
   /**
    * Handler for list method
-   * Can be reused by developers that wish to mount handler directly on router
+   * can be reused by developers that wish to mount handler directly on router
    */
   public listHandler(req: Request) {
     getLogger().debug('Api list method called', { body: req.query });
@@ -38,7 +38,7 @@ export class ApiController<T> {
 
   /**
    * Handler for get method
-   * Can be reused by developers that wish to mount handler directly on router
+   * can be reused by developers that wish to mount handler directly on router
    */
   public getHandler(req: Request) {
     getLogger().debug('Api get method called', { params: req.params });
@@ -53,7 +53,7 @@ export class ApiController<T> {
 
   /**
    * Handler for create method
-   * Can be reused by developers that wish to mount handler directly on router
+   * can be reused by developers that wish to mount handler directly on router
    */
   public postHandler(req: Request) {
     getLogger().debug('Api create method called', { body: req.body });
@@ -68,7 +68,7 @@ export class ApiController<T> {
 
   /**
    * Delete handler
-   * Can be reused by developers that wish to mount handler directly on router
+   * can be reused by developers that wish to mount handler directly on router
    */
   public deleteHandler(req: Request) {
     getLogger().debug('Api delete method called', { params: req.params });
@@ -85,7 +85,7 @@ export class ApiController<T> {
 
   /**
    * Update handler
-   * Can be reused by developers that wish to mount handler directly on router
+   * can be reused by developers that wish to mount handler directly on router
    */
   public putHandler(req: Request) {
     getLogger().debug('Api update method called', { body: req.body });
@@ -109,7 +109,7 @@ export class ApiController<T> {
 
   /**
    * Handler for list by filter method
-   * Can be reused by developers that wish to mount handler directly on router
+   * can be reused by developers that wish to mount handler directly on router
    */
   public listByFilterHandler(req: Request) {
     getLogger().debug('Api list by filter method called', { query: req.query });
