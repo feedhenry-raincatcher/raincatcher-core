@@ -42,15 +42,15 @@ var config = {
         "path": '/'
       }
     },
-    // Keycloak configuration. Uncomment to enable keycloak integration
-    // "keycloak": {
-    //   "realm": "",
-    //   "bearer-only": true,
-    //   "auth-server-url": "",
-    //   "ssl-required": "",
-    //   "resource": "",
-    //   "use-resource-role-mappings": true
-    // }
+    // Keycloak configuration. Fill in details to enable keycloak
+    "keycloak": {
+      "realm": "",
+      "bearer-only": true,
+      "auth-server-url": "",
+      "ssl-required": "external",
+      "resource": "",
+      "use-resource-role-mappings": true
+    }
   },
   "sync": {
     // Required to handle UI.
