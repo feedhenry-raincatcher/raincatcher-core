@@ -1,8 +1,11 @@
+import * as chai from 'chai';
 import * as express from 'express';
 import * as jwt from 'jsonwebtoken';
 import * as sinon from 'sinon';
 import PassportAuth from '../src/auth/PassportAuth';
 import MockUserRepo, { mockUserObj, mockUserService } from './mocks/MockUserRepo';
+
+const assert = chai.assert;
 
 describe('Passport Token Based Authentication Tests', function() {
   let router: express.Router;
@@ -31,15 +34,66 @@ describe('Passport Token Based Authentication Tests', function() {
   });
 
   it('should initialize passport with token based authentication', function(done) {
-    testSubject.init(router);
+    testSubject.init(router, undefined, mockSecret);
     done();
   });
 
-  it('should return an error if an error occurred when retrieving the user', function(done) {
-    const payload = {
-      username: 'testError',
-      password: 'testError'
+  it('should not initialize passport if secret is missing', function() {
+    try {
+      testSubject.init(router, undefined);
+    } catch (error) {
+      sinon.match.has('Missing JWT secret', 'Missing JWT secret');
+    }
+  });
+
+  it('should generate and send a token if provided credentials are valid', function(done) {
+    mockReq = {
+      body: {
+        username: 'testloginId',
+        password: 'testPassword'
+      }
     };
+
+    testSubject.authenticateWithToken(mockSecret, mockUserService, MockUserRepo)
+      (mockReq as express.Request, mockRes as express.Response, mockNext as express.NextFunction);
+
+    setImmediate(() => {
+      sinon.assert.calledWith(mockRes.status, 200);
+      done();
+    });
+  });
+
+  it('should not generate and send a token if provided credentials are invalid', function(done) {
+    mockReq = {
+      body: {
+        username: 'invalidUsername',
+        password: 'invalidPassword'
+      }
+    };
+
+    testSubject.authenticateWithToken(mockSecret, mockUserService, MockUserRepo)
+      (mockReq as express.Request, mockRes as express.Response, mockNext as express.NextFunction);
+
+    setImmediate(() => {
+      sinon.assert.calledWith(mockRes.status, 401);
+      done();
+    });
+  });
+
+  it('should return a 400 if request for token was invalid', function(done) {
+    mockReq = {};
+
+    testSubject.authenticateWithToken(mockSecret, mockUserService, MockUserRepo)
+      (mockReq as express.Request, mockRes as express.Response, mockNext as express.NextFunction);
+
+    setImmediate(() => {
+      sinon.assert.calledWith(mockRes.status, 400);
+      done();
+    });
+  });
+
+  it('should return an error if an error occurred when retrieving the user', function(done) {
+    const payload = 'testError';
     const token = jwt.sign(payload, mockSecret);
     mockReq = {
       headers: {
@@ -62,10 +116,7 @@ describe('Passport Token Based Authentication Tests', function() {
   });
 
   it('should return a 401 if the credentials provided are not valid', function(done) {
-    const payload = {
-      username: 'invalidUsername',
-      password: 'invalidPassword'
-    };
+    const payload = 'invalidUsername';
     const token = jwt.sign(payload, mockSecret);
     mockReq = {
       headers: {
@@ -88,10 +139,7 @@ describe('Passport Token Based Authentication Tests', function() {
   });
 
   it('should return a success if the token provided is valid', function(done) {
-    const payload = {
-      username: 'testloginId',
-      password: 'testPassword'
-    };
+    const payload = 'testloginId';
     const token = jwt.sign(payload, mockSecret);
     mockReq = {
       headers: {
@@ -131,10 +179,7 @@ describe('Passport Token Based Authentication Tests', function() {
   });
 
   it('should return a 403 if the user does not have the required role', function(done) {
-    const payload = {
-      username: 'testloginId',
-      password: 'testPassword'
-    };
+    const payload = 'testloginId';
     const token = jwt.sign(payload, mockSecret);
     mockReq = {
       headers: {
@@ -145,7 +190,7 @@ describe('Passport Token Based Authentication Tests', function() {
       isAuthenticated: sinon.stub().returns(false)
     };
 
-    testSubject.protect('testRole')(mockReq as express.Request, mockRes as express.Response,
+    testSubject.protect('requiredRole')(mockReq as express.Request, mockRes as express.Response,
       mockNext as express.NextFunction);
 
     setImmediate(() => {
@@ -155,11 +200,7 @@ describe('Passport Token Based Authentication Tests', function() {
   });
 
   it('should return a success if the provided token is valid and has the required role', function(done) {
-    const payload = {
-      username: 'testloginId',
-      password: 'testPassword',
-      roles: ['testRole']
-    };
+    const payload = 'testloginId';
     const token = jwt.sign(payload, mockSecret);
     mockReq = {
       headers: {
@@ -174,18 +215,14 @@ describe('Passport Token Based Authentication Tests', function() {
       mockNext as express.NextFunction);
 
     setImmediate(() => {
-      sinon.assert.calledWith(mockReq.logIn);
+      sinon.assert.calledOnce(mockNext);
       done();
     });
   });
 
   it('should return a success if the provided token is valid and the route is not protected with a role',
     function(done) {
-    const payload = {
-      username: 'testloginId',
-      password: 'testPassword',
-      roles: ['testRole']
-    };
+    const payload = 'testloginId';
     const token = jwt.sign(payload, mockSecret);
     mockReq = {
       headers: {
@@ -200,7 +237,7 @@ describe('Passport Token Based Authentication Tests', function() {
       mockNext as express.NextFunction);
 
     setImmediate(() => {
-      sinon.assert.calledWith(mockReq.logIn);
+      sinon.assert.calledOnce(mockNext);
       done();
     });
   });

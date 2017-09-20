@@ -4,7 +4,7 @@
 var config = {
   // Application port number
   "port": process.env.PORT || process.env.FH_PORT || 8001,
-  "morganOptions": "dev",
+  "morganFormat": "dev",
   "logStackTraces": true,
   // Use this parameter to disable inserting demo data into mongodb
   "seedDemoData": true,
@@ -22,15 +22,35 @@ var config = {
         "invalidMessage": "Invalid Credentials"
       },
     },
-    // Keycloak configuration. Uncomment to enable keycloak integration
-    // "keycloak": {
-    //   "realm": "",
-    //   "bearer-only": true,
-    //   "auth-server-url": "",
-    //   "ssl-required": "",
-    //   "resource": "",
-    //   "use-resource-role-mappings": true
-    // }
+    /// Redis session store configuration
+    // https://github.com/tj/connect-redis
+    "redisStore": {
+      "url": getRedisUrl(),
+      "prefix": "rc-session:",
+      "logErrors": true
+    },
+    // Configuration for express session (used for both passport and keycloak)
+    // https://github.com/expressjs/session
+    "session": {
+      // Generate new secret for production use
+      "secret": process.env.SESSION_SECRET || 'a0dc2c73a1808f65029f41e1b87abf47be4b226b061dd2c025eae3f981ef243444',
+      "resave": false,
+      "saveUninitialized": true,
+      "cookie": {
+        "secure": false,
+        "httpOnly": true,
+        "path": '/'
+      }
+    },
+    // Keycloak configuration. Fill in details to enable keycloak
+    "keycloak": {
+      "realm": "",
+      "bearer-only": true,
+      "auth-server-url": "",
+      "ssl-required": "external",
+      "resource": "",
+      "use-resource-role-mappings": true
+    }
   },
   "sync": {
     // Required to handle UI.
@@ -63,15 +83,19 @@ function getMongoUrl() {
   return "mongodb://127.0.0.1:27017/raincatcher";
 }
 
+function getRedisPort() {
+  if (process.env.REDIS_PORT) return process.env.REDIS_PORT
+  if (process.env.FH_REDIS_PORT) return process.env.FH_REDIS_PORT
+  return 6379;
+}
+function getRedisHost() {
+  if (process.env.REDIS_HOST) return process.env.REDIS_HOST
+  if (process.env.FH_REDIS_HOST) return process.env.FH_REDIS_HOST
+  return "127.0.0.1";
+}
+
 function getRedisUrl() {
-  if (process.env.REDIS_CONNECTION_URL) {
-    return process.env.REDIS_CONNECTION_URL
-  }
-  // Legacy env variable only to support in house systems
-  if (process.env.FH_REDIS_HOST) {
-    return 'redis://' + process.env.FH_REDIS_HOST + ':' + process.env.FH_REDIS_PORT
-  }
-  return "redis://127.0.0.1:6379";
+  return 'redis://' + getRedisHost() + ':' + getRedisPort()
 }
 
 module.exports = config;

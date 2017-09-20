@@ -8,11 +8,9 @@ Example for fh-sync cloud module integration.
 
 ## Requirements
 
-`MONGO_CONNECTION_URL` environment variable needs to point to mongodb instance
+`MONGO_CONNECTION_URL` environment variable that points to a mongodb instance.
 By default using: mongodb://127.0.0.1:27017/sync
 
-`REDIS_CONNECTION_URL`  environment variable needs to point to running redis instance
-By default using: redis://127.0.0.1:6379
-
-
+`REDIS_HOST` and `REDIS_PORT` environment variables that points to a running redis instance.
+By default using: 127.0.0.1 and 6379
 

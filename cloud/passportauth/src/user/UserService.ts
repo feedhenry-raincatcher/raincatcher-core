@@ -23,7 +23,7 @@ export interface UserService {
    * @param role - The role required to access a resource
    * @returns {boolean} - Returns true/false if the user is authorized to access a resource
    */
-  hasResourceRole(user: any, role: string): boolean;
+  hasResourceRole(user: any, role: string|undefined): boolean;
 }
 
 export default UserService;
