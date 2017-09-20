@@ -139,6 +139,8 @@ export class PassportAuth implements EndpointSecurity {
           return res.status(401).send();
         };
         userRepo.getUserByLogin(req.body.username, callback);
+      } else {
+        return res.status(400).send();
       }
     };
   }

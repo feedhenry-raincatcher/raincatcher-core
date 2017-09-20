@@ -4,11 +4,11 @@ export const mockUserService: UserService = {
   validatePassword(user: any, password: string) {
     return user.password === password;
   },
-  hasResourceRole(user: any, roleRequired: string) {
-    if (user.roles) {
+  hasResourceRole(user: any, roleRequired: string|undefined) {
+    if (roleRequired) {
       return user.roles.indexOf(roleRequired) > -1;
     } else {
-      return false;
+      return true;
     }
   }
 };
