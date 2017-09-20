@@ -1,10 +1,10 @@
 import { SyncGlobalParameters } from '@raincatcher/datasync-cloud';
+import { RedisStoreOptions } from 'connect-redis';
 import { SessionOptions } from 'express-session';
 import { existsSync } from 'fs';
 import { MongoClientOptions } from 'mongodb';
 import { Options } from 'morgan';
 import { basename, join } from 'path';
-import { RedisStoreOptions } from 'connect-redis';
 
 /**
  * Interface for fetching application configuration.
