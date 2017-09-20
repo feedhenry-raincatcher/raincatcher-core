@@ -22,8 +22,12 @@ export class SampleUserService implements UserService {
     return user.password === password;
   }
 
-  public hasResourceRole(user: any, role: string) {
-    return user.roles.indexOf(role) > -1;
+  public hasResourceRole(user: any, role: string|undefined) {
+    if (role) {
+      return user.roles.indexOf(role) > -1;
+    } else {
+      return true;
+    }
   }
 }
 

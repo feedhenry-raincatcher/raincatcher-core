@@ -63,26 +63,17 @@ export class PassportAuth implements EndpointSecurity {
   public protect(role?: string) {
     const self = this;
     return (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      let hasRole;
-
       if (req.headers && req.headers.authorization) {
         getLogger().info('Token based authentication and authorization');
-        const token = req.headers.authorization.toString().substring(4);
-        try {
-          const userLogin = jwt.verify(token, this.jwtOpts.secretOrKey);
-          this.userRepo.getUserByLogin(userLogin as string, function(err, user) {
-            if (role) {
-              if (this.userService.hasResourceRole(user, role)) {
-                return this.passport.authenticate('jwt', { session: false })(req, res, next);
-              }
-              return self.accessDenied(req, res);
-            } else {
-              return this.passport.authenticate('jwt', { session: false })(req, res, next);
-            }
-          });
-        } catch (error) {
-          return res.status(401).json(new Error(error));
-        }
+        return self.passport.authenticate('jwt', { session: false }, function(err, user) {
+          if (err || !user) {
+            return res.status(401).send();
+          }
+          if (self.userService.hasResourceRole(user, role)) {
+            return next();
+          }
+          return self.accessDenied(req, res);
+        })(req, res, next);
       } else {
         getLogger().info('Session based authentication and authorization');
         if (!req.isAuthenticated()) {
@@ -94,8 +85,10 @@ export class PassportAuth implements EndpointSecurity {
           return res.status(401).send();
         }
 
-        hasRole = role ? this.userService.hasResourceRole(req.user, role) : true;
-        return hasRole ? next() : self.accessDenied(req, res);
+        if (self.userService.hasResourceRole(req.user, role)) {
+          return next();
+        }
+        return self.accessDenied(req, res);
       }
     };
   }
