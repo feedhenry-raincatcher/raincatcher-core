@@ -55,7 +55,8 @@ var config = {
   },
   "sync": {
     // Required to handle UI.
-    "customDataHandlers": true
+    "customDataHandlers": true,
+    "excludeOldCompleteWorkOrders": 2
   },
   // See bunyan.d.ts/LoggerOptions
   "bunyanConfig": {
