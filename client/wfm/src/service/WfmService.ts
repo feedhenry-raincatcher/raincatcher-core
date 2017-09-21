@@ -196,12 +196,8 @@ export class WfmService {
   }
 
   protected setWorkOrderStatus(workorder: WorkOrder, status: STATUS) {
-    workorder.statusHistory = workorder.statusHistory || [];
-    workorder.statusHistory.push({
-      before: workorder.status,
-      after: status,
-      timestamp: new Date().getTime()
-    });
+    workorder.statusHistory = workorder.statusHistory || {};
+    workorder.statusHistory[status] = new Date().getTime();
     workorder.status = status;
   }
 }
