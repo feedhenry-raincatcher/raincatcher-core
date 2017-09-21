@@ -17,7 +17,7 @@ export class KeycloakSecurity implements EndpointSecurity {
     // Express Session Configuration.
     app.use(session(sessionOpts));
 
-    this.keycloak = new Keycloak({ store: sessionOpts.store }, config.security.keycloak.realm);
+    this.keycloak = new Keycloak({ store: sessionOpts.store }, config.security.keycloak);
     app.use(this.keycloak.middleware({ logout: '/logout' }));
   }
   public protect(role?: string | undefined): express.Handler {
