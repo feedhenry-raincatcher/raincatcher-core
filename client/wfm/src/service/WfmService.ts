@@ -28,7 +28,7 @@ export class WfmService {
     if (!workorder.assignee) {
       throw new Error(`Workorder with Id ${workorder.id} has no assignee and cannot be started`);
     }
-    workorder.status = STATUS.PENDING;
+    this.setWorkOrderStatus(workorder, STATUS.PENDING);
     workorder.currentStep = workorder.workflow.steps[0].id;
     workorder.results = [];
     return this.workorderService.update(workorder);
@@ -94,7 +94,7 @@ export class WfmService {
       }
       // if there's no longer a current step, we've backed into NEW status
       if (!workorder.currentStep) {
-        workorder.status = STATUS.NEW;
+        this.setWorkOrderStatus(workorder, STATUS.NEW);
       }
 
       return this.workorderService.update(workorder);
@@ -188,10 +188,16 @@ export class WfmService {
     }
     // if current is the last, workorder is now complete
     if (index === workorder.workflow.steps.length - 1) {
-      workorder.status = STATUS.COMPLETE;
+      this.setWorkOrderStatus(workorder, STATUS.COMPLETE);
       return workorder.currentStep = undefined;
     }
     const nextStep = workorder.workflow.steps[index + 1];
     return workorder.currentStep = nextStep && nextStep.id;
+  }
+
+  protected setWorkOrderStatus(workorder: WorkOrder, status: STATUS) {
+    workorder.statusHistory = workorder.statusHistory || {};
+    workorder.statusHistory[status] = new Date().getTime();
+    workorder.status = status;
   }
 }

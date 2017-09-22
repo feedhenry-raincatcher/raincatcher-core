@@ -69,4 +69,17 @@ export interface WorkOrder {
    * Timestamp of this WorkOrder's last update
    */
   updated: number;
+
+  /**
+   * List of timestamps of when this WorkOrder last reached a given {@link STATUS}
+   *
+   * @example
+   * {
+   *   'New': 1506010024468,
+   *   'Complete': 1506010024468
+   * }
+   */
+  statusHistory?: {
+    [status: string]: number
+  };
 }

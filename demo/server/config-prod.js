@@ -55,7 +55,14 @@ var config = {
   },
   "sync": {
     // Required to handle UI.
-    "customDataHandlers": true
+    "customDataHandlers": true,
+    /**
+     * Specify that completed WorkOrders over a given number of days must be excluded from listings
+     * sent to mobile clients. Use -1 to deactivate this feature
+     *
+     * Only works if {@link customDataHandlers} is true
+     */
+    "daysToExcludeCompleteWorkorders": 2
   },
   // See bunyan.d.ts/LoggerOptions
   "bunyanConfig": {

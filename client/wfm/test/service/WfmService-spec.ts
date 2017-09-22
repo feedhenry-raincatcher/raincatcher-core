@@ -42,6 +42,8 @@ describe('WfmService', function() {
         .then(workorder => subject.begin(workorder))
         .then(workorder => {
           expect(workorder.status).to.equal(STATUS.PENDING);
+          // tslint:disable-next-line:no-unused-expression
+          expect(workorder.statusHistory && workorder.statusHistory[STATUS.PENDING]).to.exist;
           expect(workorder.currentStep).to.equal(workorder.workflow.steps[0].id);
         });
     });

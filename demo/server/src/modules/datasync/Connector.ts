@@ -2,6 +2,7 @@ import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '@rainca
 import { getLogger } from '@raincatcher/logger';
 import * as Promise from 'bluebird';
 import appConfig from '../../util/Config';
+import { excludeCompleteWorkOrders } from './filters/ExcludeCompletedWorkorders';
 import { GlobalMongoDataHandler } from './MongoDataHandler';
 
 const sync = SyncServer;
@@ -13,7 +14,7 @@ process.env.DEBUG = 'fh-mbaas-api:sync';
 // Sync connection options
 const connectOptions: SyncOptions = {
   datasetConfiguration: {
-    mongoDbConnectionUrl:  appConfig.getConfig().mongodb.url,
+    mongoDbConnectionUrl: appConfig.getConfig().mongodb.url,
     mongoDbOptions: appConfig.getConfig().mongodb.options,
     redisConnectionUrl: appConfig.getConfig().redis.url
   },
@@ -37,6 +38,10 @@ export function connect() {
       }
       if (config.sync.customDataHandlers) {
         const handler = new GlobalMongoDataHandler(mongo);
+        const excludeDays = appConfig.getConfig().sync.daysToExcludeCompleteWorkorders;
+        if (excludeDays > -1) {
+          handler.addListFilterModifier(excludeCompleteWorkOrders(excludeDays));
+        }
         handler.initGlobalHandlers();
       }
       return resolve({ mongo, redis });

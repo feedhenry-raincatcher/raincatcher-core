@@ -1,6 +1,8 @@
 import { sync } from '@raincatcher/datasync-cloud';
 import { Db } from 'mongodb';
 
+type FilterModifier = (queryParams: any) => void;
+
 /**
  * Initializes global mongodb data handlers for feedhenry sync
  * This class override default data handlers in sync to provide more flexible way of handling data.
@@ -9,10 +11,19 @@ import { Db } from 'mongodb';
  * In this datahandler we migrating from ObjectId identifiers to client generated ids.
  */
 export class GlobalMongoDataHandler {
+  private listFilterModifiers: FilterModifier[] = [];
   /**
    * @param db MongoDb connection
    */
   constructor(private db: Db) {
+  }
+
+  /**
+   * Adds a modifier to a queue that can mutate the parameters used in the base List query for MongoDB
+   * @param modifier A function that mutates the `queryParameters` object synchronously
+   */
+  public addListFilterModifier(modifier: FilterModifier) {
+    this.listFilterModifiers.push(modifier);
   }
 
   /**
@@ -30,6 +41,9 @@ export class GlobalMongoDataHandler {
     const self = this;
     sync.globalHandleList(function(datasetId, queryParams, metadata, cb) {
       queryParams = queryParams || {};
+
+      self.listFilterModifiers.forEach(modifier => modifier(queryParams));
+
       const resultPromise = self.db.collection(datasetId).find(queryParams);
       return resultPromise.toArray().then(function(list: any[]) {
         return cb(undefined, self.toObject(list));

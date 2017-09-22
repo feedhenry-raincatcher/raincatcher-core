@@ -39,3 +39,11 @@ For example:
 process.env.CONFIG_PROFILE === 'prod'
 // it will load config-prod.js file in top level application
 ```
+
+### Configuring custom query parameters for mobile clients
+
+Mobile clients based on the sync framework might not require to receive all WorkOrders in order to operate.
+
+To save on local memory usage, data traffic and improve performance, additional filters can be added to limit those.
+
+In this sample implementation, WorkOrders that are in a complete state stop being sent to mobile clients after two days of their completion. This can be configured via the `sync.daysToExcludeCompleteWorkorders` configuration key. It illustrates a way to include a relatively complex MongoDB query filter into the chain that is used by the list handler for the sync framework.
