@@ -44,7 +44,7 @@ Missing id `{status: 400 , code: 'InvalidID'}`
 In order for module to be able to fetch user data any implementations
 need to implement user repository class.
 
-See demo application integration or [example application](./example) for more details.
+See demo application integration or [example application](https://github.com/feedhenry-raincatcher/raincatcher-core/tree/master/cloud/wfm-user/example) for more details.
 
 ## Relation to security module
 

@@ -26,7 +26,7 @@ Api requires mongodb connection that needs to be setup as separate step
 ```typescript
 api.setDb(db);
 ```
-See demo application integration or [example application](./example) for more details.
+See demo application integration or [example application](https://github.com/feedhenry-raincatcher/raincatcher-core/tree/master/cloud/wfm-rest-api/example) for more details.
 
 ### Custom database integrations
 

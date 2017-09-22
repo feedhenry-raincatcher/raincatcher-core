@@ -34,4 +34,4 @@ app.get('/secureEndpoint', authService.protect('admin'), (req: express.Request, 
 });
 ```
 
-To view a sample implementation, see [./example](./example/index.ts) sample example
+See [./example](https://github.com/feedhenry-raincatcher/raincatcher-core/tree/master/cloud/passportauth/example) for a sample implementation
