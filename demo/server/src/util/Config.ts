@@ -75,11 +75,11 @@ export interface CloudAppConfig {
     customDataHandlers: boolean;
     /**
      * Specify that completed WorkOrders over a given number of days must be excluded from listings
-     * sent to mobile clients
+     * sent to mobile clients. Use -1 to deactivate this feature
      *
      * Only works if {@link customDataHandlers} is true
      */
-    excludeOldCompleteWorkOrders: number;
+    daysToExcludeCompleteWorkorders: number;
     globalOptions: SyncGlobalParameters;
   };
   mongodb: {

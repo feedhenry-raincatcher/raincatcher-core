@@ -38,8 +38,8 @@ export function connect() {
       }
       if (config.sync.customDataHandlers) {
         const handler = new GlobalMongoDataHandler(mongo);
-        const excludeDays = appConfig.getConfig().sync.excludeOldCompleteWorkOrders;
-        if (excludeDays > 0) {
+        const excludeDays = appConfig.getConfig().sync.daysToExcludeCompleteWorkorders;
+        if (excludeDays > -1) {
           handler.addListFilterModifier(excludeCompleteWorkOrders(excludeDays));
         }
         handler.initGlobalHandlers();
