@@ -26,7 +26,11 @@ Workforce management solutions on top of all supported user interfaces.
 - Comprehensive documentation
 - Incorporates only open-source technologies
 
-## Getting Started
+## Documentation
+
+http://raincatcher.feedhenry.io/docs
+
+## Contributor Getting Started
 
 To run demo application please follow instructions from
 our [Reference User Interface](https://github.com/feedhenry-raincatcher/raincatcher-angularjs) repository.
