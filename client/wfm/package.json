@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/wfm",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Set of WorkForce Management tools",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
