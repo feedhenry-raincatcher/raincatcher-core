@@ -24,7 +24,7 @@
     "publish:dry": "npm run publish:prepare && lerna publish --skip-npm --skip-git --canary --yes",
     "publish:test": "./scripts/test-publish.sh",
     "publish:full": "npm run publish:prepare && lerna publish",
-    "publish:demo-server": "lerna clean && lerna bootstrap && lerna run build --scope='@raincatcher/demo-server' && NODE_DEBUG=gh-pages node ./scripts/publish-app server --push true"
+    "publish:demo-server": "lerna clean --yes && lerna bootstrap && lerna run build --scope='@raincatcher/demo-server' && NODE_DEBUG=gh-pages node ./scripts/publish-app server --push true"
   },
   "repository": {
     "type": "git",
