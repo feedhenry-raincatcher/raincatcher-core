@@ -6,6 +6,8 @@
 
 ## About RainCatcher
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/feedhenry-raincatcher/raincatcher-core.svg)](https://greenkeeper.io/)
+
 RainCatcher is a Workforce Management platform with the main focus on delivering a set of modules and user interface for mobile developers who want to integrate WFM features into their application.
 
 RainCatcher can be divided into following areas:
