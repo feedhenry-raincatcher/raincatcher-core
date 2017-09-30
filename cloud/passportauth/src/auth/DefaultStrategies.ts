@@ -14,12 +14,10 @@ export const webStrategy = (userRepo: UserRepository, userService: UserService) 
   return (loginId: string, password: string, done: (error: Error | null, user: any) => any) => {
     const callback = (err?: Error, user?: any) => {
       if (user && userService.validatePassword(user, password)) {
-        return done(null, user);
+        return done(null, userService.getProfile(user));
       }
-
       return err ? done(err, false) : done(null, false);
     };
-
     userRepo.getUserByLogin(loginId, callback);
   };
 };

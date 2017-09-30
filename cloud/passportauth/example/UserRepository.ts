@@ -24,6 +24,9 @@ const userSeedData = [
  * A sample user service implementation
  */
 export class SampleUserService implements UserService {
+  public getProfile(user: any) {
+    return user;
+  }
   public validatePassword(user: any, password: string) {
     return user.password === password;
   }

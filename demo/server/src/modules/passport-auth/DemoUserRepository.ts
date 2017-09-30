@@ -13,21 +13,19 @@ export const users: any[] = require('./users.json');
  * Note: This implementation is only for demo purposes.
  */
 export class SampleUserService implements UserService {
-  // Map user object
-  public getLoginId(user: any) {
-    return user.username;
-  }
-
   public validatePassword(user: any, password: string) {
     return user.password === password;
   }
-
-  public hasResourceRole(user: any, role: string|undefined) {
+  public hasResourceRole(user: any, role: string | undefined) {
     if (role) {
       return user.roles.indexOf(role) > -1;
     } else {
       return true;
     }
+  }
+  public getProfile(user: any) {
+    delete user.password;
+    return user;
   }
 }
 

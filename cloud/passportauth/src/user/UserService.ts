@@ -23,7 +23,14 @@ export interface UserService {
    * @param role - The role required to access a resource
    * @returns {boolean} - Returns true/false if the user is authorized to access a resource
    */
-  hasResourceRole(user: any, role: string|undefined): boolean;
+  hasResourceRole(user: any, role: string | undefined): boolean;
+
+  /**
+   * Returns profile data for the user
+   * Function should be used to filter out data that should not be returned to the client.
+   * For example password hash.
+   */
+  getProfile(user: any): any;
 }
 
 export default UserService;
