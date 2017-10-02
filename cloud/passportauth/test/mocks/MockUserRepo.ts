@@ -1,10 +1,13 @@
 import { UserRepository, UserService } from '../../src/index';
 
 export const mockUserService: UserService = {
+  getProfile(user: any) {
+    return user;
+  },
   validatePassword(user: any, password: string) {
     return user.password === password;
   },
-  hasResourceRole(user: any, roleRequired: string|undefined) {
+  hasResourceRole(user: any, roleRequired: string | undefined) {
     if (roleRequired) {
       return user.roles.indexOf(roleRequired) > -1;
     } else {

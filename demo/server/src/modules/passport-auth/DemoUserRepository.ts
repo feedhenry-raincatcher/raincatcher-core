@@ -24,8 +24,9 @@ export class SampleUserService implements UserService {
     }
   }
   public getProfile(user: any) {
-    delete user.password;
-    return user;
+    const profileData = _.cloneDeep(user);
+    delete profileData.password;
+    return profileData;
   }
 }
 
