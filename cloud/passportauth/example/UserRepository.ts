@@ -31,8 +31,12 @@ export class SampleUserService implements UserService {
     return user.password === password;
   }
 
-  public hasResourceRole(user: any, role: string) {
-    return user.roles.indexOf(role) > -1;
+  public hasResourceRole(user: any, role: string|undefined) {
+    if (role) {
+      return user.roles.indexOf(role) > -1;
+    } else {
+      return true;
+    }
   }
 }
 
@@ -44,7 +48,7 @@ export class SampleUserRepository implements UserRepository {
    * A sample get user using a login id from a data source
    */
   public getUserByLogin(loginId: string, callback: (err?: Error, user?: any) => any) {
-    const userFound = _.find(userSeedData, function(user) {
+    const userFound = _.find(userSeedData, function(user: any) {
       if (user.username === loginId) {
         return user;
       }

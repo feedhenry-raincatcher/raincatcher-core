@@ -121,9 +121,11 @@ export class PassportAuth implements EndpointSecurity {
   }
 
   /**
-   *  Creates a middleware for authentication purposes that will base on JWT tokens
+   * Creates a middleware for authentication purposes that will base on JWT tokens.
+   * This will send back a status of 200 with the token and user profile on successful authentcation,
+   * otherwise it sends a status of 401.
    *
-   * @param secret JWT token secret used to create token
+   * @param secret - secret used to sign the JWT token
    * @param userService - UserService custom implementation
    * @param userRepo - UserRepository custom implementation
    */
