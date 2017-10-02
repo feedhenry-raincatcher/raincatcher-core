@@ -45,6 +45,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
 const sessionRouter = express.Router();
 sessionAuthService.init(sessionRouter, sessionOpts);
 
+// Setup routes to be used for session based authentication
 sessionRouter.get('/session-login', (req: express.Request, res: express.Response) => {
   res.sendFile(path.join(__dirname, 'public/session-login.html'));
 });
@@ -79,6 +80,7 @@ const tokenRouter = express.Router();
 const secret = 'demo_secret';
 tokenAuthService.init(tokenRouter, undefined, secret);
 
+// Setup routes to be used for token based authentication
 tokenRouter.get('/token-login', (req: express.Request, res: express.Response) => {
   res.sendFile(path.join(__dirname, 'public/token-login.html'));
 });

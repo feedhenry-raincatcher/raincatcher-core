@@ -23,7 +23,7 @@ authService.init(router, undefined, secret);
 In order to use cookie-based authentication, specify the sessionOptions.
 - For more information about the available express session options, see  [express-session](https://github.com/expressjs/session).
 
-Without the sessionOptions, Passport will use token-based authentication using Passport's JWT strategy by default.
+When the sessionOptions is not passed, Passport will use token-based authentication using Passport's JWT strategy by default.
 - Ensure that a secret is defined to be used by Passport's JWT strategy.
 
 ### Usage
