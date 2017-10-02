@@ -134,7 +134,8 @@ export class PassportAuth implements EndpointSecurity {
           if (user && userService.validatePassword(user, req.body.password)) {
             const payload = req.body.username;
             const token = jwt.sign(payload, secret);
-            return res.status(200).json({ 'token': token, 'profile': user });
+            const profile = userService.getProfile(user);
+            return res.status(200).json({ 'token': token, 'profile': profile });
           }
           return res.status(401).send();
         };
