@@ -1,7 +1,7 @@
 #!/bin/bash
 ## Script for generating core modules documentation
 
-VERSION=0.0.1
+VERSION=1.0.0
 DOC_FOLDER=docs
 DOCS_LOCATION=$DOC_FOLDER/api
 DOC_PATH=../../$DOCS_LOCATION
@@ -24,13 +24,4 @@ echo "Rename root folder"
 cd $DOCS_LOCATION
 mv @raincatcher $VERSION
 
-echo "Pushing changes to github"
-cd $DOC_FOLDER
-git checkout -b $DOCS_BRANCH
-git add --all
-git commit -m"RainCatcher API update $VERSION"
-git push origin +$DOCS_BRANCH:$DOCS_BRANCH
-
-echo "Creating pull request using hub."
-echo "If you do not have hub installed do that manually"
-hub compare $DOCS_BRANCH 2> /dev/null
+echo "Documentation was generated. Please continue website relase directly in documentation repository"
