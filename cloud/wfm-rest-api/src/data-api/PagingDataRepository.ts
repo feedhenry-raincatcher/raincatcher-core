@@ -31,20 +31,20 @@ export interface PagingDataRepository<T> {
    * Get specific item from database
    * @param id - object id
    */
-  get(id: string): Promise<T>;
+  get(id: string): Promise<T|undefined>;
 
   /**
    * Store object in database
    * @param object - object to store
    */
-  create(object: T): Promise<T>;
+  create(object: T): Promise<T|undefined>;
 
   /**
    * Update object
    * @param object - object to update
    * Note: id field of the object will be used to determine what should be updated
    */
-  update(object: T): Promise<T>;
+  update(object: T): Promise<T|undefined>;
 
   /**
    * Delete object from database
