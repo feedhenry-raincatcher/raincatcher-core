@@ -26,8 +26,9 @@ var config = {
     /// Redis session store configuration
     // https://github.com/tj/connect-redis
     "redisStore": {
-      "url": getRedisUrl(),
-      "prefix": "rc-session:",
+      "host": getRedisHost(),
+      "port": getRedisPort(),
+      "prefix": "rcsession:",
       "logErrors": true
     },
     // Configuration for express session (used for both passport and keycloak)

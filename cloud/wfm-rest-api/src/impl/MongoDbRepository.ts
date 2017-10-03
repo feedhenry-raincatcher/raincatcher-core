@@ -45,14 +45,14 @@ export class MongoDbRepository<T extends {
     }
   }
 
-  public get(id: string): Bluebird<T> {
+  public get(id: string): Bluebird<T|null> {
     if (!this.db) {
       return Bluebird.reject(dbError);
     }
     return Bluebird.resolve(this.collection.findOne({ id })).catch(this.handleError);
   }
 
-  public create(object: T): Bluebird<T> {
+  public create(object: T): Bluebird<T|null> {
     object.id = object.id || generate();
     if (!this.db) {
       return Bluebird.reject(dbError);
@@ -64,7 +64,7 @@ export class MongoDbRepository<T extends {
       .catch(this.handleError);
   }
 
-  public update(object: T): Bluebird<T> {
+  public update(object: T): Bluebird<T|null> {
     if (!this.db) {
       return Bluebird.reject(dbError);
     }
