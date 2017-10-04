@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/wfm-rest-api",
-  "version": "0.0.5",
+  "version": "0.1.1",
   "description": "Module used for building a RESTful api on top of the WFM solution",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",

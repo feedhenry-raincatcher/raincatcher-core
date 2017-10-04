@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/auth-passport",
-  "version": "0.0.5",
+  "version": "0.1.1",
   "description": "Passport authentication module",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
