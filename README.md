@@ -35,6 +35,8 @@ http://raincatcher.feedhenry.io/docs
 To run demo application please follow instructions from
 our [Reference User Interface](https://github.com/feedhenry-raincatcher/raincatcher-angularjs) repository.
 
+To contribute your changes, check the [Contribution Guide](./CONTRIBUTING.md) for instructions.
+
 ## Developing core components
 
 RainCatcher supports and is tested on node v 6.x LTS.
