@@ -5,7 +5,7 @@
   "types": "src/index.ts",
   "main": "src/index.js",
   "author": "feedhenry-raincatcher@redhat.com",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "scripts": {
     "clean": "del coverage_report src/*.js src/**/*.js src/**/**/*.js src/*.map src/**/*.map src/**/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",

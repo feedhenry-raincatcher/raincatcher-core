@@ -4,7 +4,7 @@
   "description": "Module responsible for user management",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "main": "src/",
   "scripts": {
     "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",

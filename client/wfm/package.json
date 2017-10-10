@@ -4,7 +4,7 @@
   "description": "Set of WorkForce Management tools",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "main": "src/",
   "scripts": {
     "clean": "del src/*.js src/*.map src/**/*.js src/**/*.map test/*.js test/*.map test/**/*.js test/**/*.map",
