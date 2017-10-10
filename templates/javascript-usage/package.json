@@ -4,7 +4,7 @@
   "description": "Example of using TypeScript modules from JS code",
   "main": "lib/index.js",
   "author": "feedhenry-raincatcher@redhat.com",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "scripts": {
     "clean": "del coverage_report",
     "test": "nyc mocha",

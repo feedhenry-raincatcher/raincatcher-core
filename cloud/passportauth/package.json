@@ -4,7 +4,7 @@
   "description": "Passport authentication module",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "main": "src/",
   "scripts": {
     "clean": "del src/*.js src/**/*.js src/*.map src/**/*.map test/*.js test/**/*.js test/*.map test/**/*.map",
