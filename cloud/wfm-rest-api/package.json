@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/wfm-rest-api",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Module used for building a RESTful api on top of the WFM solution",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
@@ -36,8 +36,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@raincatcher/logger": "0.0.1",
-    "@raincatcher/wfm": "0.0.5",
+    "@raincatcher/logger": "1.0.0",
+    "@raincatcher/wfm": "1.0.0",
     "bluebird": "^3.5.0",
     "express": "^4.15.4",
     "lodash": "^4.17.4",
