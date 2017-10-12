@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/logger",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Logger facade used by RainCatcher modules",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
