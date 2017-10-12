@@ -35,7 +35,7 @@ http://raincatcher.feedhenry.io/docs
 To run demo application please follow instructions from
 our [Reference User Interface](https://github.com/feedhenry-raincatcher/raincatcher-angularjs) repository.
 
-To contribute your changes, check the [Contribution Guide](./CONTRIBUTING.md) for instructions.
+To contribute your changes, check the [Contribution Guide](./CONTRIBUTING.md) for instructions and also refer to the [Code of Conduct](./CODE_OF_CONDUCT.md) document to understand the commitments done on the part of the contributors and the core team.
 
 ## Developing core components
 
