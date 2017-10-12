@@ -62,7 +62,7 @@ export class PassportAuth implements EndpointSecurity {
    */
   public protect(role?: string) {
     const self = this;
-    return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    return (req: any, res: express.Response, next: express.NextFunction) => {
       if (req.headers && req.headers.authorization) {
         getLogger().info('Token based authentication and authorization');
         return self.passport.authenticate('jwt', { session: false }, function(err, user) {
@@ -104,7 +104,7 @@ export class PassportAuth implements EndpointSecurity {
    */
   public authenticate(strategy: string, options?: AuthenticateOptions) {
     const self = this;
-    return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    return (req: any, res: express.Response, next: express.NextFunction) => {
       if (!req.headers.authorization && req.isAuthenticated() && req.session) {
         const redirectUrl = req.session.returnTo || req.session.clientURL;
         if (redirectUrl) {
@@ -152,7 +152,7 @@ export class PassportAuth implements EndpointSecurity {
    * Handler for access denied responses in the event that a user is not authorized to access
    * a resource. This method can be overridden to provide a custom access denied handler
    */
-  protected accessDenied(req: express.Request, res: express.Response) {
+  protected accessDenied(req: any, res: express.Response) {
     res.status(403).send();
   }
 
@@ -160,7 +160,7 @@ export class PassportAuth implements EndpointSecurity {
    * Sets the url to return to after successful login.
    * This method can be overridden to provide a custom URL to return to
    */
-  protected setReturnToUrl(req: express.Request) {
+  protected setReturnToUrl(req: any) {
     if (req.headers && req.headers.referer) {
       return req.headers.referer;
     }
