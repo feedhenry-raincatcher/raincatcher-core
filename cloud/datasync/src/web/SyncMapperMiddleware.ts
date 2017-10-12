@@ -16,7 +16,7 @@ const logger = getLogger();
  * @param explicit - reject other query parameters and filter only by user field
  */
 export function userMapperMiddleware(dataset: string, fieldName: string, explicit?: boolean) {
-  const middleware = function(req: express.Request, res: express.Response, next) {
+  const middleware = function(req: any, res: express.Response, next) {
     // Execute only when session contains user information
     if (req.user) {
       if (req.body.dataset_id === dataset && req.body.query_params) {
