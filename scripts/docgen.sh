@@ -14,11 +14,11 @@ echo "Cloning docs repository"
 git clone --depth 1 git@github.com:feedhenry-raincatcher/raincatcher-docs.git $DOC_FOLDER
 
 echo "Generate documentation for packages"
-lerna exec --ignore @raincatcher/logger --ignore @raincatcher/demo-server  -- typedoc --out docs/ --excludePrivate --excludeExternals --theme minimal
+lerna exec --ignore @raincatcher/demo-server  -- typedoc --out docs/ --excludePrivate --excludeExternals --theme minimal
 
 echo "Copy documentation"
-lerna exec --ignore @raincatcher/logger --ignore @raincatcher/demo-server --  mkdir -p $DOC_PATH/\$LERNA_PACKAGE_NAME
-lerna exec --ignore @raincatcher/logger --ignore @raincatcher/demo-server --  cp -Rf ./docs $DOC_PATH/\$LERNA_PACKAGE_NAME
+lerna exec --ignore @raincatcher/demo-server --  mkdir -p $DOC_PATH/\$LERNA_PACKAGE_NAME
+lerna exec --ignore @raincatcher/demo-server --  cp -Rf ./docs $DOC_PATH/\$LERNA_PACKAGE_NAME
 
 echo "Rename root folder"
 cd $DOCS_LOCATION
