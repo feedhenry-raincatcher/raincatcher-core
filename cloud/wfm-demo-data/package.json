@@ -8,7 +8,7 @@
   "main": "src/",
   "scripts": {
     "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
-    "build": "tsc",
+    "build": "tsc"
   },
   "nyc": {
     "include": [
