@@ -8,8 +8,7 @@
   "main": "src/",
   "scripts": {
     "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
-    "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "build": "tsc"
   },
   "nyc": {
     "include": [

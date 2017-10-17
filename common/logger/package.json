@@ -9,7 +9,6 @@
   "scripts": {
     "clean": "del src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
-    "start": "ts-node src/index.ts",
     "test": "npm run clean && nyc mocha",
     "example": "ts-node example/index.ts"
   },

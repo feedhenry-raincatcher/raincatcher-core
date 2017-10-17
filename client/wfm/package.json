@@ -9,7 +9,6 @@
   "scripts": {
     "clean": "del src/*.js src/*.map src/**/*.js src/**/*.map test/*.js test/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
-    "start": "ts-node src/index.ts",
     "test": "nyc mocha",
     "debug": "node --inspect-brk ./node_modules/.bin/_mocha",
     "debug-legacy": "node --debug-brk ./node_modules/.bin/_mocha"

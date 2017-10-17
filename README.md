@@ -160,9 +160,10 @@ See the example on [examples/js]() for more information also for reusing the uni
 
 - `npm run test` - run unit tests
 - `npm run bootstrap` - perform boostrap for all modules
-- `npm run start` - run top level applications
-- `npm run lint` - execute tslint for all modules
 - `npm run build` - execute the build command for all modules, compiling TypeScript sources to JavaScript
+- `npm run start:ts` - run top level applications from the TypeScript sources
+- `npm run start` - run top level applications from the compile JavaScript, you must run `npm run build` before this command
+- `npm run lint` - execute tslint for all modules
 - `npm run cleanInstall` - perform install without executing additional scripts
 
 #### Publishing
