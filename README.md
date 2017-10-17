@@ -164,6 +164,8 @@ See the example on [examples/js]() for more information also for reusing the uni
 - `npm run lint` - execute tslint for all modules
 - `npm run build` - execute the build command for all modules, compiling TypeScript sources to JavaScript
 - `npm run cleanInstall` - perform install without executing additional scripts
+- `npm run update:check` - check for updates in all the existing packages in the repository
+- `npm run update:run` - execute updates and rewrite the `package.json` in all the existing packages in the repository
 
 #### Publishing
 

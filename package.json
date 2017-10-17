@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "lerna run test",
-    "test-ci": "npm-run-all test coverage:*",
+    "test-ci": "npm-run-all test coverage:* update:check",
     "coverage:create-file": "echo '' > ./coverage_report/coverage_merged.info",
     "coverage:merge-reports": "lcov-result-merger './coverage_report/*/lcov.info' './coverage_report/coverage_merged.info'",
     "coverage:upload-coveralls": "cat ./coverage_report/coverage_merged.info | coveralls",
@@ -24,7 +24,9 @@
     "publish:dry": "npm run publish:prepare && lerna publish --skip-npm --skip-git --canary --yes",
     "publish:test": "./scripts/test-publish.sh",
     "publish:full": "npm run publish:prepare && lerna publish",
-    "publish:demo-server": "lerna clean --yes && lerna bootstrap && lerna run build --scope='@raincatcher/demo-server' && NODE_DEBUG=gh-pages node ./scripts/publish-app server --push true"
+    "publish:demo-server": "lerna clean --yes && lerna bootstrap && lerna run build --scope='@raincatcher/demo-server' && NODE_DEBUG=gh-pages node ./scripts/publish-app server --push true",
+    "update:check": "lerna exec --concurrency 1 -- ncu",
+    "update:run": "lerna exec -- ncu -u"
   },
   "repository": {
     "type": "git",
@@ -42,6 +44,7 @@
     "gh-pages": "^1.0.0",
     "lcov-result-merger": "^1.2.0",
     "lerna": "^2.0.0-rc.5",
+    "npm-check-updates": "^2.13.0",
     "npm-run-all": "^4.0.2",
     "opn-cli": "^3.1.0",
     "tslint": "^5.4.3",
