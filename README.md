@@ -165,6 +165,8 @@ See the example on [examples/js]() for more information also for reusing the uni
 - `npm run start` - run top level applications from the compile JavaScript, you must run `npm run build` before this command
 - `npm run lint` - execute tslint for all modules
 - `npm run cleanInstall` - perform install without executing additional scripts
+- `npm run update:check` - check for updates in all the existing packages in the repository
+- `npm run update:run` - execute updates and rewrite the `package.json` in all the existing packages in the repository
 
 #### Publishing
 
