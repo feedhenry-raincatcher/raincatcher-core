@@ -8,10 +8,18 @@ For more information about the FeedHenry project, visit
 ## Asking for help
 
 Whether you're contributing a new feature or bug fix, or simply submitting a
-ticket, the FeedHenry team is available for technical advice or feedback.
-You can reach us at #feedhenry and #feedhenry-raincatcher on [Freenode IRC](https://freenode.net/) or the
+ticket, the RainCatcheer team is available for technical advice or feedback.
+You can reach us at [gitter chat](https://gitter.im/FeedhenryRaincatcher/Lobby) or the
 [feedhenry-raincatcher list](https://www.redhat.com/mailman/listinfo/feedhenry-raincatcher)
 -- both are actively monitored.
+
+
+## Best practices
+
+- Bugfixes should contain only changes that are related to the purpose of the bug
+- Description should contain explaination for proposed changes
+- It's recomended to consult feature requests with the team before starting implementation
+- Send us message on chat or email if you need assistance with any work. 
 
 ## Getting started
 
