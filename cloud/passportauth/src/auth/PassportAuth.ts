@@ -45,7 +45,7 @@ export class PassportAuth implements EndpointSecurity {
         throw Error('Missing JWT secret');
       }
       this.jwtOpts = {
-        jwtFromRequest: ExtractJwt.fromAuthHeader(),
+        jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
         secretOrKey: secret
       };
       app.use(this.passport.initialize());
