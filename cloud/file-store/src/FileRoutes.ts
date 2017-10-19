@@ -1,7 +1,8 @@
+import { getLogger } from '@raincatcher/logger';
 import { Router } from 'express';
 import uuid from 'uuid-js';
-import { FileStorage } from '../file-api/FileStorage';
-import fileService from './services/File';
+import { FileStorage } from './file-api/FileStorage';
+import * as fileService from './services/FileService';
 
 /**
  * Create express based router router for fileService
@@ -22,8 +23,8 @@ function initRouter(storageEngine: FileStorage) {
     };
     const stream = fileService.parseBase64Stream(req);
     fileService.writeStreamToFile(fileMeta, stream).then(function() {
-      const location = fileService.filePath(fileMeta.id);
-      return storageEngine.writeFile(fileMeta.namespace, fileMeta.id, location);
+      const location = fileService.buildFilePath(fileMeta.id);
+      return storageEngine.writeFile(fileMeta, location);
     }).then(function() {
       res.json(fileMeta);
     }).catch(function(err) {
@@ -43,12 +44,10 @@ function initRouter(storageEngine: FileStorage) {
   };
 
   router.route('/:filename/binary').post(binaryUploadInitMiddleware, fileService.mutlerMiddleware,
-    function(req, res, next) {
+    function(req: any, res, next) {
       const fileMeta = req.fileMeta;
       const location = fileService.filePath(fileMeta.uid);
       storageEngine.writeFile(fileMeta.namespace, fileMeta.uid, location).then(function() {
-        return mediatorService.createFileMetadata(fileMeta);
-      }).then(function() {
         res.json(fileMeta);
       }).catch(function(err) {
         console.log(err);
