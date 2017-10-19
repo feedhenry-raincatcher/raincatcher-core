@@ -1,0 +1,27 @@
+<?xml version='1.0'?>
+<licenseSummary>
+    <project>raincatcher</project>
+    <version>1.0.0</version>
+    <dependencies>
+        <dependency>
+            <packageName>tslint</packageName>
+            <version>^5.6.0</version>
+            <licenses>
+                <license>
+                    <name>Apache License 2.0</name>
+                    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+                </license>
+            </licenses>
+        </dependency>
+        <dependency>
+            <packageName>typescript</packageName>
+            <version>^2.5.0</version>
+            <licenses>
+                <license>
+                    <name>Apache License 2.0</name>
+                    <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+                </license>
+            </licenses>
+        </dependency>
+    </dependencies>
+</licenseSummary>
