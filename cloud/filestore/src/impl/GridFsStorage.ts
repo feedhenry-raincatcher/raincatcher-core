@@ -1,5 +1,6 @@
 import { getLogger } from '@raincatcher/logger';
 import * as BlueBird from 'bluebird';
+import * as fs from 'fs';
 import * as gridfs from 'gridfs-stream';
 import * as mongo from 'mongodb';
 import { MongoClient } from 'mongodb';

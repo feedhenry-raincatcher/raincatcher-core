@@ -10,7 +10,7 @@ import * as fileService from './services/FileService';
  * @param {FileStorage} storageEngine - engine used to store files
  * @returns router instance of express router
  */
-function initRouter(storageEngine: FileStorage) {
+export function createRouter(storageEngine: FileStorage) {
   const router = Router();
 
   router.route('/:filename').post(function(req, res, next) {
@@ -28,6 +28,7 @@ function initRouter(storageEngine: FileStorage) {
     }).then(function() {
       res.json(fileMeta);
     }).catch(function(err) {
+      getLogger().error(err);
       next(err);
     });
   });
@@ -35,7 +36,6 @@ function initRouter(storageEngine: FileStorage) {
   const binaryUploadInitMiddleware = function(req, res, next) {
     req.fileMeta = {};
     req.fileMeta.id = uuid.create().toString();
-    req.fileMeta.uid = req.fileMeta.id;
     req.fileMeta.name = req.body.fileName;
     req.fileMeta.namespace = req.body.namespace;
     req.fileMeta.owner = req.body.ownerId;
@@ -46,11 +46,11 @@ function initRouter(storageEngine: FileStorage) {
   router.route('/:filename/binary').post(binaryUploadInitMiddleware, fileService.mutlerMiddleware,
     function(req: any, res, next) {
       const fileMeta = req.fileMeta;
-      const location = fileService.filePath(fileMeta.uid);
-      storageEngine.writeFile(fileMeta.namespace, fileMeta.uid, location).then(function() {
+      const location = fileService.buildFilePath(fileMeta.id);
+      storageEngine.writeFile(fileMeta, location).then(function() {
         res.json(fileMeta);
       }).catch(function(err) {
-        console.log(err);
+        getLogger().error(err);
         next(err);
       });
     });
@@ -62,7 +62,7 @@ function initRouter(storageEngine: FileStorage) {
       if (buffer) {
         buffer.pipe(res);
       } else {
-        res.sendFile(fileService.filePath(fileName));
+        res.sendFile(fileService.buildFilePath(fileName));
       }
     });
   });
