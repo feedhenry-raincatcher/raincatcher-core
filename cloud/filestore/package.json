@@ -1,5 +1,5 @@
 {
-  "name": "@raincatcher/file-store",
+  "name": "@raincatcher/filestore",
   "version": "1.0.0",
   "description": "RainCatcher file storage server",
   "types": "src/index.ts",

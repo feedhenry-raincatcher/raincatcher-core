@@ -67,4 +67,3 @@ export class GridFsStorage implements FileStorage {
     });
   }
 }
-
