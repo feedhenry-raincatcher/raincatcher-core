@@ -10,7 +10,7 @@ import { uploadDataUrl } from './UriFileUpload';
 export class FileManager {
   private uploadQueue;
 
-  public constructor(private baseUrl: string, private httpService, name: string) {
+  public constructor(private serverUrl: string, private httpService, name: string) {
     this.uploadQueue = new FileQueue(window.localStorage, name);
     // Start processing uploads on startup
     this.startProcessingUploads();
@@ -66,9 +66,9 @@ export class FileManager {
    */
   public createFile(file) {
     if (file.fileURI && file.options) {
-      return uploadFile(this.baseUrl, file.userId, file.fileURI, file.options);
+      return uploadFile(this.serverUrl, file.fileURI);
     } else if (file.dataUrl) {
-      return uploadDataUrl(this.baseUrl, this.httpService, file.userId, file.dataUrl);
+      return uploadDataUrl(this.serverUrl, this.httpService, file.userId, file.dataUrl);
     } else {
       return Bluebird.reject('Missing required fields for file object');
     }
