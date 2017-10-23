@@ -18,7 +18,7 @@ export class WfmRestApi {
   private workflowService: MongoDbRepository<WorkFlow>;
 
   constructor(userConfig?: Partial<ApiConfig>) {
-    this.config = _.defaults<ApiConfig>(defaultConfiguration, userConfig);
+    this.config = _.defaults(defaultConfiguration, userConfig);
     this.createWFMServices();
   }
 
