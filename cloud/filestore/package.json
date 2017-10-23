@@ -51,7 +51,6 @@
     "base64-stream": "0.1.3",
     "bluebird": "^3.5.1",
     "express": "4.15.2",
-    "fh-wfm-mediator": "0.3.3",
     "gridfs-stream": "^1.1.1",
     "lodash": "4.17.4",
     "mongodb": "^2.2.25",
