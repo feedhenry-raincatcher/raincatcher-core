@@ -12,7 +12,6 @@ import * as fileService from './services/FileService';
  */
 export function createRouter(storageEngine: FileStorage) {
   const router = Router();
-
   router.route('/:filename').post(function(req, res, next) {
     const id = uuid.create().toString();
     const fileMeta = {
