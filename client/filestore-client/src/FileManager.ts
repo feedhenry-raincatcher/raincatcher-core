@@ -11,7 +11,7 @@ export class FileManager {
   private uploadQueue;
 
   public constructor(private baseUrl: string, private httpService, name: string) {
-    this.uploadQueue = new FileQueue(name);
+    this.uploadQueue = new FileQueue(window.localStorage, name);
     // Start processing uploads on startup
     this.startProcessingUploads();
     // Listen when client becomes online for uploads
@@ -26,13 +26,7 @@ export class FileManager {
     const self = this;
     if (queueItems && queueItems.length > 0) {
       console.info('Processing offline file queue. Number of items to save: ', queueItems.length);
-      let promise = this.saveFile(queueItems[0]).then(function() {
-        _.each(queueItems, function(item) {
-          promise = promise.then(function() {
-            return self.saveFile(item);
-          });
-        });
-      });
+      return Bluebird.map(queueItems, file => self.saveFile(file), { concurrency: 1 });
     } else {
       console.info('Offline file queue is empty');
     }

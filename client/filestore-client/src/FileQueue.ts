@@ -11,7 +11,7 @@ export class FileQueue {
   // TODO interface for datatype
   private queueData: any[];
 
-  public constructor(name: string) {
+  public constructor(private localStorage, name: string) {
     this.queueName = name;
     this.queueData = [];
   }
@@ -24,7 +24,7 @@ export class FileQueue {
     const toSave = JSON.stringify({
       queue: this.queueData
     });
-    localStorage.setItem(this.queueName, toSave);
+    this.localStorage.setItem(this.queueName, toSave);
     return this;
   }
 
@@ -33,7 +33,7 @@ export class FileQueue {
    * @return queue
    */
   public restoreData() {
-    const queueDataString = localStorage.getItem(this.queueName);
+    const queueDataString = this.localStorage.getItem(this.queueName);
     if (queueDataString) {
       const queueData = JSON.parse(queueDataString);
       this.queueData = queueData.queue;
