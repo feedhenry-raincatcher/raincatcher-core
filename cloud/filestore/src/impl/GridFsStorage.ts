@@ -20,17 +20,19 @@ export class GridFsStorage implements FileStorage {
    * @param mongoConnectionURl - MongoDB connection url
    */
   constructor(mongoConnectionUrl: string) {
+    const self = this;
     MongoClient.connect(mongoConnectionUrl, function(err, connection) {
       if (err) {
         getLogger().error('Cannot connect to mongodb server. Gridfs storage will be disabled');
         return;
       }
-      this.gridFileSystem = gridfs(connection, mongo);
+      self.gridFileSystem = gridfs(connection, mongo);
     });
   }
 
   public writeFile(metadata: FileMetadata, fileLocation: string): Promise<any> {
-    if (this.gridFileSystem) {
+    const self = this;
+    if (!self.gridFileSystem) {
       return BlueBird.reject('Not initialized');
     }
     const options = {
@@ -38,7 +40,7 @@ export class GridFsStorage implements FileStorage {
       filename: metadata.id
     };
     return new BlueBird(function(resolve, reject) {
-      const writeStream = this.gridFileSystem.createWriteStream(options);
+      const writeStream = self.gridFileSystem.createWriteStream(options);
       writeStream.on('error', function(err) {
         getLogger().error('An error occurred!', err);
         reject(err);
@@ -51,7 +53,8 @@ export class GridFsStorage implements FileStorage {
   }
 
   public streamFile(namespace: string, fileName: string): Promise<any> {
-    if (this.gridFileSystem) {
+    const self = this;
+    if (!self.gridFileSystem) {
       return BlueBird.reject('Not initialized');
     }
     const options = {
@@ -59,7 +62,7 @@ export class GridFsStorage implements FileStorage {
       root: namespace
     };
     return new BlueBird(function(resolve, reject) {
-      const readstream = this.gridFileSystem.createReadStream(options);
+      const readstream = self.gridFileSystem.createReadStream(options);
       readstream.on('error', function(err) {
         getLogger().error('An error occurred when reading file from gridfs!', err);
         reject(err);

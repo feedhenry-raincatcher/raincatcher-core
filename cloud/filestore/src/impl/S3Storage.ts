@@ -67,7 +67,7 @@ export class LocalStorage implements FileStorage {
         Key: file
       }
     };
-    let uploader = this.awsClient.uploadFile(params);
+    const uploader = this.awsClient.uploadFile(params);
     return new BlueBird(function(resolve, reject) {
       uploader.on('error', function(err) {
         getLogger().error('An error occurred when reading file from s3', err);
