@@ -14,11 +14,7 @@ export function buildCameraOptions(cordovaCamera): CameraOptions {
     "encodingType": cordovaCamera.EncodingType.JPEG,
     "mediaType": cordovaCamera.MediaType.PICTURE,
     "allowEdit": true,
-    "correctOrientation": true,  // corrects Android orientation quirks
-
-    // Mostly for browser testing, These should be removed/altered on device
-    "targetWidth": 100,
-    "targetHeight": 100
+    "correctOrientation": true // corrects Android orientation quirks
   };
 
   return options;
