@@ -63,6 +63,7 @@
     "@raincatcher/auth-passport": "0.0.5",
     "@raincatcher/datasync-cloud": "0.0.5",
     "@raincatcher/express-auth": "0.0.5",
+    "@raincatcher/filestore": "1.0.0",
     "@raincatcher/logger": "0.0.1",
     "@raincatcher/wfm-demo-data": "0.0.5",
     "@raincatcher/wfm-rest-api": "0.0.5",
