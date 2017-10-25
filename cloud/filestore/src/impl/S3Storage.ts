@@ -121,4 +121,3 @@ export class LocalStorage implements FileStorage {
     }
   }
 }
-
