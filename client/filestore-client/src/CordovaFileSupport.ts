@@ -1,9 +1,9 @@
 import * as Bluebird from 'bluebird';
 
 /**
- * @param url
- * @param fileId
- */
+* @param url
+* @param fileId
+*/
 export function downloadFileFromServer(url, fileId) {
   window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
     console.info('file system open: ' + fs.name);
@@ -36,33 +36,39 @@ export function downloadFileFromServer(url, fileId) {
 }
 
 /**
- * Upload file using local file URI. Used for uploads on mobile devices (cordova based)
- */
-export function uploadFile(url, fileURI) {
+* Upload file using local file URI. Used for uploads on mobile devices (cordova based)
+*/
+export function uploadFile(url, fileURI): Promise<Response> {
   if (arguments.length < 2) {
     return Bluebird.reject('userId and fileURI parameters are required.');
-  } else {
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fs) {
-      console.info('file system open: ' + fs.name);
-      // TODO support metadata here
-      fs.root.getFile(fileURI, { create: true, exclusive: false }, function(fileEntry) {
-        fileEntry.file(function(file) {
-          const reader = new FileReader();
-          reader.onloadend = function() {
-            // Create a blob based on the FileReader 'result', which we asked to be retrieved as an ArrayBuffer
-            const blob = new Blob([new Uint8Array(this.result)], { type: 'image/png' });
-            const oReq = new XMLHttpRequest();
-            oReq.open('POST', url, true);
-            oReq.onload = function(oEvent) {
-              // all done!
-            };
-            // Pass the blob in to XHR's send method
-            oReq.send(blob);
-          };
-          // Read the file as an ArrayBuffer
-          reader.readAsArrayBuffer(file);
-        }, function(err) { console.error('error getting fileentry file!' + err); });
-      }, function(err) { console.error('error getting file! ' + err); });
-    }, function(err) { console.error('error getting persistent fs! ' + err); });
   }
+  
+  return new Bluebird<FileSystem>((resolve, reject)=> {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, resolve, function(err) {
+      reject(new Error('error getting persistent fs! ' + err));
+    });
+  }).then(function(fs) {
+    // TODO support metadata here
+    return new Bluebird<FileEntry>((resolve, reject) => 
+    fs.root.getFile(fileURI, { create: false, exclusive: false }, resolve, reject));
+  }).then(function(fileEntry) {
+    return new Bluebird<Response>(function(resolve, reject) {
+      fileEntry.file(function(file) {
+        const reader = new FileReader();
+        reader.addEventListener("loadend", function() {
+          // Create a blob based on the FileReader 'result', which we asked to be retrieved as an ArrayBuffer
+          const blob = new Blob([new Uint8Array(this.result)], { type: 'image/jpg' });
+          const data = new FormData();
+          // data.append("other metadata", "Hello wtrocki!");
+          data.append("file", blob);
+          return fetch(url, {
+            method: 'post',
+            body: data
+          }).then(resolve).catch(reject);
+        });
+        // Read the file as an ArrayBuffer
+        reader.readAsArrayBuffer(file);
+      }, reject);
+    });
+  });
 }
