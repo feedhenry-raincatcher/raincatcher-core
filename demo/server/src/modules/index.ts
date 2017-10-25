@@ -1,6 +1,7 @@
 import { SyncExpressMiddleware, userMapperMiddleware } from '@raincatcher/datasync-cloud';
 import SyncServer, { SyncApi, SyncOptions } from '@raincatcher/datasync-cloud';
 import { EndpointSecurity } from '@raincatcher/express-auth';
+import { createRouter as createFileRouter, FileMetadata, FileStorage, GridFsStorage } from '@raincatcher/filestore';
 import { getLogger } from '@raincatcher/logger';
 import initData from '@raincatcher/wfm-demo-data';
 import { WfmRestApi } from '@raincatcher/wfm-rest-api';
@@ -30,6 +31,7 @@ export function setupModules(app: express.Express) {
   mobileSecurityMiddleware = securitySetup(mobileApp);
   const connectionPromise = syncSetup(mobileApp);
   demoDataSetup(connectionPromise);
+  fileStoreSetup(mobileApp, mobileSecurityMiddleware);
 
   const portalApp = express.Router();
   portalsecurityMiddleware = securitySetup(portalApp, globalSessionOptions);
@@ -92,6 +94,11 @@ function wfmApiSetup(app: express.Router, connectionPromise: Promise<any>) {
     // Fix compilation problem with different version of Db.
     api.setDb(mongo as any);
   });
+}
+
+function fileStoreSetup(app: express.Router, securityMiddleware: EndpointSecurity) {
+  const fileStore: FileStorage = new GridFsStorage(config.mongodb.url);
+  app.use('/file', createFileRouter(fileStore));
 }
 
 function demoDataSetup(connectionPromise: Promise<Db>) {
