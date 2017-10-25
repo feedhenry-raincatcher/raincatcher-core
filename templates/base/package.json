@@ -4,12 +4,11 @@
   "description": "NPM package template for the RainCatcher project",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "main": "src/",
   "scripts": {
     "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
-    "start": "ts-node src/index.ts",
     "test": "npm run clean && nyc mocha"
   },
   "nyc": {

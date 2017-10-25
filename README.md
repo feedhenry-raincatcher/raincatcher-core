@@ -35,6 +35,8 @@ http://raincatcher.feedhenry.io/docs
 To run demo application please follow instructions from
 our [Reference User Interface](https://github.com/feedhenry-raincatcher/raincatcher-angularjs) repository.
 
+To contribute your changes, check the [Contribution Guide](./CONTRIBUTING.md) for instructions and also refer to the [Code of Conduct](./CODE_OF_CONDUCT.md) document to understand the commitments done on the part of the contributors and the core team.
+
 ## Developing core components
 
 RainCatcher supports and is tested on node v 6.x LTS.
@@ -158,10 +160,13 @@ See the example on [examples/js]() for more information also for reusing the uni
 
 - `npm run test` - run unit tests
 - `npm run bootstrap` - perform boostrap for all modules
-- `npm run start` - run top level applications
-- `npm run lint` - execute tslint for all modules
 - `npm run build` - execute the build command for all modules, compiling TypeScript sources to JavaScript
+- `npm run start:ts` - run top level applications from the TypeScript sources
+- `npm run start` - run top level applications from the compile JavaScript, you must run `npm run build` before this command
+- `npm run lint` - execute tslint for all modules
 - `npm run cleanInstall` - perform install without executing additional scripts
+- `npm run update:check` - check for updates in all the existing packages in the repository
+- `npm run update:run` - execute updates and rewrite the `package.json` in all the existing packages in the repository
 
 #### Publishing
 

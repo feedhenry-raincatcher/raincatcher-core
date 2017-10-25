@@ -12,6 +12,7 @@
     "cleanInstall": "lerna exec npm install --ignore-scripts",
     "bootstrap": "lerna bootstrap",
     "start": "lerna run start  --parallel --stream --scope=@raincatcher/demo-*",
+    "start:ts": "lerna run start:ts  --parallel --stream --scope=@raincatcher/demo-*",
     "docs": "./scripts/docgen.sh",
     "lint": "tslint '*/*/src/**/*.ts' '*/*/test/**/*.ts'",
     "build": "lerna run build",
@@ -24,14 +25,16 @@
     "publish:dry": "npm run publish:prepare && lerna publish --skip-npm --skip-git --canary --yes",
     "publish:test": "./scripts/test-publish.sh",
     "publish:full": "npm run publish:prepare && lerna publish",
-    "publish:demo-server": "lerna clean --yes && lerna bootstrap && lerna run build --scope='@raincatcher/demo-server' && NODE_DEBUG=gh-pages node ./scripts/publish-app server --push true"
+    "publish:demo-server": "lerna clean --yes && lerna bootstrap && lerna run build --scope='@raincatcher/demo-server' && NODE_DEBUG=gh-pages node ./scripts/publish-app server --push true",
+    "update:check": "lerna exec --concurrency 1 -- ncu",
+    "update:run": "lerna exec -- ncu -u"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/feedhenry-raincatcher/raincatcher.git"
   },
   "author": "feedhenry-raincatcher@redhat.com",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/feedhenry-raincatcher/raincatcher/issues"
   },
@@ -42,6 +45,7 @@
     "gh-pages": "^1.0.0",
     "lcov-result-merger": "^1.2.0",
     "lerna": "^2.0.0-rc.5",
+    "npm-check-updates": "^2.13.0",
     "npm-run-all": "^4.0.2",
     "opn-cli": "^3.1.0",
     "tslint": "^5.4.3",
