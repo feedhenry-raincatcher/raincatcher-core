@@ -1,6 +1,6 @@
-## Sync integration
+## File store server
 
-Example for fh-sync cloud module integration.
+File
 
 ## Running
 
