@@ -1,6 +1,6 @@
 import { getLogger } from '@raincatcher/logger';
 import { Router } from 'express';
-import uuid from 'uuid-js';
+import uuid = require('uuid-js');
 import { FileStorage } from './file-api/FileStorage';
 import * as fileService from './services/FileService';
 
