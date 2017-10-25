@@ -61,6 +61,8 @@ export class Camera {
           uri,
           userId: "max"
         };
+        // Fire and forget upload for now
+        // TODO: figure out how to report uploads to UI
         self.fileManager.scheduleFileToBeUploaded(file);
         return file;
       });
