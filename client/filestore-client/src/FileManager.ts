@@ -3,9 +3,14 @@ import * as _ from 'lodash';
 import { downloadFileFromServer, uploadFile } from './CordovaFileSupport';
 import { FileQueue } from './FileQueue';
 
+/**
+ * Contains required fields required to save file
+ */
 export interface FileEntry {
-  userId: string,
-  uri: string
+  /**
+   * Uri to local filesystem containing file
+   */
+  uri: string;
 }
 
 /**
@@ -32,8 +37,8 @@ export class FileManager {
 
   /**
    * Add file to upload queue. File would be uploaded depending on internet connectivity.
-   * // TODO Extract interface once we will know what we need to pass from this.
-   * @param file {userId, fileURI,, dataUrl}
+   *
+   * @param file file metadata to be saved
    * @returns {*}
    */
   public scheduleFileToBeUploaded(file: FileEntry) {
