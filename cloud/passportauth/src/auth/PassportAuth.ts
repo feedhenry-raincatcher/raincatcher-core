@@ -64,7 +64,7 @@ export class PassportAuth implements EndpointSecurity {
     const self = this;
     return (req: any, res: express.Response, next: express.NextFunction) => {
       if (req.headers && req.headers.authorization) {
-        getLogger().info('Token based authentication and authorization');
+        getLogger().debug('Token based authentication and authorization');
         return self.passport.authenticate('jwt', { session: false }, function(err, user) {
           if (err || !user) {
             return res.status(401).send();

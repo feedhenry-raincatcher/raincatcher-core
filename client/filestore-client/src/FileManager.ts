@@ -43,12 +43,11 @@ export class FileManager {
    */
   public scheduleFileToBeUploaded(file: FileEntry) {
     const self = this;
-    return this.createFile(file.uri).then(function(result) {
+    return uploadFile(this.serverUrl, file).then(function(result) {
       return Bluebird.resolve(result);
     }).catch(function(err) {
       // Add item to queue
       self.uploadQueue.addItem(file);
-      return Bluebird.resolve('QUEUED');
     });
   }
 
@@ -59,12 +58,11 @@ export class FileManager {
    */
   public scheduleFileToBeDownloaded(fileId: string) {
     const self = this;
-    return this.createFile(fileId).then(function(result) {
+    return downloadFileFromServer(this.serverUrl, fileId).then(function(result) {
       return Bluebird.resolve(result);
     }).catch(function(err) {
       // Add item to queue
       self.uploadQueue.addItem(fileId);
-      return Bluebird.resolve('QUEUED');
     });
   }
 
@@ -81,10 +79,9 @@ export class FileManager {
 
   private startProcessingDownloads() {
     const queueItems = this.downloadQueue.restoreData().getItemList();
-    const self = this;
     if (queueItems && queueItems.length > 0) {
       console.info('Processing offline file upload queue. Number of items to download: ', queueItems.length);
-      Bluebird.map(queueItems, file => self.downloadFile(file), { concurrency: 1 });
+      Bluebird.map(queueItems, file => downloadFileFromServer(this.serverUrl, file), { concurrency: 1 });
     } else {
       console.info('Offline downloads file queue is empty');
     }
@@ -92,31 +89,11 @@ export class FileManager {
 
   private saveFile(queueItem) {
     const self = this;
-    return self.createFile(queueItem).then(function(createdFile) {
-      this.uploadQueue.removeFromQueue(queueItem);
+    return uploadFile(this.serverUrl, queueItem).then(function(createdFile) {
+      self.uploadQueue.removeFromQueue(queueItem);
       console.info('File saved', createdFile);
     });
   }
 
-  /**
-   * Upload file to server.
-   * Function would choose right method depending on parameters.
-   *
-   * @param file {fileURI, dataUrl}
-   * @returns {*}
-   */
-  private createFile(file: string) {
-    return uploadFile(this.serverUrl, file);
-  }
 
-  /**
-   * Upload file to server.
-   * Function would choose right method depending on parameters.
-   *
-   * @param fileId
-   * @returns {*}
-   */
-  private downloadFile(fileId) {
-    return downloadFileFromServer(this.serverUrl, fileId);
-  }
 }

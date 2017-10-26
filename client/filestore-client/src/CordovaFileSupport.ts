@@ -10,14 +10,14 @@ export function downloadFileFromServer(url, fileId) {
     .then(fs => new Bluebird<FileEntry>((resolve, reject) =>
       fs.root.getFile(fileId, { create: true, exclusive: false }, resolve, reject)))
     .then(fileEntry => {
-      return fetch(url).then(response => response.blob()).then(blob => window.URL.createObjectURL(blob));
+      return fetch(url + '/' + fileId).then(response => response.blob()).then(blob => window.URL.createObjectURL(blob));
     });
 }
 
 /**
  * Upload file using local file URI. Used for uploads on mobile devices (cordova based)
  */
-export function uploadFile(url, fileURI): Promise<Response> {
+export function uploadFile(url, fileName): Promise<Response> {
   if (arguments.length < 2) {
     return Bluebird.reject('userId and fileURI parameters are required.');
   }
@@ -25,7 +25,7 @@ export function uploadFile(url, fileURI): Promise<Response> {
   return new Bluebird<FileSystem>((resolve, reject) =>
     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, resolve, reject))
     .then(fs => new Bluebird<FileEntry>((resolve, reject) =>
-      fs.root.getFile(fileURI, { create: false, exclusive: false }, resolve, reject)))
+      fs.root.getFile(fileName, { create: false, exclusive: false }, resolve, reject)))
     .then(fileEntry => new Bluebird<Response>(function(resolve, reject) {
       fileEntry.file(function(file) {
         const reader = new FileReader();
