@@ -2,7 +2,11 @@ import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import { downloadFileFromServer, uploadFile } from './CordovaFileSupport';
 import { FileQueue } from './FileQueue';
-import { uploadDataUrl } from './UriFileUpload';
+
+export interface FileEntry {
+  userId: string,
+  uri: string
+}
 
 /**
  * Manager for file uploads
@@ -12,7 +16,7 @@ export class FileManager {
   private uploadQueue;
   private downloadQueue;
 
-  public constructor(private serverUrl: string, private httpService, name: string) {
+  public constructor(private serverUrl: string, name: string) {
     this.uploadQueue = new FileQueue(window.localStorage, name + '-upload');
     this.downloadQueue = new FileQueue(window.localStorage, name + '-download');
     // Start processing uploads on startup
@@ -32,9 +36,9 @@ export class FileManager {
    * @param file {userId, fileURI,, dataUrl}
    * @returns {*}
    */
-  public scheduleFileToBeUploaded(file: any) {
+  public scheduleFileToBeUploaded(file: FileEntry) {
     const self = this;
-    return this.createFile(file).then(function(result) {
+    return this.createFile(file.uri).then(function(result) {
       return Bluebird.resolve(result);
     }).catch(function(err) {
       // Add item to queue
@@ -93,18 +97,11 @@ export class FileManager {
    * Upload file to server.
    * Function would choose right method depending on parameters.
    *
-   *  // FIXME verify if we need to handle both cases.
    * @param file {fileURI, dataUrl}
    * @returns {*}
    */
-  private createFile(file) {
-    if (file.fileURI) {
-      return uploadFile(this.serverUrl, file.fileURI);
-    } else if (file.dataUrl) {
-      return uploadDataUrl(this.serverUrl, this.httpService, file.dataUrl);
-    } else {
-      return Bluebird.reject('Missing required fields for file object');
-    }
+  private createFile(file: string) {
+    return uploadFile(this.serverUrl, file);
   }
 
   /**
