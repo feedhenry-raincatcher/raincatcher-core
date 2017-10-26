@@ -47,7 +47,7 @@ export class FileManager {
       return Bluebird.resolve(result);
     }).catch(function(err) {
       // Add item to queue
-      self.uploadQueue.addQueueItem(file);
+      self.uploadQueue.addItem(file);
       return Bluebird.resolve('QUEUED');
     });
   }
@@ -63,7 +63,7 @@ export class FileManager {
       return Bluebird.resolve(result);
     }).catch(function(err) {
       // Add item to queue
-      self.uploadQueue.addQueueItem(fileId);
+      self.uploadQueue.addItem(fileId);
       return Bluebird.resolve('QUEUED');
     });
   }
@@ -75,7 +75,7 @@ export class FileManager {
       console.info('Processing offline upload file queue. Number of items to save: ', queueItems.length);
       Bluebird.map(queueItems, file => self.saveFile(file), { concurrency: 1 });
     } else {
-      console.info('Offline file queue is empty');
+      console.info('Offline uploads file queue is empty');
     }
   }
 
@@ -86,7 +86,7 @@ export class FileManager {
       console.info('Processing offline file upload queue. Number of items to download: ', queueItems.length);
       Bluebird.map(queueItems, file => self.downloadFile(file), { concurrency: 1 });
     } else {
-      console.info('Offline file queue is empty');
+      console.info('Offline downloads file queue is empty');
     }
   }
 
