@@ -94,7 +94,7 @@ function wfmApiSetup(app: express.Router, connectionPromise: Promise<any>) {
   });
 }
 
-function demoDataSetup(connectionPromise: Promise<Db>) {
+function demoDataSetup(connectionPromise: Promise<any>) {
   connectionPromise.then(function(mongo: Db) {
     if (config.seedDemoData) {
       initData(mongo);
