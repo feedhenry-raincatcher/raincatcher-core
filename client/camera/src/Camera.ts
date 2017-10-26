@@ -1,46 +1,47 @@
 'use strict';
 
+import { FileEntry, FileManager } from '@raincatcher/filestore-client';
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
-import { FileManager, FileEntry } from '@raincatcher/filestore-client';
 
 import { buildCameraOptions } from './buildCameraOptions';
 
+// tslint:disable-next-line:no-var-requires
 const base64ToBlob: (base64: string, contentType: string) => Blob = require('b64-to-blob');
 
-type optionsBuilderFn = (any) => CameraOptions;
+type optionsBuilderFn = (camera: any) => CameraOptions;
 
 export class Camera {
   private initPromise: Promise<CameraOptions>;
   private fileManager: FileManager;
-  constructor(serverUrl: string , optionsBuilderFunction?: optionsBuilderFn) {
+  constructor(serverUrl: string, optionsBuilderFunction?: optionsBuilderFn) {
     this.fileManager = new FileManager(serverUrl, 'camera');
     this.init(optionsBuilderFunction);
   }
 
-  init(optionsFn?: optionsBuilderFn): Promise<CameraOptions> {
+  public init(optionsFn?: optionsBuilderFn): Promise<CameraOptions> {
     return this.initPromise = new Promise((resolve, reject) => {
       if (!window.navigator.camera) {
         return reject('This module requires the Cordova Camera plugin to be available');
       }
-      document.addEventListener("deviceready", resolve, false);
+      document.addEventListener('deviceready', resolve, false);
     }).then(() => {
       let options = buildCameraOptions(navigator.camera);
       if (_.isFunction(optionsFn)) {
-        var userOptions = optionsFn(navigator.camera);
+        const userOptions = optionsFn(navigator.camera);
         options = _.merge(options, userOptions);
       }
       return options;
     });
-  };
+  }
 
-  cleanup(): Promise<void> {
+  public cleanup(): Promise<void> {
     const cleanup = window.navigator.camera.cleanup;
     return this.initPromise.then(() =>
       new Promise((resolve, reject) => cleanup(resolve, reject)));
-  };
+  }
 
-  capture(): Promise<FileEntry> {
+  public capture(): Promise<FileEntry> {
     const getPicture = window.navigator.camera.getPicture;
     const self = this;
     return this.initPromise.then((cameraOptions) =>
@@ -58,13 +59,12 @@ export class Camera {
       }))
       ).then(function(uri) {
         const file: FileEntry = {
-          uri,
-          userId: "max"
+          uri
         };
         // Fire and forget upload for now
         // TODO: figure out how to report uploads to UI
         self.fileManager.scheduleFileToBeUploaded(file);
         return file;
       });
-  };
+  }
 }
