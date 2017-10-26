@@ -21,10 +21,12 @@ export class Camera {
 
   public init(optionsFn?: optionsBuilderFn): Promise<CameraOptions> {
     return this.initPromise = new Promise((resolve, reject) => {
-      if (!window.navigator.camera) {
-        return reject('This module requires the Cordova Camera plugin to be available');
-      }
-      document.addEventListener('deviceready', resolve, false);
+      document.addEventListener('deviceready', function() {
+        if (!window.navigator.camera) {
+          return reject('This module requires the Cordova Camera plugin to be available');
+        }
+        return resolve();
+      }, false);
     }).then(() => {
       let options = buildCameraOptions(navigator.camera);
       if (_.isFunction(optionsFn)) {
