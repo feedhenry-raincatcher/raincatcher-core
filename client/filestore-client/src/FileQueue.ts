@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-
+import { FileEntry } from './FileManager';
 /**
  * TODO create interface for that
  * Queue implementation backed by browser persistent storage
@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 export class FileQueue {
   private queueName: string;
   // TODO interface for datatype
-  private queueData: any[];
+  private queueData: FileEntry[];
 
   public constructor(private localStorage, name: string) {
     this.queueName = name;
@@ -46,7 +46,7 @@ export class FileQueue {
   /**
    * Get items
    */
-  public getItemList() {
+  public getItemList(): FileEntry[] {
     return this.queueData;
   }
 

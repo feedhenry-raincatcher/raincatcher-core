@@ -23,7 +23,7 @@ export class Camera {
     return this.initPromise = new Promise((resolve, reject) => {
       document.addEventListener('deviceready', function() {
         if (!window.navigator.camera) {
-          return reject('This module requires the Cordova Camera plugin to be available');
+          return reject(new Error('This module requires the Cordova Camera plugin to be available'));
         }
         return resolve();
       }, false);
