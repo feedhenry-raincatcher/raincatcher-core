@@ -23,14 +23,13 @@ export function uploadFile(url: string, fileURI: string): Promise<Response> {
     return Bluebird.reject('userId and fileURI parameters are required.');
   }
 
-  return new Bluebird<FileSystem>((resolve, reject) =>
-    window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, resolve, reject))
-    .then(fs => new Bluebird<FileEntry>((resolve, reject) =>
-      fs.root.getFile(fileURI, { create: false, exclusive: false }, resolve, reject)))
-    .then(fileEntry => new Bluebird<Response>(function(resolve, reject) {
+  return new Bluebird<FileEntry>((resolve, reject) => window.resolveLocalFileSystemURL(fileURI, function(entry) {
+    // bug in the file plugin definition?
+    resolve(entry as FileEntry);
+  }, reject)).then(fileEntry => new Bluebird<Response>(function(resolve, reject) {
       fileEntry.file(function(file) {
         const reader = new FileReader();
-        reader.addEventListener('loadend', function() {
+        reader.onloadend = function() {
           // Create a blob based on the FileReader 'result', which we asked to be retrieved as an ArrayBuffer
           const blob = new Blob([new Uint8Array(this.result)], { type: 'image/jpg' });
           const data = new FormData();
@@ -39,8 +38,7 @@ export function uploadFile(url: string, fileURI: string): Promise<Response> {
             method: 'post',
             body: data
           }).then(resolve).catch(reject);
-        });
-        // Read the file as an ArrayBuffer
+        };
         reader.readAsArrayBuffer(file);
       }, reject);
     }));
