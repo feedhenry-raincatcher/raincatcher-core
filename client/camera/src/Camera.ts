@@ -13,7 +13,7 @@ type optionsBuilderFn = (camera: any) => CameraOptions;
 
 export class Camera {
   private initPromise: Promise<CameraOptions>;
-  constructor(serverUrl: string, optionsBuilderFunction?: optionsBuilderFn) {
+  constructor(optionsBuilderFunction?: optionsBuilderFn) {
     this.init(optionsBuilderFunction);
   }
 
