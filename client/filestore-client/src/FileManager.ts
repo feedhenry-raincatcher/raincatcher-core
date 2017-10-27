@@ -2,16 +2,10 @@ import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import { downloadFileFromServer, uploadFile } from './CordovaFileSupport';
 import { FileQueue } from './FileQueue';
+import { FileQueueEntry } from './FileQueueEntry';
 
-/**
- * Contains required fields required to save file
- */
-export interface FileEntry {
-  /**
-   * Uri to local filesystem containing file
-   */
-  uri: string;
-  id?: string;
+export interface HttpClient {
+  upload: (url: string, data: FormData) => Promise<Response>;
 }
 
 /**
@@ -22,7 +16,7 @@ export class FileManager {
   private uploadQueue: FileQueue;
   private downloadQueue: FileQueue;
 
-  public constructor(private serverUrl: string, name: string) {
+  public constructor(private serverUrl: string, private httpClient: HttpClient, name: string) {
     this.uploadQueue = new FileQueue(window.localStorage, name + '-upload');
     this.downloadQueue = new FileQueue(window.localStorage, name + '-download');
     // Start processing uploads on startup
@@ -42,9 +36,9 @@ export class FileManager {
    * @param file file metadata to be saved
    * @returns {*}
    */
-  public scheduleFileToBeUploaded(file: FileEntry) {
+  public scheduleFileToBeUploaded(file: FileQueueEntry) {
     const self = this;
-    return uploadFile(this.serverUrl, file.uri).then(function(result) {
+    return uploadFile(this.serverUrl, file, this.httpClient.upload).then(function(result) {
       return Bluebird.resolve(result);
     }).catch(function(err) {
       // Add item to queue
@@ -57,7 +51,7 @@ export class FileManager {
    *
    * @returns {*}
    */
-  public scheduleFileToBeDownloaded(file: FileEntry) {
+  public scheduleFileToBeDownloaded(file: FileQueueEntry) {
     const self = this;
     if (file.id) {
       return downloadFileFromServer(this.serverUrl, file.id, file.uri).then(function(result) {
@@ -70,12 +64,12 @@ export class FileManager {
   }
 
   private startProcessingUploads() {
-    const queueItems: FileEntry[] = this.uploadQueue.restoreData().getItemList();
+    const queueItems: FileQueueEntry[] = this.uploadQueue.restoreData().getItemList();
     const self = this;
     if (queueItems && queueItems.length > 0) {
       console.info('Processing offline upload file queue. Number of items to save: ', queueItems.length);
-      Bluebird.map<FileEntry, void>(queueItems, file => {
-        return self.saveFile(file.uri);
+      Bluebird.map<FileQueueEntry, void>(queueItems, file => {
+        return self.saveFile(file);
       }, { concurrency: 1 });
     } else {
       console.info('Offline uploads file queue is empty');
@@ -83,10 +77,10 @@ export class FileManager {
   }
 
   private startProcessingDownloads() {
-    const queueItems: FileEntry[] = this.downloadQueue.restoreData().getItemList();
+    const queueItems: FileQueueEntry[] = this.downloadQueue.restoreData().getItemList();
     if (queueItems && queueItems.length > 0) {
       console.info('Processing offline file upload queue. Number of items to download: ', queueItems.length);
-      Bluebird.map<FileEntry, string | undefined>(queueItems, file => {
+      Bluebird.map<FileQueueEntry, string | undefined>(queueItems, file => {
         if (file.id) {
           return downloadFileFromServer(this.serverUrl, file.id, file.uri);
         }
@@ -96,10 +90,10 @@ export class FileManager {
     }
   }
 
-  private saveFile(fileUri: string) {
+  private saveFile(file: FileQueueEntry) {
     const self = this;
-    return uploadFile(this.serverUrl, fileUri).then(function(createdFile) {
-      self.uploadQueue.removeItem(fileUri);
+    return uploadFile(this.serverUrl, file, this.httpClient.upload).then(function(createdFile) {
+      self.uploadQueue.removeItem(file);
       console.info('File saved', createdFile);
     });
   }
