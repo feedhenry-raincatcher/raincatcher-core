@@ -1,10 +1,11 @@
 import * as Bluebird from 'bluebird';
+import { HttpClient } from './HttpClient';
 
 /**
  * Executes low level cordova file operations for downloading and uploading files to the server.
  */
 export class CordovaFileSupport {
-  constructor(private url: string, private httpInterface: any) {
+  constructor(private url: string, private httpClient: HttpClient) {
   }
 
   /**
@@ -19,7 +20,7 @@ export class CordovaFileSupport {
       .then(fs => new Bluebird<FileEntry>((resolve, reject) =>
         fs.root.getFile(fileURI, { create: true, exclusive: false }, resolve, reject)))
       .then(fileEntry => {
-        return fetch(self.url + '/' + id)
+        return self.httpClient.download(self.url + '/' + id)
           .then(response => response.blob()).then(blob => window.URL.createObjectURL(blob));
       });
   }
@@ -43,7 +44,7 @@ export class CordovaFileSupport {
           const blob = new Blob([new Uint8Array(this.result)], { type: 'image/jpg' });
           const data = new FormData();
           data.append('file', blob);
-          return self.httpInterface.post(self.url, data, {}).then(resolve).catch(reject);
+          return self.httpClient.upload(self.url, data).then(resolve).catch(reject);
         };
         reader.readAsArrayBuffer(file);
       }, reject);
