@@ -1,6 +1,6 @@
 'use strict';
 
-import { FileEntry, FileManager } from '@raincatcher/filestore-client';
+import { FileQueueEntry } from '@raincatcher/filestore-client';
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
 
@@ -13,9 +13,7 @@ type optionsBuilderFn = (camera: any) => CameraOptions;
 
 export class Camera {
   private initPromise: Promise<CameraOptions>;
-  private fileManager: FileManager;
   constructor(serverUrl: string, optionsBuilderFunction?: optionsBuilderFn) {
-    this.fileManager = new FileManager(serverUrl, 'camera');
     this.init(optionsBuilderFunction);
   }
 
@@ -43,7 +41,7 @@ export class Camera {
       new Promise((resolve, reject) => cleanup(resolve, reject)));
   }
 
-  public capture(): Promise<FileEntry> {
+  public capture(): Promise<FileQueueEntry> {
     const getPicture = window.navigator.camera.getPicture;
     const self = this;
     return this.initPromise.then((cameraOptions) =>
@@ -60,12 +58,9 @@ export class Camera {
         resolve(window.URL.createObjectURL(blob));
       }))
       ).then(function(uri) {
-        const file: FileEntry = {
+        const file: FileQueueEntry = {
           uri
         };
-        // Fire and forget upload for now
-        // TODO: figure out how to report uploads to UI
-        self.fileManager.scheduleFileToBeUploaded(file);
         return file;
       });
   }
