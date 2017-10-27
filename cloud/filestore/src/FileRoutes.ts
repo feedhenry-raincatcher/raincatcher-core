@@ -11,8 +11,9 @@ import * as fileService from './services/FileService';
  * @returns router instance of express router
  */
 export function createRouter(storageEngine: FileStorage) {
+  fileService.createTemporaryStorageFolder();
   const router = Router();
-  router.route('/:filename').post(function(req, res, next) {
+  router.route('/base64/:filename').post(function(req, res, next) {
     const id = uuid.create().toString();
     const fileMeta = {
       owner: req.params.owner,
@@ -35,14 +36,10 @@ export function createRouter(storageEngine: FileStorage) {
   const binaryUploadInitMiddleware = function(req, res, next) {
     req.fileMeta = {};
     req.fileMeta.id = uuid.create().toString();
-    req.fileMeta.name = req.body.fileName;
-    req.fileMeta.namespace = req.body.namespace;
-    req.fileMeta.owner = req.body.ownerId;
-    req.fileMeta.mimetype = req.file.mimetype;
     next();
   };
 
-  router.route('/:filename/binary').post(binaryUploadInitMiddleware, fileService.mutlerMiddleware,
+  router.route('/binary/:filename').post(binaryUploadInitMiddleware, fileService.mutlerMiddleware(),
     function(req: any, res, next) {
       const fileMeta = req.fileMeta;
       const location = fileService.buildFilePath(fileMeta.id);
@@ -54,7 +51,7 @@ export function createRouter(storageEngine: FileStorage) {
       });
     });
 
-  router.route('/:filename').get(function(req, res) {
+  router.route('/binary/:filename').get(function(req, res) {
     const fileName = req.params.filename;
     const namespace = req.params.namespace;
     storageEngine.streamFile(namespace, fileName).then(function(buffer) {

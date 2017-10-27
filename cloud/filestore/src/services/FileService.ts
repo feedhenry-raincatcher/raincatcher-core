@@ -81,5 +81,5 @@ export function mutlerMiddleware() {
         cb(null, req.fileMeta.id);
       }
     })
-  }).single('binaryfile');
+  }).any();
 }
