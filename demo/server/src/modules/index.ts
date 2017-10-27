@@ -102,7 +102,8 @@ function wfmApiSetup(app: express.Router, connectionPromise: Promise<any>) {
 
 function fileStoreSetup(app: express.Router, securityMiddleware: EndpointSecurity) {
   const fileStore: FileStorage = new GridFsStorage(config.mongodb.url);
-  app.use('/file', createFileRouter(fileStore));
+  const role = config.security.userRole;
+  app.use('/file', securityMiddleware.protect(role), createFileRouter(fileStore));
 }
 
 function demoDataSetup(connectionPromise: Promise<any>) {
