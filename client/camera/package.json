@@ -45,7 +45,6 @@
     "typescript": "^2.5.0"
   },
   "dependencies": {
-    "@raincatcher/filestore-client": "1.0.0",
     "b64-to-blob": "^1.2.19"
   }
 }
