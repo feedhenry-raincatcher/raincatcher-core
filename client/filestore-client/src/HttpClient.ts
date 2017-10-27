@@ -1,4 +1,4 @@
 export interface HttpClient {
-  upload: (url: string, data: Formdata) => Promise<Response>;
+  upload: (url: string, data: FormData) => Promise<Response>;
   download: (url: string) => Promise<Response>;
 }
