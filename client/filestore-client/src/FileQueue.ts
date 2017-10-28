@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { FileEntry } from './FileManager';
+import { FileQueueEntry } from './FileQueueEntry';
 /**
  * TODO create interface for that
  * Queue implementation backed by browser persistent storage
@@ -8,12 +8,10 @@ import { FileEntry } from './FileManager';
  */
 export class FileQueue {
   private queueName: string;
-  // TODO interface for datatype
-  private queueData: FileEntry[];
+  private queueData: FileQueueEntry[] = [];
 
   public constructor(private localStorage, name: string) {
     this.queueName = name;
-    this.queueData = [];
   }
 
   /**
@@ -46,7 +44,7 @@ export class FileQueue {
   /**
    * Get items
    */
-  public getItemList(): FileEntry[] {
+  public getItemList(): FileQueueEntry[] {
     return this.queueData;
   }
 
@@ -54,7 +52,7 @@ export class FileQueue {
    * Add new item to queue.
    * @param item   item meta data model
    */
-  public addItem(item) {
+  public addItem(item: FileQueueEntry) {
     this.queueData.push(item);
     this.saveData();
   }
@@ -62,7 +60,7 @@ export class FileQueue {
    * Remove item from queue.
    * @param item   item meta data model
    */
-  public removeItem(item) {
+  public removeItem(item: FileQueueEntry) {
     _.remove(this.queueData, item);
     this.saveData();
   }
@@ -70,9 +68,9 @@ export class FileQueue {
   /**
    * Read item from queue by id
    */
-  public readItem = function(id) {
+  public readItem(id): FileQueueEntry | undefined {
     return _.find(this.queueData, function(item) {
       return item.id === id;
     });
-  };
+  }
 }
