@@ -2,17 +2,8 @@ import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import { CordovaFileSupport } from './CordovaFileSupport';
 import { FileQueue } from './FileQueue';
-
-/**
- * Contains required fields required to save file
- */
-export interface FileEntry {
-  /**
-   * Uri to local filesystem containing file
-   */
-  uri: string;
-  id?: string;
-}
+import { FileQueueEntry } from './FileQueueEntry';
+import { HttpClient } from './HttpClient';
 
 /**
  * Manager for file uploads
@@ -29,7 +20,7 @@ export class FileManager {
    * @param name name for the queues
    * @param httpInterface interface for making network requests
    */
-  public constructor(private serverUrl: string, private name: string, private httpInterface: any) {
+  public constructor(private serverUrl: string, private name: string, private httpInterface: HttpClient) {
     this.uploadQueue = new FileQueue(window.localStorage, name + '-upload');
     this.downloadQueue = new FileQueue(window.localStorage, name + '-download');
     this.fileSupport = new CordovaFileSupport(serverUrl, httpInterface);
@@ -51,9 +42,9 @@ export class FileManager {
    * @param file file metadata to be saved
    * @returns {*}
    */
-  public scheduleFileToBeUploaded(file: FileEntry) {
+  public scheduleFileToBeUploaded(file: FileQueueEntry) {
     const self = this;
-    return this.fileSupport.uploadFile(file.uri).then(function(result) {
+    return this.fileSupport.uploadFile(file).then(function(result) {
       return Bluebird.resolve(result);
     }).catch(function(err) {
       // Add item to queue
@@ -66,10 +57,10 @@ export class FileManager {
    *
    * @returns {*}
    */
-  public scheduleFileToBeDownloaded(file: FileEntry) {
+  public scheduleFileToBeDownloaded(file: FileQueueEntry) {
     const self = this;
     if (file.id) {
-      return this.fileSupport.downloadFileFromServer(file.id, file.uri).then(function(result) {
+      return this.fileSupport.downloadFileFromServer(file).then(function(result) {
         return Bluebird.resolve(result);
       }).catch(function(err) {
         // Add item to queue
@@ -79,12 +70,12 @@ export class FileManager {
   }
 
   private startProcessingUploads() {
-    const queueItems: FileEntry[] = this.uploadQueue.restoreData().getItemList();
+    const queueItems: FileQueueEntry[] = this.uploadQueue.restoreData().getItemList();
     const self = this;
     if (queueItems && queueItems.length > 0) {
       console.info('Processing offline upload file queue. Number of items to save: ', queueItems.length);
-      Bluebird.map<FileEntry, void>(queueItems, file => {
-        return self.saveFile(file.uri);
+      Bluebird.map<FileQueueEntry, void>(queueItems, file => {
+        return self.saveFile(file);
       }, { concurrency: 1 });
     } else {
       console.info('Offline uploads file queue is empty');
@@ -93,12 +84,12 @@ export class FileManager {
 
   private startProcessingDownloads() {
     const self = this;
-    const queueItems: FileEntry[] = this.downloadQueue.restoreData().getItemList();
+    const queueItems: FileQueueEntry[] = this.downloadQueue.restoreData().getItemList();
     if (queueItems && queueItems.length > 0) {
       console.info('Processing offline file upload queue. Number of items to download: ', queueItems.length);
-      Bluebird.map<FileEntry, string | undefined>(queueItems, file => {
+      Bluebird.map<FileQueueEntry, string | undefined>(queueItems, file => {
         if (file.id) {
-          return self.fileSupport.downloadFileFromServer(file.id, file.uri);
+          return self.fileSupport.downloadFileFromServer(file);
         }
       }, { concurrency: 1 });
     } else {
@@ -106,10 +97,10 @@ export class FileManager {
     }
   }
 
-  private saveFile(fileUri: string) {
+  private saveFile(file: FileQueueEntry) {
     const self = this;
-    return this.fileSupport.uploadFile(fileUri).then(function(createdFile) {
-      self.uploadQueue.removeItem(fileUri);
+    return this.fileSupport.uploadFile(file).then(function(createdFile) {
+      self.uploadQueue.removeItem(file);
       console.info('File saved', createdFile);
     });
   }
