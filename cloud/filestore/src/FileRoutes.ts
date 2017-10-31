@@ -39,7 +39,7 @@ export function createRouter(storageEngine: FileStorage) {
     next();
   };
 
-  router.route('/binary/:filename').post(binaryUploadInitMiddleware, fileService.mutlerMiddleware(),
+  router.route('/binary').post(binaryUploadInitMiddleware, fileService.mutlerMiddleware(),
     function(req: any, res, next) {
       const fileMeta = req.fileMeta;
       const location = fileService.buildFilePath(fileMeta.id);
