@@ -177,3 +177,7 @@ The repository also includes a set of commands for publishing both the standalon
 - `npm run publish:full` - prepares packages and tries to publish to the public registry, requires human input for confirming the version bumps, see the [lerna publish](https://github.com/lerna/lerna#publish) documentation for more information.
 - `npm run publish:dry` - does a dry-run of the publish scripts for local test purposes, avoiding any permanent changes to git history or npm registries
 - `npm run publish:demo-server` - publishes the `demo/server` application to the feedhenry-templates repository as part of the project's inclusion in the [Red Hat Mobile Application Platform](https://www.redhat.com/en/technologies/mobile/application-platform)
+
+### License Information
+
+The licenses folder contains the dependency license information for raincatcher-core. Within the licenses folder you can find a HTML file outlining the dependencies and we helpfully provide a copy of the license file as it appears within the dependency. For convenience, we provide an XML version which can be used with standalone Licenser Tools such as the Node.js [License Reporter](https://github.com/bucharest-gold/license-reporter) project which we used to generate this information.
