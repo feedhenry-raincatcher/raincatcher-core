@@ -1,4 +1,5 @@
 import * as Bluebird from 'bluebird';
+import { each } from 'lodash';
 import { FileQueueEntry } from './FileQueueEntry';
 import { HttpClient } from './HttpClient';
 
@@ -29,7 +30,7 @@ export class CordovaFileSupport {
    *
    * @param file - contains source location for the file that will be send to the server
    */
-  public uploadFile(file: FileQueueEntry): Promise<Response> {
+  public uploadFile(file: FileQueueEntry): Bluebird<Response> {
     const self = this;
     return new Bluebird<FileEntry>((resolve, reject) => window.resolveLocalFileSystemURL(file.uri, function(entry) {
       // bug in the file plugin definition?
@@ -43,6 +44,11 @@ export class CordovaFileSupport {
           const blob = new Blob([new Uint8Array(this.result)], { type: 'image/jpg' });
           const data = new FormData();
           data.append('file', blob);
+          each(file, function(value, key) {
+            if (value) {
+              data.append(key, value);
+            }
+          });
           return self.httpClient.upload(self.url, data).then(resolve).catch(reject);
         };
         reader.readAsArrayBuffer(localFile);
