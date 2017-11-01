@@ -1,3 +1,4 @@
+import b64ToBlob from 'b64-to-blob';
 import * as Bluebird from 'bluebird';
 import { each } from 'lodash';
 import { FileQueueEntry } from './FileQueueEntry';
@@ -32,6 +33,24 @@ export class CordovaFileSupport {
    */
   public uploadFile(file: FileQueueEntry): Bluebird<Response> {
     const self = this;
+    if (file.type === 'uri') {
+      return this.uploadFromFilePath(file);
+    } else {
+      return this.uploadWithBlob(file, this.dataUriToBlob(file.uri));
+    }
+  }
+
+  protected dataUriToBlob(dataURI: string): Blob {
+    const data = dataURI.split(',')[1];
+
+    // separate out the mime component
+    const mimeType = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    return b64ToBlob(data, mimeType);
+  }
+
+  protected uploadFromFilePath(file: FileQueueEntry) {
+    const self = this;
     return new Bluebird<FileEntry>((resolve, reject) => window.resolveLocalFileSystemURL(file.uri, function(entry) {
       // bug in the file plugin definition?
       resolve(entry as FileEntry);
@@ -42,17 +61,21 @@ export class CordovaFileSupport {
           // Create a blob based on the FileReader 'result', which we asked to be retrieved as an ArrayBuffer
           // TODO hardcoded type
           const blob = new Blob([new Uint8Array(this.result)], { type: 'image/jpg' });
-          const data = new FormData();
-          data.append('file', blob);
-          each(file, function(value, key) {
-            if (value) {
-              data.append(key, value);
-            }
-          });
-          return self.httpClient.upload(self.url, data).then(resolve).catch(reject);
+          return self.uploadWithBlob(file, blob).then(resolve, reject);
         };
         reader.readAsArrayBuffer(localFile);
       }, reject);
     }));
+  }
+
+  protected uploadWithBlob(file: FileQueueEntry, blob: Blob) {
+    const data = new FormData();
+    data.append('file', blob);
+    each(file, function(value, key) {
+      if (value) {
+        data.append(key, value);
+      }
+    });
+    return this.httpClient.upload(this.url, data);
   }
 }

@@ -1,8 +1,14 @@
 import { getLogger } from '@raincatcher/logger';
 import { Router } from 'express';
+import { Request } from 'express';
 import * as uuid from 'uuid-js';
+import { FileMetadata } from './file-api/FileMetadata';
 import { FileStorage } from './file-api/FileStorage';
 import * as fileService from './services/FileService';
+
+interface FileMetadataRequest extends Request {
+  fileMeta: FileMetadata;
+}
 
 /**
  * Create express based router router for fileService
@@ -11,36 +17,17 @@ import * as fileService from './services/FileService';
  * @returns router instance of express router
  */
 export function createRouter(storageEngine: FileStorage) {
-  fileService.createTemporaryStorageFolder();
-  const router = Router();
-  router.route('/base64/:filename').post(function(req, res, next) {
-    const id = uuid.create().toString();
-    const fileMeta = {
-      owner: req.params.owner,
-      name: req.params.filename,
-      namespace: req.params.namespace,
-      id
-    };
-    const stream = fileService.parseBase64Stream(req);
-    fileService.writeStreamToFile(fileMeta, stream).then(function() {
-      const location = fileService.buildFilePath(fileMeta.id);
-      return storageEngine.writeFile(fileMeta, location);
-    }).then(function() {
-      res.json(fileMeta);
-    }).catch(function(err) {
-      getLogger().error(err);
-      next(err);
-    });
-  });
 
-  const binaryUploadInitMiddleware = function(req, res, next) {
+  const generateIdMiddleware = function(req, res, next) {
     req.fileMeta = {};
     req.fileMeta.id = uuid.create().toString();
     next();
   };
 
-  router.route('/binary').post(binaryUploadInitMiddleware, fileService.mutlerMiddleware(),
-    function(req: any, res, next) {
+  fileService.createTemporaryStorageFolder();
+  const router = Router();
+  router.route('/').post(generateIdMiddleware, fileService.multerMiddleware(),
+    function(req: FileMetadataRequest, res, next) {
       const fileMeta = req.fileMeta;
       const location = fileService.buildFilePath(fileMeta.id);
       storageEngine.writeFile(fileMeta, location).then(function() {
@@ -51,8 +38,8 @@ export function createRouter(storageEngine: FileStorage) {
       });
     });
 
-  router.route('/binary/:filename').get(function(req, res) {
-    const fileName = req.params.filename;
+  router.route('/:id').get(function(req, res) {
+    const fileName = req.params.id;
     const namespace = req.params.namespace;
     storageEngine.streamFile(namespace, fileName).then(function(buffer) {
       if (buffer) {
