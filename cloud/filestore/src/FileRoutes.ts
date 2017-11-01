@@ -26,21 +26,7 @@ export function createRouter(storageEngine: FileStorage) {
 
   fileService.createTemporaryStorageFolder();
   const router = Router();
-  router.route('/base64').post(generateIdMiddleware, function(req: FileMetadataRequest, res, next) {
-    const stream = fileService.parseBase64Stream(req);
-    const fileMeta: FileMetadata = req.fileMeta;
-    fileService.writeStreamToFile(fileMeta, stream).then(function() {
-      const location = fileService.buildFilePath(fileMeta.id);
-      return storageEngine.writeFile(fileMeta, location);
-    }).then(function() {
-      res.json(fileMeta);
-    }).catch(function(err) {
-      getLogger().error(err);
-      next(err);
-    });
-  });
-
-  router.route('/binary').post(generateIdMiddleware, fileService.multerMiddleware(),
+  router.route('/').post(generateIdMiddleware, fileService.multerMiddleware(),
     function(req: FileMetadataRequest, res, next) {
       const fileMeta = req.fileMeta;
       const location = fileService.buildFilePath(fileMeta.id);
@@ -52,8 +38,8 @@ export function createRouter(storageEngine: FileStorage) {
       });
     });
 
-  router.route('/binary/:filename').get(function(req, res) {
-    const fileName = req.params.filename;
+  router.route('/:id').get(function(req, res) {
+    const fileName = req.params.id;
     const namespace = req.params.namespace;
     storageEngine.streamFile(namespace, fileName).then(function(buffer) {
       if (buffer) {
