@@ -7,24 +7,19 @@ import { buildCameraOptions } from './buildCameraOptions';
 
 declare var window;
 
-export const TYPE_IMAGE_BASE64 = 'BASE64';
-export const TYPE_IMAGE_URI = 'URI';
-
 /**
  * Defines response for camera capture
  */
-export interface CaptureReponse {
-  type: typeof TYPE_IMAGE_BASE64 | typeof TYPE_IMAGE_URI;
+export interface CaptureResponse {
+  type: 'base64' | 'uri';
   value: string;
 }
-
-// tslint:disable-next-line:no-var-requires
-const base64ToBlob: (base64: string, contentType?: string) => Blob = require('b64-to-blob');
 
 type optionsBuilderFn = (camera: any) => CameraOptions;
 
 export class Camera {
-  private initPromise: Promise<CameraOptions>;
+  protected initPromise: Promise<CameraOptions>;
+  protected options: CameraOptions;
 
   constructor(optionsBuilderFunction?: optionsBuilderFn) {
     this.init(optionsBuilderFunction);
@@ -48,6 +43,8 @@ export class Camera {
         const userOptions = optionsFn(navigator.camera);
         options = _.merge(options, userOptions);
       }
+      // assign options object to self for convenience
+      this.options = options;
       return options;
     });
   }
@@ -58,19 +55,19 @@ export class Camera {
       new Promise((resolve, reject) => cleanup(resolve, reject)));
   }
 
-  public capture(): Promise<CaptureReponse> {
+  public capture(): Promise<CaptureResponse> {
     const getPicture = window.navigator.camera.getPicture;
     const self = this;
     return this.initPromise.then((cameraOptions) =>
       new Promise<string>((resolve, reject) => getPicture(resolve, reject, cameraOptions)))
-      .then(uri => new Promise<CaptureReponse>((resolve, reject) => window.resolveLocalFileSystemURL(uri, function() {
-        // Cordova's camera plugin only has options to save pictures to the OS' public gallery, shared with other apps
-        return resolve({ value: uri, type: TYPE_IMAGE_URI });
+      .then(uri => new Promise<CaptureResponse>((resolve, reject) => window.resolveLocalFileSystemURL(uri, function() {
+        return resolve({ value: uri, type: 'uri' });
       }, function onFileSystemURIError() {
-        // Can be a data-uri when running in a browser, resolving will fail
-        // in this case, convert the base64 string into an ObjectUrl
-        const blob = base64ToBlob(uri);
-        resolve({ value: window.URL.createObjectURL(blob), type: TYPE_IMAGE_BASE64 });
+        // Can be a base64 string when running in a browser, resolveLocalFileSystemURL will fail
+        // in this case, send value as dataURI
+        const mimeType = self.options.mediaType === window.navigator.camera.EncodingType.JPEG ?
+          'image/jpg' : 'image/png';
+        resolve({ value: `data:${mimeType};base64,${uri}`, type: 'base64' });
       }))
       );
   }

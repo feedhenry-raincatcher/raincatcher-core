@@ -1,11 +1,14 @@
 import { getLogger } from '@raincatcher/logger';
 import * as base64 from 'base64-stream';
+import { Request } from 'express';
 import * as fs from 'fs';
 import multer = require('multer');
 import * as  os from 'os';
 import * as path from 'path';
 import q from 'q';
+import { Stream } from 'stream';
 import through from 'through2';
+import { FileMetadata } from '../file-api/FileMetadata';
 
 const imageDir = os.tmpdir() + '/raincatcher-file-store';
 
@@ -27,7 +30,7 @@ export function createTemporaryStorageFolder() {
  * @param fileMeta
  * @param stream
  */
-export function writeStreamToFile(fileMeta, stream) {
+export function writeStreamToFile(fileMeta: FileMetadata, stream: Stream) {
   const deferred = q.defer();
   stream.on('end', function() {
     deferred.resolve(fileMeta);
@@ -35,7 +38,7 @@ export function writeStreamToFile(fileMeta, stream) {
   stream.on('error', function(error) {
     deferred.reject(error);
   });
-  const filename = imageDir + '/' + fileMeta.uid;
+  const filename = imageDir + '/' + fileMeta.id;
   stream.pipe(fs.createWriteStream(filename));
   return deferred.promise;
 }
@@ -45,7 +48,7 @@ export function writeStreamToFile(fileMeta, stream) {
  *
  * @param req
  */
-export function parseBase64Stream(req) {
+export function parseBase64Stream(req: Request) {
   let passthrough = false;
   let accumulation = '';
   const stream = req.pipe(through(function(chunk, enc, callback) {
@@ -71,7 +74,7 @@ export function buildFilePath(fileName) {
   return path.join(imageDir, fileName);
 }
 
-export function mutlerMiddleware() {
+export function multerMiddleware() {
   return multer({
     storage: multer.diskStorage({
       destination(req, file, cb) {

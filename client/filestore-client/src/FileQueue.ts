@@ -54,7 +54,7 @@ export class FileQueue {
    */
   public addItem(item: FileQueueEntry) {
     this.queueData.push(item);
-    this.saveData();
+    return this.saveData();
   }
   /**
    * Remove item from queue.
@@ -62,7 +62,7 @@ export class FileQueue {
    */
   public removeItem(item: FileQueueEntry) {
     _.remove(this.queueData, item);
-    this.saveData();
+    return this.saveData();
   }
 
   /**
