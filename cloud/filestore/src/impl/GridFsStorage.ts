@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as gridfs from 'gridfs-stream';
 import * as mongo from 'mongodb';
 import { MongoClient } from 'mongodb';
+import { Stream } from 'stream';
 import { FileMetadata } from '../file-api/FileMetadata';
 import { FileStorage } from '../file-api/FileStorage';
 
@@ -30,13 +31,12 @@ export class GridFsStorage implements FileStorage {
     });
   }
 
-  public writeFile(metadata: FileMetadata, fileLocation: string): Promise<any> {
+  public writeFile(metadata: FileMetadata, fileLocation: string): Promise<string> {
     const self = this;
     if (!self.gridFileSystem) {
       return BlueBird.reject('Not initialized');
     }
     const options = {
-      root: metadata.namespace,
       filename: metadata.id
     };
     return new BlueBird(function(resolve, reject) {
@@ -46,20 +46,19 @@ export class GridFsStorage implements FileStorage {
         reject(err);
       });
       writeStream.on('close', function(file) {
-        resolve(file);
+        resolve(file.filename);
       });
       fs.createReadStream(fileLocation).pipe(writeStream);
     });
   }
 
-  public streamFile(namespace: string, fileName: string): Promise<any> {
+  public readFile(id: string): Promise<Stream> {
     const self = this;
     if (!self.gridFileSystem) {
       return BlueBird.reject('Not initialized');
     }
     const options = {
-      filename: fileName,
-      root: namespace
+      filename: id
     };
     return new BlueBird(function(resolve, reject) {
       const readstream = self.gridFileSystem.createReadStream(options);
