@@ -28,7 +28,6 @@ export function createRouter(storageEngine: FileStorage) {
   const router = Router();
   router.route('/').post(fileService.multerMiddleware().single('file'),
     function(req: SingleFileRequest, res, next) {
-      debugger;
       const id = req.body.id;
       const metadata: FileMetadata = {
         id
