@@ -1,7 +1,9 @@
 import { getLogger } from '@raincatcher/logger';
 import * as BlueBird from 'bluebird';
+import { createReadStream } from 'fs';
 import { FileMetadata } from '../file-api/FileMetadata';
 import { FileStorage } from '../file-api/FileStorage';
+import { buildFilePath, FILE_STORAGE_DIRECTORY } from '../services/FileService';
 
 /**
  * Implementation that using server filesystem to store files.
@@ -9,11 +11,12 @@ import { FileStorage } from '../file-api/FileStorage';
  */
 export class LocalStorage implements FileStorage {
 
-  public writeFile(metadata: FileMetadata, fileLocation: string): Promise<any> {
-    return BlueBird.resolve(fileLocation);
+  public writeFile(metadata: FileMetadata, fileLocation: string) {
+    return BlueBird.resolve(metadata.id);
   }
 
-  public streamFile(namespace: string, fileName: string): Promise<any> {
-    return BlueBird.resolve();
+  public readFile(id: string) {
+    const fileLocation = buildFilePath(id);
+    return BlueBird.resolve(createReadStream(fileLocation));
   }
 }

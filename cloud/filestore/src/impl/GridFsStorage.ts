@@ -52,14 +52,13 @@ export class GridFsStorage implements FileStorage {
     });
   }
 
-  public streamFile(namespace: string, fileName: string): Promise<Stream> {
+  public readFile(id: string): Promise<Stream> {
     const self = this;
     if (!self.gridFileSystem) {
       return BlueBird.reject('Not initialized');
     }
     const options = {
-      filename: fileName,
-      root: namespace
+      filename: id
     };
     return new BlueBird(function(resolve, reject) {
       const readstream = self.gridFileSystem.createReadStream(options);

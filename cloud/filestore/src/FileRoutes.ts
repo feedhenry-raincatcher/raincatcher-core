@@ -1,12 +1,20 @@
 import { getLogger } from '@raincatcher/logger';
+import { promisify } from 'bluebird';
 import { Router } from 'express';
 import { Request } from 'express';
+import { rename } from 'fs';
 import * as uuid from 'uuid-js';
 import { FileMetadata } from './file-api/FileMetadata';
 import { FileStorage } from './file-api/FileStorage';
 import * as fileService from './services/FileService';
 
-type FileMetadataRequest = Request & FileMetadata;
+const renameAsync = promisify(rename);
+
+type SingleFileRequest = Request & {
+  file: {
+    path: string
+  }
+};
 
 /**
  * Create express based router router for fileService
@@ -18,16 +26,20 @@ export function createRouter(storageEngine: FileStorage) {
 
   fileService.createTemporaryStorageFolder();
   const router = Router();
-  router.route('/').post(fileService.multerMiddleware(),
-    function(req: FileMetadataRequest, res, next) {
-      const id = req.id;
+  router.route('/').post(fileService.multerMiddleware().single('file'),
+    function(req: SingleFileRequest, res, next) {
+      debugger;
+      const id = req.body.id;
       const metadata: FileMetadata = {
         id
       };
+      // Move file from generated path to id
+      // We can't rely on multer's DiskStorage destination config since req.body.id might not be populated earlier
       const location = fileService.buildFilePath(id);
-      storageEngine.writeFile(metadata, location).then(function() {
-        res.json(metadata);
-      }).catch(function(err) {
+      return renameAsync(req.file.path, location)
+      .then(() => storageEngine.writeFile(metadata, location))
+      .then(() => res.json(metadata))
+      .catch(function(err) {
         getLogger().error(err);
         next(err);
       });
@@ -35,8 +47,7 @@ export function createRouter(storageEngine: FileStorage) {
 
   router.route('/:id').get(function(req, res) {
     const fileName = req.params.id;
-    const namespace = req.params.namespace;
-    storageEngine.streamFile(namespace, fileName).then(function(buffer) {
+    storageEngine.readFile(fileName).then(function(buffer) {
       if (buffer) {
         buffer.pipe(res);
       } else {

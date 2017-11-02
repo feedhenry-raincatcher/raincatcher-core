@@ -74,13 +74,8 @@ export class LocalStorage implements FileStorage {
     });
   }
 
-  public streamFile(namespace: string, fileName: string): Promise<any> {
-    let file;
-    if (namespace) {
-      file = path.join(namespace, fileName);
-    } else {
-      file = fileName;
-    }
+  public readFile(fileName: string): Promise<any> {
+    const file = fileName;
     const paramsStream = {
       Bucket: this.storageConfig.bucket,
       Key: file
