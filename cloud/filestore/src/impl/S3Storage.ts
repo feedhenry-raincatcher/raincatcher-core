@@ -53,12 +53,7 @@ export class LocalStorage implements FileStorage {
   }
 
   public writeFile(metadata: FileMetadata, fileLocation: string): Promise<any> {
-    let file;
-    if (metadata.namespace) {
-      file = path.join(metadata.namespace, metadata.id);
-    } else {
-      file = metadata.id;
-    }
+    const file = metadata.id;
     const params = {
       localFile: fileLocation,
       ACL: this.storageConfig.bucketPermissions,

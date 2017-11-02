@@ -1,4 +1,4 @@
-
+import { Stream } from 'stream';
 import { FileMetadata } from './FileMetadata';
 
 /**
@@ -13,7 +13,7 @@ export interface FileStorage {
    * @param {FileMetadata} metadata for the file to be saved
    * @param {string} fileLocation - local filesystem location to the file
    */
-  writeFile(metadata: FileMetadata, fileLocation: string): Promise<any>;
+  writeFile(metadata: FileMetadata, fileLocation: string): Promise<string>;
 
   /**
    * Retrieve file stream from storage
@@ -21,5 +21,5 @@ export interface FileStorage {
    * @param {string} namespace - location (folder) used to place saved file.
    * @param {string} fileName - filename that should be unique within namespace
    */
-  streamFile(namespace: string, fileName: string): Promise<any>;
+  streamFile(namespace: string, fileName: string): Promise<Stream>;
 }

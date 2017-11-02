@@ -6,9 +6,7 @@ import { FileMetadata } from './file-api/FileMetadata';
 import { FileStorage } from './file-api/FileStorage';
 import * as fileService from './services/FileService';
 
-interface FileMetadataRequest extends Request {
-  fileMeta: FileMetadata;
-}
+type FileMetadataRequest = Request & FileMetadata;
 
 /**
  * Create express based router router for fileService
@@ -18,20 +16,17 @@ interface FileMetadataRequest extends Request {
  */
 export function createRouter(storageEngine: FileStorage) {
 
-  const generateIdMiddleware = function(req, res, next) {
-    req.fileMeta = {};
-    req.fileMeta.id = uuid.create().toString();
-    next();
-  };
-
   fileService.createTemporaryStorageFolder();
   const router = Router();
-  router.route('/').post(generateIdMiddleware, fileService.multerMiddleware(),
+  router.route('/').post(fileService.multerMiddleware(),
     function(req: FileMetadataRequest, res, next) {
-      const fileMeta = req.fileMeta;
-      const location = fileService.buildFilePath(fileMeta.id);
-      storageEngine.writeFile(fileMeta, location).then(function() {
-        res.json(fileMeta);
+      const id = req.id;
+      const metadata: FileMetadata = {
+        id
+      };
+      const location = fileService.buildFilePath(id);
+      storageEngine.writeFile(metadata, location).then(function() {
+        res.json(metadata);
       }).catch(function(err) {
         getLogger().error(err);
         next(err);
