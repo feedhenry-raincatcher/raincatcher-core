@@ -6,8 +6,8 @@ import { FileStorage } from '../file-api/FileStorage';
 import { buildFilePath, FILE_STORAGE_DIRECTORY } from '../services/FileService';
 
 /**
- * Implementation that using server filesystem to store files.
- * This storage is not executing any actions as files are already stored in the disc drive.
+ * Implementation that uses the server filesystem to store files.
+ * This storage implementation does not execute any extra actions as files are already stored in the local filesystem
  */
 export class LocalStorage implements FileStorage {
 
