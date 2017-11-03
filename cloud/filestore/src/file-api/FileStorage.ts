@@ -8,17 +8,22 @@ import { FileMetadata } from './FileMetadata';
 export interface FileStorage {
 
   /**
-   * Write file that is saved in temporary local storage to the permanent storage.
+   * Write file that is saved in temporary local storage to the implementation's underlying storage.
    *
    * @param metadata for the file to be saved
-   * @param fileLocation - full path to filesystem location
+   * @param fileLocation full path to filesystem location
+   *
+   * @return Promise of the file's id
    */
   writeFile(metadata: FileMetadata, fileLocation: string): Promise<string>;
 
   /**
    * Retrieve file stream from storage
    *
-   * @param id - filename that should match the one passed in {@link writeFile}
+   * @param id Unique identifier that should match the metadata passed
+   * in {@link writeFile} when the file was added to storage
+   *
+   * @return Promise of a readable stream containing the file data
    */
   readFile(id: string): Promise<Stream>;
 }
