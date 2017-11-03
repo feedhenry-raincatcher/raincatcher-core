@@ -5,14 +5,27 @@ import { FileQueueEntry } from './FileQueueEntry';
 import { HttpClient } from './HttpClient';
 
 /**
- * Executes low level cordova file operations for downloading and uploading files to the server.
+ * Executes a low level cordova file operation for downloading and uploading files to the server.
  */
 export class CordovaFileSupport {
+
+  /**
+   * Creates a cordova file support instance
+   *
+   * @param url - URL used for uploading to and downloading a file.
+   * @param httpClient - An implementation of the HTTP client interface.
+   *
+   * @see HttpClient
+   */
   constructor(private url: string, private httpClient: HttpClient) {
   }
 
   /**
-   * Download files from server
+   * Downloads a file from a server
+   *
+   * @param file - Contains information required to download a file
+   *
+   * @see FileQueueEntry
    */
   public downloadFileFromServer(file: FileQueueEntry): Bluebird<string> {
     const self = this;
@@ -27,9 +40,11 @@ export class CordovaFileSupport {
   }
 
   /**
-   * Upload file using local file URI. Used for uploads on mobile devices (cordova based)
+   * Uploads a file on a mobile device to a server. (cordova based)
    *
-   * @param file - contains source location for the file that will be send to the server
+   * @param file - Contains information required to upload a file
+   *
+   * @see FileQueueEntry
    */
   public uploadFile(file: FileQueueEntry): Bluebird<Response> {
     const self = this;
@@ -40,6 +55,11 @@ export class CordovaFileSupport {
     }
   }
 
+  /**
+   * Transforms a base64 file to a blob.
+   *
+   * @param dataURI - A base64 file.
+   */
   protected dataUriToBlob(dataURI: string): Blob {
     const data = dataURI.split(',')[1];
 
@@ -49,6 +69,13 @@ export class CordovaFileSupport {
     return b64ToBlob(data, mimeType);
   }
 
+  /**
+   * Uploads a file to a server from the file path on a mobile device.
+   *
+   * @param file - Contains information required to upload a file to a server.
+   *
+   * @see FileQueueEntry
+   */
   protected uploadFromFilePath(file: FileQueueEntry) {
     const self = this;
     return new Bluebird<FileEntry>((resolve, reject) => window.resolveLocalFileSystemURL(file.uri, function(entry) {
@@ -68,6 +95,14 @@ export class CordovaFileSupport {
     }));
   }
 
+  /**
+   * Upload a blob file to a server.
+   *
+   * @param file - Contains information required to upload a file to a server.
+   * @param blob - A file blob
+   *
+   * @see FileQueueEntry
+   */
   protected uploadWithBlob(file: FileQueueEntry, blob: Blob) {
     const data = new FormData();
     data.append('file', blob);
