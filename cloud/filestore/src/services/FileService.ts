@@ -2,7 +2,7 @@ import { getLogger } from '@raincatcher/logger';
 import * as base64 from 'base64-stream';
 import { Request } from 'express';
 import * as fs from 'fs';
-import multer = require('multer');
+import * as multer from 'multer';
 import * as  os from 'os';
 import { join } from 'path';
 import * as path from 'path';
@@ -56,15 +56,21 @@ export function buildFilePath(fileName) {
   return path.join(FILE_STORAGE_DIRECTORY, fileName);
 }
 
+<<<<<<< HEAD
 /**
  * Returns a new multer-based middleware that's capable of processing the `multipart/form-data` uploads
  */
 export function multerMiddleware() {
+=======
+const diskStorageDefaultOptions = {
+  destination(req, file, cb) {
+    cb(null, FILE_STORAGE_DIRECTORY);
+  }
+};
+
+export function multerMiddleware(storage: multer.StorageEngine = multer.diskStorage(diskStorageDefaultOptions)) {
+>>>>>>> Start refactoring for tests
   return multer({
-    storage: multer.diskStorage({
-      destination(req, file, cb) {
-        cb(null, FILE_STORAGE_DIRECTORY);
-      }
-    })
+    storage
   });
 }
