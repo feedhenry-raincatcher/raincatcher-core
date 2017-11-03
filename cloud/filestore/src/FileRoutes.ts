@@ -19,11 +19,10 @@ type SingleFileRequest = Request & {
 /**
  * Create express based router router for fileService
  *
- * @param {FileStorage} storageEngine - engine used to store files
- * @returns router instance of express router
+ * @param storageEngine - engine used to store files
+ * @returns router instance of {@link express.Router}
  */
 export function createRouter(storageEngine: FileStorage) {
-
   fileService.createTemporaryStorageFolder();
   const router = Router();
   router.route('/').post(fileService.multerMiddleware().single('file'),
