@@ -49,7 +49,7 @@ export function writeStreamToFile(metadata: FileMetadata, stream: Stream): Promi
  * Returns the full path to a file stored with the service
  * @param fileName Name of the file to build a path for, usually the file's id
  */
-export function buildFilePath(fileName) {
+export function buildFilePath(fileName: string, root: string = FILE_STORAGE_DIRECTORY) {
   return path.join(FILE_STORAGE_DIRECTORY, fileName);
 }
 
