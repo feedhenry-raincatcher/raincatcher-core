@@ -3,6 +3,7 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as del from 'del';
 import * as fs from 'fs';
+import { memoryStorage } from 'multer';
 import { Stream } from 'stream';
 import { FileMetadata } from '../../src/file-api/FileMetadata';
 import * as fileService from '../../src/services/FileService';
@@ -64,7 +65,13 @@ describe('FileService', function() {
     });
   });
   describe('multerMiddleware', function() {
-    it('should return a disk-backed middleware by default');
-    it('should accept other storage implementations');
+    it('should return a middleware', function() {
+      const middleware = fileService.multerMiddleware().any();
+      expect(middleware).to.be.a('function');
+    });
+    it('should accept other storage implementations', function() {
+      const middleware = fileService.multerMiddleware(memoryStorage()).any();
+      expect(middleware).to.be.a('function');
+    });
   });
 });
