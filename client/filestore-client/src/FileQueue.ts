@@ -1,10 +1,8 @@
 import * as _ from 'lodash';
 import { FileQueueEntry } from './FileQueueEntry';
+
 /**
- * TODO create interface for that
- * Queue implementation backed by browser persistent storage
- *
- * @param name
+ * A queue implementation backed by the browser's persistent storage.
  */
 export class FileQueue {
   private queueName: string;
@@ -14,10 +12,9 @@ export class FileQueue {
     this.queueName = name;
   }
 
-  /**
-   * Persist queue items to local storage;
-   * @return queue
-   */
+   /**
+    * Save queue items to local storage.
+    */
   public saveData() {
     const toSave = JSON.stringify({
       queue: this.queueData
@@ -27,8 +24,7 @@ export class FileQueue {
   }
 
   /**
-   * Read queue items from local storage
-   * @return queue
+   * Read queue items from local storage.
    */
   public restoreData() {
     const queueDataString = this.localStorage.getItem(this.queueName);
@@ -42,23 +38,26 @@ export class FileQueue {
   }
 
   /**
-   * Get items
+   * Get queue items
    */
   public getItemList(): FileQueueEntry[] {
     return this.queueData;
   }
 
   /**
-   * Add new item to queue.
-   * @param item   item meta data model
+   * Add new item to the queue
+   * @param item - Contains information required to upload files to the server.
+   * @see FileQueueEntry
    */
   public addItem(item: FileQueueEntry) {
     this.queueData.push(item);
     return this.saveData();
   }
+
   /**
-   * Remove item from queue.
-   * @param item   item meta data model
+   * Remove an item from the queue.
+   * @param item - Contains file information.
+   * @see FileQueueEntry
    */
   public removeItem(item: FileQueueEntry) {
     _.remove(this.queueData, item);
@@ -66,7 +65,9 @@ export class FileQueue {
   }
 
   /**
-   * Read item from queue by id
+   * Reads an item from the queue using an id.
+   *
+   * @param id - A unique identifier used to identify the item to be read from the queue.
    */
   public readItem(id): FileQueueEntry | undefined {
     return _.find(this.queueData, function(item) {

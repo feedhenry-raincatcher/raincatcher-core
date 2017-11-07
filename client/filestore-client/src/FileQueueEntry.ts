@@ -1,11 +1,19 @@
 /**
- * Contains required fields required to save file
+ * Contains fields required for uploading and downloading a file.
  */
 export interface FileQueueEntry {
   /**
-   * Uri to local filesystem containing file
+   * File URI to local filesystem containing the file.
    */
   uri: string;
+
+  /**
+   * File type
+   */
   type: 'uri'|'base64';
+
+  /**
+   * File identifier
+   */
   id?: string;
 }
