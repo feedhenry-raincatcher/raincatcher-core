@@ -30,7 +30,7 @@ export interface S3StorageConfiguration {
  * Implementation that using server filesystem to store files.
  * This storage is not executing any actions as files are already stored in the disc drive.
  */
-export class LocalStorage implements FileStorage {
+export class S3Storage implements FileStorage {
   private awsClient: any;
   private storageConfig: S3StorageConfiguration;
   /**
