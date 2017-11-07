@@ -21,10 +21,11 @@ const { expect } = chai;
 
 describe('FileService', function() {
   describe('createTemporaryStorageFolder', function() {
+    const deleteDir = () => del(fileService.FILE_STORAGE_DIRECTORY, { force: true });
+    beforeEach(() => deleteDir());
+
     it('should create a default directory', function() {
-      const recreate = del(fileService.FILE_STORAGE_DIRECTORY, {
-        force: true
-      })
+      const recreate = deleteDir()
         .then(() => fileService.createTemporaryStorageFolder())
         .then(() => existsAsync(fileService.FILE_STORAGE_DIRECTORY));
       return expect(recreate).to.eventually.be.true;
@@ -35,6 +36,8 @@ describe('FileService', function() {
         .then(() => existsAsync(fileService.FILE_STORAGE_DIRECTORY));
       return expect(createTwice).to.eventually.be.true;
     });
+
+    after(() => deleteDir());
   });
   describe('writeStreamToFile', function() {
     const metadata: FileMetadata = {
@@ -53,9 +56,7 @@ describe('FileService', function() {
 
     after(function() {
       // reset written file
-      return del(filePath, {
-        force: true
-      });
+      return del(filePath, { force: true });
     });
   });
   describe('buildFilePath', function() {
