@@ -11,7 +11,7 @@ import * as path from 'path';
 import { Stream } from 'stream';
 import { FileMetadata } from '../file-api/FileMetadata';
 
-const mkdirpAsync = Promise.promisify(mkdirp);
+const mkdirpAsync = Promise.promisify<string, string>(mkdirp);
 
 /**
  * Location of the stored files in the server's local disk
@@ -23,8 +23,8 @@ export const FILE_STORAGE_DIRECTORY = path.join(os.tmpdir(), '/raincatcher-file-
  * Create temporary storage folder used by multer to store files before
  * uploading to permanent storage
  */
-export function createTemporaryStorageFolder(directory: string = FILE_STORAGE_DIRECTORY): Promise<any> {
-  return mkdirpAsync(directory);
+export function createTemporaryStorageFolder(directory: string = FILE_STORAGE_DIRECTORY): Promise<string> {
+  return mkdirpAsync(directory).then(() => directory);
 }
 
 /**
