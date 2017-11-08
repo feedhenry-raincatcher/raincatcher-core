@@ -10,7 +10,7 @@
     "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
     "start": "ts-node src/index.ts",
-    "test": "npm run clean && nyc mocha"
+    "test": "nyc mocha"
   },
   "publishConfig": {
     "access": "public"

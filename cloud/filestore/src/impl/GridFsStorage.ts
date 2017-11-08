@@ -17,7 +17,7 @@ const connectAsync = Promise.promisify<mongo.Db, string>(MongoClient.connect);
 export class GridFsStorage implements FileStorage {
 
   public gridFileSystem: gridfs.Grid;
-  private fileSystemPromise: Promise<gridfs>;
+  private fileSystemPromise: Promise<gridfs.Grid>;
 
   /**
    * Creates instance of the GridFsStorage that will connect to specified mongo url

@@ -50,7 +50,7 @@ export function writeStreamToFile(metadata: FileMetadata, stream: Stream): Promi
  * @param fileName Name of the file to build a path for, usually the file's id
  */
 export function buildFilePath(fileName: string, root: string = FILE_STORAGE_DIRECTORY) {
-  return path.join(FILE_STORAGE_DIRECTORY, fileName);
+  return path.join(root, fileName);
 }
 
 const diskStorageDefaultOptions = {
