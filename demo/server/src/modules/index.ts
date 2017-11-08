@@ -15,7 +15,7 @@ import { connect as syncConnector } from './datasync/Connector';
 import { init as initKeycloak } from './keycloak';
 import { init as authInit } from './passport-auth';
 import globalSessionOptions from './session/RedisSession';
-import {StaticUsersRepository} from './wfm-user/StaticUsersRepository';
+import { StaticUsersRepository } from './wfm-user/StaticUsersRepository';
 
 const config = appConfig.getConfig();
 
@@ -58,11 +58,11 @@ function userApiSetup(app: express.Router) {
 }
 
 function setupPassportSecurity(app: express.Router, sessionOptions?: SessionOptions) {
- return authInit(app, sessionOptions);
+  return authInit(app, sessionOptions);
 }
 
 function setupKeycloakSecurity(app: express.Router) {
-  return  initKeycloak(app);
+  return initKeycloak(app);
 }
 
 function syncSetup(app: express.Router) {
@@ -109,11 +109,13 @@ function fileStoreSetup(app: express.Router, securityMiddleware: EndpointSecurit
 function demoDataSetup(connectionPromise: Promise<any>) {
   if (!connectionPromise) {
     getLogger().error('Failed to connect to a database');
-  } else  {
+  } else {
     connectionPromise.then(function(mongo: Db) {
       if (config.seedDemoData) {
         initData(mongo);
       }
+    }).catch(function() {
+      getLogger().error('Failed to connect to a database');
     });
   }
 }
