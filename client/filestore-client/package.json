@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/filestore-client",
-  "version": "1.0.0",
+  "version": "1.1.0-alpha.f71975b7",
   "description": "RainCatcher file storage client",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
@@ -10,6 +10,9 @@
     "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
     "test": "npm run clean && nyc mocha"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "nyc": {
     "include": [
