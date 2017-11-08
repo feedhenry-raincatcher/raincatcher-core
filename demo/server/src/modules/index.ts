@@ -15,7 +15,7 @@ import { connect as syncConnector } from './datasync/Connector';
 import { init as initKeycloak } from './keycloak';
 import { init as authInit } from './passport-auth';
 import globalSessionOptions from './session/RedisSession';
-import {StaticUsersRepository} from './wfm-user/StaticUsersRepository';
+import { StaticUsersRepository } from './wfm-user/StaticUsersRepository';
 
 const config = appConfig.getConfig();
 
@@ -58,11 +58,11 @@ function userApiSetup(app: express.Router) {
 }
 
 function setupPassportSecurity(app: express.Router, sessionOptions?: SessionOptions) {
- return authInit(app, sessionOptions);
+  return authInit(app, sessionOptions);
 }
 
 function setupKeycloakSecurity(app: express.Router) {
-  return  initKeycloak(app);
+  return initKeycloak(app);
 }
 
 function syncSetup(app: express.Router) {
@@ -79,8 +79,6 @@ function syncSetup(app: express.Router) {
   return syncConnector().then(function(connections: { mongo: Db, redis: any }) {
     getLogger().info('Sync started');
     return connections.mongo;
-  }).catch(function(err: any) {
-    getLogger().error('Failed to initialize sync', err);
   });
 }
 
@@ -90,10 +88,14 @@ function wfmApiSetup(app: express.Router, connectionPromise: Promise<any>) {
   const role = config.security.adminRole;
   app.use('/api', portalsecurityMiddleware.protect(role));
   app.use('/api', api.createWFMRouter());
-  connectionPromise.then(function(mongo: Db) {
-    // Fix compilation problem with different version of Db.
-    api.setDb(mongo as any);
-  });
+  if (!connectionPromise) {
+    getLogger().error('Failed to connect to a database');
+  } else {
+    connectionPromise.then(function(mongo: Db) {
+      // Fix compilation problem with different version of Db.
+      api.setDb(mongo as any);
+    });
+  }
 }
 
 function fileStoreSetup(app: express.Router, securityMiddleware: EndpointSecurity) {
@@ -107,5 +109,7 @@ function demoDataSetup(connectionPromise: Promise<Db>) {
     if (config.seedDemoData) {
       initData(mongo);
     }
+  }).catch(function() {
+    getLogger().error('Failed to connect to a database');
   });
 }

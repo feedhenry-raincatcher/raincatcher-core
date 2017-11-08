@@ -4,6 +4,7 @@ import * as express from 'express';
 import { NextFunction, Request, RequestHandler, Response, Router } from 'express';
 import { ApiError } from '../data-api/ApiError';
 import { defaultPaginationEngine } from '../data-api/MongoPaginationEngine';
+import { PageResponse } from '../data-api/PageResponse';
 import { PagingDataRepository } from '../data-api/PagingDataRepository';
 import * as errorCodes from './ErrorCodes';
 
@@ -172,7 +173,8 @@ export class ApiController<T> {
     return router;
   }
 
-  private buildExpressHandler(handlerFn: (this: this, req: Request) => Bluebird<T | T[] | undefined>): RequestHandler {
+  private buildExpressHandler(handlerFn: (this: this, req: Request) =>
+    Bluebird<PageResponse<T> | T | T[] | undefined| null>): RequestHandler {
     return (req, res, next) => handlerFn.bind(this)(req)
       .then((data: T | T[] | undefined) => data ? res.json(data) : res.status(204).end())
       .catch(next);
