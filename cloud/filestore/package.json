@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/filestore",
-  "version": "1.1.0-alpha.384f5b80",
+  "version": "1.1.0-alpha.f71975b7",
   "description": "RainCatcher file storage server",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
