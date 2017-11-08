@@ -88,10 +88,14 @@ function wfmApiSetup(app: express.Router, connectionPromise: Promise<any>) {
   const role = config.security.adminRole;
   app.use('/api', portalsecurityMiddleware.protect(role));
   app.use('/api', api.createWFMRouter());
-  connectionPromise.then(function(mongo: Db) {
-    // Fix compilation problem with different version of Db.
-    api.setDb(mongo as any);
-  });
+  if (!connectionPromise) {
+    getLogger().error('Failed to connect to a database');
+  } else {
+    connectionPromise.then(function(mongo: Db) {
+      // Fix compilation problem with different version of Db.
+      api.setDb(mongo as any);
+    });
+  }
 }
 
 function fileStoreSetup(app: express.Router, securityMiddleware: EndpointSecurity) {
