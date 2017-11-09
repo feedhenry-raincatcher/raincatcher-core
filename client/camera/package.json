@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
     "build": "tsc",
-    "test": "npm run clean && nyc mocha"
+    "test": "nyc mocha"
   },
   "publishConfig": {
     "access": "public"
@@ -29,7 +29,6 @@
       "text"
     ],
     "report-dir": "coverage_report",
-    "check-coverage": true,
     "lines": 75,
     "functions": 100,
     "branches": 80
