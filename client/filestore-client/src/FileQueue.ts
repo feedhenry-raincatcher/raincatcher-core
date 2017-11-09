@@ -12,9 +12,9 @@ export class FileQueue {
     this.queueName = name;
   }
 
-   /**
-    * Save queue items to local storage.
-    */
+  /**
+   * Save queue items to localStorage
+   */
   public saveData() {
     const toSave = JSON.stringify({
       queue: this.queueData
@@ -24,7 +24,7 @@ export class FileQueue {
   }
 
   /**
-   * Read queue items from local storage.
+   * Restore the local queueData to reflect the data of the queue in localStorage.
    */
   public restoreData() {
     const queueDataString = this.localStorage.getItem(this.queueName);
@@ -38,14 +38,14 @@ export class FileQueue {
   }
 
   /**
-   * Get queue items
+   * Get the local queue items
    */
   public getItemList(): FileQueueEntry[] {
     return this.queueData;
   }
 
   /**
-   * Add new item to the queue
+   * Add a new item to the queue
    * @param item - Contains information required to upload files to the server.
    * @see FileQueueEntry
    */

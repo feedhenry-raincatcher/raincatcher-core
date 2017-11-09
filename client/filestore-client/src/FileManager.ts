@@ -121,6 +121,9 @@ export class FileManager {
     return this.fileSupport.uploadFile(file).then(function(createdFile) {
       self.uploadQueue.removeItem(file);
       console.info('File saved', createdFile);
+    }).catch(function(err) {
+      // Adds file to the upload queue
+      self.uploadQueue.addItem(file);
     });
   }
 }
