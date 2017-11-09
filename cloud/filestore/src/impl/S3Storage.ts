@@ -30,7 +30,7 @@ export interface S3StorageConfiguration {
  * Implementation that using server filesystem to store files.
  * This storage is not executing any actions as files are already stored in the disc drive.
  */
-export class LocalStorage implements FileStorage {
+export class S3Storage implements FileStorage {
   private awsClient: any;
   private storageConfig: S3StorageConfiguration;
   /**
@@ -93,6 +93,10 @@ export class LocalStorage implements FileStorage {
 
   }
 
+  /**
+   * Validates whether the supplied S3 configuration has the required keys
+   * @param config S3 storage configuration object
+   */
   private validateConfig(config: S3StorageConfiguration) {
     if (!config.bucket) {
       throw Error('Invalid configuration for s3 storage: Please specify bucket name');
@@ -109,5 +113,6 @@ export class LocalStorage implements FileStorage {
     if (!config.s3Config.region) {
       throw Error('Invalid configuration for s3 storage: region missing');
     }
+    return true;
   }
 }

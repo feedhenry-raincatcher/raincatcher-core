@@ -68,7 +68,7 @@
     "@raincatcher/wfm-demo-data": "1.0.0",
     "@raincatcher/wfm-rest-api": "1.0.0",
     "@raincatcher/wfm-user": "1.0.0",
-    "@raincatcher/filestore": "1.0.0",
+    "@raincatcher/filestore": "1.1.0-alpha.f71975b7",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "connect-redis": "3.3.2",
