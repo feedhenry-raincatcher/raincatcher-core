@@ -22,6 +22,7 @@ export const FILE_STORAGE_DIRECTORY = path.join(os.tmpdir(), '/raincatcher-file-
 /**
  * Create temporary storage folder used by multer to store files before
  * uploading to permanent storage
+ * @param directory Optional alternative root directory for testing
  */
 export function createTemporaryStorageFolder(directory: string = FILE_STORAGE_DIRECTORY): Promise<string> {
   return mkdirpAsync(directory).then(() => directory);
@@ -29,8 +30,8 @@ export function createTemporaryStorageFolder(directory: string = FILE_STORAGE_DI
 
 /**
  * Utility function for saving file in temp folder
- * @param metadata
- * @param stream
+ * @param metadata data related to the file being saved
+ * @param stream a Node readable stream with the file's binary data
  */
 export function writeStreamToFile(metadata: FileMetadata, stream: Stream): Promise<FileMetadata> {
   return new Promise((resolve, reject) => {
@@ -59,6 +60,10 @@ const diskStorageDefaultOptions = {
   }
 };
 
+/**
+ * Returns a multer middleware that handles multipart/form-data requests
+ * @param storage A multer storage implementation
+ */
 export function multerMiddleware(storage: multer.StorageEngine = multer.diskStorage(diskStorageDefaultOptions)) {
   return multer({
     storage

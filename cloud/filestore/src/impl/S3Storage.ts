@@ -93,6 +93,10 @@ export class S3Storage implements FileStorage {
 
   }
 
+  /**
+   * Validates whether the supplied S3 configuration has the required keys
+   * @param config S3 storage configuration object
+   */
   private validateConfig(config: S3StorageConfiguration) {
     if (!config.bucket) {
       throw Error('Invalid configuration for s3 storage: Please specify bucket name');
@@ -109,5 +113,6 @@ export class S3Storage implements FileStorage {
     if (!config.s3Config.region) {
       throw Error('Invalid configuration for s3 storage: region missing');
     }
+    return true;
   }
 }

@@ -21,7 +21,7 @@ export class GridFsStorage implements FileStorage {
 
   /**
    * Creates instance of the GridFsStorage that will connect to specified mongo url
-   * @param mongoConnectionURl - MongoDB connection url
+   * @param connection - MongoDB connection url or connection instance
    */
   constructor(connection: string | mongo.Db) {
     if (typeof connection === 'string') {
@@ -34,6 +34,10 @@ export class GridFsStorage implements FileStorage {
     }
   }
 
+  /**
+   * Gets the underlying gridfs filesystem instance
+   * @return A promise of the underlying fileSystem
+   */
   public getFileSystem() {
     return this.fileSystemPromise;
   }
