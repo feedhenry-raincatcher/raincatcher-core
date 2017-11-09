@@ -28,13 +28,15 @@ describe('FileService', function() {
       const recreate = deleteDir()
         .then(() => fileService.createTemporaryStorageFolder())
         .then(() => existsAsync(fileService.FILE_STORAGE_DIRECTORY));
-      return expect(recreate).to.eventually.be.true;
+      // tslint:disable-next-line:no-unused-expression
+      expect(recreate).to.eventually.be.true;
     });
     it('should be idempotent', function() {
       const createTwice = fileService.createTemporaryStorageFolder()
         .then(() => fileService.createTemporaryStorageFolder())
         .then(() => existsAsync(fileService.FILE_STORAGE_DIRECTORY));
-      return expect(createTwice).to.eventually.be.true;
+      // tslint:disable-next-line:no-unused-expression
+      expect(createTwice).to.eventually.be.true;
     });
 
     after(() => deleteDir());
@@ -51,7 +53,7 @@ describe('FileService', function() {
       const writeAndRead = fileService.createTemporaryStorageFolder()
         .then(() => fileService.writeStreamToFile(metadata, contentStream))
         .then(() => readFileAsync(filePath, 'utf-8'));
-      return expect(writeAndRead).to.eventually.equal(testContent);
+      expect(writeAndRead).to.eventually.equal(testContent);
     });
 
     after(function() {

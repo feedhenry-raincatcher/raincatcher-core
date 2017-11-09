@@ -45,9 +45,6 @@ describe('GridFsStorage', function() {
       return expect(storage.gridFileSystem).to.exist &&
         expect(storage.getFileSystem()).to.eventually.be.fulfilled;
     });
-    it('should accept a mongodb url', function() {
-      const storage = new GridFsStorage(mongoUrl);
-    });
   });
 
   it('should write and read back a file from storage', function() {

@@ -26,8 +26,7 @@ export class GridFsStorage implements FileStorage {
   constructor(connection: string | mongo.Db) {
     if (typeof connection === 'string') {
       this.fileSystemPromise = connectAsync(connection)
-        .then(conn => this.gridFileSystem = gridfs(connection, mongo))
-        .tapCatch(() => getLogger().error('Cannot connect to mongodb server. Gridfs storage will be disabled'));
+        .then(conn => this.gridFileSystem = gridfs(conn, mongo));
     } else {
       this.gridFileSystem = gridfs(connection, mongo);
       this.fileSystemPromise = Promise.resolve(this.gridFileSystem);
