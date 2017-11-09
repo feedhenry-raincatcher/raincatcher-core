@@ -15,5 +15,5 @@ export interface FileQueueEntry {
   /**
    * File identifier
    */
-  id?: string;
+  id: string;
 }
