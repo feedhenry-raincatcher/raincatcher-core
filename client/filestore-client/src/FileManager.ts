@@ -71,7 +71,7 @@ export class FileManager {
         return Bluebird.resolve(result);
       }).catch(function(err) {
         // Adds a file to the upload queue if file is not available.
-        self.uploadQueue.addItem(file);
+        self.downloadQueue.addItem(file);
       });
     }
   }

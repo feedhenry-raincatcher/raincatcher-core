@@ -6,10 +6,11 @@ import { FileQueueEntry } from './FileQueueEntry';
  */
 export class FileQueue {
   private queueName: string;
-  private queueData: FileQueueEntry[] = [];
+  private queueData: FileQueueEntry[];
 
   public constructor(private localStorage, name: string) {
     this.queueName = name;
+    this.queueData = [];
   }
 
   /**
@@ -27,12 +28,13 @@ export class FileQueue {
    * Restore the local queueData to reflect the data of the queue in localStorage.
    */
   public restoreData() {
+    this.queueData = [];
     const queueDataString = this.localStorage.getItem(this.queueName);
     if (queueDataString) {
       const queueData = JSON.parse(queueDataString);
-      this.queueData = queueData.queue;
-    } else {
-      this.queueData = [];
+      if (!_.isEmpty(queueData.queue)) {
+        this.queueData = queueData.queue;
+      }
     }
     return this;
   }
