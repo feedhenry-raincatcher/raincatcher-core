@@ -14,7 +14,8 @@ export const mockCordovaCamera = {
     PICTURE: 1
   },
   // methods
-  cleanup: stub().callsArg(0)
+  cleanup: stub().callsArgAsync(0),
+  getPicture: stub().callsArgWithAsync(0, 'some-uri')
 };
 
 declare var global: any;
