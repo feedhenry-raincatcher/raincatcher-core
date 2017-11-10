@@ -18,8 +18,8 @@ export interface CaptureResponse {
 type optionsBuilderFn = (camera: any) => CameraOptions;
 
 export class Camera {
-  protected initPromise: Promise<CameraOptions>;
-  protected options: CameraOptions;
+  public options: CameraOptions;
+  public initPromise: Promise<CameraOptions>;
 
   constructor(optionsBuilderFunction?: optionsBuilderFn) {
     this.init(optionsBuilderFunction);

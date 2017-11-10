@@ -1,21 +1,8 @@
 import { expect } from 'chai';
 import { buildCameraOptions } from '../src/buildCameraOptions';
+import { mockCordovaCamera } from './mocks/camera';
 
 describe('buildCameraOptions', function() {
-  const mockCordovaCamera = {
-    DestinationType: {
-      FILE_URI: 1
-    },
-    EncodingType: {
-      JPEG: 1
-    },
-    PictureSourceType: {
-      CAMERA: 1
-    },
-    MediaType: {
-      PICTURE: 1
-    }
-  };
   it('should accept a given camera object', function() {
     return expect(buildCameraOptions(mockCordovaCamera)).to.be.ok;
   });
