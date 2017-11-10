@@ -46,7 +46,11 @@
     "ts-node": "^3.3.0",
     "typescript": "^2.5.0",
     "sinon": "^4.0.1",
-    "@types/sinon": "^2.3.3"
+    "@types/sinon": "^2.3.3",
+    "@types/chai": "^4.0.3",
+    "chai": "^4.1.1",
+    "@types/chai-as-promised": "7.1.0",
+    "chai-as-promised": "^7.1.1"
   },
   "dependencies": {
     "b64-to-blob": "^1.2.19"

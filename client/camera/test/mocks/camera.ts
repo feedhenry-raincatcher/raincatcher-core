@@ -1,4 +1,4 @@
-import {} from 'sinon';
+import { stub } from 'sinon';
 export const mockCordovaCamera = {
   // properties
   DestinationType: {
@@ -14,9 +14,7 @@ export const mockCordovaCamera = {
     PICTURE: 1
   },
   // methods
-  cleanup(onSuccess) {
-    onSuccess();
-  }
+  cleanup: stub().callsArg(0)
 };
 
 declare var global: any;

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 import { buildCameraOptions } from '../src/buildCameraOptions';
 import { Camera } from '../src/Camera';
 import { mockCordovaCamera } from './mocks/camera';
@@ -16,9 +17,12 @@ describe('Camera', function() {
   describe('cleanup', function() {
     xit('should call the cordova cleanup function', function() {
       subject.cleanup();
+      sinon.assert.called(mockCordovaCamera.cleanup);
     });
   });
   describe('capture', function() {
-    it('should resolve to a local file uri');
+    it('should resolve to a local file uri', function() {
+
+    });
   });
 });
