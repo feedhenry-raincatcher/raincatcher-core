@@ -29,7 +29,6 @@
       "text"
     ],
     "report-dir": "coverage_report",
-    "check-coverage": true,
     "lines": 75,
     "functions": 100,
     "branches": 80
