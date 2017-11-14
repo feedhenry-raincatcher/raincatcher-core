@@ -2,8 +2,10 @@ import * as  chai from 'chai';
 import * as chaiAsPromise from 'chai-as-promised';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
+import { FileManager } from '../src/FileManager';
 import { FileQueue } from '../src/FileQueue';
 import { FileQueueEntry } from '../src/FileQueueEntry';
+import { HttpClient } from '../src/HttpClient';
 
 declare var global: NodeJS.Global | any;
 
@@ -18,7 +20,7 @@ describe('File Manager Tests', function() {
   };
   const mockLocalStorage = {
     setItem: sinon.stub(),
-    getItem: sinon.stub().returns('{}')
+    getItem: sinon.stub().returns('{"queue": []}')
   };
 
   const mockFileOnline: FileQueueEntry = {
@@ -36,7 +38,7 @@ describe('File Manager Tests', function() {
   const fileCreatedMessage = 'mockFileCreated';
   const fileNotCreatedMessage = 'mockFileNotCreated';
 
-  const mockUploadFile = function() {
+  const buildUploadFileMock = function() {
     const stub = sinon.stub();
     stub.withArgs(mockFileOnline).resolves(fileCreatedMessage);
     stub.withArgs(mockFileOffline).rejects(fileNotCreatedMessage);
@@ -44,14 +46,14 @@ describe('File Manager Tests', function() {
     return stub;
   };
 
-  const CordovaFileSupport = function(serverUrl, HttpInterface) {
+  const CordovaFileSupportMock = function(serverUrl, HttpInterface) {
     return {
       downloadFileFromServer: sinon.stub(),
-      uploadFile: mockUploadFile()
+      uploadFile: buildUploadFileMock()
     };
   };
 
-  let testSubject;
+  let testSubject: FileManager;
 
   // Mock DOM objects used by FileManager
   global.document = {
@@ -61,30 +63,25 @@ describe('File Manager Tests', function() {
     localStorage: mockLocalStorage
   };
 
-  const FileManager = proxyquire.load('../src/FileManager', {
+  const FileManagerProxy: {
+    new(serverUrl: string, name: string, httpInterface: HttpClient): FileManager
+  } = proxyquire.load('../src/FileManager', {
     './CordovaFileSupport': {
-      'CordovaFileSupport': CordovaFileSupport
+      'CordovaFileSupport': CordovaFileSupportMock
     }
   }).FileManager;
 
   beforeEach(function() {
-    testSubject = new FileManager(mockServerUrl, mockFileQueueName, mockHttpClient);
+    testSubject = new FileManagerProxy(mockServerUrl, mockFileQueueName, mockHttpClient);
   });
 
-  it('should upload a file when the device is online', function(done) {
-    testSubject.scheduleFileToBeUploaded(mockFileOnline).then(function(result) {
+  it('should upload a file when the device is online', function() {
+    return testSubject.scheduleFileToBeUploaded(mockFileOnline).then(function(result) {
       expect(result).to.equal(fileCreatedMessage);
-      done();
     });
   });
 
-  it('should not upload a file when the device is offline', function(done) {
-    testSubject.scheduleFileToBeUploaded(mockFileOffline).then(function(result) {
-      console.log('result', result);
-      done();
-    }).catch(function(err) {
-      console.log('err', err);
-      done();
-    });
+  it('should not upload a file when the device is offline', function() {
+    return testSubject.scheduleFileToBeUploaded(mockFileOffline);
   });
 });
