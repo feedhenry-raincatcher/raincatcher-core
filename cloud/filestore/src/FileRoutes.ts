@@ -8,7 +8,7 @@ import { FileMetadata } from './file-api/FileMetadata';
 import { FileStorage } from './file-api/FileStorage';
 import * as fileService from './services/FileService';
 
-const renameAsync = promisify(rename);
+const renameAsync = promisify<void, string, string>(rename);
 
 type SingleFileRequest = Request & {
   file: {
