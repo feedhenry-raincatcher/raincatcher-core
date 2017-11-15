@@ -27,7 +27,8 @@
     "publish:full": "npm run publish:prepare && lerna publish",
     "publish:demo-server": "lerna clean --yes && lerna bootstrap && lerna run build --scope='@raincatcher/demo-server' && NODE_DEBUG=gh-pages node ./scripts/publish-app server --push true",
     "update:check": "lerna exec --concurrency 1 -- ncu",
-    "update:run": "lerna exec -- ncu -u"
+    "update:run": "lerna exec -- ncu -u",
+    "quine": "lerna exec -- 'cat **/*'"
   },
   "repository": {
     "type": "git",
