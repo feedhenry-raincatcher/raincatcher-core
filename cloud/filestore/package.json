@@ -1,0 +1,76 @@
+{
+  "name": "@raincatcher/filestore",
+  "version": "1.1.0",
+  "description": "RainCatcher file storage server",
+  "types": "src/index.ts",
+  "author": "feedhenry-raincatcher@redhat.com",
+  "license": "Apache-2.0",
+  "main": "src/",
+  "scripts": {
+    "clean": "del coverage_report src/**/*.js src/**/*.map test/**/*.js test/**/*.map",
+    "build": "tsc",
+    "start": "ts-node src/index.ts",
+    "test": "nyc mocha"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "report-dir": "coverage_report",
+    "lines": 75,
+    "functions": 75,
+    "branches": 50
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.8",
+    "@types/del": "^3.0.0",
+    "@types/gridfs-stream": "^0.5.30",
+    "@types/mkdirp": "^0.5.1",
+    "@types/mocha": "^2.2.41",
+    "@types/multer": "^1.3.5",
+    "@types/node": "^8.0.7",
+    "@types/proxyquire": "^1.3.27",
+    "del": "^3.0.0",
+    "del-cli": "^1.1.0",
+    "mocha": "^4.0.1",
+    "nyc": "^11.1.0",
+    "proxyquire": "^1.8.0",
+    "source-map-support": "^0.5.0",
+    "string-to-stream": "^1.1.0",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.0",
+    "@types/chai": "^4.0.3",
+    "chai": "^4.1.1",
+    "@types/chai-as-promised": "7.1.0",
+    "chai-as-promised": "^7.1.1"
+  },
+  "dependencies": {
+    "@raincatcher/logger": "1.0.0",
+    "base64-stream": "0.1.3",
+    "bluebird": "^3.5.0",
+    "express": "^4.16.2",
+    "gridfs-stream": "^1.1.1",
+    "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
+    "mongodb": "^2.2.31",
+    "multer": "1.3.0",
+    "q": "1.5.1",
+    "s3": "^4.4.0",
+    "shortid": "^2.2.8",
+    "through2": "2.0.3",
+    "uuid-js": "0.7.5"
+  }
+}

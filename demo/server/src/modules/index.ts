@@ -1,6 +1,7 @@
 import { SyncExpressMiddleware, userMapperMiddleware } from '@raincatcher/datasync-cloud';
 import SyncServer, { SyncApi, SyncOptions } from '@raincatcher/datasync-cloud';
 import { EndpointSecurity } from '@raincatcher/express-auth';
+import { createRouter as createFileRouter, FileMetadata, FileStorage, GridFsStorage } from '@raincatcher/filestore';
 import { getLogger } from '@raincatcher/logger';
 import initData from '@raincatcher/wfm-demo-data';
 import { WfmRestApi } from '@raincatcher/wfm-rest-api';
@@ -14,7 +15,7 @@ import { connect as syncConnector } from './datasync/Connector';
 import { init as initKeycloak } from './keycloak';
 import { init as authInit } from './passport-auth';
 import globalSessionOptions from './session/RedisSession';
-import {StaticUsersRepository} from './wfm-user/StaticUsersRepository';
+import { StaticUsersRepository } from './wfm-user/StaticUsersRepository';
 
 const config = appConfig.getConfig();
 
@@ -30,6 +31,7 @@ export function setupModules(app: express.Express) {
   mobileSecurityMiddleware = securitySetup(mobileApp);
   const connectionPromise = syncSetup(mobileApp);
   demoDataSetup(connectionPromise);
+  fileStoreSetup(mobileApp, mobileSecurityMiddleware);
 
   const portalApp = express.Router();
   portalsecurityMiddleware = securitySetup(portalApp, globalSessionOptions);
@@ -56,11 +58,11 @@ function userApiSetup(app: express.Router) {
 }
 
 function setupPassportSecurity(app: express.Router, sessionOptions?: SessionOptions) {
- return authInit(app, sessionOptions);
+  return authInit(app, sessionOptions);
 }
 
 function setupKeycloakSecurity(app: express.Router) {
-  return  initKeycloak(app);
+  return initKeycloak(app);
 }
 
 function syncSetup(app: express.Router) {
@@ -98,14 +100,22 @@ function wfmApiSetup(app: express.Router, connectionPromise: Promise<any>) {
   }
 }
 
+function fileStoreSetup(app: express.Router, securityMiddleware: EndpointSecurity) {
+  const fileStore: FileStorage = new GridFsStorage(config.mongodb.url);
+  const role = config.security.userRole;
+  app.use('/file', securityMiddleware.protect(role), createFileRouter(fileStore));
+}
+
 function demoDataSetup(connectionPromise: Promise<any>) {
   if (!connectionPromise) {
     getLogger().error('Failed to connect to a database');
-  } else  {
+  } else {
     connectionPromise.then(function(mongo: Db) {
       if (config.seedDemoData) {
         initData(mongo);
       }
+    }).catch(function() {
+      getLogger().error('Failed to connect to a database');
     });
   }
 }
