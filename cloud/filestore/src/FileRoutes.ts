@@ -8,7 +8,7 @@ import { FileMetadata } from './file-api/FileMetadata';
 import { FileStorage } from './file-api/FileStorage';
 import * as fileService from './services/FileService';
 
-const renameAsync = promisify<void, string, string>(rename);
+const renameAsync: any = promisify(rename);
 
 type SingleFileRequest = Request & {
   file: {
@@ -35,12 +35,12 @@ export function createRouter(storageEngine: FileStorage) {
       // We can't rely on multer's DiskStorage destination config since req.body.id might not be populated earlier
       const location = fileService.buildFilePath(id);
       return renameAsync(req.file.path, location)
-      .then(() => storageEngine.writeFile(metadata, location))
-      .then(() => res.json(metadata))
-      .catch(function(err) {
-        getLogger().error(err);
-        next(err);
-      });
+        .then(() => storageEngine.writeFile(metadata, location))
+        .then(() => res.json(metadata))
+        .catch(function(err) {
+          getLogger().error(err);
+          next(err);
+        });
     });
 
   router.route('/:id').get(function(req, res) {
