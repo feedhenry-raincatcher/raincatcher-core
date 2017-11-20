@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/camera",
-  "version": "1.1.0-alpha.f71975b7",
+  "version": "1.1.0",
   "description": "RainCatcher Camera Plugin",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
