@@ -5,6 +5,10 @@
 export function buildCameraOptions(cordovaCamera): CameraOptions {
   // try to access global camera object if none provided
   cordovaCamera = cordovaCamera || navigator.camera;
+
+  if (!cordovaCamera) {
+    return {};
+  }
   const options: CameraOptions = {
     // Some common settings are 20, 50, and 100
     'quality': 20,
