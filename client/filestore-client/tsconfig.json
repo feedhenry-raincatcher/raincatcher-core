@@ -5,7 +5,12 @@
         "noImplicitAny": false,
         "experimentalDecorators": true,
         "strictNullChecks": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "lib": [
+            "dom",
+            "es6",
+            "scripthost"
+        ]
     },
     "include": [
         "src/",
