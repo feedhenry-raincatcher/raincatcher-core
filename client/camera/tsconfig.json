@@ -5,7 +5,12 @@
         "noImplicitAny": false,
         "experimentalDecorators": true,
         "strictNullChecks": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "lib": [
+            "dom.iterable",
+            "es6",
+            "dom"
+        ]
     },
     "include": [
         "src/",
