@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/wfm-demo-data",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Example seed data for the RainCatcher project",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
@@ -34,9 +34,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@raincatcher/logger": "1.0.0",
-    "@raincatcher/wfm": "1.0.0",
-    "@raincatcher/wfm-user": "1.0.0",
+    "@raincatcher/logger": "1.1.0",
+    "@raincatcher/wfm": "1.1.0",
+    "@raincatcher/wfm-user": "1.1.0",
     "bluebird": "^3.5.0",
     "mongodb": "^2.2.31"
   },
