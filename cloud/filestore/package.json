@@ -36,6 +36,8 @@
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.8",
+    "@types/chai": "^4.0.3",
+    "@types/chai-as-promised": "7.1.0",
     "@types/del": "^3.0.0",
     "@types/gridfs-stream": "^0.5.30",
     "@types/mkdirp": "^0.5.1",
@@ -43,6 +45,8 @@
     "@types/multer": "^1.3.5",
     "@types/node": "^8.0.7",
     "@types/proxyquire": "^1.3.27",
+    "chai": "^4.1.1",
+    "chai-as-promised": "^7.1.1",
     "del": "^3.0.0",
     "del-cli": "^1.1.0",
     "mocha": "^4.0.1",
@@ -51,14 +55,10 @@
     "source-map-support": "^0.5.0",
     "string-to-stream": "^1.1.0",
     "ts-node": "^3.3.0",
-    "typescript": "^2.5.0",
-    "@types/chai": "^4.0.3",
-    "chai": "^4.1.1",
-    "@types/chai-as-promised": "7.1.0",
-    "chai-as-promised": "^7.1.1"
+    "typescript": "^2.5.0"
   },
   "dependencies": {
-    "@raincatcher/logger": "1.0.0",
+    "@raincatcher/logger": "1.1.0",
     "base64-stream": "0.1.3",
     "bluebird": "^3.5.0",
     "express": "^4.16.2",

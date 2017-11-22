@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/demo-server",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Raincatcher demo application server using express",
   "types": "src/index.ts",
   "main": "src/index.js",
@@ -37,7 +37,7 @@
     "branches": 70
   },
   "devDependencies": {
-    "@raincatcher/logger": "1.0.0",
+    "@raincatcher/logger": "1.1.0",
     "@types/bluebird": "^3.5.8",
     "@types/body-parser": "^1.16.4",
     "@types/connect-redis": "0.0.7",
@@ -61,14 +61,14 @@
     "typescript": "^2.5.0"
   },
   "dependencies": {
-    "@raincatcher/auth-passport": "1.0.0",
-    "@raincatcher/datasync-cloud": "1.0.0",
-    "@raincatcher/express-auth": "1.0.0",
-    "@raincatcher/logger": "1.0.0",
-    "@raincatcher/wfm-demo-data": "1.0.0",
-    "@raincatcher/wfm-rest-api": "1.0.0",
-    "@raincatcher/wfm-user": "1.0.0",
+    "@raincatcher/auth-passport": "1.1.0",
+    "@raincatcher/datasync-cloud": "1.1.0",
+    "@raincatcher/express-auth": "1.1.0",
     "@raincatcher/filestore": "1.1.0",
+    "@raincatcher/logger": "1.1.0",
+    "@raincatcher/wfm-demo-data": "1.1.0",
+    "@raincatcher/wfm-rest-api": "1.1.0",
+    "@raincatcher/wfm-user": "1.1.0",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "connect-redis": "3.3.2",
