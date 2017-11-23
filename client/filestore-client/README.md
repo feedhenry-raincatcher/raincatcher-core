@@ -1,10 +1,11 @@
 # RainCatcher FileStore client
 
 RainCatcher FileStore Client provides a manager which provides the support for:
+
 - Downloading files from a server.
 - Uploading files from a mobile device to a server.
 
-## Usage 
+## Usage
 1. Implement the [HttpClient](./src/HttpClient.ts) Interface
 
 2. Import FileManager
@@ -22,4 +23,5 @@ fileManager.scheduleFileToBeDownloaded(fileQueueEntry);
 - Ensure the fileQueueEntry adheres to the [FileQueueEntry](./src/FileQueueEntry.ts) interface.
 
 ## HttpClient Interface
+
 The [HttpClient](./src/HttpClient.ts) interface should be implemented in order to enable the FileStore client to make network requests for uploading and downloading files to and from a server.

@@ -1,3 +1,4 @@
+import * as Promise from 'bluebird';
 import { Stream } from 'stream';
 import { FileMetadata } from './FileMetadata';
 

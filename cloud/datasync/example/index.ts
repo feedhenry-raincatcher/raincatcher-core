@@ -1,7 +1,9 @@
-import { getLogger } from '@raincatcher/logger';
+import { BunyanLogger, getLogger, setLogger} from '@raincatcher/logger';
 import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '../src/index';
 
+setLogger(new BunyanLogger({name: 'Sync example', level: 'debug'}));
 const logger = getLogger();
+
 const sync: SyncApi = SyncServer;
 
 // Connect sync
