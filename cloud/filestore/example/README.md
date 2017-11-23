@@ -8,3 +8,6 @@ See documentation for complete list of the storage implementations available.
 
     ts-node ./example/index.ts
 
+## Testing
+
+Use filestore-client to test running api.
