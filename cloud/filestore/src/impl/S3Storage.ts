@@ -1,6 +1,6 @@
 
 import { getLogger } from '@raincatcher/logger';
-import * as BlueBird from 'bluebird';
+import * as Promise from 'bluebird';
 import * as mongo from 'mongodb';
 import { MongoClient } from 'mongodb';
 import * as path from 'path';
@@ -52,7 +52,7 @@ export class S3Storage implements FileStorage {
     this.storageConfig = storageConfig;
   }
 
-  public writeFile(metadata: FileMetadata, fileLocation: string): Promise<any> {
+  public writeFile(metadata: FileMetadata, fileLocation: string): Promise<string> {
     const file = metadata.id;
     const params = {
       localFile: fileLocation,
@@ -63,7 +63,7 @@ export class S3Storage implements FileStorage {
       }
     };
     const uploader = this.awsClient.uploadFile(params);
-    return new BlueBird(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
       uploader.on('error', function(err) {
         getLogger().error('An error occurred when reading file from s3', err);
         reject(err.stack);
@@ -81,7 +81,7 @@ export class S3Storage implements FileStorage {
       Key: file
     };
     const self = this;
-    return new BlueBird(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
       try {
         const stream = self.awsClient.downloadStream(paramsStream);
         resolve(stream);
