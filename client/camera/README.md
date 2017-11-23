@@ -5,13 +5,14 @@ Wrapper around the [Cordova Camera Plugin](https://github.com/apache/cordova-plu
 ## Example
 
 ```typescript
-import {Camera} from '@raincatcher/camera');
+import { Camera } from '@raincatcher/camera');
 const camera = new Camera();
-this.camera.capture().then(function(captureResponse) {
+camera.capture().then(function(captureResponse) {
   const file = {
     uri: captureResponse.value,
     type: captureResponse.type,
-    id: captureResponse.id
   };
+  // Uri can be used to display file
+  return file;
 }
 ```
