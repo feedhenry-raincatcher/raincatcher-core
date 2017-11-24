@@ -1,15 +1,5 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "noImplicitAny": false,
-        "experimentalDecorators": true,
-        "strictNullChecks": true,
-        "sourceMap": true,
-        "types": [
-            "mocha"
-        ]
-    },
+    "extends": "../../tsconfig.json",
     "include": [
         "src/",
         "test/"
