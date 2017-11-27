@@ -41,17 +41,17 @@
   },
   "homepage": "https://github.com/feedhenry-raincatcher/raincatcher#readme",
   "devDependencies": {
-    "coveralls": "^3.0.0",
-    "del-cli": "^1.1.0",
-    "gh-pages": "^1.1.0",
-    "lcov-result-merger": "^1.2.0",
-    "lerna": "^2.5.1",
-    "npm-check-updates": "^2.13.0",
-    "npm-run-all": "^4.1.2",
-    "opn-cli": "^3.1.0",
-    "tslint": "^5.8.0",
-    "typedoc": "^0.9.0",
-    "typescript": "^2.6.1",
-    "yargs": "^10.0.3"
+    "coveralls": "3.0.0",
+    "del-cli": "1.1.0",
+    "gh-pages": "1.1.0",
+    "lcov-result-merger": "1.2.0",
+    "lerna": "2.5.1",
+    "npm-check-updates": "2.13.0",
+    "npm-run-all": "4.1.2",
+    "opn-cli": "3.1.0",
+    "tslint": "5.8.0",
+    "typedoc": "0.9.0",
+    "typescript": "2.6.1",
+    "yargs": "10.0.3"
   }
 }
