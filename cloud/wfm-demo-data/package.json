@@ -37,18 +37,18 @@
     "@raincatcher/logger": "1.1.0",
     "@raincatcher/wfm": "1.1.0",
     "@raincatcher/wfm-user": "1.1.0",
-    "bluebird": "^3.5.0",
-    "mongodb": "^2.2.31"
+    "bluebird": "3.5.1",
+    "mongodb": "2.2.33"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.8",
-    "@types/mocha": "^2.2.41",
-    "@types/mongodb": "^2.2.10",
-    "del-cli": "^1.1.0",
-    "mocha": "^4.0.1",
-    "nyc": "^11.1.0",
-    "source-map-support": "^0.5.0",
-    "ts-node": "^3.3.0",
-    "typescript": "^2.5.0"
+    "@types/bluebird": "3.5.18",
+    "@types/mocha": "2.2.44",
+    "@types/mongodb": "2.2.16",
+    "del-cli": "1.1.0",
+    "mocha": "4.0.1",
+    "nyc": "11.3.0",
+    "source-map-support": "0.5.0",
+    "ts-node": "3.3.0",
+    "typescript": "2.6.1"
   }
 }

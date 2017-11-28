@@ -1,17 +1,5 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "noImplicitAny": false,
-        "experimentalDecorators": true,
-        "strictNullChecks": true,
-        "sourceMap": true,
-        "lib": [
-            "dom.iterable",
-            "es6",
-            "dom"
-        ]
-    },
+    "extends": "../../tsconfig.json",
     "include": [
         "src/",
         "test/"
