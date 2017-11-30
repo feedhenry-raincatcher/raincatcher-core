@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/filestore
+ */
+
 import { getLogger } from '@raincatcher/logger';
 import { promisify } from 'bluebird';
 import { Router } from 'express';

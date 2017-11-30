@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/wfm-rest-api
+ */
+
+/**
  * Wrapper interface to return ordered and pagged list of items.
  */
 export interface PageResponse<T> {

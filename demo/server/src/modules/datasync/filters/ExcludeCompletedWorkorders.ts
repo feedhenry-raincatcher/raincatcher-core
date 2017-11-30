@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/demo-server
+ */
+
+/**
  * Excludes WorkOrders with a Complete date over a set number of days ago
  * @param queryParams
  */

@@ -1,3 +1,6 @@
+/**
+ * @module @raincatcher/filestore
+ */
 
 export * from './FileRoutes';
 

@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-demo-data
+ */
+
 import { getLogger } from '@raincatcher/logger';
 import { WorkFlow } from '@raincatcher/wfm';
 import * as Promise from 'bluebird';

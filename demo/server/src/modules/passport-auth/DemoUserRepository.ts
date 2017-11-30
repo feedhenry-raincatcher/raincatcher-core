@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/demo-server
+ */
+
 import { UserRepository, UserService } from '@raincatcher/auth-passport';
 import * as _ from 'lodash';
 

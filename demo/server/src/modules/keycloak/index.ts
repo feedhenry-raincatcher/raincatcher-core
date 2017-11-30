@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/demo-server
+ */
+
 import { EndpointSecurity } from '@raincatcher/express-auth';
 import * as express from 'express';
 import * as session from 'express-session';

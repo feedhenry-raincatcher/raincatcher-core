@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-rest-api
+ */
+
 import { getLogger } from '@raincatcher/logger';
 import * as Bluebird from 'bluebird';
 import * as express from 'express';

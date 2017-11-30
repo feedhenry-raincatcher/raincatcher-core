@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/logger
+ */
+
+/**
  * Logging interface used in all RainCatcher modules
  * Clients can extend it to integrate with their own logging library.
  * Interface may be used on both server and client environments

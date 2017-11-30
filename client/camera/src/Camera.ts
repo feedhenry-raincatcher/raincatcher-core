@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/camera
+ */
+
 'use strict';
 
 import * as Promise from 'bluebird';

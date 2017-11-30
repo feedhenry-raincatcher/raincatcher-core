@@ -3,25 +3,15 @@
 
 VERSION=1.1.0
 DOC_FOLDER=docs
-DOCS_LOCATION=$DOC_FOLDER/api
-DOC_PATH=../../$DOCS_LOCATION
-DOCS_BRANCH=api-docs-update-$VERSION
+DOCS_LOCATION=${PWD}/$DOC_FOLDER/api
+TYPEDOC=${PWD}/node_modules/.bin/typedoc # Need to use root typedoc to pick up typedoc plugin
 
-echo "Clean previous docs folders and documentation git repository"
-npm run clean:docs
-
-echo "Cloning docs repository"
-git clone --depth 1 git@github.com:feedhenry-raincatcher/raincatcher-docs.git $DOC_FOLDER
+rm -rf $DOCS_LOCATION
 
 echo "Generate documentation for packages"
-lerna exec --ignore @raincatcher/demo-server  -- typedoc --out docs/ --excludePrivate --excludeExternals --theme minimal
-
-echo "Copy documentation"
-lerna exec --ignore @raincatcher/demo-server --  mkdir -p $DOC_PATH/\$LERNA_PACKAGE_NAME
-lerna exec --ignore @raincatcher/demo-server --  cp -Rf ./docs $DOC_PATH/\$LERNA_PACKAGE_NAME
+lerna exec --ignore @raincatcher/demo-server  -- $TYPEDOC --mode file --out $DOCS_LOCATION/\$LERNA_PACKAGE_NAME --excludePrivate --excludeExternals src/
 
 echo "Rename root folder"
-cd $DOCS_LOCATION
-mv @raincatcher $VERSION
+mv $DOCS_LOCATION/@raincatcher $DOCS_LOCATION/$VERSION
 
 echo "Documentation was generated. Please continue website relase directly in documentation repository"

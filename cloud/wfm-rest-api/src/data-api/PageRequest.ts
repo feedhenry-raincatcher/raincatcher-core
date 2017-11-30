@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/wfm-rest-api
+ */
+
+/**
  *  Interface for pagination information.
  *  Represents page request (passed from client)
  *

@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-rest-api
+ */
+
 // WFM implementation
 export * from './WfmRestApi';
 

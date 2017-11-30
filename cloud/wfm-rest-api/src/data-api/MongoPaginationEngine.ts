@@ -1,3 +1,6 @@
+/**
+ * @module @raincatcher/wfm-rest-api
+ */
 
 import * as Promise from 'bluebird';
 import { Cursor } from 'mongodb';

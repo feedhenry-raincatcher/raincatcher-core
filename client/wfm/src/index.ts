@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm
+ */
+
 export { WorkOrder } from './model/WorkOrder';
 export { WorkFlow } from './model/WorkFlow';
 export { StepResult } from './model/StepResult';

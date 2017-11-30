@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/datasync-client
+ */
+
 import { getLogger } from '@raincatcher/logger';
 import * as Bluebird from 'bluebird';
 import * as syncApi from 'fh-sync-js';

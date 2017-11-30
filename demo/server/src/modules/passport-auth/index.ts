@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/demo-server
+ */
+
 import { PassportAuth, UserRepository, UserService } from '@raincatcher/auth-passport';
 import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';

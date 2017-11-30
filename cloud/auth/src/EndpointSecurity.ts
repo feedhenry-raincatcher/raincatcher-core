@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/express-auth
+ */
+
 import * as express from 'express';
 import { SessionOptions } from 'express-session';
 

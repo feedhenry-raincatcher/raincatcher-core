@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-user
+ */
+
 import { getLogger } from '@raincatcher/logger';
 import { ApiError } from '@raincatcher/wfm-rest-api';
 import * as Bluebird from 'bluebird';

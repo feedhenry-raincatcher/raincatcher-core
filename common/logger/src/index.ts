@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/logger
+ */
+
 import { BunyanLogger } from './BunyanLogger';
 import { ClientLogger } from './ClientLogger';
 import { EmptyLogger, Logger } from './Logger';

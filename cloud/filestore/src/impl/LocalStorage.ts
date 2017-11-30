@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/filestore
+ */
+
 import { getLogger } from '@raincatcher/logger';
 import * as BlueBird from 'bluebird';
 import { createReadStream } from 'fs';

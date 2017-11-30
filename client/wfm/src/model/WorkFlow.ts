@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm
+ */
+
 import { Step } from '../model/Step';
 import { WorkOrder } from '../model/WorkOrder';
 

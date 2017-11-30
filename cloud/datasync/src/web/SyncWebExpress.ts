@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/datasync-cloud
+ */
+
 import { getLogger } from '@raincatcher/logger';
 import * as Express from 'express';
 import * as sync from 'fh-sync';

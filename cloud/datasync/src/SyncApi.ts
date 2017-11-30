@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/datasync-cloud
+ */
+
 import { Db } from 'mongodb';
 import SyncDatasetOptions from './options/SyncDatasetOptions';
 import SyncOptions from './options/SyncGlobalOptions';

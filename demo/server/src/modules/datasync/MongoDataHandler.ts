@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/demo-server
+ */
+
 import { sync } from '@raincatcher/datasync-cloud';
 import { Db } from 'mongodb';
 

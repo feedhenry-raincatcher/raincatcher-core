@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/filestore-client
+ */
+
 import b64ToBlob from 'b64-to-blob';
 import * as Bluebird from 'bluebird';
 import { each } from 'lodash';

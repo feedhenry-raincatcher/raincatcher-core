@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/datasync-client
+ */
+
 import * as sync from 'fh-sync-js';
 
 // Support named import

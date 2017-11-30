@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/camera
+ */
+
+/**
  * Default options for the cordova camera plugin
  * @param cordovaCamera Apache Cordova's Camera object
  */

@@ -1,3 +1,6 @@
+/**
+ * @module @raincatcher/auth-passport
+ */
 
 import { UserRepository } from '../user/UserRepository';
 import { UserService } from '../user/UserService';

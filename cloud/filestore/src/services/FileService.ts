@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/filestore
+ */
+
 import { getLogger } from '@raincatcher/logger';
 import * as base64 from 'base64-stream';
 import * as Promise from 'bluebird';

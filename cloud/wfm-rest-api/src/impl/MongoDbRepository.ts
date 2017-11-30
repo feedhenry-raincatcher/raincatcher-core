@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-rest-api
+ */
+
 import * as Bluebird from 'bluebird';
 import { Collection, Cursor, CursorCommentOptions, Db } from 'mongodb';
 import { ObjectID } from 'mongodb';

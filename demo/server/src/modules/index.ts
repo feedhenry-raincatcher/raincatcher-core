@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/demo-server
+ */
+
 import { SyncExpressMiddleware, userMapperMiddleware } from '@raincatcher/datasync-cloud';
 import SyncServer, { SyncApi, SyncOptions } from '@raincatcher/datasync-cloud';
 import { EndpointSecurity } from '@raincatcher/express-auth';
