@@ -2,7 +2,6 @@
  * @module @raincatcher/filestore
  */
 
-
 export * from './FileRoutes';
 
 export * from './file-api/FileStorage';

@@ -2,7 +2,6 @@
  * @module @raincatcher/auth-passport
  */
 
-
 /**
  * User service interface that defines a set of requirements (methods) for mapping particular fields from the
  * user object returned from the repository.

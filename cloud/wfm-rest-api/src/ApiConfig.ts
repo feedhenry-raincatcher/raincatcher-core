@@ -2,7 +2,6 @@
  * @module @raincatcher/wfm-rest-api
  */
 
-
 /**
  * Module configuration interface
  * Holds all values that can be changed to modify module behavior

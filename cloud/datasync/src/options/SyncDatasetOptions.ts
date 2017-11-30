@@ -2,7 +2,6 @@
  * @module @raincatcher/datasync-cloud
  */
 
-
 import { CollisionHandler, HashFunction } from './SyncGlobalOptions';
 /**
  * Options used to initialize single dataset
