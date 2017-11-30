@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/demo-server
+ */
+
 'use strict';
 
 import * as express from 'express';

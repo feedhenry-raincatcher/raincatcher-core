@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-rest-api
+ */
+
 
 import { getLogger } from '@raincatcher/logger';
 import { WorkFlow, WorkOrder } from '@raincatcher/wfm';

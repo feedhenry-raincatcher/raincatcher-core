@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/auth-passport
+ */
+
 import * as passport from 'passport';
 
 export * from './user/UserService';

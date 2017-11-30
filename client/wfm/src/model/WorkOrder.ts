@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm
+ */
+
 import * as Promise from 'bluebird';
 import { min } from 'lodash';
 import { STATUS } from '../status';

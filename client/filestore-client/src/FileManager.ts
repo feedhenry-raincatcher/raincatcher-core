@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/filestore-client
+ */
+
 import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';
 import { CordovaFileSupport } from './CordovaFileSupport';

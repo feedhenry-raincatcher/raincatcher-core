@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/datasync-cloud
+ */
+
 
 import { CollisionHandler, HashFunction } from './SyncGlobalOptions';
 /**

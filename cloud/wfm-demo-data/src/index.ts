@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-demo-data
+ */
+
 import { Db } from 'mongodb';
 import workflowSetup from './Workflows';
 import workorderSetup from './Workorders';

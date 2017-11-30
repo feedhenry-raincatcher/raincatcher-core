@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/auth-passport
+ */
+
 import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
 import * as session from 'express-session';

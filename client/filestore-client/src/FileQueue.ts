@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/filestore-client
+ */
+
 import * as _ from 'lodash';
 import { FileQueueEntry } from './FileQueueEntry';
 

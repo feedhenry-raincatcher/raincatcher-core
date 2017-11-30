@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/logger
+ */
+
 import * as bunyan from 'bunyan';
 import Logger from './Logger';
 

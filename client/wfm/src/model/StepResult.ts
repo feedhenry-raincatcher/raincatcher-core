@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm
+ */
+
 import { STATUS } from '../status';
 import { Step } from './Step';
 

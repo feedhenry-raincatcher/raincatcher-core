@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/wfm-user
+ */
+
+/**
  * User interface that defines requred fields for WFM integration.
  * Fields are used in portal application
  */

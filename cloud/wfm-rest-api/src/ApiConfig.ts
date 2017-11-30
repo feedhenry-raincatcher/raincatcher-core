@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-rest-api
+ */
+
 
 /**
  * Module configuration interface

@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/wfm
+ */
+
+/**
  * List of available status for {@link WorkOrder}s and their individual {@link Step}s
  */
 export enum STATUS {

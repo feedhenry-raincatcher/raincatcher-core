@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-user
+ */
+
 
 import * as Bluebird from 'bluebird';
 import { User } from './User';

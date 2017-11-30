@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/filestore-client
+ */
+
 import * as Promise from 'bluebird';
 
 /**

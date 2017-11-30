@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-rest-api
+ */
+
 import * as Promise from 'bluebird';
 import { Db } from 'mongodb';
 import { SortedPageRequest } from '../data-api/PageRequest';

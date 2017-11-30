@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/demo-server
+ */
+
 import { SyncGlobalParameters } from '@raincatcher/datasync-cloud';
 import { RedisStoreOptions } from 'connect-redis';
 import { SessionOptions } from 'express-session';

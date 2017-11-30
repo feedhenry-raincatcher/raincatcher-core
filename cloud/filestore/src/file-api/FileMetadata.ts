@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/filestore
+ */
+
+/**
  * Interface contains documented fields that can be used by implementation to save and query files.
  * Actual implementation can use any other fields that are required to be saved along with the file.
  */

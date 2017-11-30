@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/logger
+ */
+
 import { Logger } from './Logger';
 // tslint:disable-next-line:no-var-requires
 const logger: any = require('loglevel');

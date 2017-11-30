@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm-rest-api
+ */
+
 
 /**
  * Interface used to construct standardized response for api error handlers.

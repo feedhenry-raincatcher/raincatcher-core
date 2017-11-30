@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/wfm
+ */
+
+/**
  * A single unit of work, containing its identifier and runtime options for customizing behavior.
  */
 export interface Step {

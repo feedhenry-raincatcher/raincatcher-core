@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/auth-passport
+ */
+
+/**
  * Default serialize user function to be used by Passport. Stores the user to the session
  *
  * @param user - A user data to be stored in the session

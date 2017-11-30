@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/demo-server
+ */
+
 import SyncServer, { SyncApi, SyncExpressMiddleware, SyncOptions } from '@raincatcher/datasync-cloud';
 import { getLogger } from '@raincatcher/logger';
 import * as Promise from 'bluebird';

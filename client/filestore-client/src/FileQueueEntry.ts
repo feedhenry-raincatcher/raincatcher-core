@@ -1,4 +1,8 @@
 /**
+ * @module @raincatcher/filestore-client
+ */
+
+/**
  * Contains fields required for uploading and downloading a file.
  */
 export interface FileQueueEntry {

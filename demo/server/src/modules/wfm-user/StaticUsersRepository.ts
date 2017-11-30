@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/demo-server
+ */
+
 import { User, UsersRepository } from '@raincatcher/wfm-user';
 import * as Bluebird from 'bluebird';
 import * as _ from 'lodash';

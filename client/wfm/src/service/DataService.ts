@@ -1,3 +1,7 @@
+/**
+ * @module @raincatcher/wfm
+ */
+
 import * as Promise from 'bluebird';
 /**
  * Deifinition for data acess service used by the {@link WfmService}
