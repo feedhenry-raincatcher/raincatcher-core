@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/datasync-cloud",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Raincatcher DataSync cloud",
   "types": "src/index.ts",
   "main": "src/",
@@ -35,7 +35,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@raincatcher/logger": "1.1.0",
+    "@raincatcher/logger": "1.1.1",
     "@types/body-parser": "1.16.8",
     "@types/cors": "2.8.3",
     "@types/express": "4.0.39",
