@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/datasync-client",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Raincatcher datasync client wrapper for TypeScript",
   "types": "src/index.ts",
   "main": "src/",
@@ -56,7 +56,7 @@
     "typescript": "2.5.0"
   },
   "dependencies": {
-    "@raincatcher/logger": "1.1.0",
+    "@raincatcher/logger": "1.1.1",
     "bluebird": "3.5.0",
     "fh-sync-js": "1.0.3",
     "lodash": "4.17.4"
