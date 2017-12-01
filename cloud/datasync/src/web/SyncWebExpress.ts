@@ -5,7 +5,6 @@
 import { getLogger } from '@raincatcher/logger';
 import * as Express from 'express';
 import * as sync from 'fh-sync';
-import * as path from 'path';
 const logger = getLogger();
 /**
  * Expose Feedhenry Sync API using express middleware
@@ -27,7 +26,7 @@ export class SyncExpressMiddleware {
    * Create express router for sync endpoints
    */
   public createSyncExpressRouter() {
-    const apiURI = path.join(this.prefix + '/:datasetId');
+    const apiURI = this.prefix + '/:datasetId';
     logger.debug('Creating sync endpoint');
     const syncRoute = this.router.route(apiURI);
 
