@@ -7,7 +7,6 @@ import { promisify } from 'bluebird';
 import { Router } from 'express';
 import { Request } from 'express';
 import { rename } from 'fs';
-import * as uuid from 'uuid-js';
 import { FileMetadata } from './file-api/FileMetadata';
 import { FileStorage } from './file-api/FileStorage';
 import * as fileService from './services/FileService';

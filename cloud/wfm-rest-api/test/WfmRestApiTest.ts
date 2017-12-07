@@ -1,5 +1,4 @@
 import * as assert from 'assert';
-import * as proxyquire from 'proxyquire';
 import { WfmRestApi } from '../src/index';
 
 describe('FeedHenry Wfm api Tests', function() {

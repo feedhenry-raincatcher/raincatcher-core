@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as express from 'express';
 import { Request } from 'express';
-import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 
 chai.use(chaiAsPromised);

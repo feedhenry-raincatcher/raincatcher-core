@@ -5,7 +5,6 @@ import * as chaiAsPromised from 'chai-as-promised';
 import * as express from 'express';
 import { Request } from 'express';
 import * as proxyquire from 'proxyquire';
-import * as sinon from 'sinon';
 import { MISSING_ID } from '../src/index';
 
 chai.use(chaiAsPromised);
