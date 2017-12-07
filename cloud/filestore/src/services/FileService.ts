@@ -3,7 +3,6 @@
  */
 
 import { getLogger } from '@raincatcher/logger';
-import * as base64 from 'base64-stream';
 import * as Promise from 'bluebird';
 import { Request } from 'express';
 import * as fs from 'fs';

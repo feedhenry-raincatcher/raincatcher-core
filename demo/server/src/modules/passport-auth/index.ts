@@ -6,9 +6,7 @@ import { PassportAuth, UserRepository, UserService } from '@raincatcher/auth-pas
 import { getLogger } from '@raincatcher/logger';
 import * as express from 'express';
 import { SessionOptions } from 'express-session';
-import * as jwt from 'jsonwebtoken';
 import * as _ from 'lodash';
-import * as logger from 'loglevel';
 import appConfig from '../../util/Config';
 
 // Implementation for fetching and mapping user data
