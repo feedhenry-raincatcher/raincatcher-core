@@ -1,11 +1,10 @@
 'use strict';
 import * as assert from 'assert';
 import * as express from 'express';
-import { SessionOptions } from 'express-session';
 import { EndpointSecurity } from '../src/EndpointSecurity';
 
 class Test implements EndpointSecurity {
-  public init(app: express.Express, sessionOpts: SessionOptions): void {
+  public init(app: express.Express): void {
     console.info('test');
   }
   public protect(role?: string | undefined): express.Handler {
