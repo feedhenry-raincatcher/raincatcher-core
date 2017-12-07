@@ -27,6 +27,7 @@
     "publish:demo-server": "lerna clean --yes && lerna bootstrap && lerna run build --scope='@raincatcher/demo-server' && NODE_DEBUG=gh-pages node ./scripts/publish-app server --push true",
     "update:check": "lerna exec --concurrency 1 -- ncu",
     "update:run": "lerna exec -- ncu -a --removeRange -x 'fh-js-sdk'",
+    "depcheck": "lerna exec -- depcheck --dev --specials='mocha,bin' --ignores='ts-node'",
     "quine": "lerna exec -- 'cat **/*'"
   },
   "repository": {
@@ -42,6 +43,7 @@
   "devDependencies": {
     "coveralls": "3.0.0",
     "del-cli": "1.1.0",
+    "depcheck": "^0.6.8",
     "gh-pages": "1.1.0",
     "lcov-result-merger": "1.2.0",
     "lerna": "2.5.1",
