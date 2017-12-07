@@ -1,5 +1,4 @@
 import * as  chai from 'chai';
-import * as chaiAsPromise from 'chai-as-promised';
 import * as proxyquire from 'proxyquire';
 import * as sinon from 'sinon';
 import { FileManager } from '../src/FileManager';
