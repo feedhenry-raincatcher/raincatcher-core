@@ -4,7 +4,6 @@
 
 import * as Promise from 'bluebird';
 import * as _ from 'lodash';
-import * as shortid from 'shortid';
 import { Step } from '../model/Step';
 import { StepResult } from '../model/StepResult';
 import { WorkFlow } from '../model/WorkFlow';

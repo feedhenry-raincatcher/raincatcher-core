@@ -3,7 +3,6 @@
  */
 
 import * as express from 'express';
-import { SessionOptions } from 'express-session';
 
 /**
  * Security interface for Raincatcher authentication middleware

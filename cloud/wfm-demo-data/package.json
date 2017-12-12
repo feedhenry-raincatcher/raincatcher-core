@@ -36,19 +36,16 @@
   "dependencies": {
     "@raincatcher/logger": "1.1.1",
     "@raincatcher/wfm": "1.1.1",
-    "@raincatcher/wfm-user": "1.1.1",
-    "bluebird": "3.5.1",
-    "mongodb": "2.2.33"
+    "@types/bluebird": "3.5.18",
+    "@types/mongodb": "2.2.16",
+    "bluebird": "3.5.1"
   },
   "devDependencies": {
-    "@types/bluebird": "3.5.18",
-    "@types/mocha": "2.2.44",
-    "@types/mongodb": "2.2.16",
     "del-cli": "1.1.0",
-    "mocha": "4.0.1",
-    "nyc": "11.3.0",
-    "source-map-support": "0.5.0",
     "ts-node": "3.3.0",
     "typescript": "2.6.1"
+  },
+  "peerDependencies": {
+    "mongodb": "2.2.33"
   }
 }
