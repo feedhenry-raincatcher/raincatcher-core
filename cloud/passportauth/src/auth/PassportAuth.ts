@@ -79,7 +79,7 @@ export class PassportAuth implements EndpointSecurity {
           return self.accessDenied(req, res);
         })(req, res, next);
       } else {
-        getLogger().info('Session based authentication and authorization');
+        getLogger().debug('Session based authentication and authorization');
         if (!req.isAuthenticated()) {
           if (req.session) {
             // Used for redirecting to after a successful login when option successReturnToOrRedirect is defined.
