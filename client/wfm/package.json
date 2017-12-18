@@ -1,6 +1,6 @@
 {
   "name": "@raincatcher/wfm",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Set of WorkForce Management tools",
   "types": "src/index.ts",
   "author": "feedhenry-raincatcher@redhat.com",
@@ -43,14 +43,14 @@
     "@types/chai-as-promised": "7.1.0",
     "@types/mocha": "2.2.44",
     "@types/node": "8.0.53",
+    "chai": "4.1.2",
+    "chai-as-promised": "7.1.1",
     "del-cli": "1.1.0",
     "mocha": "4.0.1",
     "nyc": "11.3.0",
     "source-map-support": "0.5.0",
     "ts-node": "3.3.0",
-    "typescript": "2.6.1",
-    "chai": "4.1.2",
-    "chai-as-promised": "7.1.1"
+    "typescript": "2.6.1"
   },
   "dependencies": {
     "@types/bluebird": "3.5.18",
