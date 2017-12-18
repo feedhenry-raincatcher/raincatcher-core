@@ -9,6 +9,7 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as cors from 'cors';
 import * as express from 'express';
+import * as expressHbs from 'express-handlebars';
 import * as morgan from 'morgan';
 import * as path from 'path';
 import * as favicon from 'serve-favicon';
@@ -52,6 +53,9 @@ app.use(cors(getCorsConfig()));
 
 // Extra diagnostic endpoint for RHMAP
 app.get('/sys/info/ping', (req, res) => res.status(200).end('"OK"'));
+
+app.engine('hbs', expressHbs());
+app.set('view engine', 'hbs');
 
 setupModules(app);
 app.use('/', index);
