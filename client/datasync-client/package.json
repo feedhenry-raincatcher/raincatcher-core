@@ -55,7 +55,7 @@
     "@types/lodash": "4.14.73",
     "@raincatcher/logger": "1.1.1",
     "bluebird": "3.5.0",
-    "fh-sync-js": "1.0.3",
+    "fh-sync-js": "1.1.1",
     "lodash": "4.17.4"
   }
 }
